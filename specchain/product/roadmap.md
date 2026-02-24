@@ -2,7 +2,7 @@
 
 1. [x] **Data Model & Database Schema** -- Define and migrate the core database tables: teams (name, code, region), tournaments (name, weight/tier, date), tournament results (team, tournament, division, finish, field size), and match records (team A, team B, score, tournament). This is the foundation every other feature depends on. `M`
 
-2. [ ] **Data Ingestion Pipeline** -- Build a file upload and parsing system that accepts Excel/CSV files matching the existing "18 Open Finishes" spreadsheet format, maps columns to teams/tournaments/results, validates data integrity (unknown team codes, duplicate entries, missing fields), and persists parsed records to the database. `L`
+2. [x] **Data Ingestion Pipeline** -- Build a file upload and parsing system that accepts Excel/CSV files matching the existing "18 Open Finishes" spreadsheet format, maps columns to teams/tournaments/results, validates data integrity (unknown team codes, duplicate entries, missing fields), and persists parsed records to the database. `L`
 
 3. [ ] **Ranking Algorithm Engine** -- Implement the 5 mathematical rating models: Colley Matrix (construct and solve the linear system) and 4 Elo variants (starting ratings 2200, 2400, 2500, 2700). Each model produces an independent rating and rank per team. Compute the unified AggRating (0-100 normalized scale) and AggRank from the 5 model outputs. `L`
 

@@ -43,6 +43,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       teams: {
         Row: {
@@ -72,6 +73,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       tournaments: {
         Row: {
@@ -101,6 +103,15 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'tournaments_season_id_fkey';
+            columns: ['season_id'];
+            isOneToOne: false;
+            referencedRelation: 'seasons';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       tournament_weights: {
         Row: {
@@ -130,6 +141,22 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'tournament_weights_tournament_id_fkey';
+            columns: ['tournament_id'];
+            isOneToOne: false;
+            referencedRelation: 'tournaments';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tournament_weights_season_id_fkey';
+            columns: ['season_id'];
+            isOneToOne: false;
+            referencedRelation: 'seasons';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       tournament_results: {
         Row: {
@@ -162,6 +189,22 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'tournament_results_team_id_fkey';
+            columns: ['team_id'];
+            isOneToOne: false;
+            referencedRelation: 'teams';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tournament_results_tournament_id_fkey';
+            columns: ['tournament_id'];
+            isOneToOne: false;
+            referencedRelation: 'tournaments';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       matches: {
         Row: {
@@ -200,6 +243,36 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'matches_team_a_id_fkey';
+            columns: ['team_a_id'];
+            isOneToOne: false;
+            referencedRelation: 'teams';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'matches_team_b_id_fkey';
+            columns: ['team_b_id'];
+            isOneToOne: false;
+            referencedRelation: 'teams';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'matches_winner_id_fkey';
+            columns: ['winner_id'];
+            isOneToOne: false;
+            referencedRelation: 'teams';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'matches_tournament_id_fkey';
+            columns: ['tournament_id'];
+            isOneToOne: false;
+            referencedRelation: 'tournaments';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       ranking_runs: {
         Row: {
@@ -229,6 +302,15 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'ranking_runs_season_id_fkey';
+            columns: ['season_id'];
+            isOneToOne: false;
+            referencedRelation: 'seasons';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       ranking_results: {
         Row: {
@@ -288,13 +370,43 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'ranking_results_ranking_run_id_fkey';
+            columns: ['ranking_run_id'];
+            isOneToOne: false;
+            referencedRelation: 'ranking_runs';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'ranking_results_team_id_fkey';
+            columns: ['team_id'];
+            isOneToOne: false;
+            referencedRelation: 'teams';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      import_replace_tournament_results: {
+        Args: {
+          p_season_id: string;
+          p_age_group: string;
+          p_rows: Json;
+        };
+        Returns: undefined;
+      };
+      import_replace_ranking_results: {
+        Args: {
+          p_ranking_run_id: string;
+          p_rows: Json;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       age_group_enum: '15U' | '16U' | '17U' | '18U';
