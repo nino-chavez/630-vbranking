@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 import { AgeGroup } from '$lib/schemas/enums.js';
 
@@ -9,7 +10,10 @@ import { AgeGroup } from '$lib/schemas/enums.js';
  * Returns past ranking runs for a season, ordered by ran_at descending.
  * Optionally filtered by age_group.
  */
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const seasonId = url.searchParams.get('season_id');
   const ageGroup = url.searchParams.get('age_group');
 

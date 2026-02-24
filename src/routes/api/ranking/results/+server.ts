@@ -1,8 +1,12 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const rankingRunId = url.searchParams.get('ranking_run_id');
 
   if (!rankingRunId) {

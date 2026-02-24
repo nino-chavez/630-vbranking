@@ -21,8 +21,8 @@
     const fileName = file.name.toLowerCase();
     const acceptedExtensions = accept
       .split(',')
-      .map((ext) => ext.trim().toLowerCase());
-    const hasValidExtension = acceptedExtensions.some((ext) =>
+      .map((ext: string) => ext.trim().toLowerCase());
+    const hasValidExtension = acceptedExtensions.some((ext: string) =>
       fileName.endsWith(ext),
     );
 

@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 import { AgeGroup } from '$lib/schemas/enums.js';
 import { getParser } from '$lib/import/parsers/index.js';
@@ -21,7 +22,10 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
  *
  * Returns ParseResult JSON with parsed rows, errors, and identity conflicts.
  */
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   try {
     const formData = await request.formData();
 

@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
 /**
@@ -7,7 +8,10 @@ import { supabaseServer } from '$lib/supabase-server.js';
  *
  * Set a ranking run's status to 'finalized', making it read-only.
  */
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const { ranking_run_id } = body;

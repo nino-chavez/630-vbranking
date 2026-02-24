@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
 /**
@@ -7,7 +8,10 @@ import { supabaseServer } from '$lib/supabase-server.js';
  *
  * Returns tournament history for a team in a given season.
  */
-export const GET: RequestHandler = async ({ params, url }) => {
+export const GET: RequestHandler = async ({ params, url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const teamId = params.id;
   const seasonId = url.searchParams.get('season_id');
 

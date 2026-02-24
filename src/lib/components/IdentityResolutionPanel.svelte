@@ -12,13 +12,13 @@
 
   let unresolvedTeamCount = $derived(
     conflicts.filter(
-      (c) => c.type === 'team' && !resolvedMappings.has(conflictKey(c)),
+      (c: IdentityConflict) => c.type === 'team' && !resolvedMappings.has(conflictKey(c)),
     ).length,
   );
 
   let unresolvedTournamentCount = $derived(
     conflicts.filter(
-      (c) => c.type === 'tournament' && !resolvedMappings.has(conflictKey(c)),
+      (c: IdentityConflict) => c.type === 'tournament' && !resolvedMappings.has(conflictKey(c)),
     ).length,
   );
 

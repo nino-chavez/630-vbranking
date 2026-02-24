@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 import { tournamentWeightInsertSchema } from '$lib/schemas/tournament-weight.js';
 import { z } from 'zod';
@@ -10,7 +11,10 @@ import { z } from 'zod';
  * Returns all tournaments for a season with their weights.
  * Tournaments without custom weights get defaults (weight: 1.0, tier: 5).
  */
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const seasonId = url.searchParams.get('season_id');
 
   if (!seasonId) {
@@ -86,7 +90,10 @@ const putBodySchema = z.object({
  *
  * Upserts tournament weight records for a season.
  */
-export const PUT: RequestHandler = async ({ request }) => {
+export const PUT: RequestHandler = async ({ request, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const parsed = putBodySchema.safeParse(body);

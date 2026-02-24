@@ -1,5 +1,5 @@
 {
-	"name": "svelte-scaffold",
+	"name": "volleyball-ranking-engine",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
@@ -31,6 +31,8 @@
 		"zod": "^4.3.6"
 	},
 	"dependencies": {
+		"@supabase/ssr": "^0.8.0",
+		"@sveltejs/adapter-vercel": "^6.3.2",
 		"jspdf": "^4.2.0",
 		"jspdf-autotable": "^5.0.7",
 		"ml-matrix": "^6.12.1"

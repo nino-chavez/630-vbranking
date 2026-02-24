@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
 /**
@@ -7,7 +8,10 @@ import { supabaseServer } from '$lib/supabase-server.js';
  *
  * Returns team info (name, code, region, age_group).
  */
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const teamId = params.id;
 
   try {

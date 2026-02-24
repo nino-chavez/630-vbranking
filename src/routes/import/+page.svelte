@@ -60,7 +60,7 @@
   ];
 
   const seasonSelectOptions = $derived(
-    data.seasons.map((s) => ({
+    data.seasons.map((s: { id: string; name: string; is_active: boolean }) => ({
       value: s.id,
       label: `${s.name}${s.is_active ? ' (Active)' : ''}`,
     })),
@@ -161,7 +161,7 @@
     editedRows = new Map(editedRows);
 
     if (parseResult) {
-      const row = parseResult.rows[rowIndex] as Record<string, unknown>;
+      const row = parseResult.rows[rowIndex] as unknown as Record<string, unknown>;
       if (row) {
         const numericFields = ['finishPosition', 'fieldSize', 'wins', 'losses'];
         if (numericFields.includes(column)) {
@@ -315,7 +315,7 @@
       {/if}
 
       <DataPreviewTable
-        rows={parseResult.rows}
+        rows={parseResult.rows as unknown as Record<string, unknown>[]}
         errors={parseResult.errors}
         format={selectedFormat}
         skippedIndices={skippedRowIndices}

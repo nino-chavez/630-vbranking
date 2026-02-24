@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 import { teamInsertSchema } from '$lib/schemas/team.js';
 import { tournamentInsertSchema } from '$lib/schemas/tournament.js';
@@ -29,7 +30,10 @@ interface ConfirmRequestBody {
  * Creates new teams/tournaments from identity mappings where action === 'create',
  * then validates and imports rows based on the selected mode.
  */
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   try {
     const body = (await request.json()) as ConfirmRequestBody;
     const { rows, identityMappings, importMode, seasonId, ageGroup, format } = body;

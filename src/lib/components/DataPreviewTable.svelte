@@ -23,7 +23,7 @@
   let editValue = $state('');
 
   function getRowErrors(rowIndex: number): ParseError[] {
-    return errors.filter((e) => e.row === rowIndex);
+    return errors.filter((e: ParseError) => e.row === rowIndex);
   }
 
   function hasErrors(rowIndex: number): boolean {
@@ -31,14 +31,14 @@
   }
 
   let errorRowCount = $derived(
-    rows.reduce((count, _, idx) => {
+    rows.reduce((count: number, _: ParsedRow, idx: number) => {
       if (skippedIndices.has(idx)) return count;
       return count + (hasErrors(idx) ? 1 : 0);
     }, 0),
   );
 
   let totalErrorCount = $derived(
-    errors.filter((e) => !skippedIndices.has(e.row)).length,
+    errors.filter((e: ParseError) => !skippedIndices.has(e.row)).length,
   );
 
   let activeRowCount = $derived(rows.length - skippedIndices.size);

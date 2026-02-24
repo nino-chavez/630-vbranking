@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types.js';
+import { requireAuth } from '$lib/auth-guard.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 import { rankingOverrideInsertSchema } from '$lib/schemas/ranking-override.js';
 
@@ -8,7 +9,10 @@ import { rankingOverrideInsertSchema } from '$lib/schemas/ranking-override.js';
  *
  * Returns all overrides for a ranking run, keyed by team_id.
  */
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const rankingRunId = url.searchParams.get('ranking_run_id');
 
   if (!rankingRunId) {
@@ -61,7 +65,10 @@ export const GET: RequestHandler = async ({ url }) => {
  * Upsert an override for a team in a ranking run.
  * Validates that the run is still in 'draft' status.
  */
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const parsed = rankingOverrideInsertSchema.safeParse(body);
@@ -127,7 +134,10 @@ export const POST: RequestHandler = async ({ request }) => {
  * Remove an override for a team in a ranking run.
  * Validates that the run is still in 'draft' status.
  */
-export const DELETE: RequestHandler = async ({ url }) => {
+export const DELETE: RequestHandler = async ({ url, locals }) => {
+  const authError = requireAuth(locals);
+  if (authError) return authError;
+
   const rankingRunId = url.searchParams.get('ranking_run_id');
   const teamId = url.searchParams.get('team_id');
 

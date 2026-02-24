@@ -42,7 +42,7 @@
   const hasChanges = $derived(JSON.stringify(weights) !== JSON.stringify(originalWeights));
 
   const seasonSelectOptions = $derived(
-    data.seasons.map((s) => ({ value: s.id, label: s.name })),
+    data.seasons.map((s: { id: string; name: string }) => ({ value: s.id, label: s.name })),
   );
 
   const tierOptions = [

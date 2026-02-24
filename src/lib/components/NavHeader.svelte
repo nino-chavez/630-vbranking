@@ -1,9 +1,12 @@
 <script lang="ts">
+  import type { User } from '@supabase/supabase-js';
+
   interface Props {
     currentPath: string;
+    user?: User | null;
   }
 
-  let { currentPath }: Props = $props();
+  let { currentPath, user = null }: Props = $props();
 
   const links = [
     { href: '/import', label: 'Import' },
@@ -13,6 +16,13 @@
 
   function isActive(href: string): boolean {
     return currentPath === href || currentPath.startsWith(href + '/');
+  }
+
+  async function handleLogout() {
+    const response = await fetch('/auth/logout', { method: 'POST' });
+    if (response.ok) {
+      window.location.href = '/auth/login';
+    }
   }
 </script>
 
@@ -34,6 +44,26 @@
           {link.label}
         </a>
       {/each}
+
+      <div class="ml-4 flex items-center gap-3 border-l border-border pl-4">
+        {#if user}
+          <span class="text-sm text-text-muted">{user.email}</span>
+          <button
+            type="button"
+            class="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+            onclick={handleLogout}
+          >
+            Log out
+          </button>
+        {:else}
+          <a
+            href="/auth/login"
+            class="text-sm font-medium text-accent hover:text-accent-hover transition-colors focus:outline-none focus:ring-2 focus:ring-accent rounded"
+          >
+            Log in
+          </a>
+        {/if}
+      </div>
     </div>
   </div>
 </nav>
