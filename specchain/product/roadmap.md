@@ -10,7 +10,7 @@
 
 5. [x] **Design System & UI Foundation** -- Define the visual design system following the Clarity → Trust → Action framework (see `specchain/product/design-principles.md`). Establish color palette (60-30-10 rule), typography scale, spacing system, component patterns, and information architecture. This includes layout primitives, data table styling, card patterns, and the visual language for ranking data (color-coded tiers, sparklines, algorithm contribution indicators). Must be defined before any UI implementation. `M`
 
-6. [ ] **Rankings Dashboard** -- Build a sortable, filterable rankings table displaying each team's AggRank, AggRating, W/L record, and region. Include a team detail view that shows the full tournament history, per-algorithm rating breakdown (Colley + 4 Elo scores), and head-to-head record against other ranked teams. Apply the design system from Feature 5. `L`
+6. [x] **Rankings Dashboard** -- Build a sortable, filterable rankings table displaying each team's AggRank, AggRating, W/L record, and region. Include a team detail view that shows the full tournament history, per-algorithm rating breakdown (Colley + 4 Elo scores), and head-to-head record against other ranked teams. Apply the design system from Feature 5. `L`
 
 7. [ ] **Manual Overrides & Committee Adjustments** -- Enable committee members to apply manual ranking adjustments for subjective criteria (written appeals, individual data known about teams, club history). Each adjustment requires a text justification and is stored with an audit trail. The dashboard reflects both the algorithmic ranking and the committee-adjusted final seeding. `M`
 
