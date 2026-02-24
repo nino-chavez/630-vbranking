@@ -14,7 +14,7 @@
 ### Sub-tasks
 
 - [ ] **1.1 Create ranking runs list API**
-  Create file: `src/routes/api/ranking/runs/+server.ts`
+      Create file: `src/routes/api/ranking/runs/+server.ts`
   - **GET handler**: Parse `season_id` and `age_group` from query params. Both required.
   - Query `ranking_runs` joined with a count of `ranking_results` for each run:
     ```sql
@@ -36,18 +36,18 @@
   2. Returns 400 when season_id is missing.
 
 - [ ] **1.2 Enhance results API with team regions**
-  Modify file: `src/routes/api/ranking/results/+server.ts`
+      Modify file: `src/routes/api/ranking/results/+server.ts`
   - Change the teams query from `.select('id, name')` to `.select('id, name, region')`.
   - Change the return format for `teams` from `Record<string, string>` to `Record<string, { name: string; region: string }>`.
   - Update the mapping loop accordingly.
 
 - [ ] **1.3 Create team info API**
-  Create file: `src/routes/api/ranking/team/[id]/+server.ts`
+      Create file: `src/routes/api/ranking/team/[id]/+server.ts`
   - **GET handler**: Fetch team by ID from `teams` table. Return `{ success: true, data: { team: { id, name, code, region, age_group } } }`.
   - Return 404 if team not found.
 
 - [ ] **1.4 Create team tournament history API**
-  Create file: `src/routes/api/ranking/team/[id]/history/+server.ts`
+      Create file: `src/routes/api/ranking/team/[id]/history/+server.ts`
   - **GET handler**: Parse `season_id` from query params (required).
   - Fetch tournament_results for the team, joining with tournaments for name/date:
     1. Get tournament IDs for the season from `tournaments` table.
@@ -61,7 +61,7 @@
   2. Returns 400 when season_id is missing.
 
 - [ ] **1.5 Create team H2H API**
-  Create file: `src/routes/api/ranking/team/[id]/h2h/+server.ts`
+      Create file: `src/routes/api/ranking/team/[id]/h2h/+server.ts`
   - **GET handler**: Parse `season_id` from query params (required).
   - Get tournament IDs for the season.
   - Fetch matches where (`team_a_id = teamId` OR `team_b_id = teamId`) AND `tournament_id` in season tournaments.
@@ -75,9 +75,10 @@
   2. Returns has_match_data: false when no matches exist.
 
 - [ ] **1.6 Verify all API tests pass**
-  Run all API tests. Expected: all pass, 0 regressions in existing tests.
+      Run all API tests. Expected: all pass, 0 regressions in existing tests.
 
 ### Acceptance Criteria
+
 - GET /api/ranking/runs returns past runs with team counts.
 - GET /api/ranking/results includes team regions.
 - GET /api/ranking/team/[id] returns team info.
@@ -95,7 +96,7 @@
 ### Sub-tasks
 
 - [ ] **2.1 Write tests for sorting and filtering logic**
-  Create file: `src/lib/ranking/__tests__/table-utils.test.ts`
+      Create file: `src/lib/ranking/__tests__/table-utils.test.ts`
 
   Tests (6 tests):
   1. **Sort by agg_rank ascending** (default): Verify results are ordered 1, 2, 3.
@@ -106,14 +107,14 @@
   6. **Combined filter + sort**: Filter by region, then sort by rating. Verify both applied.
 
 - [ ] **2.2 Create table utility functions**
-  Create file: `src/lib/ranking/table-utils.ts`
+      Create file: `src/lib/ranking/table-utils.ts`
   - `sortResults(results, teams, sortKey, sortDirection)` — sorts NormalizedTeamResult[] by the given key. For team name sorting, uses the teams map lookup.
   - `filterResults(results, teams, regions, searchText, regionFilter)` — filters by text search (name or code substring, case-insensitive) and region.
   - Type definitions for `SortKey = 'agg_rank' | 'agg_rating' | 'win_pct' | 'team_name'` and `SortDirection = 'asc' | 'desc'`.
   - All pure functions, no side effects.
 
 - [ ] **2.3 Update RankingResultsTable with sorting, filtering, and clickable rows**
-  Modify file: `src/lib/components/RankingResultsTable.svelte`
+      Modify file: `src/lib/components/RankingResultsTable.svelte`
   - Add new props: `regions: Record<string, string>` (team_id → region), `rankingRunId?: string` (for team detail links).
   - Add state: `sortKey`, `sortDirection`, `searchText`, `regionFilter`.
   - Add derived: `uniqueRegions` (from regions prop), `filteredAndSorted` (apply filter then sort).
@@ -123,16 +124,17 @@
   - Add `aria-sort` attribute to sorted column header.
 
 - [ ] **2.4 Update ranking page to pass new props**
-  Modify file: `src/routes/ranking/+page.svelte`
+      Modify file: `src/routes/ranking/+page.svelte`
   - Extract regions from the enhanced results API response (teams now includes region).
   - Build `regions` Record from teams data.
   - Pass `regions` and `rankingRunId` to `RankingResultsTable`.
   - Update the `teamNames` state to work with the new `{ name, region }` format.
 
 - [ ] **2.5 Verify table enhancement tests pass**
-  Run `src/lib/ranking/__tests__/table-utils.test.ts`. Expected: 6 tests pass.
+      Run `src/lib/ranking/__tests__/table-utils.test.ts`. Expected: 6 tests pass.
 
 ### Acceptance Criteria
+
 - Table columns are sortable by clicking headers.
 - Sort direction toggles and shows visual indicator.
 - Text search filters by team name/code in real-time.
@@ -150,23 +152,24 @@
 ### Sub-tasks
 
 - [ ] **3.1 Add run history state and fetch logic**
-  Modify file: `src/routes/ranking/+page.svelte`
+      Modify file: `src/routes/ranking/+page.svelte`
   - Add state: `previousRuns: Array<{ id: string; ran_at: string; teams_ranked: number }>`, `selectedRunId: string`.
   - After running rankings, fetch run history: `GET /api/ranking/runs?season_id=...`.
   - When a previous run is selected, fetch its results: `GET /api/ranking/results?ranking_run_id=...`.
   - Auto-select the newly created run after running rankings.
 
 - [ ] **3.2 Add run history UI**
-  Modify file: `src/routes/ranking/+page.svelte`
+      Modify file: `src/routes/ranking/+page.svelte`
   - In the results view, add a `Select` dropdown for "Previous Runs" above the table.
   - Options formatted as: "Feb 23, 2026 at 11:19 PM — 42 teams".
   - Selecting a different run triggers a results fetch and updates the table.
   - Show the selected run's metadata in the success banner.
 
 - [ ] **3.3 Verify run history works end-to-end**
-  Manual verification: Run rankings twice, verify both runs appear in dropdown, switching between them loads correct results.
+      Manual verification: Run rankings twice, verify both runs appear in dropdown, switching between them loads correct results.
 
 ### Acceptance Criteria
+
 - Previous runs dropdown appears after running rankings.
 - Selecting a past run loads its results without re-running algorithms.
 - Most recent run is selected by default.
@@ -181,7 +184,7 @@
 ### Sub-tasks
 
 - [ ] **4.1 Create team detail page server load**
-  Create file: `src/routes/ranking/team/[id]/+page.server.ts`
+      Create file: `src/routes/ranking/team/[id]/+page.server.ts`
   - Parse `id` from route params, `run_id` from URL query params.
   - Fetch in parallel:
     1. Team info from `teams` table.
@@ -193,7 +196,7 @@
   - Return all data to the page.
 
 - [ ] **4.2 Create team detail page component**
-  Create file: `src/routes/ranking/team/[id]/+page.svelte`
+      Create file: `src/routes/ranking/team/[id]/+page.svelte`
   - Use `PageHeader` with team name and subtitle "{code} | {region} | {age_group}".
   - **Ranking Summary**: Card with AggRank (RankBadge, large), AggRating, W%, Natl. Finish in a grid layout.
   - **Algorithm Breakdown**: Card with a 5-row layout. Each row: algorithm name, rating (formatted), rank. Use semantic colors for rank badges.
@@ -202,7 +205,7 @@
   - **Navigation**: "Back to Rankings" link at top using a subtle button/link style.
 
 - [ ] **4.3 Write tests for team detail page data loading**
-  Create file: `src/routes/ranking/team/__tests__/team-detail.test.ts`
+      Create file: `src/routes/ranking/team/__tests__/team-detail.test.ts`
 
   Tests (3 tests):
   1. **Page loads team info**: Mock supabase, verify team name/code/region returned.
@@ -210,16 +213,17 @@
   3. **H2H computes correct win/loss**: Verify opponent breakdown totals match.
 
 - [ ] **4.4 Add ordinal formatting helper**
-  The `toOrdinal()` function already exists in `RankingResultsTable.svelte`. Extract it to a shared utility so the team detail page can reuse it.
-  Create file: `src/lib/utils/format.ts`
+      The `toOrdinal()` function already exists in `RankingResultsTable.svelte`. Extract it to a shared utility so the team detail page can reuse it.
+      Create file: `src/lib/utils/format.ts`
   - Export `toOrdinal(n: number): string` — converts 1→"1st", 2→"2nd", 3→"3rd", etc.
   - Export `formatDate(dateStr: string): string` — formats ISO date as "Feb 23, 2026".
   - Update `RankingResultsTable.svelte` to import from this utility.
 
 - [ ] **4.5 Verify team detail page tests pass**
-  Run team detail tests. Expected: all pass.
+      Run team detail tests. Expected: all pass.
 
 ### Acceptance Criteria
+
 - `/ranking/team/[id]?run_id=...` renders all 5 sections.
 - Algorithm breakdown shows all 5 algorithms with ratings and ranks.
 - Tournament history shows all finishes for the season.
@@ -237,23 +241,24 @@
 ### Sub-tasks
 
 - [ ] **5.1 Run full test suite**
-  Execute `npx vitest run` and verify all tests pass (existing + new).
-  Document total test count.
+      Execute `npx vitest run` and verify all tests pass (existing + new).
+      Document total test count.
 
 - [ ] **5.2 Verify no TypeScript errors**
-  Run `npx svelte-check --tsconfig tsconfig.json` if available, or verify no IDE errors in modified files.
+      Run `npx svelte-check --tsconfig tsconfig.json` if available, or verify no IDE errors in modified files.
 
 - [ ] **5.3 Update NavHeader if needed**
-  Verify that the "Rankings" link correctly highlights for both `/ranking` and `/ranking/team/*` paths. The existing `isActive` function uses `startsWith`, so `/ranking/team/...` should already activate the "Rankings" link. Verify this.
+      Verify that the "Rankings" link correctly highlights for both `/ranking` and `/ranking/team/*` paths. The existing `isActive` function uses `startsWith`, so `/ranking/team/...` should already activate the "Rankings" link. Verify this.
 
 - [ ] **5.4 Edge case: empty results**
-  Verify the dashboard handles:
+      Verify the dashboard handles:
   - No ranking runs exist for the season (show only the run form).
   - A ranking run with 0 results (empty table with message).
   - Team detail page for a team with no tournament history.
   - Team detail page when no match data exists (H2H shows info banner).
 
 ### Acceptance Criteria
+
 - All tests pass (0 regressions).
 - No TypeScript errors.
 - Edge cases handled gracefully.

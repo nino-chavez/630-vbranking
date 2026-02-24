@@ -1,15 +1,15 @@
 <script lang="ts">
-  interface Props {
-    title: string;
-    subtitle?: string;
-  }
+	interface Props {
+		title: string;
+		subtitle?: string;
+	}
 
-  let { title, subtitle }: Props = $props();
+	let { title, subtitle }: Props = $props();
 </script>
 
 <div class="mb-8">
-  <h1 class="text-3xl font-bold text-text-primary">{title}</h1>
-  {#if subtitle}
-    <p class="mt-2 text-sm text-text-secondary">{subtitle}</p>
-  {/if}
+	<h1 class="text-3xl font-bold text-text-primary">{title}</h1>
+	{#if subtitle}
+		<p class="mt-2 text-sm text-text-secondary">{subtitle}</p>
+	{/if}
 </div>

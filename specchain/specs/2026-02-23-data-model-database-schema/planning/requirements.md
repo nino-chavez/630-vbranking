@@ -1,6 +1,7 @@
 # Spec Requirements: Data Model & Database Schema
 
 ## Initial Description
+
 Define and migrate the core database tables: teams (name, code, region), tournaments (name, weight/tier, date), tournament results (team, tournament, division, finish, field size), and match records (team A, team B, score, tournament). This is the foundation every other feature depends on.
 
 ## Requirements Discussion
@@ -46,6 +47,7 @@ No visual assets provided.
 ## Requirements Summary
 
 ### Functional Requirements
+
 - **Teams table**: Store team name, team code (raw/opaque), region, age group (enum: 15U/16U/17U/18U)
 - **Tournaments table**: Store tournament name, date, weight/tier (configurable), season association
 - **Tournament results table**: Store per-team tournament outcomes -- team, tournament, division entered, finish position, total field size
@@ -55,11 +57,14 @@ No visual assets provided.
 - **Ranking snapshots table**: Store computed algorithm outputs (Algo1-5 ratings/ranks, AggRating, AggRank) as point-in-time snapshots tied to a ranking run
 
 ### Reusability Opportunities
+
 - Migration patterns from volleyball-coaches-assessment project (Supabase migrations)
 - Same Supabase JS client patterns for database queries
 
 ### Scope Boundaries
+
 **In Scope:**
+
 - All core data tables: teams, tournaments, tournament_results, matches, seasons, tournament_weights, ranking_runs, ranking_results
 - Supabase PostgreSQL migrations
 - Age group enum support built into schema from day one
@@ -69,6 +74,7 @@ No visual assets provided.
 - Nullable future-enhancement columns on match records
 
 **Out of Scope:**
+
 - Authentication/authorization (skipped per user direction)
 - Manual override/adjustment tables (Feature 6 in roadmap)
 - Export metadata tables
@@ -76,6 +82,7 @@ No visual assets provided.
 - Row Level Security policies (no auth = no RLS needed yet)
 
 ### Technical Considerations
+
 - Database: Supabase (PostgreSQL) with migrations
 - ORM/Client: @supabase/supabase-js
 - Schema validation: Zod for TypeScript type generation

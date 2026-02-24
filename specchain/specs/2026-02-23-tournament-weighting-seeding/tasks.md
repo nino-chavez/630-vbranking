@@ -17,7 +17,7 @@ Modify the pure algorithm functions (Colley and Elo) to accept an optional weigh
 ### Sub-tasks
 
 - [ ] **1.1 Write unit tests for weighted Colley, weighted Elo, and seeding factors**
-  Create test files:
+      Create test files:
   - `src/lib/ranking/__tests__/colley-weighted.test.ts`
   - `src/lib/ranking/__tests__/elo-weighted.test.ts`
   - `src/lib/ranking/__tests__/seeding-factors.test.ts`
@@ -42,29 +42,29 @@ Modify the pure algorithm functions (Colley and Elo) to accept an optional weigh
   5. **No Tier-1 finishes yields null**: Team has no results at Tier-1 tournaments. `best_national_finish = null`, `best_national_tournament_name = null`.
 
 - [ ] **1.2 Add SeedingFactors interface and update RankingRunOutput in types.ts**
-  Modify file: `src/lib/ranking/types.ts`
+      Modify file: `src/lib/ranking/types.ts`
   - Add the `SeedingFactors` interface:
     ```typescript
     export interface SeedingFactors {
-      team_id: string;
-      win_pct: number;
-      best_national_finish: number | null;
-      best_national_tournament_name: string | null;
+    	team_id: string;
+    	win_pct: number;
+    	best_national_finish: number | null;
+    	best_national_tournament_name: string | null;
     }
     ```
   - Update `RankingRunOutput` to include `seeding_factors`:
     ```typescript
     export interface RankingRunOutput {
-      ranking_run_id: string;
-      results: NormalizedTeamResult[];
-      seeding_factors: SeedingFactors[];
-      teams_ranked: number;
-      ran_at: string;
+    	ranking_run_id: string;
+    	results: NormalizedTeamResult[];
+    	seeding_factors: SeedingFactors[];
+    	teams_ranked: number;
+    	ran_at: string;
     }
     ```
 
 - [ ] **1.3 Modify computeColleyRatings() to accept optional weightMap**
-  Modify file: `src/lib/ranking/colley.ts`
+      Modify file: `src/lib/ranking/colley.ts`
   - Add `weightMap?: Record<string, number>` as a third parameter to `computeColleyRatings()`.
   - In the pairwise record processing loop, look up the weight: `const weight = weightMap?.[record.tournament_id] ?? 1.0;`
   - Replace all hardcoded `1` contributions with `weight` and `0.5` with `weight * 0.5`:
@@ -77,7 +77,7 @@ Modify the pure algorithm functions (Colley and Elo) to accept an optional weigh
   - No other changes -- initial diagonal (2) and initial b (1) are unchanged.
 
 - [ ] **1.4 Modify computeEloRatings() to accept optional weightMap**
-  Modify file: `src/lib/ranking/elo.ts`
+      Modify file: `src/lib/ranking/elo.ts`
   - Add `weightMap?: Record<string, number>` as a fifth parameter to `computeEloRatings()`.
   - In the tournament group processing loop, look up the weight per group: `const weight = weightMap?.[group.tournament_id] ?? 1.0;`
   - Compute effective K: `const effectiveK = kFactor * weight;`
@@ -86,34 +86,34 @@ Modify the pure algorithm functions (Colley and Elo) to accept an optional weigh
     - `const newRLoser = rLoser + effectiveK * (0 - eLoser);`
 
 - [ ] **1.5 Create seeding factors computation module**
-  Create file: `src/lib/ranking/seeding-factors.ts`
+      Create file: `src/lib/ranking/seeding-factors.ts`
   - Pure function, no database access.
   - Export `computeSeedingFactors()` with the following signature:
     ```typescript
     export function computeSeedingFactors(
-      pairwiseRecords: PairwiseRecord[],
-      teams: TeamInfo[],
-      tier1TournamentFinishes: Array<{
-        team_id: string;
-        tournament_id: string;
-        tournament_name: string;
-        finish_position: number;
-      }>
-    ): SeedingFactors[]
+    	pairwiseRecords: PairwiseRecord[],
+    	teams: TeamInfo[],
+    	tier1TournamentFinishes: Array<{
+    		team_id: string;
+    		tournament_id: string;
+    		tournament_name: string;
+    		finish_position: number;
+    	}>,
+    ): SeedingFactors[];
     ```
   - **Win % computation**: For each team, count wins (records where `winner_id === team.id`) and total games (records where `team_a_id === team.id` or `team_b_id === team.id`). Compute `win_pct = total_games > 0 ? Math.round((wins / total_games) * 1000) / 10 : 0` (1 decimal place).
   - **Best national finish**: For each team, filter `tier1TournamentFinishes` for that team's entries, find the lowest `finish_position`. If none exist, `best_national_finish = null` and `best_national_tournament_name = null`.
   - Return a `SeedingFactors[]` with one entry per team.
 
 - [ ] **1.6 Verify all algorithm unit tests pass**
-  Run the three test files created in 1.1:
+      Run the three test files created in 1.1:
   - `npx vitest run src/lib/ranking/__tests__/colley-weighted.test.ts`
   - `npx vitest run src/lib/ranking/__tests__/elo-weighted.test.ts`
   - `npx vitest run src/lib/ranking/__tests__/seeding-factors.test.ts`
-  Expected: 13 tests pass, 0 failures.
-  Also run the existing algorithm tests to verify no regressions:
+    Expected: 13 tests pass, 0 failures.
+    Also run the existing algorithm tests to verify no regressions:
   - `npx vitest run src/lib/ranking/__tests__/`
-  Expected: All existing tests continue to pass (backward compatibility).
+    Expected: All existing tests continue to pass (backward compatibility).
 
 ### Acceptance Criteria
 
@@ -159,7 +159,7 @@ Integrate tournament weights into the RankingService orchestration, create the w
 ### Sub-tasks
 
 - [ ] **2.1 Write integration tests for weights API and service changes**
-  Create test file: `src/routes/api/ranking/__tests__/weights-api.test.ts`
+      Create test file: `src/routes/api/ranking/__tests__/weights-api.test.ts`
 
   Tests (3 tests):
   1. **GET /api/ranking/weights returns tournaments with defaults**: Mock Supabase to return 3 tournaments for a season, 1 with a custom weight row and 2 without. Verify the response includes all 3 tournaments: the one with a custom weight shows `has_custom_weight: true` with the stored weight/tier, the other two show `weight: 1.0, tier: 5, has_custom_weight: false`.
@@ -167,20 +167,20 @@ Integrate tournament weights into the RankingService orchestration, create the w
   3. **PUT /api/ranking/weights validates input**: Send a PUT with missing `season_id`. Verify the response is 400 with a validation error message. Send a PUT with a negative `weight`. Verify the response is 400.
 
 - [ ] **2.2 Update RankingService to fetch weights and pass to algorithms**
-  Modify file: `src/lib/ranking/ranking-service.ts`
+      Modify file: `src/lib/ranking/ranking-service.ts`
   - After fetching tournaments (step 4), add a new step to fetch tournament weights:
     ```typescript
     const { data: weightRows, error: weightError } = await this.supabase
-      .from('tournament_weights')
-      .select('tournament_id, weight')
-      .eq('season_id', config.season_id)
-      .in('tournament_id', tournamentIds.length > 0 ? tournamentIds : ['__none__']);
+    	.from('tournament_weights')
+    	.select('tournament_id, weight')
+    	.eq('season_id', config.season_id)
+    	.in('tournament_id', tournamentIds.length > 0 ? tournamentIds : ['__none__']);
     if (weightError) {
-      throw new Error(`Failed to fetch tournament weights: ${weightError.message}`);
+    	throw new Error(`Failed to fetch tournament weights: ${weightError.message}`);
     }
     const weightMap: Record<string, number> = {};
     for (const row of weightRows ?? []) {
-      weightMap[row.tournament_id] = Number(row.weight);
+    	weightMap[row.tournament_id] = Number(row.weight);
     }
     ```
   - Pass `weightMap` to `this.executeAlgorithms()` in both the match_records and tournament_finishes code paths.
@@ -188,7 +188,7 @@ Integrate tournament weights into the RankingService orchestration, create the w
   - Update the `parameters` JSON in the `ranking_runs` insert to include `weights: weightMap`.
 
 - [ ] **2.3 Add seeding factors computation to the ranking run flow**
-  Modify file: `src/lib/ranking/ranking-service.ts`
+      Modify file: `src/lib/ranking/ranking-service.ts`
   - Import `computeSeedingFactors` from `./seeding-factors.js`.
   - Import `SeedingFactors` type from `./types.js`.
   - After computing algorithm results (in both match_records and tournament_finishes paths), compute seeding factors:
@@ -199,7 +199,7 @@ Integrate tournament weights into the RankingService orchestration, create the w
   - Dependencies: sub-task 1.5 (seeding-factors module must exist).
 
 - [ ] **2.4 Create tournament weights API endpoint**
-  Create file: `src/routes/api/ranking/weights/+server.ts`
+      Create file: `src/routes/api/ranking/weights/+server.ts`
   - **GET handler**:
     1. Parse `season_id` from query params. Validate it is present and is a valid UUID format.
     2. Query `tournaments` for the season, ordered by date ascending.
@@ -215,7 +215,7 @@ Integrate tournament weights into the RankingService orchestration, create the w
     5. Return 400 on validation failure. Return 500 on database error.
 
 - [ ] **2.5 Augment ranking results API with seeding factors**
-  Modify file: `src/routes/api/ranking/results/+server.ts`
+      Modify file: `src/routes/api/ranking/results/+server.ts`
   - After fetching ranking results and team names, add seeding factors computation:
     1. Fetch the `ranking_run` record to get `season_id`.
     2. Fetch pairwise data for the season (from `tournament_results` or `matches`, using the same logic as the ranking service).
@@ -226,7 +226,7 @@ Integrate tournament weights into the RankingService orchestration, create the w
   - The existing `results` and `teams` fields remain unchanged.
 
 - [ ] **2.6 Update ranking run parameters recording**
-  Modify file: `src/lib/ranking/ranking-service.ts`
+      Modify file: `src/lib/ranking/ranking-service.ts`
   - In the `ranking_runs` insert (step 2), update the `parameters` object to include the weight map:
     ```typescript
     parameters: {
@@ -240,10 +240,10 @@ Integrate tournament weights into the RankingService orchestration, create the w
   - Recommended approach: Move the `ranking_runs` insert to after the weight map is built, or update the record after the run. The simplest approach is to restructure the flow so that weight fetching happens before the run record insert.
 
 - [ ] **2.7 Verify API tests pass and no regressions**
-  Run the tests created in 2.1:
+      Run the tests created in 2.1:
   - `npx vitest run src/routes/api/ranking/__tests__/weights-api.test.ts`
-  Expected: 3 tests pass, 0 failures.
-  Run the existing ranking service tests to verify no regressions.
+    Expected: 3 tests pass, 0 failures.
+    Run the existing ranking service tests to verify no regressions.
 
 ### Acceptance Criteria
 
@@ -288,7 +288,7 @@ Create the tournament weights management page and update the ranking results tab
 ### Sub-tasks
 
 - [ ] **3.1 Write UI tests for weights page and results augmentation**
-  Create test file: `src/lib/components/__tests__/weights-page.test.ts`
+      Create test file: `src/lib/components/__tests__/weights-page.test.ts`
 
   Tests (3 tests):
   1. **Weights table renders tournament rows**: Render a mock weights table with 3 tournaments. Verify all tournament names are displayed. Verify each row has an editable weight input and tier selector.
@@ -302,18 +302,18 @@ Create the tournament weights management page and update the ranking results tab
   2. **RankingResultsTable renders Natl. Finish column**: Pass seeding factors with a team that has `best_national_finish: 2` and another with `null`. Verify "2nd" is displayed for the first team and "N/A" for the second.
 
 - [ ] **3.2 Create weights page server load**
-  Create file: `src/routes/ranking/weights/+page.server.ts`
+      Create file: `src/routes/ranking/weights/+page.server.ts`
   - Fetch the seasons list (same pattern as `src/routes/ranking/+page.server.ts`):
     ```typescript
     const { data: seasons } = await supabaseServer
-      .from('seasons')
-      .select('id, name')
-      .order('start_date', { ascending: false });
+    	.from('seasons')
+    	.select('id, name')
+    	.order('start_date', { ascending: false });
     return { seasons: seasons ?? [] };
     ```
 
 - [ ] **3.3 Create tournament weights management page**
-  Create file: `src/routes/ranking/weights/+page.svelte`
+      Create file: `src/routes/ranking/weights/+page.svelte`
   - Import design system components: `PageHeader`, `Card`, `Select`, `Button`, `Banner`.
   - **State (Svelte 5 runes)**:
     - `selectedSeasonId: string` -- `$state('')`
@@ -326,12 +326,12 @@ Create the tournament weights management page and update the ranking results tab
   - **WeightRow type** (inline or separate):
     ```typescript
     interface WeightRow {
-      tournament_id: string;
-      tournament_name: string;
-      tournament_date: string;
-      weight: number;
-      tier: number;
-      has_custom_weight: boolean;
+    	tournament_id: string;
+    	tournament_name: string;
+    	tournament_date: string;
+    	weight: number;
+    	tier: number;
+    	has_custom_weight: boolean;
     }
     ```
   - **Layout**:
@@ -346,7 +346,7 @@ Create the tournament weights management page and update the ranking results tab
     6. `<Banner>` for success/error feedback.
 
 - [ ] **3.4 Update RankingResultsTable to display seeding factor columns**
-  Modify file: `src/lib/components/RankingResultsTable.svelte`
+      Modify file: `src/lib/components/RankingResultsTable.svelte`
   - Add an optional `seedingFactors` prop: `seedingFactors?: Record<string, { win_pct: number; best_national_finish: number | null; best_national_tournament_name: string | null }>`.
   - Add two columns after AggRank (first column) and Team Name (second column), before the algorithm columns:
     - **W%**: Displays `seedingFactors[row.team_id]?.win_pct` formatted as `XX.X%`. Shows "---" if no seeding data.
@@ -358,31 +358,31 @@ Create the tournament weights management page and update the ranking results tab
   - Add a helper function `toOrdinal(n: number): string` that converts 1->"1st", 2->"2nd", 3->"3rd", 4->"4th", etc.
 
 - [ ] **3.5 Update ranking page to pass seeding factors to results table**
-  Modify file: `src/routes/ranking/+page.svelte`
+      Modify file: `src/routes/ranking/+page.svelte`
   - Add state for seeding factors: `let seedingFactors = $state<Record<string, { win_pct: number; best_national_finish: number | null; best_national_tournament_name: string | null }>>({});`
   - In `handleRunRankings()`, after fetching results from `GET /api/ranking/results`, extract `seeding_factors` from the response and assign to state:
     ```typescript
     if (resultsData.data.seeding_factors) {
-      seedingFactors = resultsData.data.seeding_factors;
+    	seedingFactors = resultsData.data.seeding_factors;
     }
     ```
   - Pass `seedingFactors` to `<RankingResultsTable>`:
     ```svelte
-    <RankingResultsTable results={rankingResults} teams={teamNames} seedingFactors={seedingFactors} />
+    <RankingResultsTable results={rankingResults} teams={teamNames} {seedingFactors} />
     ```
   - Reset `seedingFactors` in `handleReset()`.
 
 - [ ] **3.6 Add navigation link for weights page**
-  Modify file: `src/lib/components/NavHeader.svelte`
+      Modify file: `src/lib/components/NavHeader.svelte`
   - Add a "Weights" navigation link pointing to `/ranking/weights`.
   - Place it after the "Rankings" link.
   - Apply the same active link detection pattern as existing links.
 
 - [ ] **3.7 Verify UI tests pass**
-  Run the test files created in 3.1:
+      Run the test files created in 3.1:
   - `npx vitest run src/lib/components/__tests__/weights-page.test.ts`
   - `npx vitest run src/lib/components/__tests__/seeding-columns.test.ts`
-  Expected: 5 tests pass, 0 failures.
+    Expected: 5 tests pass, 0 failures.
 
 ### Acceptance Criteria
 
@@ -433,24 +433,24 @@ Review all tests written by Groups 1-3 (13 algorithm tests + 3 API tests + 5 UI 
 ### Sub-tasks
 
 - [ ] **4.1 Audit existing test coverage**
-  Review all test files:
+      Review all test files:
   - `src/lib/ranking/__tests__/colley-weighted.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/elo-weighted.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/seeding-factors.test.ts` (5 tests)
   - `src/routes/api/ranking/__tests__/weights-api.test.ts` (3 tests)
   - `src/lib/components/__tests__/weights-page.test.ts` (3 tests)
   - `src/lib/components/__tests__/seeding-columns.test.ts` (2 tests)
-  Document which paths are covered and which critical gaps remain. Focus on: backward compatibility verification, edge cases with extreme weights, determinism, and integration between service and algorithms.
+    Document which paths are covered and which critical gaps remain. Focus on: backward compatibility verification, edge cases with extreme weights, determinism, and integration between service and algorithms.
 
 - [ ] **4.2 Write backward compatibility tests**
-  Create test file: `src/lib/ranking/__tests__/backward-compatibility.test.ts`
+      Create test file: `src/lib/ranking/__tests__/backward-compatibility.test.ts`
 
   Tests (2 tests):
   1. **All weights = 1.0 equals unweighted**: Run `computeColleyRatings()` and `computeEloRatings()` with 5 teams across 3 tournaments. First run without weight map, then with a weight map where every tournament has weight 1.0. Verify the results are byte-for-byte identical (same ratings, same ranks).
   2. **Colley: undefined vs {} vs missing entries**: Call `computeColleyRatings(records, teams)`, `computeColleyRatings(records, teams, {})`, and `computeColleyRatings(records, teams, undefined)`. Verify all three produce identical output.
 
 - [ ] **4.3 Write edge case tests**
-  Create test file: `src/lib/ranking/__tests__/weighting-edge-cases.test.ts`
+      Create test file: `src/lib/ranking/__tests__/weighting-edge-cases.test.ts`
 
   Tests (3 tests):
   1. **Very large weight (100.0)**: One tournament with weight 100.0. Verify the Colley system produces valid ratings (no NaN, no Infinity) and the Elo system produces finite ratings.
@@ -458,19 +458,19 @@ Review all tests written by Groups 1-3 (13 algorithm tests + 3 API tests + 5 UI 
   3. **Mixed weighted and unweighted**: 4 tournaments, only 2 have explicit weights (2.0 and 3.0), others default to 1.0. Verify the results are different from the fully unweighted case and that the system produces valid output.
 
 - [ ] **4.4 Verify existing algorithm tests still pass**
-  Run the entire `src/lib/ranking/__tests__/` test suite.
+      Run the entire `src/lib/ranking/__tests__/` test suite.
   - Verify ALL existing tests (from Feature 3) pass without modification.
   - This confirms the optional `weightMap` parameter did not break any existing test expectations.
   - Document the total test count: existing + new.
 
 - [ ] **4.5 Run complete feature test suite**
-  Run ALL tests across all groups:
+      Run ALL tests across all groups:
   - `src/lib/ranking/__tests__/` (all ranking tests including new ones)
   - `src/routes/api/ranking/__tests__/` (API tests)
   - `src/lib/components/__tests__/weights-page.test.ts` (UI tests)
   - `src/lib/components/__tests__/seeding-columns.test.ts` (UI tests)
-  Expected total new tests: 26 (13 + 3 + 5 + 2 + 3). Plus all existing tests.
-  Verify zero failures and no test isolation issues.
+    Expected total new tests: 26 (13 + 3 + 5 + 2 + 3). Plus all existing tests.
+    Verify zero failures and no test isolation issues.
 
 ### Acceptance Criteria
 
@@ -516,12 +516,12 @@ npm run build
 
 ## Summary
 
-| Group | Implementer | Focus | Sub-tasks | Tests | Depends On |
-|-------|-------------|-------|-----------|-------|------------|
-| 1. Weighted Algorithm Core | `api-engineer` | Pure algorithm modifications, types, seeding factors | 6 | 13 | None |
-| 2. Service Layer & API | `api-engineer` | RankingService integration, weights API, results augmentation | 7 | 3 | Group 1 |
-| 3. Frontend UI | `ui-designer` | Weights management page, results table seeding columns | 7 | 5 | Group 2 |
-| 4. Test Review & Gap Analysis | `testing-engineer` | Backward compatibility, edge cases, full suite verification | 5 | 5 | Groups 1, 2, 3 |
+| Group                         | Implementer        | Focus                                                         | Sub-tasks | Tests | Depends On     |
+| ----------------------------- | ------------------ | ------------------------------------------------------------- | --------- | ----- | -------------- |
+| 1. Weighted Algorithm Core    | `api-engineer`     | Pure algorithm modifications, types, seeding factors          | 6         | 13    | None           |
+| 2. Service Layer & API        | `api-engineer`     | RankingService integration, weights API, results augmentation | 7         | 3     | Group 1        |
+| 3. Frontend UI                | `ui-designer`      | Weights management page, results table seeding columns        | 7         | 5     | Group 2        |
+| 4. Test Review & Gap Analysis | `testing-engineer` | Backward compatibility, edge cases, full suite verification   | 5         | 5     | Groups 1, 2, 3 |
 
 **Total sub-tasks:** 25
 **Total new tests:** 26
@@ -548,30 +548,30 @@ Group 4: Test Review & Gap Analysis (testing-engineer)
 
 ### Existing Code Modified
 
-| Asset | Location | Change |
-|-------|----------|--------|
-| `types.ts` | `src/lib/ranking/types.ts` | Add `SeedingFactors` interface, update `RankingRunOutput` |
-| `colley.ts` | `src/lib/ranking/colley.ts` | Add optional `weightMap` parameter, scale matrix contributions |
-| `elo.ts` | `src/lib/ranking/elo.ts` | Add optional `weightMap` parameter, scale K-factor per tournament |
-| `ranking-service.ts` | `src/lib/ranking/ranking-service.ts` | Fetch weights, pass to algorithms, compute seeding factors, record weights in parameters |
-| `results/+server.ts` | `src/routes/api/ranking/results/+server.ts` | Add seeding factors to response |
-| `RankingResultsTable.svelte` | `src/lib/components/RankingResultsTable.svelte` | Add W% and Natl. Finish columns |
-| `+page.svelte` (ranking) | `src/routes/ranking/+page.svelte` | Pass seeding factors to results table |
-| `NavHeader.svelte` | `src/lib/components/NavHeader.svelte` | Add "Weights" navigation link |
+| Asset                        | Location                                        | Change                                                                                   |
+| ---------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `types.ts`                   | `src/lib/ranking/types.ts`                      | Add `SeedingFactors` interface, update `RankingRunOutput`                                |
+| `colley.ts`                  | `src/lib/ranking/colley.ts`                     | Add optional `weightMap` parameter, scale matrix contributions                           |
+| `elo.ts`                     | `src/lib/ranking/elo.ts`                        | Add optional `weightMap` parameter, scale K-factor per tournament                        |
+| `ranking-service.ts`         | `src/lib/ranking/ranking-service.ts`            | Fetch weights, pass to algorithms, compute seeding factors, record weights in parameters |
+| `results/+server.ts`         | `src/routes/api/ranking/results/+server.ts`     | Add seeding factors to response                                                          |
+| `RankingResultsTable.svelte` | `src/lib/components/RankingResultsTable.svelte` | Add W% and Natl. Finish columns                                                          |
+| `+page.svelte` (ranking)     | `src/routes/ranking/+page.svelte`               | Pass seeding factors to results table                                                    |
+| `NavHeader.svelte`           | `src/lib/components/NavHeader.svelte`           | Add "Weights" navigation link                                                            |
 
 ### New Files Created
 
-| File | Location | Purpose |
-|------|----------|---------|
-| `seeding-factors.ts` | `src/lib/ranking/seeding-factors.ts` | Pure function for win % and best national finish |
-| `weights/+server.ts` | `src/routes/api/ranking/weights/+server.ts` | GET/PUT API for tournament weight management |
-| `weights/+page.server.ts` | `src/routes/ranking/weights/+page.server.ts` | Server load for weights page (seasons list) |
-| `weights/+page.svelte` | `src/routes/ranking/weights/+page.svelte` | Tournament weights management UI |
-| `colley-weighted.test.ts` | `src/lib/ranking/__tests__/colley-weighted.test.ts` | Weighted Colley unit tests |
-| `elo-weighted.test.ts` | `src/lib/ranking/__tests__/elo-weighted.test.ts` | Weighted Elo unit tests |
-| `seeding-factors.test.ts` | `src/lib/ranking/__tests__/seeding-factors.test.ts` | Seeding factors unit tests |
-| `weights-api.test.ts` | `src/routes/api/ranking/__tests__/weights-api.test.ts` | Weights API integration tests |
-| `weights-page.test.ts` | `src/lib/components/__tests__/weights-page.test.ts` | Weights page UI tests |
-| `seeding-columns.test.ts` | `src/lib/components/__tests__/seeding-columns.test.ts` | Seeding columns UI tests |
-| `backward-compatibility.test.ts` | `src/lib/ranking/__tests__/backward-compatibility.test.ts` | Backward compatibility tests |
-| `weighting-edge-cases.test.ts` | `src/lib/ranking/__tests__/weighting-edge-cases.test.ts` | Edge case tests |
+| File                             | Location                                                   | Purpose                                          |
+| -------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
+| `seeding-factors.ts`             | `src/lib/ranking/seeding-factors.ts`                       | Pure function for win % and best national finish |
+| `weights/+server.ts`             | `src/routes/api/ranking/weights/+server.ts`                | GET/PUT API for tournament weight management     |
+| `weights/+page.server.ts`        | `src/routes/ranking/weights/+page.server.ts`               | Server load for weights page (seasons list)      |
+| `weights/+page.svelte`           | `src/routes/ranking/weights/+page.svelte`                  | Tournament weights management UI                 |
+| `colley-weighted.test.ts`        | `src/lib/ranking/__tests__/colley-weighted.test.ts`        | Weighted Colley unit tests                       |
+| `elo-weighted.test.ts`           | `src/lib/ranking/__tests__/elo-weighted.test.ts`           | Weighted Elo unit tests                          |
+| `seeding-factors.test.ts`        | `src/lib/ranking/__tests__/seeding-factors.test.ts`        | Seeding factors unit tests                       |
+| `weights-api.test.ts`            | `src/routes/api/ranking/__tests__/weights-api.test.ts`     | Weights API integration tests                    |
+| `weights-page.test.ts`           | `src/lib/components/__tests__/weights-page.test.ts`        | Weights page UI tests                            |
+| `seeding-columns.test.ts`        | `src/lib/components/__tests__/seeding-columns.test.ts`     | Seeding columns UI tests                         |
+| `backward-compatibility.test.ts` | `src/lib/ranking/__tests__/backward-compatibility.test.ts` | Backward compatibility tests                     |
+| `weighting-edge-cases.test.ts`   | `src/lib/ranking/__tests__/weighting-edge-cases.test.ts`   | Edge case tests                                  |

@@ -11,10 +11,10 @@
 
 Verify all user answers from the Q&A session are accurately captured in `planning/requirements.md`.
 
-| Q# | User Answer (Raw) | Captured in requirements.md | Accurate? | Notes |
-|----|-------------------|----------------------------|-----------|-------|
-| Q1 | Support both -- derive pairwise W/L from tournament_results now (Team A with lower finish_position beats Team B), and switch to actual match records when available. | Yes. Requirements state "Support both -- derive pairwise W/L from tournament_results now (if Team A finished higher than Team B in the same tournament, that's a 'win'), and switch to actual match records when available. The engine should support both input sources." | PASS | Accurately captured. The parenthetical clarification about lower finish_position = win is a correct additive detail. |
-| Q2 | Both backend (engine + API endpoint) and a minimal UI ("Run Rankings" button and results display). | Yes. Requirements state "Both backend (engine + API endpoint) and a minimal UI ('Run Rankings' button and results display)." | PASS | Verbatim accurate. UI scope correctly characterized as minimal. |
+| Q#  | User Answer (Raw)                                                                                                                                                    | Captured in requirements.md                                                                                                                                                                                                                                                | Accurate? | Notes                                                                                                                |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------- |
+| Q1  | Support both -- derive pairwise W/L from tournament_results now (Team A with lower finish_position beats Team B), and switch to actual match records when available. | Yes. Requirements state "Support both -- derive pairwise W/L from tournament_results now (if Team A finished higher than Team B in the same tournament, that's a 'win'), and switch to actual match records when available. The engine should support both input sources." | PASS      | Accurately captured. The parenthetical clarification about lower finish_position = win is a correct additive detail. |
+| Q2  | Both backend (engine + API endpoint) and a minimal UI ("Run Rankings" button and results display).                                                                   | Yes. Requirements state "Both backend (engine + API endpoint) and a minimal UI ('Run Rankings' button and results display)."                                                                                                                                               | PASS      | Verbatim accurate. UI scope correctly characterized as minimal.                                                      |
 
 **Check 1 Result: PASS** -- Both user answers are accurately and faithfully captured in requirements.md.
 
@@ -44,42 +44,42 @@ No visual asset files exist in `planning/visuals/`. The spec does not include an
 
 ### Explicit Features from requirements.md
 
-| Requirement | Spec Section | Covered? |
-|-------------|-------------|----------|
-| Colley Matrix algorithm (construct C, solve Cr=b via LU decomposition) | F3: Colley Matrix Algorithm (algo1) | Yes |
-| 4 Elo variant algorithms (starting ratings 2200, 2400, 2500, 2700, K=32) | F4: Elo Variant Algorithms (algo2-algo5) | Yes |
-| W/L derivation from tournament finishes (lower finish_position = win) | F1: Pairwise W/L Derivation from Tournament Finishes | Yes |
-| Match record support as alternative data source | F2: Match Record Support (Fallback Path) | Yes |
-| AggRating computation (min-max normalization, arithmetic mean) | F5: AggRating Computation | Yes |
-| AggRank computation (descending by AggRating, ties alphabetical) | F6: AggRank Computation | Yes |
-| Ranking run orchestration (create run record, execute algorithms, persist results) | F7: Ranking Run Orchestration | Yes |
-| API endpoint (POST /api/ranking/run, season + age group) | F8: API Endpoint | Yes |
-| Minimal UI ("Run Rankings" button + results table) | F9: Minimal UI | Yes |
+| Requirement                                                                        | Spec Section                                         | Covered? |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------- | -------- |
+| Colley Matrix algorithm (construct C, solve Cr=b via LU decomposition)             | F3: Colley Matrix Algorithm (algo1)                  | Yes      |
+| 4 Elo variant algorithms (starting ratings 2200, 2400, 2500, 2700, K=32)           | F4: Elo Variant Algorithms (algo2-algo5)             | Yes      |
+| W/L derivation from tournament finishes (lower finish_position = win)              | F1: Pairwise W/L Derivation from Tournament Finishes | Yes      |
+| Match record support as alternative data source                                    | F2: Match Record Support (Fallback Path)             | Yes      |
+| AggRating computation (min-max normalization, arithmetic mean)                     | F5: AggRating Computation                            | Yes      |
+| AggRank computation (descending by AggRating, ties alphabetical)                   | F6: AggRank Computation                              | Yes      |
+| Ranking run orchestration (create run record, execute algorithms, persist results) | F7: Ranking Run Orchestration                        | Yes      |
+| API endpoint (POST /api/ranking/run, season + age group)                           | F8: API Endpoint                                     | Yes      |
+| Minimal UI ("Run Rankings" button + results table)                                 | F9: Minimal UI                                       | Yes      |
 
 ### Pre-Established Decisions from Product Planning
 
-| Decision | Captured in Spec? | Where? |
-|----------|------------------|--------|
-| 5 algorithms: Colley (algo1) + Elo 2200/2400/2500/2700 (algo2-5) | Yes | F3, F4; New Components table |
-| ml-matrix for Colley Matrix | Yes | F3 (solve via ml-matrix LU decomposition); Technical Approach: Algorithms |
-| Native TypeScript for Elo | Yes | F4 (simple arithmetic formula, no library); tech-stack.md alignment confirmed |
-| AggRating: 0-100 normalized scale, min-max per algo then average | Yes | F5 (min-max normalization, arithmetic mean) |
-| Elo K=32 | Yes | F4 (Default K-factor: K = 32), F7 (parameters JSON), F8 |
-| Colley standard matrix construction | Yes | F3 (formula: C[i][i]=2+total_games, C[i][j]=-games, b[i]=1+(w-l)/2) |
-| Full recompute per run | Yes | F7 (each ranking run processes all tournament data from scratch) |
-| ranking_runs + ranking_results tables already exist | Yes | Reusable Components table references existing schemas |
-| All-TypeScript stack | Yes | NF3 (TypeScript types), Technical Approach consistently uses TS |
+| Decision                                                         | Captured in Spec? | Where?                                                                        |
+| ---------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------- |
+| 5 algorithms: Colley (algo1) + Elo 2200/2400/2500/2700 (algo2-5) | Yes               | F3, F4; New Components table                                                  |
+| ml-matrix for Colley Matrix                                      | Yes               | F3 (solve via ml-matrix LU decomposition); Technical Approach: Algorithms     |
+| Native TypeScript for Elo                                        | Yes               | F4 (simple arithmetic formula, no library); tech-stack.md alignment confirmed |
+| AggRating: 0-100 normalized scale, min-max per algo then average | Yes               | F5 (min-max normalization, arithmetic mean)                                   |
+| Elo K=32                                                         | Yes               | F4 (Default K-factor: K = 32), F7 (parameters JSON), F8                       |
+| Colley standard matrix construction                              | Yes               | F3 (formula: C[i][i]=2+total_games, C[i][j]=-games, b[i]=1+(w-l)/2)           |
+| Full recompute per run                                           | Yes               | F7 (each ranking run processes all tournament data from scratch)              |
+| ranking_runs + ranking_results tables already exist              | Yes               | Reusable Components table references existing schemas                         |
+| All-TypeScript stack                                             | Yes               | NF3 (TypeScript types), Technical Approach consistently uses TS               |
 
 ### Constraints and Scope Boundaries
 
-| Constraint / Out-of-Scope (requirements.md) | Spec Out-of-Scope Section | Covered? |
-|----------------------------------------------|--------------------------|----------|
-| Tournament weighting (Feature 4) | Yes -- "Tournament weighting -- All tournaments weighted equally" | Yes |
-| Full rankings dashboard (Feature 6) | Yes -- "Full rankings dashboard -- Filtering, sorting, team detail views..." | Yes |
-| Manual overrides (Feature 7) | Yes -- "Manual overrides and committee adjustments" | Yes |
-| Export/reporting (Feature 8) | Yes -- "Export and reporting" | Yes |
-| Match data ingestion (deferred from Feature 2) | Yes -- "Match data ingestion -- No UI or pipeline for importing match-level data" | Yes |
-| Elo K-factor tuning per tier (Feature 4) | Yes -- "Elo K-factor tuning -- K=32 is fixed" | Yes |
+| Constraint / Out-of-Scope (requirements.md)    | Spec Out-of-Scope Section                                                         | Covered? |
+| ---------------------------------------------- | --------------------------------------------------------------------------------- | -------- |
+| Tournament weighting (Feature 4)               | Yes -- "Tournament weighting -- All tournaments weighted equally"                 | Yes      |
+| Full rankings dashboard (Feature 6)            | Yes -- "Full rankings dashboard -- Filtering, sorting, team detail views..."      | Yes      |
+| Manual overrides (Feature 7)                   | Yes -- "Manual overrides and committee adjustments"                               | Yes      |
+| Export/reporting (Feature 8)                   | Yes -- "Export and reporting"                                                     | Yes      |
+| Match data ingestion (deferred from Feature 2) | Yes -- "Match data ingestion -- No UI or pipeline for importing match-level data" | Yes      |
+| Elo K-factor tuning per tier (Feature 4)       | Yes -- "Elo K-factor tuning -- K=32 is fixed"                                     | Yes      |
 
 **Check 4 Result: PASS** -- All functional requirements, pre-established decisions, and scope boundaries from requirements.md are fully covered in the spec. No gaps found.
 
@@ -96,6 +96,7 @@ No visual asset files exist in `planning/visuals/`. The spec does not include an
 ### User Stories
 
 The spec defines 5 user stories:
+
 1. Trigger a full ranking computation for a season and age group (maps to F7, F8, F9)
 2. See per-algorithm ratings/ranks alongside AggRating/AggRank (maps to F3-F6, F9)
 3. Rankings computed from tournament finish data (maps to F1)
@@ -106,22 +107,22 @@ All 5 stories are traceable to requirements.md functional requirements. **PASS.*
 
 ### Core Requirements Traceability
 
-| Requirement (from requirements.md) | Spec Section | Covered? |
-|-------------------------------------|-------------|----------|
-| F1: Pairwise W/L derivation from tournament finishes | F1 | Yes |
-| F2: Match record support (fallback) | F2 | Yes |
-| F3: Colley Matrix algorithm (algo1) | F3 | Yes |
-| F4: Elo variants (algo2-algo5) | F4 | Yes |
-| F5: AggRating computation | F5 | Yes |
-| F6: AggRank computation | F6 | Yes |
-| F7: Ranking run orchestration | F7 | Yes |
-| F8: API endpoint | F8 | Yes |
-| F9: Minimal UI | F9 | Yes |
-| NF1: Performance (5 seconds for 73 teams, 60 tournaments) | NF1 | Yes |
-| NF2: Determinism (identical input -> identical output) | NF2 | Yes |
-| NF3: Type safety (no `any` in ranking module) | NF3 | Yes |
-| NF4: Testability (pure algorithm functions) | NF4 | Yes |
-| NF5: Numerical precision (6 significant digits internally) | NF5 | Yes |
+| Requirement (from requirements.md)                         | Spec Section | Covered? |
+| ---------------------------------------------------------- | ------------ | -------- |
+| F1: Pairwise W/L derivation from tournament finishes       | F1           | Yes      |
+| F2: Match record support (fallback)                        | F2           | Yes      |
+| F3: Colley Matrix algorithm (algo1)                        | F3           | Yes      |
+| F4: Elo variants (algo2-algo5)                             | F4           | Yes      |
+| F5: AggRating computation                                  | F5           | Yes      |
+| F6: AggRank computation                                    | F6           | Yes      |
+| F7: Ranking run orchestration                              | F7           | Yes      |
+| F8: API endpoint                                           | F8           | Yes      |
+| F9: Minimal UI                                             | F9           | Yes      |
+| NF1: Performance (5 seconds for 73 teams, 60 tournaments)  | NF1          | Yes      |
+| NF2: Determinism (identical input -> identical output)     | NF2          | Yes      |
+| NF3: Type safety (no `any` in ranking module)              | NF3          | Yes      |
+| NF4: Testability (pure algorithm functions)                | NF4          | Yes      |
+| NF5: Numerical precision (6 significant digits internally) | NF5          | Yes      |
 
 **All functional and non-functional requirements are covered in the spec.**
 
@@ -152,6 +153,7 @@ Spec F2 states: "When records exist in the `matches` table for tournaments in th
 ### Success Criteria Alignment
 
 The spec defines 10 success criteria (SC1-SC10), all of which trace to specific functional or non-functional requirements. Notable:
+
 - SC1 (Colley correctness) -> F3 + NF2
 - SC2 (Elo correctness) -> F4 + NF2
 - SC3 (Pairwise derivation accuracy) -> F1
@@ -173,36 +175,37 @@ All 10 criteria are well-defined and testable. The 10-second target in SC9 is mo
 
 ### Test Count Limits (2-8 per implementation group, max 10 for testing-engineer)
 
-| Group | Implementer | Sub-tasks | Tests Written | Within Limit? |
-|-------|------------|-----------|--------------|---------------|
-| Group 1 (Algorithm Implementations) | database-engineer | 10 (1.1-1.10) | 16 (4 tests x 4 test files: derive-wins-losses, colley, elo, normalize) | PASS -- 4 per file, all within 2-8 |
-| Group 2 (Service Layer & API) | api-engineer | 4 (2.1-2.4) | 5 (ranking-service.test.ts) | PASS -- 5 within 2-8 |
-| Group 3 (Frontend UI) | ui-designer | 4 (3.1-3.4; 3.3 inline in 3.2) | 3 (ranking-ui.test.ts) | PASS -- 3 within 2-8 |
-| Group 4 (Test Review & Gap Analysis) | testing-engineer | 6 (4.1-4.6) | Up to 10 (determinism:2, precision:2, integration:2, edge-cases:4) | PASS -- exactly 10, at the limit |
+| Group                                | Implementer       | Sub-tasks                      | Tests Written                                                           | Within Limit?                      |
+| ------------------------------------ | ----------------- | ------------------------------ | ----------------------------------------------------------------------- | ---------------------------------- |
+| Group 1 (Algorithm Implementations)  | database-engineer | 10 (1.1-1.10)                  | 16 (4 tests x 4 test files: derive-wins-losses, colley, elo, normalize) | PASS -- 4 per file, all within 2-8 |
+| Group 2 (Service Layer & API)        | api-engineer      | 4 (2.1-2.4)                    | 5 (ranking-service.test.ts)                                             | PASS -- 5 within 2-8               |
+| Group 3 (Frontend UI)                | ui-designer       | 4 (3.1-3.4; 3.3 inline in 3.2) | 3 (ranking-ui.test.ts)                                                  | PASS -- 3 within 2-8               |
+| Group 4 (Test Review & Gap Analysis) | testing-engineer  | 6 (4.1-4.6)                    | Up to 10 (determinism:2, precision:2, integration:2, edge-cases:4)      | PASS -- exactly 10, at the limit   |
 
 **Total tests: 24 (Groups 1-3) + up to 10 (Group 4) = up to 34. Within bounds.**
 
 ### Reusability References in Tasks
 
-| Reusable Asset | Location | Referenced In Tasks? | Where? |
-|---------------|----------|---------------------|--------|
-| `rankingRunInsertSchema` | `src/lib/schemas/ranking-run.ts` | Yes | Task 2.1 (validate ranking run record before insert); Summary table |
-| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts` | Yes | Task 2.1 (validate each result row before batch insert); Summary table |
-| `tournamentResultSchema` | `src/lib/schemas/tournament-result.ts` | Yes | Summary table (type reference for reading tournament results) |
-| `matchSchema` | `src/lib/schemas/match.ts` | Yes | Summary table (type reference for reading match records) |
-| `AgeGroup` enum | `src/lib/schemas/enums.ts` | Yes | Task 2.2 (validate age_group), Task 3.2 (populate UI selector); Summary table |
-| `Database` types | `src/lib/types/database.types.ts` | Yes | Task 2.1 (`SupabaseClient<Database>` typing); Summary table |
-| `supabaseServer` | `src/lib/supabase-server.ts` | Yes | Task 2.2 (instantiate RankingService); Summary table |
-| `ImportService` pattern | `src/lib/import/import-service.ts` | Yes | Task 2.1 (class pattern with Supabase constructor injection); Summary table |
-| Import page pattern | `src/routes/import/+page.svelte` | Yes | Task 3.2 (Svelte 5 runes pattern reference); Summary table |
-| Upload API pattern | `src/routes/api/import/upload/+server.ts` | Yes | Task 2.2 (POST handler pattern); Summary table |
-| `ml-matrix` | installed dependency | Yes | Task 1.3 (LU decomposition for Colley); Summary table |
+| Reusable Asset              | Location                                  | Referenced In Tasks? | Where?                                                                        |
+| --------------------------- | ----------------------------------------- | -------------------- | ----------------------------------------------------------------------------- |
+| `rankingRunInsertSchema`    | `src/lib/schemas/ranking-run.ts`          | Yes                  | Task 2.1 (validate ranking run record before insert); Summary table           |
+| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts`       | Yes                  | Task 2.1 (validate each result row before batch insert); Summary table        |
+| `tournamentResultSchema`    | `src/lib/schemas/tournament-result.ts`    | Yes                  | Summary table (type reference for reading tournament results)                 |
+| `matchSchema`               | `src/lib/schemas/match.ts`                | Yes                  | Summary table (type reference for reading match records)                      |
+| `AgeGroup` enum             | `src/lib/schemas/enums.ts`                | Yes                  | Task 2.2 (validate age_group), Task 3.2 (populate UI selector); Summary table |
+| `Database` types            | `src/lib/types/database.types.ts`         | Yes                  | Task 2.1 (`SupabaseClient<Database>` typing); Summary table                   |
+| `supabaseServer`            | `src/lib/supabase-server.ts`              | Yes                  | Task 2.2 (instantiate RankingService); Summary table                          |
+| `ImportService` pattern     | `src/lib/import/import-service.ts`        | Yes                  | Task 2.1 (class pattern with Supabase constructor injection); Summary table   |
+| Import page pattern         | `src/routes/import/+page.svelte`          | Yes                  | Task 3.2 (Svelte 5 runes pattern reference); Summary table                    |
+| Upload API pattern          | `src/routes/api/import/upload/+server.ts` | Yes                  | Task 2.2 (POST handler pattern); Summary table                                |
+| `ml-matrix`                 | installed dependency                      | Yes                  | Task 1.3 (LU decomposition for Colley); Summary table                         |
 
 **PASS** -- All reusable assets are referenced with specific file paths and usage context. No reuse opportunities missed.
 
 ### Task Specificity
 
 Each sub-task includes:
+
 - A specific file path to create (exact location, no ambiguity)
 - Detailed implementation instructions (function signatures, algorithm steps, data shapes)
 - Clear input/output contracts (TypeScript types, method signatures, return types)
@@ -214,22 +217,22 @@ Each sub-task includes:
 
 ### Traceability (Tasks -> Spec Requirements)
 
-| Spec Requirement | Task(s) |
-|-----------------|---------|
-| F1: Pairwise W/L derivation from finishes | 1.2 (deriveWinsLossesFromFinishes), 1.7 (tests) |
-| F2: Match record support | 1.2 (deriveWinsLossesFromMatches), 2.1 (match check in service) |
-| F3: Colley Matrix algorithm | 1.3 (computeColleyRatings), 1.8 (tests) |
-| F4: Elo variant algorithms | 1.4 (computeEloRatings), 1.9 (tests) |
-| F5: AggRating computation | 1.5 (normalizeAndAggregate), 1.10 (tests) |
-| F6: AggRank computation | 1.5 (normalizeAndAggregate -- includes agg_rank) |
-| F7: Ranking run orchestration | 2.1 (RankingService.runRanking) |
-| F8: API endpoint | 2.2 (POST /api/ranking/run) |
-| F9: Minimal UI | 3.1 (RankingResultsTable), 3.2 (+page.svelte), 3.3 (results fetch), 2.3 (+page.server.ts) |
-| NF1: Performance | 4.5 test 8 (73 teams, 60 tournaments, under 5 seconds) |
-| NF2: Determinism | 4.2 (determinism.test.ts -- 2 tests) |
-| NF3: Type safety | 1.1 (types.ts -- no `any`), acceptance criteria Group 1 |
-| NF4: Testability | 1.2-1.5 (all pure functions), 2.4 (mocked Supabase) |
-| NF5: Numerical precision | 4.3 (precision.test.ts -- Colley sum invariant, Elo extreme gap) |
+| Spec Requirement                          | Task(s)                                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| F1: Pairwise W/L derivation from finishes | 1.2 (deriveWinsLossesFromFinishes), 1.7 (tests)                                           |
+| F2: Match record support                  | 1.2 (deriveWinsLossesFromMatches), 2.1 (match check in service)                           |
+| F3: Colley Matrix algorithm               | 1.3 (computeColleyRatings), 1.8 (tests)                                                   |
+| F4: Elo variant algorithms                | 1.4 (computeEloRatings), 1.9 (tests)                                                      |
+| F5: AggRating computation                 | 1.5 (normalizeAndAggregate), 1.10 (tests)                                                 |
+| F6: AggRank computation                   | 1.5 (normalizeAndAggregate -- includes agg_rank)                                          |
+| F7: Ranking run orchestration             | 2.1 (RankingService.runRanking)                                                           |
+| F8: API endpoint                          | 2.2 (POST /api/ranking/run)                                                               |
+| F9: Minimal UI                            | 3.1 (RankingResultsTable), 3.2 (+page.svelte), 3.3 (results fetch), 2.3 (+page.server.ts) |
+| NF1: Performance                          | 4.5 test 8 (73 teams, 60 tournaments, under 5 seconds)                                    |
+| NF2: Determinism                          | 4.2 (determinism.test.ts -- 2 tests)                                                      |
+| NF3: Type safety                          | 1.1 (types.ts -- no `any`), acceptance criteria Group 1                                   |
+| NF4: Testability                          | 1.2-1.5 (all pure functions), 2.4 (mocked Supabase)                                       |
+| NF5: Numerical precision                  | 4.3 (precision.test.ts -- Colley sum invariant, Elo extreme gap)                          |
 
 **All spec requirements have at least one corresponding task. No orphaned requirements.**
 
@@ -246,12 +249,12 @@ Each sub-task includes:
 
 ### Task Count Per Group
 
-| Group | Sub-tasks | Reasonable? |
-|-------|-----------|-------------|
+| Group   | Sub-tasks     | Reasonable?                                                                                      |
+| ------- | ------------- | ------------------------------------------------------------------------------------------------ |
 | Group 1 | 10 (1.1-1.10) | Yes -- 1 types, 1 derivation module, 1 Colley, 1 Elo, 1 normalize, 1 barrel export, 4 test files |
-| Group 2 | 4 (2.1-2.4) | Yes -- 1 service, 1 API endpoint, 1 page server load, 1 test file |
-| Group 3 | 4 (3.1-3.4) | Yes -- 1 table component, 1 page, 1 results fetch (inline in 3.2 but called out), 1 test file |
-| Group 4 | 6 (4.1-4.6) | Yes -- 1 audit, 4 gap-filling test files, 1 full suite run |
+| Group 2 | 4 (2.1-2.4)   | Yes -- 1 service, 1 API endpoint, 1 page server load, 1 test file                                |
+| Group 3 | 4 (3.1-3.4)   | Yes -- 1 table component, 1 page, 1 results fetch (inline in 3.2 but called out), 1 test file    |
+| Group 4 | 6 (4.1-4.6)   | Yes -- 1 audit, 4 gap-filling test files, 1 full suite run                                       |
 
 **Total: 24 sub-tasks.** Appropriate for a standard-depth squad execution with a well-scoped mathematical feature.
 
@@ -263,19 +266,19 @@ Each sub-task includes:
 
 ### New Components Review
 
-| New Component | Location | Justified? | Rationale |
-|--------------|----------|-----------|-----------|
-| `types.ts` | `src/lib/ranking/types.ts` | Yes | Shared type definitions for the entire ranking module. No equivalent exists. |
-| `derive-wins-losses.ts` | `src/lib/ranking/derive-wins-losses.ts` | Yes | Core feature requirement (F1, F2). Pure function, testable in isolation. |
-| `colley.ts` | `src/lib/ranking/colley.ts` | Yes | Core algorithm requirement (F3). Pure function. |
-| `elo.ts` | `src/lib/ranking/elo.ts` | Yes | Core algorithm requirement (F4). Pure function. |
-| `normalize.ts` | `src/lib/ranking/normalize.ts` | Yes | Core aggregation requirement (F5, F6). Pure function. Separation from algorithms is good for testability. |
-| `index.ts` | `src/lib/ranking/index.ts` | Yes | Barrel export following established project pattern (per specchain/STATE.md patterns). |
-| `ranking-service.ts` | `src/lib/ranking/ranking-service.ts` | Yes | Required orchestrator isolating DB access from pure algorithm functions (NF4). Follows ImportService pattern. |
-| `+server.ts` (API) | `src/routes/api/ranking/run/+server.ts` | Yes | Required API endpoint (F8). Follows existing upload API pattern. |
-| `+page.server.ts` | `src/routes/ranking/+page.server.ts` | Yes | Required server-side load function for seasons dropdown. Follows established pattern. |
-| `RankingResultsTable.svelte` | `src/lib/components/RankingResultsTable.svelte` | Yes | Reusable table component for results display. Separated from the page for testability. |
-| `+page.svelte` | `src/routes/ranking/+page.svelte` | Yes | Required UI page (F9). |
+| New Component                | Location                                        | Justified? | Rationale                                                                                                     |
+| ---------------------------- | ----------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `types.ts`                   | `src/lib/ranking/types.ts`                      | Yes        | Shared type definitions for the entire ranking module. No equivalent exists.                                  |
+| `derive-wins-losses.ts`      | `src/lib/ranking/derive-wins-losses.ts`         | Yes        | Core feature requirement (F1, F2). Pure function, testable in isolation.                                      |
+| `colley.ts`                  | `src/lib/ranking/colley.ts`                     | Yes        | Core algorithm requirement (F3). Pure function.                                                               |
+| `elo.ts`                     | `src/lib/ranking/elo.ts`                        | Yes        | Core algorithm requirement (F4). Pure function.                                                               |
+| `normalize.ts`               | `src/lib/ranking/normalize.ts`                  | Yes        | Core aggregation requirement (F5, F6). Pure function. Separation from algorithms is good for testability.     |
+| `index.ts`                   | `src/lib/ranking/index.ts`                      | Yes        | Barrel export following established project pattern (per specchain/STATE.md patterns).                        |
+| `ranking-service.ts`         | `src/lib/ranking/ranking-service.ts`            | Yes        | Required orchestrator isolating DB access from pure algorithm functions (NF4). Follows ImportService pattern. |
+| `+server.ts` (API)           | `src/routes/api/ranking/run/+server.ts`         | Yes        | Required API endpoint (F8). Follows existing upload API pattern.                                              |
+| `+page.server.ts`            | `src/routes/ranking/+page.server.ts`            | Yes        | Required server-side load function for seasons dropdown. Follows established pattern.                         |
+| `RankingResultsTable.svelte` | `src/lib/components/RankingResultsTable.svelte` | Yes        | Reusable table component for results display. Separated from the page for testability.                        |
+| `+page.svelte`               | `src/routes/ranking/+page.svelte`               | Yes        | Required UI page (F9).                                                                                        |
 
 **No unnecessary new components identified.** All 11 new files serve a distinct and justified purpose.
 
@@ -355,6 +358,7 @@ The tasks.md structure is superior: combining all algorithms into one group is m
 ## Over-Engineering Concerns
 
 **None.** The architecture is appropriately scoped:
+
 - Parameterized Elo function eliminates per-variant duplication without introducing abstraction overhead.
 - Pure algorithm functions (no DB dependencies) satisfy NF4 without a complex dependency injection framework.
 - Svelte 5 runes handle UI state without an external state management library.

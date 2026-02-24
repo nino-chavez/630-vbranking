@@ -1,6 +1,7 @@
 # ADR-003: Two-Phase Import with Identity Resolution
 
 ## Status
+
 Accepted
 
 ## Context
@@ -53,12 +54,14 @@ The import pipeline operates in two phases, each backed by a separate API endpoi
 ## Consequences
 
 **Easier:**
+
 - No silent data corruption. Every entity mapping is either auto-resolved (exact match) or user-resolved (conflict UI) before data reaches the database.
 - The `FinishesParser` adaptively detects tournament columns by scanning for `Div/Fin/Tot` triplet patterns in Row 2, making it resilient to varying numbers of tournaments across spreadsheets.
 - The replace mode uses atomic PostgreSQL RPC functions, ensuring no partial imports on failure.
 - New import formats can be added by implementing `FileParserInterface<T>` and registering in the parser factory.
 
 **More difficult:**
+
 - Two-step workflow increases user interaction time (upload, review, resolve, confirm).
 - The merge mode uses row-by-row SELECT + INSERT/UPDATE queries, creating an N+1 query pattern that degrades performance for large imports.
 - The fuzzy matching threshold (0.3 similarity score) and suggestion limit (top 3) are hardcoded. Tuning requires code changes.

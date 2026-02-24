@@ -1,9 +1,9 @@
 task_assignments:
-  - task_group: "Task Group 1: Database Migrations"
-    assigned_subagent: "database-engineer"
+  - task_group: 'Task Group 1: Database Migrations'
+    assigned_subagent: 'database-engineer'
 
-  - task_group: "Task Group 2: TypeScript Types & Zod Schemas"
-    assigned_subagent: "api-engineer"
+  - task_group: 'Task Group 2: TypeScript Types & Zod Schemas'
+    assigned_subagent: 'api-engineer'
 
-  - task_group: "Task Group 3: Test Review & Gap Analysis"
-    assigned_subagent: "testing-engineer"
+  - task_group: 'Task Group 3: Test Review & Gap Analysis'
+    assigned_subagent: 'testing-engineer'

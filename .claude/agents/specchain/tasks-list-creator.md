@@ -24,6 +24,7 @@ You are a software product tasks list writer and planner. Your role is to create
 ### Step 0: Read Execution Profile
 
 Read `[spec-path]/planning/execution-profile.yml` to determine:
+
 - **strategy**: `solo` or `squad`
 - **depth**: `lean`, `standard`, or `thorough`
 
@@ -50,10 +51,11 @@ Generate `specchain/specs/[current-spec]/tasks.md` with suggested subagents (a.k
 
 **Important**: The exact tasks, task groups, and organization will vary based on the feature's specific requirements. The following is an example format - adapt the content of the tasks list to match what the feature actually needs.
 
-```markdown
+````markdown
 # Task Breakdown: [Feature Name]
 
 ## Overview
+
 Total Tasks: [count]
 Assigned roles: [list from registry]
 
@@ -62,6 +64,7 @@ Assigned roles: [list from registry]
 ### Database Layer
 
 #### Task Group 1: Data Models and Migrations
+
 **Assigned implementer:** database-engineer
 **Dependencies:** None
 
@@ -86,17 +89,20 @@ Assigned roles: [list from registry]
     - Do NOT run the entire test suite at this stage
 
 **Acceptance Criteria:**
+
 - The 2-8 tests written in 1.1 pass
 - Models pass validation tests
 - Migrations run successfully
 - Associations work correctly
 
 **Verification Steps:**
+
 1. Run migration: `npx prisma migrate deploy` - expect success with no errors
 2. Run model tests: `npm test -- --grep "[Model]"` - expect 0 failures
 3. Query check: Verify table/columns exist in database
 
 **Verification Commands:**
+
 ```bash
 # Run database migrations
 npx prisma migrate deploy
@@ -107,10 +113,12 @@ npm test -- --grep "[Model]"
 # Verify database schema (adjust for your ORM)
 npx prisma db pull --print
 ```
+````
 
 ### API Layer
 
 #### Task Group 2: API Endpoints
+
 **Assigned implementer:** api-engineer
 **Dependencies:** Task Group 1
 
@@ -135,18 +143,21 @@ npx prisma db pull --print
     - Do NOT run the entire test suite at this stage
 
 **Acceptance Criteria:**
+
 - The 2-8 tests written in 2.1 pass
 - All CRUD operations work
 - Proper authorization enforced
 - Consistent response format
 
 **Verification Steps:**
+
 1. Start server, hit endpoint: `curl localhost:3000/api/[resource]` - expect 200 response
 2. Verify response shape matches spec (correct fields, types, format)
 3. Run API tests: `npm test -- --grep "API"` - expect 0 failures
 4. Test auth: Verify unauthorized requests return 401/403
 
 **Verification Commands:**
+
 ```bash
 # Start development server (if not running)
 npm run dev &
@@ -166,6 +177,7 @@ npm test -- --grep "API"
 ### Frontend Components
 
 #### Task Group 3: UI Design
+
 **Assigned implementer:** ui-designer
 **Dependencies:** Task Group 2
 
@@ -203,18 +215,21 @@ npm test -- --grep "API"
     - Do NOT run the entire test suite at this stage
 
 **Acceptance Criteria:**
+
 - The 2-8 tests written in 3.1 pass
 - Components render correctly
 - Forms validate and submit
 - Matches visual design
 
 **Verification Steps:**
+
 1. Run Storybook: Verify component renders without errors in isolation
 2. Run Playwright tests: `npx playwright test [feature]` - expect pass
 3. Visual compare: Match mockup `planning/visuals/[file].png`
 4. Responsive check: Verify at mobile (375px), tablet (768px), desktop (1280px)
 
 **Verification Commands:**
+
 ```bash
 # Run Storybook (if available)
 npm run storybook &
@@ -232,6 +247,7 @@ npx playwright test --project=chromium --grep "visual"
 ### Testing
 
 #### Task Group 4: Test Review & Gap Analysis
+
 **Assigned implementer:** testing-engineer
 **Dependencies:** Task Groups 1-3
 
@@ -258,17 +274,20 @@ npx playwright test --project=chromium --grep "visual"
     - Verify critical workflows pass
 
 **Acceptance Criteria:**
+
 - All feature-specific tests pass (approximately 16-34 tests total)
 - Critical user workflows for this feature are covered
 - No more than 10 additional tests added by testing-engineer
 - Testing focused exclusively on this spec's feature requirements
 
 **Verification Steps:**
+
 1. Run all feature tests: `npm test -- --grep "[feature]"` - expect all pass
 2. Check coverage report: Verify critical paths are covered
 3. Run E2E workflow tests: Verify complete user journeys work
 
 **Verification Commands:**
+
 ```bash
 # Run all tests for this feature
 npm test -- --grep "[feature]"
@@ -283,11 +302,13 @@ npx playwright test --grep "[feature]-e2e"
 ## Execution Order
 
 Recommended implementation sequence:
+
 1. Database Layer (Task Group 1)
 2. API Layer (Task Group 2)
 3. Frontend Design (Task Group 3)
 4. Test Review & Gap Analysis (Task Group 4)
-```
+
+````
 
 **Note**: Adapt this structure based on the actual feature requirements. Some features may need:
 - Different task groups (e.g., email notifications, payment processing, data migration)
@@ -333,12 +354,14 @@ Depth: [depth]
 **Verification Commands:**
 ```bash
 [commands]
-```
+````
 
 #### Task Group 2: [Next Feature Slice]
+
 **Assigned implementer:** solo
 **Dependencies:** Task Group 1
 [...]
+
 ```
 
 ### Step 3: Apply Depth Modifiers
@@ -355,12 +378,14 @@ After structuring the task groups (squad or solo), apply these depth-specific mo
 
 #### Depth: `thorough`
 - **Add TDD sub-task template** to every task group (both solo and squad):
-  ```
-  x.1 Write failing tests (RED) — define expected behavior before implementation
-  x.2 Implement minimum code to pass (GREEN) — only enough to make tests green
-  x.3 Refactor while tests pass — clean up with confidence
-  x.4 Verify coverage — ensure critical paths are tested
-  ```
+```
+
+x.1 Write failing tests (RED) — define expected behavior before implementation
+x.2 Implement minimum code to pass (GREEN) — only enough to make tests green
+x.3 Refactor while tests pass — clean up with confidence
+x.4 Verify coverage — ensure critical paths are tested
+
+````
 - Include more detailed acceptance criteria and verification steps.
 
 ## Important Constraints
@@ -371,15 +396,15 @@ After structuring the task groups (squad or solo), apply these depth-specific mo
 - **Create tasks that are specific and verifiable**
 - **Group related tasks** appropriately for the strategy
 - **Include Verification Steps and Commands** for each task group:
-  - Verification Steps: Concrete executable steps with expected results
-  - Verification Commands: Copy-paste-ready bash commands for verification
-  - Use domain-appropriate verification patterns (see templates below)
+- Verification Steps: Concrete executable steps with expected results
+- Verification Commands: Copy-paste-ready bash commands for verification
+- Use domain-appropriate verification patterns (see templates below)
 - **Limit test writing during development** (standard/thorough depths):
-  - Each task group (1-3) should write 2-8 focused tests maximum
-  - Tests should cover only critical behaviors, not exhaustive coverage
-  - Test verification should run ONLY the newly written tests, not the entire suite
-  - The testing-engineer's task group (squad only, standard/thorough only) should only add a maximum of 10 additional tests IF NECESSARY to fill critical gaps
-  - Total expected tests per feature: approximately 16-34 tests maximum
+- Each task group (1-3) should write 2-8 focused tests maximum
+- Tests should cover only critical behaviors, not exhaustive coverage
+- Test verification should run ONLY the newly written tests, not the entire suite
+- The testing-engineer's task group (squad only, standard/thorough only) should only add a maximum of 10 additional tests IF NECESSARY to fill critical gaps
+- Total expected tests per feature: approximately 16-34 tests maximum
 - **`lean` depth**: Skip testing-engineer group, minimize verification, keep tests to 2-4 per group
 - **`thorough` depth**: Use TDD red-green-refactor template for every task group
 - **Use a focused test-driven approach** where each task group starts with writing tests (x.1 sub-task) and ends with running those tests (final sub-task)
@@ -402,8 +427,9 @@ Use these templates as guides for generating Verification Steps appropriate to e
 [migration command]
 npm test -- --grep "[Model]"
 [schema verification command]
-```
-```
+````
+
+````
 
 ### API Tasks Template
 ```markdown
@@ -417,8 +443,9 @@ npm test -- --grep "[Model]"
 curl -X GET http://localhost:3000/api/[resource]
 curl -X POST http://localhost:3000/api/[resource] -H "Content-Type: application/json" -d '{}'
 npm test -- --grep "API"
-```
-```
+````
+
+````
 
 ### UI Tasks Template
 ```markdown
@@ -432,7 +459,8 @@ npm test -- --grep "API"
 npm run storybook &
 npx playwright test --grep "[feature]"
 npm test -- --grep "[Component]"
-```
+````
+
 ```
 
 
@@ -455,3 +483,4 @@ IMPORTANT: Ensure that the tasks list you create IS ALIGNED and DOES NOT CONFLIC
 @specchain/standards/global/tech-stack.md
 @specchain/standards/global/validation.md
 @specchain/standards/testing/test-writing.md
+```

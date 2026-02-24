@@ -20,15 +20,15 @@ This guide explains how to compute team rankings, understand the results table, 
 
 **What you should see:** The button changes to "Running..." with a spinner animation. The system performs the following steps behind the scenes:
 
-   - Fetches all teams for the selected age group
-   - Fetches all tournament results for the selected season
-   - Loads tournament weights (if any custom weights have been set)
-   - Derives win/loss records from tournament finishes
-   - Runs the Colley Matrix algorithm (Algorithm 1)
-   - Runs four Elo rating variants (Algorithms 2-5) with starting ratings of 2200, 2400, 2500, and 2700
-   - Normalizes all five sets of ratings to a 0-100 scale
-   - Computes the aggregate rating (average of the five normalized scores)
-   - Assigns aggregate ranks and saves results
+- Fetches all teams for the selected age group
+- Fetches all tournament results for the selected season
+- Loads tournament weights (if any custom weights have been set)
+- Derives win/loss records from tournament finishes
+- Runs the Colley Matrix algorithm (Algorithm 1)
+- Runs four Elo rating variants (Algorithms 2-5) with starting ratings of 2200, 2400, 2500, and 2700
+- Normalizes all five sets of ratings to a 0-100 scale
+- Computes the aggregate rating (average of the five normalized scores)
+- Assigns aggregate ranks and saves results
 
 2. When the computation finishes, a green success banner appears and the results table loads automatically.
 
@@ -42,20 +42,20 @@ The results table displays all ranked teams with their scores from each algorith
 
 ### Table Columns
 
-| Column | Description |
-|---|---|
-| **Rank** (or **Final Seed** / **Algo Rank** if overrides exist) | The team's position. 1 is best. |
-| **Team Name** | The team name. Click it to view the team detail page. |
-| **W%** | Win percentage across all tournaments (shown when seeding data is available). |
-| **Natl. Finish** | Best finish at a Tier-1 (National Championship) tournament (shown when seeding data is available). |
-| **Colley Rating** | The Colley Matrix algorithm score (raw, not normalized). |
-| **Colley Rank** | The team's rank according to the Colley algorithm alone. |
-| **Elo-2200 Rating / Rank** | Score and rank from the Elo variant starting at 2200. |
-| **Elo-2400 Rating / Rank** | Score and rank from the Elo variant starting at 2400. |
-| **Elo-2500 Rating / Rank** | Score and rank from the Elo variant starting at 2500. |
-| **Elo-2700 Rating / Rank** | Score and rank from the Elo variant starting at 2700. |
-| **AggRating** | The aggregate rating: the arithmetic mean of all five normalized (0-100) scores. |
-| **Override** | An "Adjust" button for applying committee overrides (see the [Overrides Guide](overrides-and-finalization.md)). |
+| Column                                                          | Description                                                                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Rank** (or **Final Seed** / **Algo Rank** if overrides exist) | The team's position. 1 is best.                                                                                 |
+| **Team Name**                                                   | The team name. Click it to view the team detail page.                                                           |
+| **W%**                                                          | Win percentage across all tournaments (shown when seeding data is available).                                   |
+| **Natl. Finish**                                                | Best finish at a Tier-1 (National Championship) tournament (shown when seeding data is available).              |
+| **Colley Rating**                                               | The Colley Matrix algorithm score (raw, not normalized).                                                        |
+| **Colley Rank**                                                 | The team's rank according to the Colley algorithm alone.                                                        |
+| **Elo-2200 Rating / Rank**                                      | Score and rank from the Elo variant starting at 2200.                                                           |
+| **Elo-2400 Rating / Rank**                                      | Score and rank from the Elo variant starting at 2400.                                                           |
+| **Elo-2500 Rating / Rank**                                      | Score and rank from the Elo variant starting at 2500.                                                           |
+| **Elo-2700 Rating / Rank**                                      | Score and rank from the Elo variant starting at 2700.                                                           |
+| **AggRating**                                                   | The aggregate rating: the arithmetic mean of all five normalized (0-100) scores.                                |
+| **Override**                                                    | An "Adjust" button for applying committee overrides (see the [Overrides Guide](overrides-and-finalization.md)). |
 
 On smaller screens, the individual algorithm columns are hidden. Only the Rank, Team Name, AggRating, and Override columns remain visible.
 
@@ -79,6 +79,7 @@ When filters are active, a message above the table reads: "Showing X of Y teams.
 ### Tier Highlighting
 
 Rows in the results table are color-coded by tier:
+
 - Top-ranked teams are highlighted to visually distinguish performance tiers at a glance.
 
 ---
@@ -90,6 +91,7 @@ Click a team name in the results table to view their detail page. The team detai
 ### Ranking Summary Card
 
 Displays four key metrics:
+
 - **Aggregate Rank** -- The team's position in the overall ranking
 - **Aggregate Rating** -- The numerical aggregate score
 - **Overall Record** -- Total wins and losses (e.g., "12W - 3L")
@@ -98,6 +100,7 @@ Displays four key metrics:
 ### Committee Adjustment Card (if applicable)
 
 If an override has been applied to this team, a card shows:
+
 - The algorithmic rank (before override)
 - The final seed (after override)
 - The justification provided by the committee member
@@ -106,6 +109,7 @@ If an override has been applied to this team, a card shows:
 ### Algorithm Breakdown Card
 
 Five cards showing each algorithm's individual score and rank:
+
 - Colley Matrix
 - Elo-2200
 - Elo-2400
@@ -115,6 +119,7 @@ Five cards showing each algorithm's individual score and rank:
 ### Tournament History Table
 
 A table listing every tournament the team participated in during the season:
+
 - Tournament name
 - Date
 - Division
@@ -124,6 +129,7 @@ A table listing every tournament the team participated in during the season:
 ### Head-to-Head Records Table
 
 If individual match data has been imported, a table showing the team's record against each opponent:
+
 - Opponent name
 - Wins against that opponent
 - Losses against that opponent
@@ -164,4 +170,4 @@ After viewing results, you can run another computation:
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

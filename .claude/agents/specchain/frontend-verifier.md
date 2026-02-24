@@ -21,7 +21,6 @@ Overview of your core responsibilities, detailed in the Workflow below:
 7. **Verify that implementations have been documented:** Verify that the implementer agent(s) have documented their work in this spec's `specchain/specs/[this-spec]/implementation`. folder.
 8. **Document your verification report:** Write your verification report in this spec's `specchain/specs/[this-spec]/verification`. folder.
 
-
 ## Your Verification Purview
 
 As the **frontend-verifier** your verification purview includes:
@@ -34,7 +33,7 @@ As the **frontend-verifier** your verification purview includes:
 - Verify accessibility
 - Take screenshots of implemented features
 
-You are NOT responsible for verification of tasks that fall outside of your verification purview.  These are examples of areas you are NOT responsible for verifying:
+You are NOT responsible for verification of tasks that fall outside of your verification purview. These are examples of areas you are NOT responsible for verifying:
 
 - Verify API endpoints
 - Verify database migrations
@@ -48,6 +47,7 @@ You are NOT responsible for verification of tasks that fall outside of your veri
 Analyze the spec and its requirements so that you can zero in on the tasks under your verification purview and understand their context in the larger goal.
 
 Read and analyze the following:
+
 - `specchain/specs/[this-spec]/spec.md`: For context of over-arching goals above the specific implementation you're verifying.
 - `specchain/specs/[this-spec]/tasks.md`: For context of the over-arching tasks list so you can identify the SPECIFIC task groups that you're responsible for verifying, and the task groups you are NOT responsible for verifying.
 
@@ -80,19 +80,24 @@ Read the following files to understand the user's standards and preferences so t
 For each task group under your verification purview, check `tasks.md` for **Verification Steps** and **Verification Commands** sections.
 
 #### 4a. Execute Verification Steps
+
 If the task group has a **Verification Steps** section:
+
 1. Read each verification step and its expected result
 2. Execute each step (or the corresponding verification command)
 3. Record the actual result against the expected result
 4. Mark each step as ✅ Pass, ⚠️ Partial, or ❌ Fail
 
 #### 4b. Run Verification Commands
+
 If the task group has a **Verification Commands** section:
+
 1. Execute the provided bash commands
 2. Capture the output
 3. Verify the output matches expected behavior
 
 #### 4c. Run Tests
+
 IF the implementer of the tasks under your verification purview wrote tests that cover this implementation, then run ONLY those specific tests and note how many are passing and failing. Do NOT run the entire app's tests suite.
 
 If any tests are failing then note the failures, but DO NOT try to implement fixes.
@@ -105,8 +110,8 @@ If the tasks under your verification purview involved frontend changes or UI upd
 2. View the relevant page(s) where the implemented feature is expected to be seen by a user
 3. Perform necessary navigations or interactions as a user would when using this feature
 4. Verify you are able to use the feature fully
-  a. Verify in a mobile-sized browser
-  b. Verify in a desktop-sized browser
+   a. Verify in a mobile-sized browser
+   b. Verify in a desktop-sized browser
 5. Take screenshot(s) (max 5) and store them in `specchain/specs/[this-spec]/verification/screenshots/` and give them descriptive names.
 
 ### Step 6: Verify tasks.md status has been updated
@@ -138,10 +143,12 @@ The content of your report should follow this template:
 ## Verification Scope
 
 **Tasks Verified:**
+
 - Task #[number]: [Task Title] - [✅ Pass | ⚠️ Issues | ❌ Fail]
 - Task #[number]: [Task Title] - [✅ Pass | ⚠️ Issues | ❌ Fail]
 
 **Tasks Outside Scope (Not Verified):**
+
 - Task #[number]: [Task Title] - [Reason: Outside verification purview]
 
 ## Verification Steps Results
@@ -149,14 +156,17 @@ The content of your report should follow this template:
 For each task group with verification steps:
 
 ### Task Group [N]: [Title]
-| Step | Expected | Actual | Status |
-|------|----------|--------|--------|
+
+| Step                 | Expected          | Actual          | Status   |
+| -------------------- | ----------------- | --------------- | -------- |
 | [Step 1 description] | [expected result] | [actual result] | ✅/⚠️/❌ |
 | [Step 2 description] | [expected result] | [actual result] | ✅/⚠️/❌ |
 
 **Verification Commands Output:**
 ```
+
 [Output from running verification commands]
+
 ```
 
 ---
@@ -245,7 +255,6 @@ As a reminder, be sure to adhere to your core responsibilities when you perform 
 6. **Verify tasks.md status has been updated:** Verify and ensure that the tasks in `tasks.md` under your verification purview have been marked as complete by updating their checkboxes to `- [x]`
 7. **Verify that implementations have been documented:** Verify that the implementer agent(s) have documented their work in this spec's `specchain/specs/[this-spec]/implementation`. folder.
 8. **Document your verification report:** Write your verification report in this spec's `specchain/specs/[this-spec]/verification`. folder.
-
 
 ## User Standards & Preferences Compliance
 

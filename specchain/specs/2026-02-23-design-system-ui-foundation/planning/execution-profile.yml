@@ -16,39 +16,39 @@ execution:
 
 # Domain specialists for this feature
 domains:
-  - design_system    # Color, typography, spacing tokens
-  - components       # UI component patterns and primitives
-  - data_viz         # Ranking visual language (tiers, sparklines, indicators)
-  - layout           # Information architecture, grid, responsive breakpoints
+  - design_system # Color, typography, spacing tokens
+  - components # UI component patterns and primitives
+  - data_viz # Ranking visual language (tiers, sparklines, indicators)
+  - layout # Information architecture, grid, responsive breakpoints
 
 # Expected task groups for squad execution
 task_groups:
-  - name: "Design Tokens"
-    description: "Color palette (60-30-10), typography scale, spacing system"
+  - name: 'Design Tokens'
+    description: 'Color palette (60-30-10), typography scale, spacing system'
     agents:
       - design_system_engineer
-  - name: "Layout Primitives"
-    description: "Grid system, container widths, responsive breakpoints, page templates"
+  - name: 'Layout Primitives'
+    description: 'Grid system, container widths, responsive breakpoints, page templates'
     agents:
       - layout_engineer
       - design_system_engineer
-  - name: "Component Patterns"
-    description: "Buttons, inputs, cards, tables, modals, navigation"
+  - name: 'Component Patterns'
+    description: 'Buttons, inputs, cards, tables, modals, navigation'
     agents:
       - component_engineer
       - design_system_engineer
-  - name: "Ranking Visual Language"
-    description: "Color-coded tiers, sparklines, algorithm contribution indicators"
+  - name: 'Ranking Visual Language'
+    description: 'Color-coded tiers, sparklines, algorithm contribution indicators'
     agents:
       - data_viz_engineer
       - design_system_engineer
-  - name: "Information Architecture"
-    description: "Page layouts, navigation structure, content hierarchy"
+  - name: 'Information Architecture'
+    description: 'Page layouts, navigation structure, content hierarchy'
     agents:
       - layout_engineer
       - component_engineer
-  - name: "Verification & Documentation"
-    description: "Design token validation, accessibility checks, usage guidelines"
+  - name: 'Verification & Documentation'
+    description: 'Design token validation, accessibility checks, usage guidelines'
     agents:
       - testing_engineer
       - design_system_engineer

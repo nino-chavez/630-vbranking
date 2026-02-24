@@ -49,11 +49,11 @@ This project is algorithm-heavy (Colley Matrix requires solving a linear system;
 
 ## Key Libraries
 
-| Purpose | Library | Reason |
-|---|---|---|
-| Excel parsing | `xlsx` (SheetJS) | Industry standard for reading .xlsx files in JS/TS |
-| CSV parsing | `csv-parse` | Streaming CSV parser with TypeScript types |
-| Linear algebra | `ml-matrix` | Pure JS matrix operations, LU decomposition for Colley system |
-| Schema validation | `zod` | TypeScript-first validation with type inference |
-| Database client | `@supabase/supabase-js` | Official Supabase client with TypeScript types |
-| PDF export | `pdfkit` or `@react-pdf/renderer` | For generating ranking report PDFs (evaluate during implementation) |
+| Purpose           | Library                           | Reason                                                              |
+| ----------------- | --------------------------------- | ------------------------------------------------------------------- |
+| Excel parsing     | `xlsx` (SheetJS)                  | Industry standard for reading .xlsx files in JS/TS                  |
+| CSV parsing       | `csv-parse`                       | Streaming CSV parser with TypeScript types                          |
+| Linear algebra    | `ml-matrix`                       | Pure JS matrix operations, LU decomposition for Colley system       |
+| Schema validation | `zod`                             | TypeScript-first validation with type inference                     |
+| Database client   | `@supabase/supabase-js`           | Official Supabase client with TypeScript types                      |
+| PDF export        | `pdfkit` or `@react-pdf/renderer` | For generating ranking report PDFs (evaluate during implementation) |

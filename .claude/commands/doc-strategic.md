@@ -3,6 +3,7 @@
 Description: Performs technical debt analysis and generates strategic roadmap documentation including health assessment, risk identification, and remediation planning using a three-phase refinement pipeline.
 
 Arguments:
+
 - depth: (optional) "quick" for overview, "deep" for comprehensive analysis. Defaults to "deep".
 - focus: (optional) Specific area to analyze: "debt", "dependencies", "security", "performance".
 
@@ -15,19 +16,24 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: GENERATOR
-*Persona: CTO Advisor creating initial draft*
+
+_Persona: CTO Advisor creating initial draft_
+
 - Execute the Analysis Protocol below
 - Generate draft documentation for all output files
 
 ### PHASE 2: REFINER
-*Persona: Executive Communication Specialist*
+
+_Persona: Executive Communication Specialist_
+
 - Executive summary leads with overall assessment
 - Business impact quantified where possible
 - Clear prioritization (not everything is critical)
 - Recommendations are actionable with effort estimates
 
 ### PHASE 3: VALIDATOR
-*Persona: QA reviewing against voice standards (see docs/voice/strategic-voice.md)*
+
+_Persona: QA reviewing against voice standards (see docs/voice/strategic-voice.md)_
 
 **Anti-Patterns to Reject:**
 | Anti-Pattern | Example | Fix |
@@ -38,6 +44,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 | Missing business context | "We should upgrade to PostgreSQL 15" | Add why + business benefits + cost |
 
 **Red Flags (Return to Phase 2):**
+
 - [ ] No executive summary
 - [ ] Technical details without business context
 - [ ] All items marked as critical priority
@@ -64,11 +71,13 @@ find . -type d | awk -F/ 'NF > 6' | head -20
 ### Pass 2: Technical Debt Markers
 
 Search for explicit debt acknowledgments:
+
 ```bash
 grep -rn "TODO\|FIXME\|HACK\|XXX\|TEMP\|WORKAROUND" --include="*.ts" --include="*.js" --include="*.py" --include="*.go" | head -50
 ```
 
 Categorize findings:
+
 - **Intentional Shortcuts**: `TEMP`, `WORKAROUND`
 - **Known Bugs**: `FIXME`, `BUG`
 - **Improvement Ideas**: `TODO`, `ENHANCEMENT`
@@ -77,6 +86,7 @@ Categorize findings:
 ### Pass 3: Dependency Analysis
 
 Analyze dependencies for:
+
 - **Outdated packages** (check for major version drift)
 - **Deprecated packages** (abandoned, security warnings)
 - **Duplicate functionality** (multiple libs doing same thing)
@@ -85,6 +95,7 @@ Analyze dependencies for:
 ### Pass 4: Security Indicators
 
 Look for:
+
 - Hardcoded secrets patterns
 - SQL string concatenation
 - `eval()` or similar dangerous functions
@@ -94,6 +105,7 @@ Look for:
 ### Pass 5: Architecture Debt
 
 Identify:
+
 - Circular dependencies
 - God classes/modules (>500 lines)
 - Dead code (unused exports)
@@ -113,14 +125,14 @@ Identify:
 
 ### Overall Health Score: [X/10]
 
-| Dimension | Score | Status |
-|-----------|-------|--------|
-| Code Quality | [X/10] | [Green/Yellow/Red] |
-| Test Coverage | [X/10] | [Green/Yellow/Red] |
+| Dimension         | Score  | Status             |
+| ----------------- | ------ | ------------------ |
+| Code Quality      | [X/10] | [Green/Yellow/Red] |
+| Test Coverage     | [X/10] | [Green/Yellow/Red] |
 | Dependency Health | [X/10] | [Green/Yellow/Red] |
-| Security Posture | [X/10] | [Green/Yellow/Red] |
-| Documentation | [X/10] | [Green/Yellow/Red] |
-| Architecture | [X/10] | [Green/Yellow/Red] |
+| Security Posture  | [X/10] | [Green/Yellow/Red] |
+| Documentation     | [X/10] | [Green/Yellow/Red] |
+| Architecture      | [X/10] | [Green/Yellow/Red] |
 
 ### Key Findings
 
@@ -130,11 +142,11 @@ Identify:
 
 ### Recommended Actions
 
-| Priority | Action | Effort | Impact |
-|----------|--------|--------|--------|
+| Priority | Action   | Effort  | Impact         |
+| -------- | -------- | ------- | -------------- |
 | Critical | [Action] | [S/M/L] | [High/Med/Low] |
-| High | [Action] | [S/M/L] | [High/Med/Low] |
-| Medium | [Action] | [S/M/L] | [High/Med/Low] |
+| High     | [Action] | [S/M/L] | [High/Med/Low] |
+| Medium   | [Action] | [S/M/L] | [High/Med/Low] |
 
 ## Documentation Index
 
@@ -155,12 +167,12 @@ Identify:
 
 ### Legend
 
-| Severity | Impact | Interest Rate |
-|----------|--------|---------------|
-| Critical | Blocks major features or causes outages | Compounds weekly |
-| High | Slows development significantly | Compounds monthly |
-| Medium | Causes friction, code quality issues | Compounds quarterly |
-| Low | Minor inconveniences | Stable |
+| Severity | Impact                                  | Interest Rate       |
+| -------- | --------------------------------------- | ------------------- |
+| Critical | Blocks major features or causes outages | Compounds weekly    |
+| High     | Slows development significantly         | Compounds monthly   |
+| Medium   | Causes friction, code quality issues    | Compounds quarterly |
+| Low      | Minor inconveniences                    | Stable              |
 
 ## Debt Items
 
@@ -176,6 +188,7 @@ Identify:
 [What the debt is and how it manifests]
 
 **Impact:**
+
 - [How it affects development]
 - [Risk if not addressed]
 
@@ -192,6 +205,7 @@ Identify:
 ### High Debt
 
 #### DEBT-002: [Title]
+
 [Same structure]
 
 ---
@@ -199,6 +213,7 @@ Identify:
 ### Medium Debt
 
 #### DEBT-003: [Title]
+
 [Same structure]
 
 ---
@@ -207,38 +222,38 @@ Identify:
 
 ### Architecture Debt
 
-| ID | Description | Severity | Effort |
-|----|-------------|----------|--------|
-| DEBT-001 | [Brief] | Critical | 3 days |
+| ID       | Description | Severity | Effort |
+| -------- | ----------- | -------- | ------ |
+| DEBT-001 | [Brief]     | Critical | 3 days |
 
 ### Code Quality Debt
 
-| ID | Description | Severity | Effort |
-|----|-------------|----------|--------|
-| DEBT-004 | [Brief] | Medium | 1 day |
+| ID       | Description | Severity | Effort |
+| -------- | ----------- | -------- | ------ |
+| DEBT-004 | [Brief]     | Medium   | 1 day  |
 
 ### Dependency Debt
 
-| ID | Description | Severity | Effort |
-|----|-------------|----------|--------|
-| DEBT-007 | [Brief] | High | 2 days |
+| ID       | Description | Severity | Effort |
+| -------- | ----------- | -------- | ------ |
+| DEBT-007 | [Brief]     | High     | 2 days |
 
 ## Debt Metrics
 
 ### TODO/FIXME Density
 
-| Directory | Count | Per 1K Lines |
-|-----------|-------|--------------|
-| `src/legacy/` | 45 | 12.3 |
-| `src/api/` | 12 | 2.1 |
-| `src/utils/` | 3 | 0.8 |
+| Directory     | Count | Per 1K Lines |
+| ------------- | ----- | ------------ |
+| `src/legacy/` | 45    | 12.3         |
+| `src/api/`    | 12    | 2.1          |
+| `src/utils/`  | 3     | 0.8          |
 
 ### Large Files (>500 lines)
 
-| File | Lines | Recommendation |
-|------|-------|----------------|
+| File                     | Lines | Recommendation     |
+| ------------------------ | ----- | ------------------ |
 | `src/legacy/monolith.ts` | 2,340 | Split into modules |
-| `src/services/order.ts` | 890 | Extract concerns |
+| `src/services/order.ts`  | 890   | Extract concerns   |
 
 ### Circular Dependencies
 
@@ -253,7 +268,7 @@ Identify:
 
 ## Output: docs/strategic/roadmap.md
 
-```markdown
+````markdown
 # Technical Remediation Roadmap
 
 ## Roadmap Overview
@@ -272,6 +287,7 @@ gantt
     Code Quality Improvements  :2024-03, 4w
     Documentation Completion   :2024-03, 2w
 ```
+````
 
 ## Phase 1: Stabilization (Immediate)
 
@@ -279,13 +295,14 @@ gantt
 
 **Duration:** 2 weeks
 
-| Task | Owner | Status | Debt IDs |
-|------|-------|--------|----------|
-| Update vulnerable dependencies | - | Pending | DEBT-010, DEBT-011 |
-| Fix SQL injection vulnerability | - | Pending | DEBT-015 |
-| Add missing authentication checks | - | Pending | DEBT-016 |
+| Task                              | Owner | Status  | Debt IDs           |
+| --------------------------------- | ----- | ------- | ------------------ |
+| Update vulnerable dependencies    | -     | Pending | DEBT-010, DEBT-011 |
+| Fix SQL injection vulnerability   | -     | Pending | DEBT-015           |
+| Add missing authentication checks | -     | Pending | DEBT-016           |
 
 **Success Criteria:**
+
 - [ ] No critical security vulnerabilities
 - [ ] All dependencies on supported versions
 - [ ] Security scan passes
@@ -296,13 +313,14 @@ gantt
 
 **Duration:** 4 weeks
 
-| Task | Owner | Status | Debt IDs |
-|------|-------|--------|----------|
-| Refactor OrderService (890 lines) | - | Pending | DEBT-003 |
-| Extract shared utilities | - | Pending | DEBT-005 |
-| Increase test coverage to 70% | - | Pending | DEBT-008 |
+| Task                              | Owner | Status  | Debt IDs |
+| --------------------------------- | ----- | ------- | -------- |
+| Refactor OrderService (890 lines) | -     | Pending | DEBT-003 |
+| Extract shared utilities          | -     | Pending | DEBT-005 |
+| Increase test coverage to 70%     | -     | Pending | DEBT-008 |
 
 **Success Criteria:**
+
 - [ ] No files over 500 lines
 - [ ] Test coverage > 70%
 - [ ] Build time reduced by 20%
@@ -313,13 +331,14 @@ gantt
 
 **Duration:** 6 weeks
 
-| Task | Owner | Status | Debt IDs |
-|------|-------|--------|----------|
-| Migrate legacy module | - | Pending | DEBT-001 |
-| Implement proper caching | - | Pending | DEBT-012 |
-| Complete API documentation | - | Pending | DEBT-020 |
+| Task                       | Owner | Status  | Debt IDs |
+| -------------------------- | ----- | ------- | -------- |
+| Migrate legacy module      | -     | Pending | DEBT-001 |
+| Implement proper caching   | -     | Pending | DEBT-012 |
+| Complete API documentation | -     | Pending | DEBT-020 |
 
 **Success Criteria:**
+
 - [ ] Legacy module fully migrated
 - [ ] API response time < 200ms p95
 - [ ] 100% API documentation coverage
@@ -328,49 +347,52 @@ gantt
 
 ### Cost of Inaction
 
-| Debt Type | Current Cost | Projected Cost (6mo) | Projected Cost (1yr) |
-|-----------|--------------|---------------------|----------------------|
-| Development velocity | -15% | -25% | -40% |
-| Bug fix time | +30% | +50% | +100% |
-| Onboarding time | 3 weeks | 4 weeks | 6 weeks |
+| Debt Type            | Current Cost | Projected Cost (6mo) | Projected Cost (1yr) |
+| -------------------- | ------------ | -------------------- | -------------------- |
+| Development velocity | -15%         | -25%                 | -40%                 |
+| Bug fix time         | +30%         | +50%                 | +100%                |
+| Onboarding time      | 3 weeks      | 4 weeks              | 6 weeks              |
 
 ### Return on Investment
 
-| Investment | Benefit |
-|------------|---------|
+| Investment             | Benefit                                   |
+| ---------------------- | ----------------------------------------- |
 | 2 weeks security fixes | Prevent potential breach (est. $XXX cost) |
-| 4 weeks refactoring | 30% faster feature development |
-| 3 weeks testing | 50% fewer production bugs |
+| 4 weeks refactoring    | 30% faster feature development            |
+| 3 weeks testing        | 50% fewer production bugs                 |
 
 ## Resource Requirements
 
-| Phase | Engineers | Duration | Total Days |
-|-------|-----------|----------|------------|
-| Phase 1 | 2 | 2 weeks | 20 |
-| Phase 2 | 3 | 4 weeks | 60 |
-| Phase 3 | 2 | 6 weeks | 60 |
-| **Total** | - | - | **140** |
+| Phase     | Engineers | Duration | Total Days |
+| --------- | --------- | -------- | ---------- |
+| Phase 1   | 2         | 2 weeks  | 20         |
+| Phase 2   | 3         | 4 weeks  | 60         |
+| Phase 3   | 2         | 6 weeks  | 60         |
+| **Total** | -         | -        | **140**    |
 
 ## Risk Mitigation
 
-| Risk | Mitigation |
-|------|------------|
-| Refactoring introduces bugs | Increase test coverage before refactoring |
-| Timeline slippage | Break into smaller increments, ship continuously |
-| Knowledge silos | Pair programming, documentation during work |
+| Risk                        | Mitigation                                       |
+| --------------------------- | ------------------------------------------------ |
+| Refactoring introduces bugs | Increase test coverage before refactoring        |
+| Timeline slippage           | Break into smaller increments, ship continuously |
+| Knowledge silos             | Pair programming, documentation during work      |
 
 ## Tracking & Governance
 
 ### Weekly Check-ins
+
 - Review progress against plan
 - Identify blockers
 - Adjust priorities if needed
 
 ### Definition of Done
+
 - Code merged to main
 - Tests passing
 - Documentation updated
 - Debt item marked complete
+
 ```
 
 ---
@@ -384,3 +406,4 @@ gantt
 - [ ] Effort estimates provided
 - [ ] Business justification included
 - [ ] Success criteria defined for each phase
+```

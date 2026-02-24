@@ -1,12 +1,12 @@
 task_assignments:
-  - task_group: "Task Group 1: Parsing & Types Layer"
-    assigned_subagent: "api-engineer"
+  - task_group: 'Task Group 1: Parsing & Types Layer'
+    assigned_subagent: 'api-engineer'
 
-  - task_group: "Task Group 2: Import Service & API Layer"
-    assigned_subagent: "database-engineer"
+  - task_group: 'Task Group 2: Import Service & API Layer'
+    assigned_subagent: 'database-engineer'
 
-  - task_group: "Task Group 3: Frontend UI Layer"
-    assigned_subagent: "ui-designer"
+  - task_group: 'Task Group 3: Frontend UI Layer'
+    assigned_subagent: 'ui-designer'
 
-  - task_group: "Task Group 4: Test Review & Gap Analysis"
-    assigned_subagent: "testing-engineer"
+  - task_group: 'Task Group 4: Test Review & Gap Analysis'
+    assigned_subagent: 'testing-engineer'

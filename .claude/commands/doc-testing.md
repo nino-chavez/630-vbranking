@@ -3,6 +3,7 @@
 Description: Analyzes test suite and generates comprehensive testing strategy documentation including coverage analysis, test patterns, and quality gates using a three-phase refinement pipeline.
 
 Arguments:
+
 - analyze-gaps: (optional) Set to "true" to perform detailed coverage gap analysis.
 
 ---
@@ -14,19 +15,24 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: GENERATOR
-*Persona: QA Architect creating initial draft*
+
+_Persona: QA Architect creating initial draft_
+
 - Execute the Analysis Protocol below
 - Generate draft documentation for all output files
 
 ### PHASE 2: REFINER
-*Persona: Technical Editor improving clarity*
+
+_Persona: Technical Editor improving clarity_
+
 - Coverage numbers include module breakdown
 - Untested areas explicitly documented with risk levels
 - Test patterns include real code examples
 - Quality gates have measurable criteria
 
 ### PHASE 3: VALIDATOR
-*Persona: QA reviewing against voice standards (see docs/voice/testing-voice.md)*
+
+_Persona: QA reviewing against voice standards (see docs/voice/testing-voice.md)_
 
 **Anti-Patterns to Reject:**
 | Anti-Pattern | Example | Fix |
@@ -37,6 +43,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 | Missing test data strategy | "Tests use the test database" | Document data sources, isolation, reset procedures |
 
 **Red Flags (Return to Phase 2):**
+
 - [ ] Coverage numbers without module breakdown
 - [ ] No mention of untested areas
 - [ ] Test strategy without risk prioritization
@@ -52,23 +59,25 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 
 Identify testing tools:
 
-| Category | Files to Check | Common Tools |
-|----------|---------------|--------------|
-| Test Runner | `package.json`, `pytest.ini`, `go.mod` | Jest, Vitest, Pytest, Go test |
-| Assertion | Dependencies | Chai, expect, assert |
-| Mocking | Dependencies | Jest mocks, unittest.mock, gomock |
-| E2E | `cypress/`, `playwright/`, `e2e/` | Cypress, Playwright, Selenium |
-| API Testing | `*.http`, `*.rest`, Postman collections | Postman, Insomnia, REST Client |
-| Coverage | Config files | Istanbul/nyc, coverage.py, go cover |
+| Category    | Files to Check                          | Common Tools                        |
+| ----------- | --------------------------------------- | ----------------------------------- |
+| Test Runner | `package.json`, `pytest.ini`, `go.mod`  | Jest, Vitest, Pytest, Go test       |
+| Assertion   | Dependencies                            | Chai, expect, assert                |
+| Mocking     | Dependencies                            | Jest mocks, unittest.mock, gomock   |
+| E2E         | `cypress/`, `playwright/`, `e2e/`       | Cypress, Playwright, Selenium       |
+| API Testing | `*.http`, `*.rest`, Postman collections | Postman, Insomnia, REST Client      |
+| Coverage    | Config files                            | Istanbul/nyc, coverage.py, go cover |
 
 ### Step 2: Test Structure Analysis
 
 Map the test directory:
+
 ```bash
 find . -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "*_test.*" -o -name "test_*.*" \) | head -50
 ```
 
 Categorize tests:
+
 - **Unit tests**: Isolated, no external dependencies
 - **Integration tests**: Database, API, service integration
 - **E2E tests**: Full user journey tests
@@ -78,6 +87,7 @@ Categorize tests:
 ### Step 3: Coverage Analysis
 
 Run coverage command if available:
+
 ```bash
 [detected coverage command] --reporter=text
 ```
@@ -87,6 +97,7 @@ Or analyze test file distribution vs source files.
 ### Step 4: Test Pattern Recognition
 
 Read 5-10 test files to identify:
+
 - Setup/teardown patterns
 - Mocking strategies
 - Fixture usage
@@ -108,17 +119,19 @@ Read 5-10 test files to identify:
 [Infer from test patterns - TDD, BDD, coverage requirements]
 
 ## Test Pyramid
-
 ```
+
         /\
        /  \        E2E Tests (~5%)
       /----\       User journey validation
      /      \
     /--------\     Integration Tests (~25%)
-   /          \    Service & API testing
-  /------------\
- /              \  Unit Tests (~70%)
-/________________\ Fast, isolated, thorough
+
+/ \ Service & API testing
+/------------\
+ / \ Unit Tests (~70%)
+/******\_\_\_\_******\ Fast, isolated, thorough
+
 ```
 
 ### Current Distribution
@@ -144,14 +157,16 @@ Read 5-10 test files to identify:
 ### Directory Structure
 
 ```
+
 tests/
-├── unit/           # Unit tests mirroring src/ structure
-├── integration/    # Integration tests
-├── e2e/           # End-to-end tests
-├── fixtures/      # Shared test data
-├── utils/         # Test utilities
-└── mocks/         # Mock implementations
-```
+├── unit/ # Unit tests mirroring src/ structure
+├── integration/ # Integration tests
+├── e2e/ # End-to-end tests
+├── fixtures/ # Shared test data
+├── utils/ # Test utilities
+└── mocks/ # Mock implementations
+
+````
 
 ## Running Tests
 
@@ -169,7 +184,7 @@ tests/
 
 ```bash
 [watch command]
-```
+````
 
 ### Debugging Tests
 
@@ -191,6 +206,7 @@ tests/
 ```
 
 Key patterns observed:
+
 - [Arrange-Act-Assert / Given-When-Then]
 - [Mocking strategy]
 - [Fixture usage]
@@ -203,6 +219,7 @@ Key patterns observed:
 ```
 
 Key patterns:
+
 - [Database handling - transactions, cleanup]
 - [API mocking strategy]
 - [Test isolation approach]
@@ -215,6 +232,7 @@ Key patterns:
 ```
 
 Key patterns:
+
 - [Page Object Model usage]
 - [Test data management]
 - [Selector strategy]
@@ -223,20 +241,20 @@ Key patterns:
 
 ### Current Coverage
 
-| Metric | Current | Target | Status |
-|--------|---------|--------|--------|
-| Statements | [X%] | 80% | [Pass/Fail] |
-| Branches | [X%] | 75% | [Pass/Fail] |
-| Functions | [X%] | 80% | [Pass/Fail] |
-| Lines | [X%] | 80% | [Pass/Fail] |
+| Metric     | Current | Target | Status      |
+| ---------- | ------- | ------ | ----------- |
+| Statements | [X%]    | 80%    | [Pass/Fail] |
+| Branches   | [X%]    | 75%    | [Pass/Fail] |
+| Functions  | [X%]    | 80%    | [Pass/Fail] |
+| Lines      | [X%]    | 80%    | [Pass/Fail] |
 
 ### Coverage by Module
 
-| Module | Coverage | Critical |
-|--------|----------|----------|
-| `src/auth/` | [X%] | Yes |
-| `src/api/` | [X%] | Yes |
-| `src/utils/` | [X%] | No |
+| Module       | Coverage | Critical |
+| ------------ | -------- | -------- |
+| `src/auth/`  | [X%]     | Yes      |
+| `src/api/`   | [X%]     | Yes      |
+| `src/utils/` | [X%]     | No       |
 
 ## Quality Gates
 
@@ -298,9 +316,9 @@ Key patterns:
 
 Location: `tests/fixtures/`
 
-| Fixture | Purpose | Usage |
-|---------|---------|-------|
-| `users.json` | Test user data | `loadFixture('users')` |
+| Fixture       | Purpose         | Usage                   |
+| ------------- | --------------- | ----------------------- |
+| `users.json`  | Test user data  | `loadFixture('users')`  |
 | `orders.json` | Order test data | `loadFixture('orders')` |
 
 ## Known Limitations
@@ -315,7 +333,8 @@ Location: `tests/fixtures/`
 
 - [Developer Setup](../developer/README.md) - Running tests locally
 - [CI/CD Pipeline](../ops/cicd.md) - Test automation
-```
+
+````
 
 ---
 
@@ -365,7 +384,7 @@ Last analyzed: [date]
 1. **Immediate**: [highest priority gaps]
 2. **Short-term**: [next sprint candidates]
 3. **Long-term**: [technical debt items]
-```
+````
 
 ---
 

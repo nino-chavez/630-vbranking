@@ -7,21 +7,21 @@
 
 // Types
 export type {
-  PairwiseRecord,
-  TournamentPairwiseGroup,
-  AlgorithmResult,
-  AlgorithmResultMap,
-  NormalizedTeamResult,
-  RankingRunConfig,
-  RankingRunOutput,
-  TeamInfo,
+	PairwiseRecord,
+	TournamentPairwiseGroup,
+	AlgorithmResult,
+	AlgorithmResultMap,
+	NormalizedTeamResult,
+	RankingRunConfig,
+	RankingRunOutput,
+	TeamInfo,
 } from './types.js';
 
 // W/L derivation
 export {
-  deriveWinsLossesFromFinishes,
-  deriveWinsLossesFromMatches,
-  flattenPairwiseGroups,
+	deriveWinsLossesFromFinishes,
+	deriveWinsLossesFromMatches,
+	flattenPairwiseGroups,
 } from './derive-wins-losses.js';
 
 // Colley Matrix algorithm

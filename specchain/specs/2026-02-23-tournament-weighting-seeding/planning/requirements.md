@@ -25,13 +25,13 @@ These decisions are already documented in the roadmap and prior specs:
 
 **A**: Define 5 tiers following the AAU priority order. Tier values are configurable per-tournament-per-season via the `tournament_weights` table. Default weight assignments:
 
-| Tier | Weight | Example Tournaments |
-|------|--------|-------------------|
-| 1 (National Championship) | 3.0 | AAU Nationals, Boys Junior National Championship |
-| 2 (Premier National) | 2.5 | Chi-Town Challenge, SoCal Winter Formal |
-| 3 (Major Regional) | 2.0 | Boys Winter Invitational, Head of the Lakes |
-| 4 (Standard Regional) | 1.5 | Capitol Hill Classic, Mideast Qualifier |
-| 5 (Local/Other) | 1.0 | All other tournaments (default) |
+| Tier                      | Weight | Example Tournaments                              |
+| ------------------------- | ------ | ------------------------------------------------ |
+| 1 (National Championship) | 3.0    | AAU Nationals, Boys Junior National Championship |
+| 2 (Premier National)      | 2.5    | Chi-Town Challenge, SoCal Winter Formal          |
+| 3 (Major Regional)        | 2.0    | Boys Winter Invitational, Head of the Lakes      |
+| 4 (Standard Regional)     | 1.5    | Capitol Hill Classic, Mideast Qualifier          |
+| 5 (Local/Other)           | 1.0    | All other tournaments (default)                  |
 
 Tournaments without an explicit weight entry default to Tier 5 / weight 1.0.
 
@@ -48,6 +48,7 @@ These factors are NOT incorporated into the algorithmic ranking. They are displa
 ### Q5: How should tournament weights be managed?
 
 **A**: A simple weight management page at `/ranking/weights` (sub-route of ranking). Shows all tournaments for the selected season in a table. Each row has editable weight and tier fields. Committee members can:
+
 - View all tournaments with current weights
 - Assign/change weight and tier for each tournament
 - Unweighted tournaments show default values (tier 5, weight 1.0)
@@ -62,6 +63,7 @@ A CRUD API endpoint supports this: `GET/PUT /api/ranking/weights`.
 ## Scope Summary
 
 This spec defines:
+
 1. **Weighted algorithms**: Modify Colley and Elo to accept and apply tournament weights
 2. **Weight management**: API endpoints and UI page for managing tournament weights per season
 3. **Seeding factors**: Compute win % vs field and best national finish per team
@@ -70,6 +72,7 @@ This spec defines:
 6. **Run parameters**: Record weight configuration in ranking run metadata
 
 This spec does NOT include:
+
 - Manual ranking overrides (Feature 7)
 - Full dashboard with sorting/filtering/detail views (Feature 6)
 - New algorithms or changes to the 5-algorithm structure

@@ -15,6 +15,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 ## Sub-tasks Completed
 
 ### 3.1: FileDropZone Component
+
 **File:** `src/lib/components/FileDropZone.svelte`
 
 - Drag-and-drop zone with dashed border (`border-dashed border-2`) and hover highlight (`border-blue-500 bg-blue-50`)
@@ -27,6 +28,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 - "Browse Files" button fallback for non-drag-and-drop users
 
 ### 3.2: IdentityResolutionPanel Component
+
 **File:** `src/lib/components/IdentityResolutionPanel.svelte`
 
 - Props: `conflicts: IdentityConflict[]`, `onResolve(mapping: IdentityMapping): void`
@@ -39,6 +41,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 - Unresolved count breakdown: "X unmatched teams, Y unmatched tournaments"
 
 ### 3.3: DataPreviewTable Component
+
 **File:** `src/lib/components/DataPreviewTable.svelte`
 
 - Props: `rows`, `errors`, `format`, `skippedIndices`, `onEditCell`, `onSkipRow`
@@ -51,6 +54,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 - Row numbering for reference
 
 ### 3.4: ImportSummary Component
+
 **File:** `src/lib/components/ImportSummary.svelte`
 
 - Props: `summary: ImportSummaryData`, `onReset: () => void`
@@ -60,6 +64,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 - "Import Another File" button triggers `onReset`
 
 ### 3.5: Import Page with Multi-Step State Flow
+
 **File:** `src/routes/import/+page.svelte`
 
 - Svelte 5 runes throughout: `$state`, `$derived`, `$props`
@@ -79,6 +84,7 @@ All 7 sub-tasks in Task Group 3 have been implemented. The frontend UI layer for
 - Skipped rows excluded from confirm payload
 
 ### 3.6: Import Page Layout Styling
+
 Integrated into `+page.svelte`:
 
 - `max-w-7xl mx-auto` container
@@ -89,6 +95,7 @@ Integrated into `+page.svelte`:
 - Page title "Import Data" as h1
 
 ### 3.7: UI Component Tests
+
 **File:** `src/lib/components/__tests__/import-ui.test.ts`
 
 4 test suites with 12 tests total:
@@ -127,6 +134,7 @@ Note: Tests are written as unit tests for the component logic functions rather t
 ```
 
 All 27 tests pass:
+
 - `src/lib/components/__tests__/import-ui.test.ts` - 12 tests
 - `src/lib/import/__tests__/import-service.test.ts` - 7 tests
 - `src/lib/import/parsers/__tests__/colley-parser.test.ts` - 3 tests
@@ -138,14 +146,14 @@ TypeScript type-check (`tsc --noEmit`): passes with zero errors.
 
 ## Files Created
 
-| File | Purpose |
-|------|---------|
-| `src/lib/components/FileDropZone.svelte` | Drag-and-drop file upload component |
-| `src/lib/components/IdentityResolutionPanel.svelte` | Unmatched entity resolution UI |
-| `src/lib/components/DataPreviewTable.svelte` | Parsed data preview with error highlights |
-| `src/lib/components/ImportSummary.svelte` | Post-import summary card |
-| `src/routes/import/+page.svelte` | Main import page with state machine |
-| `src/lib/components/__tests__/import-ui.test.ts` | 12 UI component tests |
+| File                                                | Purpose                                   |
+| --------------------------------------------------- | ----------------------------------------- |
+| `src/lib/components/FileDropZone.svelte`            | Drag-and-drop file upload component       |
+| `src/lib/components/IdentityResolutionPanel.svelte` | Unmatched entity resolution UI            |
+| `src/lib/components/DataPreviewTable.svelte`        | Parsed data preview with error highlights |
+| `src/lib/components/ImportSummary.svelte`           | Post-import summary card                  |
+| `src/routes/import/+page.svelte`                    | Main import page with state machine       |
+| `src/lib/components/__tests__/import-ui.test.ts`    | 12 UI component tests                     |
 
 ---
 
@@ -168,13 +176,13 @@ None. All existing files from Task Groups 1 and 2 were consumed as-is.
 
 ## Acceptance Criteria Verification
 
-| Criterion | Status |
-|-----------|--------|
-| `/import` page renders and follows wireframe layout | Done |
-| Multi-step state flow transitions correctly between all 6 states | Done |
-| FileDropZone validates file type and size, keyboard-navigable, non-color-dependent errors | Done |
-| IdentityResolutionPanel displays Create/Map/Skip, prevents confirm until all resolved | Done |
-| DataPreviewTable shows parsed rows, highlights errors with text labels, inline editing, row skipping | Done |
-| ImportSummary displays all summary statistics | Done |
-| Import mode defaults to "Merge/Update" (spec F8) | Done |
-| All 4+ UI component tests pass | Done (12 tests) |
+| Criterion                                                                                            | Status          |
+| ---------------------------------------------------------------------------------------------------- | --------------- |
+| `/import` page renders and follows wireframe layout                                                  | Done            |
+| Multi-step state flow transitions correctly between all 6 states                                     | Done            |
+| FileDropZone validates file type and size, keyboard-navigable, non-color-dependent errors            | Done            |
+| IdentityResolutionPanel displays Create/Map/Skip, prevents confirm until all resolved                | Done            |
+| DataPreviewTable shows parsed rows, highlights errors with text labels, inline editing, row skipping | Done            |
+| ImportSummary displays all summary statistics                                                        | Done            |
+| Import mode defaults to "Merge/Update" (spec F8)                                                     | Done            |
+| All 4+ UI component tests pass                                                                       | Done (12 tests) |

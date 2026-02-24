@@ -2,27 +2,30 @@
 # Customize these settings for your project
 
 project:
-  name: "My Project"
-  description: "Project description"
+  name: 'My Project'
+  description: 'Project description'
 
 # Execution Configuration
 # Controls how specs are implemented: who does the work and how deep the work goes
 execution:
   # Strategy: Who executes the implementation work
-  strategy: squad          # Valid values: solo | squad (default: squad)
-                           #   solo  - Single agent handles ALL implementation work (no agent assignment, no domain verifiers)
-                           #   squad - Multi-agent delegation to domain specialists (database, API, UI, testing engineers)
+  strategy:
+    squad # Valid values: solo | squad (default: squad)
+    #   solo  - Single agent handles ALL implementation work (no agent assignment, no domain verifiers)
+    #   squad - Multi-agent delegation to domain specialists (database, API, UI, testing engineers)
 
   # Depth: How thorough the implementation process should be
-  depth: standard          # Valid values: lean | standard | thorough (default: standard)
-                           #   lean     - Minimal checks: 3-5 questions, skip testing group, skip verifiers
-                           #   standard - Full pipeline with balanced rigor (6-9 questions, domain verifiers, focused tests)
-                           #   thorough - Maximum rigor: TDD red-green-refactor cycle, phase checkpoints, coverage reports, manual verification gates
+  depth:
+    standard # Valid values: lean | standard | thorough (default: standard)
+    #   lean     - Minimal checks: 3-5 questions, skip testing group, skip verifiers
+    #   standard - Full pipeline with balanced rigor (6-9 questions, domain verifiers, focused tests)
+    #   thorough - Maximum rigor: TDD red-green-refactor cycle, phase checkpoints, coverage reports, manual verification gates
 
   # Auto-suggest: Automatically analyze spec complexity and recommend strategy/depth
-  auto_suggest: true       # Valid values: true | false (default: true)
-                           # When enabled, /implement-spec analyzes task count and domains to suggest optimal execution profile
-                           # Suggestions are presented to user for confirmation (never applied silently)
+  auto_suggest:
+    true # Valid values: true | false (default: true)
+    # When enabled, /implement-spec analyzes task count and domains to suggest optimal execution profile
+    # Suggestions are presented to user for confirmation (never applied silently)
 
 # MIGRATION NOTE: If upgrading from workflow-based configuration
 # The old `workflow.default_mode` setting has been replaced by the execution profile system:
@@ -44,5 +47,5 @@ context_management:
   enabled: true
   advisory_mode: true
   warn_after_task_groups: 3
-  fresh_agent_for_depths:   # Depths that force fresh agents per task group
+  fresh_agent_for_depths: # Depths that force fresh agents per task group
     - thorough

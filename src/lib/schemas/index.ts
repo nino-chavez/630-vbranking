@@ -11,25 +11,25 @@ export { tournamentSchema, tournamentInsertSchema, tournamentUpdateSchema } from
 export type { Tournament, TournamentInsert, TournamentUpdate } from './tournament';
 
 export {
-  tournamentWeightSchema,
-  tournamentWeightInsertSchema,
-  tournamentWeightUpdateSchema,
+	tournamentWeightSchema,
+	tournamentWeightInsertSchema,
+	tournamentWeightUpdateSchema,
 } from './tournament-weight';
 export type {
-  TournamentWeight,
-  TournamentWeightInsert,
-  TournamentWeightUpdate,
+	TournamentWeight,
+	TournamentWeightInsert,
+	TournamentWeightUpdate,
 } from './tournament-weight';
 
 export {
-  tournamentResultSchema,
-  tournamentResultInsertSchema,
-  tournamentResultUpdateSchema,
+	tournamentResultSchema,
+	tournamentResultInsertSchema,
+	tournamentResultUpdateSchema,
 } from './tournament-result';
 export type {
-  TournamentResult,
-  TournamentResultInsert,
-  TournamentResultUpdate,
+	TournamentResult,
+	TournamentResultInsert,
+	TournamentResultUpdate,
 } from './tournament-result';
 
 export { matchSchema, matchInsertSchema, matchUpdateSchema } from './match';
@@ -39,19 +39,19 @@ export { rankingRunSchema, rankingRunInsertSchema, rankingRunUpdateSchema } from
 export type { RankingRun, RankingRunInsert, RankingRunUpdate } from './ranking-run';
 
 export {
-  rankingResultSchema,
-  rankingResultInsertSchema,
-  rankingResultUpdateSchema,
+	rankingResultSchema,
+	rankingResultInsertSchema,
+	rankingResultUpdateSchema,
 } from './ranking-result';
 export type { RankingResult, RankingResultInsert, RankingResultUpdate } from './ranking-result';
 
 export {
-  rankingOverrideSchema,
-  rankingOverrideInsertSchema,
-  rankingOverrideUpdateSchema,
+	rankingOverrideSchema,
+	rankingOverrideInsertSchema,
+	rankingOverrideUpdateSchema,
 } from './ranking-override';
 export type {
-  RankingOverride,
-  RankingOverrideInsert,
-  RankingOverrideUpdate,
+	RankingOverride,
+	RankingOverrideInsert,
+	RankingOverrideUpdate,
 } from './ranking-override';

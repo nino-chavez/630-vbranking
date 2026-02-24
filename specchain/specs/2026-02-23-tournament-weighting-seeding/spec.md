@@ -34,10 +34,10 @@ The initial diagonal value remains `2` and the initial b-value remains `1`, pres
 
 ```typescript
 export function computeColleyRatings(
-  pairwiseRecords: PairwiseRecord[],
-  teams: TeamInfo[],
-  weightMap?: Record<string, number>
-): AlgorithmResult[]
+	pairwiseRecords: PairwiseRecord[],
+	teams: TeamInfo[],
+	weightMap?: Record<string, number>,
+): AlgorithmResult[];
 ```
 
 #### F2: Weighted Elo
@@ -61,12 +61,12 @@ New_R_A = R_A + (K * w) * (S_A - E_A)
 
 ```typescript
 export function computeEloRatings(
-  tournamentGroups: TournamentPairwiseGroup[],
-  teams: TeamInfo[],
-  startingRating: number,
-  kFactor: number,
-  weightMap?: Record<string, number>
-): AlgorithmResult[]
+	tournamentGroups: TournamentPairwiseGroup[],
+	teams: TeamInfo[],
+	startingRating: number,
+	kFactor: number,
+	weightMap?: Record<string, number>,
+): AlgorithmResult[];
 ```
 
 #### F3: RankingService Integration
@@ -84,13 +84,13 @@ Modify `RankingService.runRanking()` to fetch tournament weights from the `tourn
 
 ```json
 {
-  "k_factor": 32,
-  "elo_starting_ratings": [2200, 2400, 2500, 2700],
-  "data_source": "tournament_finishes",
-  "weights": {
-    "<tournament_id_1>": 3.0,
-    "<tournament_id_2>": 2.5
-  }
+	"k_factor": 32,
+	"elo_starting_ratings": [2200, 2400, 2500, 2700],
+	"data_source": "tournament_finishes",
+	"weights": {
+		"<tournament_id_1>": 3.0,
+		"<tournament_id_2>": 2.5
+	}
 }
 ```
 
@@ -132,10 +132,10 @@ Compute two supplementary seeding factors per team during a ranking run. These f
 
 ```typescript
 export interface SeedingFactors {
-  team_id: string;
-  win_pct: number;
-  best_national_finish: number | null;
-  best_national_tournament_name: string | null;
+	team_id: string;
+	win_pct: number;
+	best_national_finish: number | null;
+	best_national_tournament_name: string | null;
 }
 ```
 
@@ -143,11 +143,11 @@ export interface SeedingFactors {
 
 ```typescript
 export interface RankingRunOutput {
-  ranking_run_id: string;
-  results: NormalizedTeamResult[];
-  seeding_factors: SeedingFactors[];
-  teams_ranked: number;
-  ran_at: string;
+	ranking_run_id: string;
+	results: NormalizedTeamResult[];
+	seeding_factors: SeedingFactors[];
+	teams_ranked: number;
+	ran_at: string;
 }
 ```
 
@@ -167,27 +167,27 @@ Returns all tournaments for the given season with their weight configuration.
 
 ```json
 {
-  "success": true,
-  "data": {
-    "weights": [
-      {
-        "tournament_id": "<uuid>",
-        "tournament_name": "AAU Nationals",
-        "tournament_date": "2026-06-15",
-        "weight": 3.0,
-        "tier": 1,
-        "has_custom_weight": true
-      },
-      {
-        "tournament_id": "<uuid>",
-        "tournament_name": "Local Invitational",
-        "tournament_date": "2026-01-10",
-        "weight": 1.0,
-        "tier": 5,
-        "has_custom_weight": false
-      }
-    ]
-  }
+	"success": true,
+	"data": {
+		"weights": [
+			{
+				"tournament_id": "<uuid>",
+				"tournament_name": "AAU Nationals",
+				"tournament_date": "2026-06-15",
+				"weight": 3.0,
+				"tier": 1,
+				"has_custom_weight": true
+			},
+			{
+				"tournament_id": "<uuid>",
+				"tournament_name": "Local Invitational",
+				"tournament_date": "2026-01-10",
+				"weight": 1.0,
+				"tier": 5,
+				"has_custom_weight": false
+			}
+		]
+	}
 }
 ```
 
@@ -202,11 +202,11 @@ Upserts tournament weight records. Accepts an array of weight entries.
 
 ```json
 {
-  "season_id": "<uuid>",
-  "weights": [
-    { "tournament_id": "<uuid>", "weight": 3.0, "tier": 1 },
-    { "tournament_id": "<uuid>", "weight": 2.5, "tier": 2 }
-  ]
+	"season_id": "<uuid>",
+	"weights": [
+		{ "tournament_id": "<uuid>", "weight": 3.0, "tier": 1 },
+		{ "tournament_id": "<uuid>", "weight": 2.5, "tier": 2 }
+	]
 }
 ```
 
@@ -217,10 +217,10 @@ Upserts tournament weight records. Accepts an array of weight entries.
 
 ```json
 {
-  "success": true,
-  "data": {
-    "upserted": 5
-  }
+	"success": true,
+	"data": {
+		"upserted": 5
+	}
 }
 ```
 
@@ -268,12 +268,12 @@ A new page at `/ranking/weights` for managing tournament weights per season.
 
 ```typescript
 interface WeightRow {
-  tournament_id: string;
-  tournament_name: string;
-  tournament_date: string;
-  weight: number;
-  tier: number;
-  has_custom_weight: boolean;
+	tournament_id: string;
+	tournament_name: string;
+	tournament_date: string;
+	weight: number;
+	tier: number;
+	has_custom_weight: boolean;
 }
 ```
 
@@ -307,6 +307,7 @@ Modify `GET /api/ranking/results` to include seeding factors in the response. Wh
 **UI changes:**
 
 Modify the ranking results table (either `RankingResultsTable.svelte` or the ranking page directly) to display two additional columns:
+
 - **W%**: Win percentage vs. field, displayed as a percentage with 1 decimal place (e.g., "72.3%").
 - **Natl. Finish**: Best national (Tier-1) finish, displayed as an ordinal (e.g., "2nd") or "N/A" if no Tier-1 finishes.
 
@@ -334,45 +335,45 @@ Modified algorithm functions remain pure. The weight map is passed as a paramete
 
 ### Existing Code to Leverage
 
-| Component | Location | Usage |
-|---|---|---|
-| `computeColleyRatings()` | `src/lib/ranking/colley.ts` | Modified to accept optional `weightMap` parameter |
-| `computeEloRatings()` | `src/lib/ranking/elo.ts` | Modified to accept optional `weightMap` parameter |
-| `RankingService` | `src/lib/ranking/ranking-service.ts` | Modified to fetch weights, pass to algorithms, record in parameters |
-| `PairwiseRecord` type | `src/lib/ranking/types.ts` | Used unchanged; `tournament_id` field already present for weight lookup |
-| `TournamentPairwiseGroup` type | `src/lib/ranking/types.ts` | Used unchanged; `tournament_id` field already present for weight lookup |
-| `RankingRunConfig` type | `src/lib/ranking/types.ts` | Extended or used alongside weight map |
-| `NormalizedTeamResult` type | `src/lib/ranking/types.ts` | Used unchanged for algorithm output |
-| `tournamentWeightSchema` | `src/lib/schemas/tournament-weight.ts` | Validate weight data in API endpoints |
-| `tournamentWeightInsertSchema` | `src/lib/schemas/tournament-weight.ts` | Validate PUT request body entries |
-| `AgeGroup` enum | `src/lib/schemas/enums.ts` | Used in ranking page and API validation |
-| `supabaseServer` | `src/lib/supabase-server.ts` | Database queries in API endpoints and service |
-| `Button` component | `src/lib/components/Button.svelte` | Save button on weights page |
-| `Select` component | `src/lib/components/Select.svelte` | Season selector, tier selector on weights page |
-| `Card` component | `src/lib/components/Card.svelte` | Tier reference card on weights page |
-| `Banner` component | `src/lib/components/Banner.svelte` | Success/error banners on weights page |
-| `PageHeader` component | `src/lib/components/PageHeader.svelte` | Page header for weights management page |
-| `DataTable` component | `src/lib/components/DataTable.svelte` | Potential base for weights table |
-| `FreshnessIndicator` component | `src/lib/components/FreshnessIndicator.svelte` | Timestamp display on ranking results |
-| `RankingResultsTable` component | `src/lib/components/RankingResultsTable.svelte` | Modified to include seeding factor columns |
-| Ranking page | `src/routes/ranking/+page.svelte` | Modified to consume and display seeding factors |
-| Ranking results API | `src/routes/api/ranking/results/+server.ts` | Modified to include seeding factors in response |
-| Ranking run API | `src/routes/api/ranking/run/+server.ts` | Unchanged (weights fetched inside service, not passed from client) |
-| `tournament_weights` table | `supabase/migrations/20260223180007_...` | Already exists; no new migration needed |
-| `tournament_weights` migration | `supabase/migrations/20260223180007_create_tournament_weights_table.sql` | Already applied; includes indexes and updated_at trigger |
+| Component                       | Location                                                                 | Usage                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `computeColleyRatings()`        | `src/lib/ranking/colley.ts`                                              | Modified to accept optional `weightMap` parameter                       |
+| `computeEloRatings()`           | `src/lib/ranking/elo.ts`                                                 | Modified to accept optional `weightMap` parameter                       |
+| `RankingService`                | `src/lib/ranking/ranking-service.ts`                                     | Modified to fetch weights, pass to algorithms, record in parameters     |
+| `PairwiseRecord` type           | `src/lib/ranking/types.ts`                                               | Used unchanged; `tournament_id` field already present for weight lookup |
+| `TournamentPairwiseGroup` type  | `src/lib/ranking/types.ts`                                               | Used unchanged; `tournament_id` field already present for weight lookup |
+| `RankingRunConfig` type         | `src/lib/ranking/types.ts`                                               | Extended or used alongside weight map                                   |
+| `NormalizedTeamResult` type     | `src/lib/ranking/types.ts`                                               | Used unchanged for algorithm output                                     |
+| `tournamentWeightSchema`        | `src/lib/schemas/tournament-weight.ts`                                   | Validate weight data in API endpoints                                   |
+| `tournamentWeightInsertSchema`  | `src/lib/schemas/tournament-weight.ts`                                   | Validate PUT request body entries                                       |
+| `AgeGroup` enum                 | `src/lib/schemas/enums.ts`                                               | Used in ranking page and API validation                                 |
+| `supabaseServer`                | `src/lib/supabase-server.ts`                                             | Database queries in API endpoints and service                           |
+| `Button` component              | `src/lib/components/Button.svelte`                                       | Save button on weights page                                             |
+| `Select` component              | `src/lib/components/Select.svelte`                                       | Season selector, tier selector on weights page                          |
+| `Card` component                | `src/lib/components/Card.svelte`                                         | Tier reference card on weights page                                     |
+| `Banner` component              | `src/lib/components/Banner.svelte`                                       | Success/error banners on weights page                                   |
+| `PageHeader` component          | `src/lib/components/PageHeader.svelte`                                   | Page header for weights management page                                 |
+| `DataTable` component           | `src/lib/components/DataTable.svelte`                                    | Potential base for weights table                                        |
+| `FreshnessIndicator` component  | `src/lib/components/FreshnessIndicator.svelte`                           | Timestamp display on ranking results                                    |
+| `RankingResultsTable` component | `src/lib/components/RankingResultsTable.svelte`                          | Modified to include seeding factor columns                              |
+| Ranking page                    | `src/routes/ranking/+page.svelte`                                        | Modified to consume and display seeding factors                         |
+| Ranking results API             | `src/routes/api/ranking/results/+server.ts`                              | Modified to include seeding factors in response                         |
+| Ranking run API                 | `src/routes/api/ranking/run/+server.ts`                                  | Unchanged (weights fetched inside service, not passed from client)      |
+| `tournament_weights` table      | `supabase/migrations/20260223180007_...`                                 | Already exists; no new migration needed                                 |
+| `tournament_weights` migration  | `supabase/migrations/20260223180007_create_tournament_weights_table.sql` | Already applied; includes indexes and updated_at trigger                |
 
 ## New Components Required
 
-| Component | Location | Purpose |
-|---|---|---|
-| **Seeding factors types** | `src/lib/ranking/types.ts` | Add `SeedingFactors` interface and update `RankingRunOutput` to include `seeding_factors` field. |
-| **Seeding factors computation** | `src/lib/ranking/seeding-factors.ts` | Pure function `computeSeedingFactors()` that takes flattened pairwise records, Tier-1 tournament IDs, tournament results, tournament names, and team list, returns `SeedingFactors[]`. |
-| **Weights API endpoint** | `src/routes/api/ranking/weights/+server.ts` | `GET` and `PUT` handlers for tournament weight management. |
-| **Weights page server** | `src/routes/ranking/weights/+page.server.ts` | Server-side load function to fetch seasons list. |
-| **Weights page** | `src/routes/ranking/weights/+page.svelte` | Tournament weights management UI with editable table, tier selector, and save functionality. |
-| **Seeding factors tests** | `src/lib/ranking/__tests__/seeding-factors.test.ts` | Unit tests for win % computation and best national finish logic. |
-| **Weighted Colley tests** | `src/lib/ranking/__tests__/colley-weighted.test.ts` | Unit tests for weighted Colley matrix construction and solving. |
-| **Weighted Elo tests** | `src/lib/ranking/__tests__/elo-weighted.test.ts` | Unit tests for weighted K-factor scaling in Elo computation. |
+| Component                       | Location                                            | Purpose                                                                                                                                                                                |
+| ------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Seeding factors types**       | `src/lib/ranking/types.ts`                          | Add `SeedingFactors` interface and update `RankingRunOutput` to include `seeding_factors` field.                                                                                       |
+| **Seeding factors computation** | `src/lib/ranking/seeding-factors.ts`                | Pure function `computeSeedingFactors()` that takes flattened pairwise records, Tier-1 tournament IDs, tournament results, tournament names, and team list, returns `SeedingFactors[]`. |
+| **Weights API endpoint**        | `src/routes/api/ranking/weights/+server.ts`         | `GET` and `PUT` handlers for tournament weight management.                                                                                                                             |
+| **Weights page server**         | `src/routes/ranking/weights/+page.server.ts`        | Server-side load function to fetch seasons list.                                                                                                                                       |
+| **Weights page**                | `src/routes/ranking/weights/+page.svelte`           | Tournament weights management UI with editable table, tier selector, and save functionality.                                                                                           |
+| **Seeding factors tests**       | `src/lib/ranking/__tests__/seeding-factors.test.ts` | Unit tests for win % computation and best national finish logic.                                                                                                                       |
+| **Weighted Colley tests**       | `src/lib/ranking/__tests__/colley-weighted.test.ts` | Unit tests for weighted Colley matrix construction and solving.                                                                                                                        |
+| **Weighted Elo tests**          | `src/lib/ranking/__tests__/elo-weighted.test.ts`    | Unit tests for weighted K-factor scaling in Elo computation.                                                                                                                           |
 
 ## Technical Approach
 
@@ -393,6 +394,7 @@ b[i] = 1 + (W_i - L_i) / 2
 ```
 
 Where:
+
 - `T_i = sum(w_k)` for all games played by team i, where `w_k` is the weight of the tournament for game k.
 - `n_ij_weighted = sum(w_k)` for all games between teams i and j.
 - `W_i = sum(w_k)` for all games won by team i.
@@ -404,14 +406,14 @@ In the pairwise record processing loop, replace the hardcoded `1` and `0.5` with
 
 ```typescript
 for (const record of pairwiseRecords) {
-  const weight = weightMap?.[record.tournament_id] ?? 1.0;
-  // ... determine winnerIdx, loserIdx ...
-  C[winnerIdx][winnerIdx] += weight;
-  C[loserIdx][loserIdx] += weight;
-  C[winnerIdx][loserIdx] -= weight;
-  C[loserIdx][winnerIdx] -= weight;
-  b[winnerIdx] += weight * 0.5;
-  b[loserIdx] -= weight * 0.5;
+	const weight = weightMap?.[record.tournament_id] ?? 1.0;
+	// ... determine winnerIdx, loserIdx ...
+	C[winnerIdx][winnerIdx] += weight;
+	C[loserIdx][loserIdx] += weight;
+	C[winnerIdx][loserIdx] -= weight;
+	C[loserIdx][winnerIdx] -= weight;
+	b[winnerIdx] += weight * 0.5;
+	b[loserIdx] -= weight * 0.5;
 }
 ```
 
@@ -431,15 +433,15 @@ In the tournament processing loop, look up the weight for each tournament group:
 
 ```typescript
 for (const group of tournamentGroups) {
-  const weight = weightMap?.[group.tournament_id] ?? 1.0;
-  const effectiveK = kFactor * weight;
+	const weight = weightMap?.[group.tournament_id] ?? 1.0;
+	const effectiveK = kFactor * weight;
 
-  for (const record of group.records) {
-    // ... existing expected score computation ...
-    const newRWinner = rWinner + effectiveK * (1 - eWinner);
-    const newRLoser = rLoser + effectiveK * (0 - eLoser);
-    // ...
-  }
+	for (const record of group.records) {
+		// ... existing expected score computation ...
+		const newRWinner = rWinner + effectiveK * (1 - eWinner);
+		const newRLoser = rLoser + effectiveK * (0 - eLoser);
+		// ...
+	}
 }
 ```
 
@@ -462,18 +464,18 @@ Both `computeColleyRatings()` and `computeEloRatings()` treat the `weightMap` pa
 ```typescript
 // After step 4 (fetch tournaments):
 const { data: weightRows, error: weightError } = await this.supabase
-  .from('tournament_weights')
-  .select('tournament_id, weight')
-  .eq('season_id', config.season_id)
-  .in('tournament_id', tournamentIds);
+	.from('tournament_weights')
+	.select('tournament_id, weight')
+	.eq('season_id', config.season_id)
+	.in('tournament_id', tournamentIds);
 
 if (weightError) {
-  throw new Error(`Failed to fetch tournament weights: ${weightError.message}`);
+	throw new Error(`Failed to fetch tournament weights: ${weightError.message}`);
 }
 
 const weightMap: Record<string, number> = {};
 for (const row of weightRows ?? []) {
-  weightMap[row.tournament_id] = Number(row.weight);
+	weightMap[row.tournament_id] = Number(row.weight);
 }
 ```
 
@@ -613,6 +615,7 @@ Add two columns after AggRank:
 - **Natl. Finish**: `seeding_factors[team_id].best_national_finish` formatted as ordinal (`1st`, `2nd`, `3rd`, etc.) or `N/A`.
 
 Column headers should include tooltips or abbreviation explanations:
+
 - W% = "Win percentage vs. all opponents across all tournaments"
 - Natl. Finish = "Best finish at a Tier-1 (National Championship) tournament"
 

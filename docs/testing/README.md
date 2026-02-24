@@ -24,29 +24,29 @@ The test suite is built on three principles:
       ----------------------------------
 ```
 
-| Layer | Files | Tests | Scope |
-|-------|------:|------:|-------|
-| Unit (ranking algorithms) | 16 | 60 | Colley, Elo, normalization, aggregation, derive-wins-losses, table-utils, seeding-factors, precision, determinism, weighting, multi-age-group, backward-compat |
-| Unit (import parsers) | 3 | 11 | FinishesParser, ColleyParser, error handling |
-| Unit (export) | 3 | 27 | CSV generation, XLSX generation, export-data assembly |
-| Unit (schemas) | 1 | 13 | Zod schema validation for ranking overrides |
-| Unit (UI logic) | 1 | 12 | FileDropZone validation, identity resolution, data preview, state machine |
-| Component (Svelte) | 8 | 37 | Design system components, accessibility, override panel, ranking table, design tokens, contrast |
-| Service | 2 | 14 | RankingService (mock Supabase), ImportService + IdentityResolver (mock Supabase) |
-| Integration | 2 | 10 | SQL migration structural analysis (FK constraints, UNIQUE constraints) |
-| **Total** | **36** | **180** | |
+| Layer                     |  Files |   Tests | Scope                                                                                                                                                          |
+| ------------------------- | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unit (ranking algorithms) |     16 |      60 | Colley, Elo, normalization, aggregation, derive-wins-losses, table-utils, seeding-factors, precision, determinism, weighting, multi-age-group, backward-compat |
+| Unit (import parsers)     |      3 |      11 | FinishesParser, ColleyParser, error handling                                                                                                                   |
+| Unit (export)             |      3 |      27 | CSV generation, XLSX generation, export-data assembly                                                                                                          |
+| Unit (schemas)            |      1 |      13 | Zod schema validation for ranking overrides                                                                                                                    |
+| Unit (UI logic)           |      1 |      12 | FileDropZone validation, identity resolution, data preview, state machine                                                                                      |
+| Component (Svelte)        |      8 |      37 | Design system components, accessibility, override panel, ranking table, design tokens, contrast                                                                |
+| Service                   |      2 |      14 | RankingService (mock Supabase), ImportService + IdentityResolver (mock Supabase)                                                                               |
+| Integration               |      2 |      10 | SQL migration structural analysis (FK constraints, UNIQUE constraints)                                                                                         |
+| **Total**                 | **36** | **180** |                                                                                                                                                                |
 
 The 36 files producing 180 tests run via `npx vitest run` in approximately 2.3 seconds. The 2 integration test files under `tests/integration/` contain 10 additional tests that verify migration SQL structure; these run separately because the vitest config scopes to `src/**/*.test.ts`.
 
 ## Tools and Frameworks
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Vitest | 4.0.18 | Test runner, assertion library, mocking (`vi.fn()`, `vi.mock()`) |
-| jsdom | (bundled with Vitest) | DOM environment for component tests |
-| @testing-library/svelte | latest | `render()`, `screen`, `cleanup()` for Svelte 5 component tests |
-| xlsx | (project dependency) | Used in parser tests to build in-memory XLSX fixtures |
-| Node.js `fs` | built-in | Used in integration tests to read SQL migration files |
+| Tool                    | Version               | Purpose                                                          |
+| ----------------------- | --------------------- | ---------------------------------------------------------------- |
+| Vitest                  | 4.0.18                | Test runner, assertion library, mocking (`vi.fn()`, `vi.mock()`) |
+| jsdom                   | (bundled with Vitest) | DOM environment for component tests                              |
+| @testing-library/svelte | latest                | `render()`, `screen`, `cleanup()` for Svelte 5 component tests   |
+| xlsx                    | (project dependency)  | Used in parser tests to build in-memory XLSX fixtures            |
+| Node.js `fs`            | built-in              | Used in integration tests to read SQL migration files            |
 
 ## Directory Structure
 
@@ -148,23 +148,23 @@ Tests for ranking algorithms supply known inputs and compare outputs against val
 ```typescript
 // From src/lib/ranking/__tests__/colley.test.ts
 it('produces correct ratings for 3-team known example (A>B, A>C, B>C)', () => {
-  const teams: TeamInfo[] = [
-    { id: 'team-a', name: 'Alpha', code: 'ALP' },
-    { id: 'team-b', name: 'Bravo', code: 'BRV' },
-    { id: 'team-c', name: 'Charlie', code: 'CHL' },
-  ];
+	const teams: TeamInfo[] = [
+		{ id: 'team-a', name: 'Alpha', code: 'ALP' },
+		{ id: 'team-b', name: 'Bravo', code: 'BRV' },
+		{ id: 'team-c', name: 'Charlie', code: 'CHL' },
+	];
 
-  const records: PairwiseRecord[] = [
-    { team_a_id: 'team-a', team_b_id: 'team-b', winner_id: 'team-a', tournament_id: 't1' },
-    { team_a_id: 'team-a', team_b_id: 'team-c', winner_id: 'team-a', tournament_id: 't1' },
-    { team_a_id: 'team-b', team_b_id: 'team-c', winner_id: 'team-b', tournament_id: 't1' },
-  ];
+	const records: PairwiseRecord[] = [
+		{ team_a_id: 'team-a', team_b_id: 'team-b', winner_id: 'team-a', tournament_id: 't1' },
+		{ team_a_id: 'team-a', team_b_id: 'team-c', winner_id: 'team-a', tournament_id: 't1' },
+		{ team_a_id: 'team-b', team_b_id: 'team-c', winner_id: 'team-b', tournament_id: 't1' },
+	];
 
-  const results = computeColleyRatings(records, teams);
+	const results = computeColleyRatings(records, teams);
 
-  expect(teamA.rating).toBeCloseTo(0.7, 4);
-  expect(teamB.rating).toBeCloseTo(0.5, 4);
-  expect(teamC.rating).toBeCloseTo(0.3, 4);
+	expect(teamA.rating).toBeCloseTo(0.7, 4);
+	expect(teamB.rating).toBeCloseTo(0.5, 4);
+	expect(teamC.rating).toBeCloseTo(0.3, 4);
 });
 ```
 
@@ -175,36 +175,35 @@ Service tests construct a mock Supabase client that mirrors the PostgREST chain.
 ```typescript
 // From src/lib/ranking/__tests__/ranking-service.test.ts
 function createMockSupabase(overrides: {
-  seasons?: { data: unknown; error: unknown };
-  teams?: { data: unknown; error: unknown };
-  // ...more tables
+	seasons?: { data: unknown; error: unknown };
+	teams?: { data: unknown; error: unknown };
+	// ...more tables
 }) {
-  const client = {
-    from: vi.fn((table: string) => {
-      if (table === 'seasons') {
-        return {
-          select: () => ({
-            eq: () => ({
-              single: () => Promise.resolve(
-                overrides.seasons ?? { data: { id: 'season-1' }, error: null }
-              ),
-            }),
-          }),
-        };
-      }
-      // ...additional tables
-    }),
-  };
-  return client as any;
+	const client = {
+		from: vi.fn((table: string) => {
+			if (table === 'seasons') {
+				return {
+					select: () => ({
+						eq: () => ({
+							single: () =>
+								Promise.resolve(overrides.seasons ?? { data: { id: 'season-1' }, error: null }),
+						}),
+					}),
+				};
+			}
+			// ...additional tables
+		}),
+	};
+	return client as any;
 }
 
 it('orchestrates a full ranking run with 3 teams', async () => {
-  const supabase = createMockSupabase({});
-  const service = new RankingService(supabase);
-  const output = await service.runRanking(defaultConfig);
+	const supabase = createMockSupabase({});
+	const service = new RankingService(supabase);
+	const output = await service.runRanking(defaultConfig);
 
-  expect(output.ranking_run_id).toBe('run-123');
-  expect(output.teams_ranked).toBe(3);
+	expect(output.ranking_run_id).toBe('run-123');
+	expect(output.teams_ranked).toBe(3);
 });
 ```
 
@@ -245,16 +244,16 @@ import OverridePanel from '../OverridePanel.svelte';
 afterEach(() => cleanup());
 
 it('renders team name and original rank when open', () => {
-  render(OverridePanel, { props: baseProps });
-  expect(screen.getByText('Alpha Wolves')).toBeTruthy();
-  expect(screen.getByText(/Algorithmic Rank:/)).toBeTruthy();
+	render(OverridePanel, { props: baseProps });
+	expect(screen.getByText('Alpha Wolves')).toBeTruthy();
+	expect(screen.getByText(/Algorithmic Rank:/)).toBeTruthy();
 });
 
 it('calls onclose when Cancel button is clicked', async () => {
-  const onclose = vi.fn();
-  render(OverridePanel, { props: { ...baseProps, onclose } });
-  screen.getByRole('button', { name: /Cancel/i }).click();
-  expect(onclose).toHaveBeenCalledOnce();
+	const onclose = vi.fn();
+	render(OverridePanel, { props: { ...baseProps, onclose } });
+	screen.getByRole('button', { name: /Cancel/i }).click();
+	expect(onclose).toHaveBeenCalledOnce();
 });
 ```
 
@@ -265,11 +264,11 @@ Integration tests read SQL migration files from disk and verify foreign key cons
 ```typescript
 // From tests/integration/referential-integrity.test.ts
 it('tournaments migration contains REFERENCES seasons(id) ON DELETE CASCADE', () => {
-  const sql = readMigration('20260223180006_create_tournaments_table.sql');
+	const sql = readMigration('20260223180006_create_tournaments_table.sql');
 
-  expect(sql).toMatch(
-    /season_id\s+UUID\s+NOT\s+NULL\s+REFERENCES\s+seasons\s*\(\s*id\s*\)\s+ON\s+DELETE\s+CASCADE/i,
-  );
+	expect(sql).toMatch(
+		/season_id\s+UUID\s+NOT\s+NULL\s+REFERENCES\s+seasons\s*\(\s*id\s*\)\s+ON\s+DELETE\s+CASCADE/i,
+	);
 });
 ```
 
@@ -280,18 +279,18 @@ Tests verify that the ranking pipeline produces identical results on repeated ru
 ```typescript
 // From src/lib/ranking/__tests__/determinism.test.ts
 it('produces byte-identical results when run twice with same input', () => {
-  const run1 = runFullPipeline(teams);
-  const run2 = runFullPipeline(teams);
-  expect(run1).toEqual(run2);
+	const run1 = runFullPipeline(teams);
+	const run2 = runFullPipeline(teams);
+	expect(run1).toEqual(run2);
 });
 
 // From src/lib/ranking/__tests__/edge-cases.test.ts
 it('large dataset: 73 teams, 60 tournaments completes under 5 seconds', () => {
-  // ...generate 73 teams, 60 tournaments
-  const start = performance.now();
-  // ...run full pipeline
-  const elapsed = performance.now() - start;
-  expect(elapsed).toBeLessThan(5000);
+	// ...generate 73 teams, 60 tournaments
+	const start = performance.now();
+	// ...run full pipeline
+	const elapsed = performance.now() - start;
+	expect(elapsed).toBeLessThan(5000);
 });
 ```
 
@@ -302,15 +301,15 @@ Design system tests compute WCAG 2.1 relative luminance and contrast ratios betw
 ```typescript
 // From src/lib/components/__tests__/contrast.test.ts
 it('all primary text/background pairings meet 4.5:1 for normal text', () => {
-  const pairings = [
-    { fg: '#111827', bg: '#FAFAFA', label: 'text-primary on bg', minRatio: 4.5 },
-    { fg: '#2563EB', bg: '#FFFFFF', label: 'accent on surface', minRatio: 4.5 },
-    // ...
-  ];
-  for (const { fg, bg, label, minRatio } of pairings) {
-    const ratio = contrastRatio(fg, bg);
-    expect(ratio).toBeGreaterThanOrEqual(minRatio);
-  }
+	const pairings = [
+		{ fg: '#111827', bg: '#FAFAFA', label: 'text-primary on bg', minRatio: 4.5 },
+		{ fg: '#2563EB', bg: '#FFFFFF', label: 'accent on surface', minRatio: 4.5 },
+		// ...
+	];
+	for (const { fg, bg, label, minRatio } of pairings) {
+		const ratio = contrastRatio(fg, bg);
+		expect(ratio).toBeGreaterThanOrEqual(minRatio);
+	}
 });
 ```
 
@@ -332,14 +331,14 @@ The vitest config has an empty `setupFiles` array. There are no global mocks, no
 
 ## Quality Gates
 
-| Gate | Threshold | Enforcement |
-|------|-----------|-------------|
-| All tests pass | 180/180 (0 failures) | `npx vitest run` exit code |
-| Type checking | Zero errors | `npm run check` (svelte-check + tsc) |
-| Test execution time | Under 5 seconds total | Vitest reports ~2.3s |
-| Performance budget | 73 teams / 60 tournaments under 5s | Asserted in `edge-cases.test.ts` |
-| WCAG AA contrast | 4.5:1 minimum | Asserted in `contrast.test.ts` |
-| Design tokens present | 14 color + 7 spacing + 8 typography | Asserted in `design-tokens.test.ts` |
+| Gate                  | Threshold                           | Enforcement                          |
+| --------------------- | ----------------------------------- | ------------------------------------ |
+| All tests pass        | 180/180 (0 failures)                | `npx vitest run` exit code           |
+| Type checking         | Zero errors                         | `npm run check` (svelte-check + tsc) |
+| Test execution time   | Under 5 seconds total               | Vitest reports ~2.3s                 |
+| Performance budget    | 73 teams / 60 tournaments under 5s  | Asserted in `edge-cases.test.ts`     |
+| WCAG AA contrast      | 4.5:1 minimum                       | Asserted in `contrast.test.ts`       |
+| Design tokens present | 14 color + 7 spacing + 8 typography | Asserted in `design-tokens.test.ts`  |
 
 ## Conventions
 

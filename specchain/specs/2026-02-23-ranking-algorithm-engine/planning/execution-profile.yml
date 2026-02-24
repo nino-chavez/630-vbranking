@@ -16,26 +16,26 @@ execution:
 
 # Domain specialists for this feature
 domains:
-  - algorithm     # Mathematical rating model implementations (Colley Matrix, Elo variants)
-  - database      # Storing computed ratings and ranks per team
-  - aggregation   # Unified AggRating normalization and AggRank computation
-  - integration   # Connecting match data to algorithm inputs
+  - algorithm # Mathematical rating model implementations (Colley Matrix, Elo variants)
+  - database # Storing computed ratings and ranks per team
+  - aggregation # Unified AggRating normalization and AggRank computation
+  - integration # Connecting match data to algorithm inputs
 
 # Expected task groups for squad execution
 task_groups:
-  - name: "Colley Matrix Model"
+  - name: 'Colley Matrix Model'
     agents:
       - algorithm_engineer
       - database_engineer
-  - name: "Elo Variant Models"
+  - name: 'Elo Variant Models'
     agents:
       - algorithm_engineer
       - database_engineer
-  - name: "Aggregation & Normalization"
+  - name: 'Aggregation & Normalization'
     agents:
       - algorithm_engineer
       - database_engineer
-  - name: "Testing & Verification"
+  - name: 'Testing & Verification'
     agents:
       - testing_engineer
       - algorithm_engineer

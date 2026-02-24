@@ -3,6 +3,7 @@
 Description: Transforms existing `docs/` markdown into deployable static site format for Jekyll, Docusaurus, or MkDocs platforms.
 
 Arguments:
+
 - platform: Required. One of: "jekyll", "docusaurus", "mkdocs"
 - layers: (optional) Comma-separated: "user", "developer", "architecture", "all". Default: "user"
 - branding: (optional) Path to `docs-branding.json` for custom logo/colors
@@ -18,14 +19,18 @@ You are executing a three-phase documentation build pipeline. Read CLAUDE.md fir
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: ANALYZER
-*Persona: Build System Architect*
+
+_Persona: Build System Architect_
+
 - Scan existing `docs/` directory structure
 - Identify content by layer (user, developer, architecture, ops, etc.)
 - Map file structure to navigation hierarchy
 - Detect existing frontmatter and metadata
 
 ### PHASE 2: TRANSFORMER
-*Persona: Platform-Specific Build Engineer*
+
+_Persona: Platform-Specific Build Engineer_
+
 - Generate platform configuration files
 - Inject appropriate frontmatter into each file
 - Create navigation configuration
@@ -33,9 +38,11 @@ You are executing a three-phase documentation build pipeline. Read CLAUDE.md fir
 - Copy and organize content to output directory
 
 ### PHASE 3: VALIDATOR
-*Persona: QA Engineer verifying build output*
+
+_Persona: QA Engineer verifying build output_
 
 **Required Checks:**
+
 - [ ] All markdown files have valid frontmatter
 - [ ] Navigation configuration is syntactically correct
 - [ ] Platform config file is complete and valid
@@ -49,25 +56,27 @@ You are executing a three-phase documentation build pipeline. Read CLAUDE.md fir
 ### Step 1.1: Scan Documentation Structure
 
 Run discovery:
+
 ```bash
 find docs/ -name "*.md" -type f | head -100
 ```
 
 ### Step 1.2: Map Layers to Directories
 
-| Layer | Source Directory | Include When |
-|-------|------------------|--------------|
-| user | `docs/user/` | layers contains "user" or "all" |
-| developer | `docs/developer/` | layers contains "developer" or "all" |
+| Layer        | Source Directory     | Include When                            |
+| ------------ | -------------------- | --------------------------------------- |
+| user         | `docs/user/`         | layers contains "user" or "all"         |
+| developer    | `docs/developer/`    | layers contains "developer" or "all"    |
 | architecture | `docs/architecture/` | layers contains "architecture" or "all" |
-| ops | `docs/ops/` | layers contains "ops" or "all" |
-| testing | `docs/testing/` | layers contains "testing" or "all" |
-| functional | `docs/functional/` | layers contains "functional" or "all" |
-| strategic | `docs/strategic/` | layers contains "strategic" or "all" |
+| ops          | `docs/ops/`          | layers contains "ops" or "all"          |
+| testing      | `docs/testing/`      | layers contains "testing" or "all"      |
+| functional   | `docs/functional/`   | layers contains "functional" or "all"   |
+| strategic    | `docs/strategic/`    | layers contains "strategic" or "all"    |
 
 ### Step 1.3: Build Navigation Tree
 
 For each included layer, build a tree:
+
 ```
 Layer Name
 ├── Section (from subdirectory)
@@ -77,6 +86,7 @@ Layer Name
 ```
 
 Extract title from:
+
 1. Existing frontmatter `title:` field
 2. First `# Heading` in file
 3. Filename (converted from kebab-case to Title Case)
@@ -90,6 +100,7 @@ Extract title from:
 **Best for:** GitHub Pages native deployment, simple setup
 
 #### Step 2.1: Create Output Structure
+
 ```
 $output/
 ├── _config.yml
@@ -100,24 +111,25 @@ $output/
         └── [files].md
 ```
 
-#### Step 2.2: Generate _config.yml
+#### Step 2.2: Generate \_config.yml
 
 Use template from `templates/jekyll/_config.yml.template` with substitutions:
 
-| Placeholder | Source |
-|-------------|--------|
-| `{{SITE_TITLE}}` | Project name from CLAUDE.md or branding.json |
-| `{{SITE_DESCRIPTION}}` | Project description from CLAUDE.md |
-| `{{BASE_URL}}` | $base_url argument |
-| `{{REPO_URL}}` | Git remote URL if available |
-| `{{PRIMARY_COLOR}}` | From branding.json or default `#7253ed` |
+| Placeholder            | Source                                       |
+| ---------------------- | -------------------------------------------- |
+| `{{SITE_TITLE}}`       | Project name from CLAUDE.md or branding.json |
+| `{{SITE_DESCRIPTION}}` | Project description from CLAUDE.md           |
+| `{{BASE_URL}}`         | $base_url argument                           |
+| `{{REPO_URL}}`         | Git remote URL if available                  |
+| `{{PRIMARY_COLOR}}`    | From branding.json or default `#7253ed`      |
 
 If no template exists, generate:
+
 ```yaml
-title: {{SITE_TITLE}}
-description: {{SITE_DESCRIPTION}}
-baseurl: "{{BASE_URL}}"
-url: ""
+title: { { SITE_TITLE } }
+description: { { SITE_DESCRIPTION } }
+baseurl: '{{BASE_URL}}'
+url: ''
 
 theme: just-the-docs
 
@@ -139,18 +151,19 @@ search:
 
 # Aux links (top right)
 aux_links:
-  "View on GitHub":
-    - "{{REPO_URL}}"
+  'View on GitHub':
+    - '{{REPO_URL}}'
 
 # Footer
-footer_content: "Documentation generated by Claude Docs Toolkit"
+footer_content: 'Documentation generated by Claude Docs Toolkit'
 
 # Back to top link
 back_to_top: true
-back_to_top_text: "Back to top"
+back_to_top_text: 'Back to top'
 ```
 
 #### Step 2.3: Generate Gemfile
+
 ```ruby
 source "https://rubygems.org"
 
@@ -174,6 +187,7 @@ permalink: /[path-from-root]/
 ```
 
 **Navigation Order Rules:**
+
 - README.md or index.md files get `nav_order: 1`
 - Other files ordered alphabetically or by existing `nav_order`
 - Directories become parent pages with `has_children: true`
@@ -181,6 +195,7 @@ permalink: /[path-from-root]/
 #### Step 2.5: Create Index Page
 
 Generate `$output/index.md`:
+
 ```markdown
 ---
 layout: default
@@ -205,6 +220,7 @@ permalink: /
 **Best for:** Larger projects, versioning, React ecosystem
 
 #### Step 2.1: Create Output Structure
+
 ```
 $output/
 ├── docusaurus.config.js
@@ -223,64 +239,67 @@ $output/
 
 Use template from `templates/docusaurus/docusaurus.config.js.template` with substitutions:
 
-| Placeholder | Source |
-|-------------|--------|
-| `{{SITE_TITLE}}` | Project name |
-| `{{TAGLINE}}` | Project description |
-| `{{ORG_NAME}}` | From git remote or branding |
-| `{{PROJECT_NAME}}` | Repository name |
-| `{{BASE_URL}}` | $base_url argument |
+| Placeholder         | Source                                  |
+| ------------------- | --------------------------------------- |
+| `{{SITE_TITLE}}`    | Project name                            |
+| `{{TAGLINE}}`       | Project description                     |
+| `{{ORG_NAME}}`      | From git remote or branding             |
+| `{{PROJECT_NAME}}`  | Repository name                         |
+| `{{BASE_URL}}`      | $base_url argument                      |
 | `{{PRIMARY_COLOR}}` | From branding.json or default `#2e8555` |
-| `{{REPO_URL}}` | Git remote URL |
+| `{{REPO_URL}}`      | Git remote URL                          |
 
 #### Step 2.3: Generate sidebars.js
 
 Build sidebar from navigation tree:
+
 ```javascript
 module.exports = {
-  docs: [
-    {
-      type: 'category',
-      label: '[Layer Name]',
-      items: [
-        '[layer]/[file-id]',
-        {
-          type: 'category',
-          label: '[Section Name]',
-          items: ['[layer]/[section]/[file-id]'],
-        },
-      ],
-    },
-  ],
+	docs: [
+		{
+			type: 'category',
+			label: '[Layer Name]',
+			items: [
+				'[layer]/[file-id]',
+				{
+					type: 'category',
+					label: '[Section Name]',
+					items: ['[layer]/[section]/[file-id]'],
+				},
+			],
+		},
+	],
 };
 ```
 
 #### Step 2.4: Generate package.json
+
 ```json
 {
-  "name": "{{PROJECT_NAME}}-docs",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "serve": "docusaurus serve",
-    "clear": "docusaurus clear"
-  },
-  "dependencies": {
-    "@docusaurus/core": "^3.0.0",
-    "@docusaurus/preset-classic": "^3.0.0",
-    "prism-react-renderer": "^2.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  }
+	"name": "{{PROJECT_NAME}}-docs",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"docusaurus": "docusaurus",
+		"start": "docusaurus start",
+		"build": "docusaurus build",
+		"serve": "docusaurus serve",
+		"clear": "docusaurus clear"
+	},
+	"dependencies": {
+		"@docusaurus/core": "^3.0.0",
+		"@docusaurus/preset-classic": "^3.0.0",
+		"prism-react-renderer": "^2.1.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	}
 }
 ```
 
 #### Step 2.5: Inject Docusaurus Frontmatter
 
 For each markdown file:
+
 ```yaml
 ---
 id: [filename-without-extension]
@@ -294,6 +313,7 @@ slug: /[full-path-from-docs-root]
 #### Step 2.6: Create _category_.json Files
 
 For each directory, create `_category_.json`:
+
 ```json
 {
   "label": "[Section Name]",
@@ -312,6 +332,7 @@ For each directory, create `_category_.json`:
 **Best for:** Python projects, beautiful defaults, great search
 
 #### Step 2.1: Create Output Structure
+
 ```
 $output/
 ├── mkdocs.yml
@@ -324,20 +345,21 @@ $output/
 
 Use template from `templates/mkdocs/mkdocs.yml.template` with substitutions:
 
-| Placeholder | Source |
-|-------------|--------|
-| `{{SITE_NAME}}` | Project name |
-| `{{SITE_DESCRIPTION}}` | Project description |
-| `{{SITE_URL}}` | Full site URL if known |
-| `{{REPO_URL}}` | Git remote URL |
-| `{{REPO_NAME}}` | Repository name |
-| `{{PRIMARY_COLOR}}` | From branding.json or default `indigo` |
-| `{{ACCENT_COLOR}}` | From branding.json or default `amber` |
-| `{{NAV_STRUCTURE}}` | Generated navigation YAML |
+| Placeholder            | Source                                 |
+| ---------------------- | -------------------------------------- |
+| `{{SITE_NAME}}`        | Project name                           |
+| `{{SITE_DESCRIPTION}}` | Project description                    |
+| `{{SITE_URL}}`         | Full site URL if known                 |
+| `{{REPO_URL}}`         | Git remote URL                         |
+| `{{REPO_NAME}}`        | Repository name                        |
+| `{{PRIMARY_COLOR}}`    | From branding.json or default `indigo` |
+| `{{ACCENT_COLOR}}`     | From branding.json or default `amber`  |
+| `{{NAV_STRUCTURE}}`    | Generated navigation YAML              |
 
 #### Step 2.3: Build Navigation YAML
 
 Generate `nav:` section:
+
 ```yaml
 nav:
   - Home: index.md
@@ -352,6 +374,7 @@ nav:
 #### Step 2.4: Inject MkDocs Frontmatter
 
 For each markdown file:
+
 ```yaml
 ---
 title: [Extracted Title]
@@ -371,12 +394,14 @@ tags:
 Check that output directory contains all required files:
 
 **Jekyll:**
+
 - [ ] `_config.yml` exists and is valid YAML
 - [ ] `Gemfile` exists
 - [ ] `index.md` exists with proper frontmatter
 - [ ] All content files have frontmatter with `layout`, `title`, `nav_order`
 
 **Docusaurus:**
+
 - [ ] `docusaurus.config.js` exists and is valid JS
 - [ ] `sidebars.js` exists and references correct paths
 - [ ] `package.json` exists with required dependencies
@@ -384,6 +409,7 @@ Check that output directory contains all required files:
 - [ ] `_category_.json` exists in each subdirectory
 
 **MkDocs:**
+
 - [ ] `mkdocs.yml` exists and is valid YAML
 - [ ] `nav:` section references all included files
 - [ ] All referenced files exist in `docs/` subdirectory
@@ -391,6 +417,7 @@ Check that output directory contains all required files:
 ### Step 3.2: Verify Internal Links
 
 Scan all markdown files for internal links:
+
 - `[text](./relative-path.md)` - verify target exists in output
 - `[text](/absolute-path)` - verify path resolves correctly
 - Report any broken links as warnings
@@ -398,6 +425,7 @@ Scan all markdown files for internal links:
 ### Step 3.3: Generate Build Report
 
 Output summary:
+
 ```
 ╔════════════════════════════════════════════════════════════════════╗
 ║  Documentation Site Built Successfully                              ║
@@ -418,6 +446,7 @@ Output summary:
 **Platform-Specific Next Steps:**
 
 Jekyll:
+
 ```bash
 cd $output
 bundle install
@@ -426,6 +455,7 @@ bundle exec jekyll serve
 ```
 
 Docusaurus:
+
 ```bash
 cd $output
 npm install
@@ -434,6 +464,7 @@ npm run start
 ```
 
 MkDocs:
+
 ```bash
 cd $output
 pip install mkdocs-material
@@ -449,35 +480,35 @@ If `branding` argument provided, read `docs-branding.json`:
 
 ```json
 {
-  "title": "My Project Docs",
-  "description": "Documentation for My Project",
-  "logo": {
-    "light": "assets/logo-light.svg",
-    "dark": "assets/logo-dark.svg"
-  },
-  "favicon": "assets/favicon.ico",
-  "colors": {
-    "primary": "#7253ed",
-    "accent": "#ff6b6b",
-    "background": "#ffffff",
-    "text": "#333333"
-  },
-  "fonts": {
-    "heading": "Inter",
-    "body": "Source Sans Pro",
-    "code": "Fira Code"
-  },
-  "social": {
-    "github": "https://github.com/org/repo",
-    "twitter": "https://twitter.com/handle"
-  },
-  "footer": {
-    "copyright": "Copyright 2024 My Company",
-    "links": [
-      { "label": "Privacy", "href": "/privacy" },
-      { "label": "Terms", "href": "/terms" }
-    ]
-  }
+	"title": "My Project Docs",
+	"description": "Documentation for My Project",
+	"logo": {
+		"light": "assets/logo-light.svg",
+		"dark": "assets/logo-dark.svg"
+	},
+	"favicon": "assets/favicon.ico",
+	"colors": {
+		"primary": "#7253ed",
+		"accent": "#ff6b6b",
+		"background": "#ffffff",
+		"text": "#333333"
+	},
+	"fonts": {
+		"heading": "Inter",
+		"body": "Source Sans Pro",
+		"code": "Fira Code"
+	},
+	"social": {
+		"github": "https://github.com/org/repo",
+		"twitter": "https://twitter.com/handle"
+	},
+	"footer": {
+		"copyright": "Copyright 2024 My Company",
+		"links": [
+			{ "label": "Privacy", "href": "/privacy" },
+			{ "label": "Terms", "href": "/terms" }
+		]
+	}
 }
 ```
 
@@ -497,13 +528,13 @@ Apply branding to platform configuration files accordingly.
 
 ## ERROR HANDLING
 
-| Error | Resolution |
-|-------|------------|
-| No `docs/` directory | Error: "No docs/ directory found. Run /init-docs first." |
-| Empty layer directory | Warning: "Layer [name] has no content, skipping." |
-| Invalid frontmatter | Warning: "Invalid frontmatter in [file], regenerating." |
-| Missing template | Generate default configuration inline |
-| Broken internal link | Warning: "Broken link in [file]: [link]" |
+| Error                 | Resolution                                               |
+| --------------------- | -------------------------------------------------------- |
+| No `docs/` directory  | Error: "No docs/ directory found. Run /init-docs first." |
+| Empty layer directory | Warning: "Layer [name] has no content, skipping."        |
+| Invalid frontmatter   | Warning: "Invalid frontmatter in [file], regenerating."  |
+| Missing template      | Generate default configuration inline                    |
+| Broken internal link  | Warning: "Broken link in [file]: [link]"                 |
 
 ---
 

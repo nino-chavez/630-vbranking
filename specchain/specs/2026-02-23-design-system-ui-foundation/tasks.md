@@ -17,14 +17,14 @@ Define all design tokens (color, typography, spacing) as CSS custom properties i
 ### Sub-tasks
 
 - [ ] **1.1 Write 3 focused tests for design token availability**
-  Create test file: `src/lib/components/__tests__/design-tokens.test.ts`
-  Tests (Vitest, jsdom environment):
+      Create test file: `src/lib/components/__tests__/design-tokens.test.ts`
+      Tests (Vitest, jsdom environment):
   1. **Test:** Import `src/app.css` and verify it contains all required color custom properties (`--color-bg`, `--color-surface`, `--color-surface-alt`, `--color-border`, `--color-border-strong`, `--color-text-primary`, `--color-text-secondary`, `--color-text-muted`, `--color-accent`, `--color-accent-hover`, `--color-accent-light`, `--color-success`, `--color-error`, `--color-warning`). Read the file content as a string and assert each token name is present.
   2. **Test:** Verify all tier color tokens are defined (`--color-tier-1`, `--color-tier-2`, `--color-tier-3`, `--color-tier-4`).
   3. **Test:** Verify spacing tokens (`--space-1` through `--space-12`) and typography tokens (`--text-h1` through `--text-stat`) are defined.
 
 - [ ] **1.2 Define the color palette as CSS custom properties**
-  Modify file: `src/app.css`
+      Modify file: `src/app.css`
   - Add a `:root` block BEFORE the `@import 'tailwindcss'` line.
   - Define all 60-30-10 color tokens with the exact hex values from the spec:
     - Dominant (60%): `--color-bg: #FAFAFA`, `--color-surface: #FFFFFF`, `--color-surface-alt: #F5F5F5`
@@ -34,18 +34,18 @@ Define all design tokens (color, typography, spacing) as CSS custom properties i
   - No hardcoded color values -- all tokens defined once here.
 
 - [ ] **1.3 Define typography scale tokens**
-  Modify file: `src/app.css` (within the `:root` block)
+      Modify file: `src/app.css` (within the `:root` block)
   - Define font-size tokens: `--text-h1: 1.875rem`, `--text-h2: 1.25rem`, `--text-h3: 1.125rem`, `--text-body: 0.875rem`, `--text-caption: 0.75rem`, `--text-label: 0.875rem`, `--text-stat: 1.5rem`
   - Define corresponding line-height tokens: `--leading-h1: 1.2`, `--leading-h2: 1.3`, `--leading-h3: 1.4`, `--leading-body: 1.5`, `--leading-caption: 1.5`
   - Define font-weight tokens: `--font-normal: 400`, `--font-medium: 500`, `--font-semibold: 600`, `--font-bold: 700`
   - Define the system font stack: `--font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif`
 
 - [ ] **1.4 Define spacing scale tokens**
-  Modify file: `src/app.css` (within the `:root` block)
+      Modify file: `src/app.css` (within the `:root` block)
   - Define spacing tokens on a 4px base unit: `--space-1: 0.25rem`, `--space-2: 0.5rem`, `--space-3: 0.75rem`, `--space-4: 1rem`, `--space-6: 1.5rem`, `--space-8: 2rem`, `--space-12: 3rem`
 
 - [ ] **1.5 Map tokens into Tailwind v4 `@theme` block**
-  Modify file: `src/app.css`
+      Modify file: `src/app.css`
   - Add a `@theme` block AFTER the `:root` block and BEFORE the `@import 'tailwindcss'` line.
   - Map color tokens to Tailwind: `--color-bg: var(--color-bg)`, `--color-surface: var(--color-surface)`, etc. This enables utilities like `bg-bg`, `bg-surface`, `text-accent`, `border-border`.
   - Map spacing tokens: `--spacing-1: var(--space-1)`, etc.
@@ -98,8 +98,8 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
 ### Sub-tasks
 
 - [ ] **2.1 Write 8 focused tests for component library**
-  Create test file: `src/lib/components/__tests__/design-system-components.test.ts`
-  Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each test):
+      Create test file: `src/lib/components/__tests__/design-system-components.test.ts`
+      Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each test):
   1. **Test:** `Button` renders all four variants (primary, secondary, danger, ghost) and each variant applies the correct design-token-based classes. Render primary and assert the button element is present with accessible role.
   2. **Test:** `Button` in disabled state renders with `disabled` attribute and reduced opacity. Verify clicking a disabled button does NOT trigger the `onclick` callback.
   3. **Test:** `Banner` renders all four variants (success, error, warning, info) with the correct `role="alert"` attribute. Render error variant and assert the title text is visible.
@@ -110,7 +110,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   8. **Test:** `Select` renders with a label, options, and placeholder. Assert the label text is associated with the select element via `for`/`id` attributes. Verify the placeholder option is present.
 
 - [ ] **2.2 Create the Spinner component**
-  Create file: `src/lib/components/Spinner.svelte`
+      Create file: `src/lib/components/Spinner.svelte`
   - Props: `size?: 'sm' | 'md'` (default `'md'`)
   - Render an SVG loading spinner with `animate-spin` class.
   - Size mapping: `sm` = `h-4 w-4`, `md` = `h-6 w-6`.
@@ -118,7 +118,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Replaces the repeated inline SVG spinner pattern found in 3+ places across `/import` and `/ranking` pages.
 
 - [ ] **2.3 Create the Button component**
-  Create file: `src/lib/components/Button.svelte`
+      Create file: `src/lib/components/Button.svelte`
   - Props: `variant?: 'primary' | 'secondary' | 'danger' | 'ghost'` (default `'primary'`), `size?: 'sm' | 'md'` (default `'md'`), `disabled?: boolean`, `loading?: boolean`, `type?: 'button' | 'submit'` (default `'button'`), `onclick?: () => void`, `children: Snippet`
   - Variant styles (all referencing design tokens via Tailwind):
     - Primary: `bg-accent text-white hover:bg-accent-hover focus:ring-accent`
@@ -132,7 +132,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Render children via `{@render children()}`.
 
 - [ ] **2.4 Create the Select component**
-  Create file: `src/lib/components/Select.svelte`
+      Create file: `src/lib/components/Select.svelte`
   - Props: `label: string`, `id: string`, `options: Array<{ value: string, label: string }>`, `value?: string` (bindable via `$bindable()`), `placeholder?: string`, `disabled?: boolean`, `error?: string`
   - Render a `<label>` with `for={id}` and text styled with `text-label` token.
   - Render a `<select>` with `id={id}`, bound to `value`.
@@ -142,7 +142,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Replace the repeated label+select markup found 5+ times across both pages.
 
 - [ ] **2.5 Create the Card component**
-  Create file: `src/lib/components/Card.svelte`
+      Create file: `src/lib/components/Card.svelte`
   - Props: `header?: Snippet`, `children: Snippet`, `padding?: 'default' | 'none'` (default `'default'`)
   - Render a `<div>` with `rounded-lg border border-border bg-surface shadow-sm`.
   - If `header` snippet is provided, render it inside a header section with bottom border.
@@ -151,7 +151,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Replaces the repeated `rounded-lg border border-gray-200 bg-white p-6 shadow-sm` pattern.
 
 - [ ] **2.6 Create the Banner component**
-  Create file: `src/lib/components/Banner.svelte`
+      Create file: `src/lib/components/Banner.svelte`
   - Props: `variant: 'success' | 'error' | 'warning' | 'info'`, `title?: string`, `children: Snippet`, `dismissible?: boolean`
   - Variant styles (using design tokens):
     - Success: `bg-green-50 border-success text-green-800` with checkmark icon.
@@ -165,7 +165,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Render children via `{@render children()}` as the message body.
 
 - [ ] **2.7 Create the PageHeader component**
-  Create file: `src/lib/components/PageHeader.svelte`
+      Create file: `src/lib/components/PageHeader.svelte`
   - Props: `title: string`, `subtitle?: string`
   - Render `<h1>` with `text-h1` size, `font-bold`, `text-text-primary`.
   - If `subtitle`, render `<p>` with `text-body`, `text-text-secondary`, `mt-2`.
@@ -173,7 +173,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Replaces the repeated `<h1>` + `<p>` pattern found at the top of both pages.
 
 - [ ] **2.8 Create the NavHeader component**
-  Create file: `src/lib/components/NavHeader.svelte`
+      Create file: `src/lib/components/NavHeader.svelte`
   - Props: `currentPath: string`
   - Render a `<nav>` element with `aria-label="Main navigation"`.
   - Container: full-width background with `bg-surface border-b border-border`.
@@ -186,14 +186,14 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Height: `h-16` for consistent vertical rhythm.
 
 - [ ] **2.9 Create the PageShell component**
-  Create file: `src/lib/components/PageShell.svelte`
+      Create file: `src/lib/components/PageShell.svelte`
   - Props: `children: Snippet`
   - Render structure: `<div class="min-h-screen bg-bg">` wrapping a `<main>` with the container pattern (`mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8`).
   - Note: NavHeader is NOT rendered here -- it is placed in `+layout.svelte` above PageShell, so the nav is outside the main content area.
   - Render children via `{@render children()}` inside `<main>`.
 
 - [ ] **2.10 Create the DataTable component**
-  Create file: `src/lib/components/DataTable.svelte`
+      Create file: `src/lib/components/DataTable.svelte`
   - Props: `children: Snippet`, `caption?: string`, `stickyHeader?: boolean` (default `true`)
   - Render a wrapper `<div>` with `overflow-x-auto rounded-lg border border-border bg-surface shadow-sm`.
   - Inside, render a `<table>` with `min-w-full divide-y divide-border`.
@@ -203,7 +203,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - This component provides the chrome (border, scroll, sticky) -- actual table rows are composed inside it.
 
 - [ ] **2.11 Create the RankBadge component**
-  Create file: `src/lib/components/RankBadge.svelte`
+      Create file: `src/lib/components/RankBadge.svelte`
   - Props: `rank: number`
   - Render the rank number inside a `<span>`.
   - For ranks 1-5: `font-bold text-lg text-text-primary` (visually emphasized).
@@ -212,7 +212,7 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Wrap in a minimum-width container for visual alignment in the table column.
 
 - [ ] **2.12 Create the TierRow component**
-  Create file: `src/lib/components/TierRow.svelte`
+      Create file: `src/lib/components/TierRow.svelte`
   - Props: `rank: number`, `children: Snippet`
   - Render a `<tr>` element with a tier-based background color:
     - Rank 1-5: `bg-tier-1` (warm gold tint `--color-tier-1`)
@@ -223,13 +223,13 @@ Build the reusable Svelte 5 component library: Button, Select, Card, Banner, Pag
   - Render children (table cells) via `{@render children()}`.
 
 - [ ] **2.13 Create the FreshnessIndicator component**
-  Create file: `src/lib/components/FreshnessIndicator.svelte`
+      Create file: `src/lib/components/FreshnessIndicator.svelte`
   - Props: `timestamp: string` (ISO 8601 string)
   - Compute relative time from the timestamp using a simple function (no external library):
     - < 1 min: "Just now"
     - < 60 min: "X min ago"
     - < 24 hours: "X hours ago"
-    - >= 24 hours: "X days ago"
+    - > = 24 hours: "X days ago"
   - Render as a `<time>` element with `datetime` attribute set to the ISO timestamp.
   - Style: `text-caption text-text-muted` with a small clock icon (inline SVG) prefix.
 
@@ -287,8 +287,8 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
 ### Sub-tasks
 
 - [ ] **3.1 Write 5 focused tests for page retrofitting**
-  Create test file: `src/lib/components/__tests__/page-retrofit.test.ts`
-  Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each test):
+      Create test file: `src/lib/components/__tests__/page-retrofit.test.ts`
+      Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each test):
   1. **Test:** `RankingResultsTable` renders tier-colored rows. Pass results with ranks 1, 10, 20, and 35. Assert that the row for rank 1 has the tier-1 background class, rank 10 has tier-2, rank 20 has tier-3, and rank 35 has no tier color (transparent/default).
   2. **Test:** `RankingResultsTable` renders `RankBadge` components in the rank column. Pass results with rank 1 and rank 15. Assert the rank 1 badge has bold styling and the rank 15 badge has standard styling.
   3. **Test:** `RankingResultsTable` uses semantic table markup. Assert the rendered table contains `<thead>`, `<th>` elements with appropriate scope attributes, and a `<caption>` element (or `aria-label` on the table).
@@ -296,7 +296,7 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
   5. **Test:** `PageShell` renders children inside a main element with the container pattern. Assert the `<main>` element exists and contains the children content.
 
 - [ ] **3.2 Update `+layout.svelte` with NavHeader and PageShell**
-  Modify file: `src/routes/+layout.svelte`
+      Modify file: `src/routes/+layout.svelte`
   - Import `NavHeader` and `PageShell` from `$lib/components/`.
   - Import `page` from `$app/stores` or use `$page.url.pathname` (Svelte 5 way) to get the current route path.
   - Render `NavHeader` with `currentPath={$page.url.pathname}` at the top.
@@ -305,7 +305,7 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
   - Remove any existing container/wrapper patterns from the layout if present (they are now in PageShell).
 
 - [ ] **3.3 Retrofit the `/import` page with design-system components**
-  Modify file: `src/routes/import/+page.svelte`
+      Modify file: `src/routes/import/+page.svelte`
   - Replace the manual page container `<div class="mx-auto max-w-7xl ...">` -- this is now provided by PageShell in the layout.
   - Replace the manual `<h1>` + `<p>` page title with `<PageHeader title="Import Data" subtitle="Upload Excel spreadsheets to import tournament results or ranking data." />`.
   - Replace all `<div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">` wrappers with `<Card>` components. For the Import Settings section, use `<Card>` with a header snippet containing the `<h2>`.
@@ -318,7 +318,7 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
   - Ensure all color references use design token classes, not hardcoded gray/blue values.
 
 - [ ] **3.4 Retrofit the `/ranking` page with design-system components**
-  Modify file: `src/routes/ranking/+page.svelte`
+      Modify file: `src/routes/ranking/+page.svelte`
   - Remove the manual page container `<div class="mx-auto max-w-7xl ...">` -- provided by PageShell.
   - Replace the manual `<h1>` + `<p>` with `<PageHeader title="Rankings" subtitle="Run ranking algorithms to compute team ratings and aggregate rankings." />`.
   - Replace the settings card wrapper with `<Card>` component.
@@ -332,7 +332,7 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
   - Add `<FreshnessIndicator timestamp={runSummary.ran_at} />` near the results summary.
 
 - [ ] **3.5 Enhance `RankingResultsTable` with tier colors and rank badges**
-  Modify file: `src/lib/components/RankingResultsTable.svelte`
+      Modify file: `src/lib/components/RankingResultsTable.svelte`
   - Import `TierRow`, `RankBadge`, and `DataTable` components.
   - Wrap the existing `<table>` inside a `<DataTable caption="Ranking results">` component.
   - Replace the plain `<tr>` rows with `<TierRow rank={row.agg_rank}>` to apply tier background colors.
@@ -352,14 +352,14 @@ Apply the design system to the existing `/import` and `/ranking` pages. Update `
   - Ensure `tabular-nums` remains on all numeric columns.
 
 - [ ] **3.6 Apply responsive behavior to the ranking table**
-  Modify file: `src/lib/components/RankingResultsTable.svelte`
+      Modify file: `src/lib/components/RankingResultsTable.svelte`
   - Mobile (< 640px): Hide per-algorithm columns (Colley Rating/Rank, Elo-2200 through Elo-2700 Rating/Rank). Show only AggRank, Team Name, AggRating, and optionally W/L Record. Use Tailwind responsive utilities: `hidden sm:table-cell` on algorithm columns.
   - Tablet (640px - 1024px): Show key columns, allow horizontal scroll for remaining algorithm columns.
   - Desktop (> 1024px): All columns visible. Horizontal scroll available via DataTable wrapper if content overflows.
   - Ensure the first two columns (Rank, Team Name) remain visible at all viewport sizes.
 
 - [ ] **3.7 Remove hardcoded colors from existing components**
-  Modify files: `src/lib/components/FileDropZone.svelte`, `src/lib/components/DataPreviewTable.svelte`, `src/lib/components/ImportSummary.svelte`, `src/lib/components/IdentityResolutionPanel.svelte`
+      Modify files: `src/lib/components/FileDropZone.svelte`, `src/lib/components/DataPreviewTable.svelte`, `src/lib/components/ImportSummary.svelte`, `src/lib/components/IdentityResolutionPanel.svelte`
   - In each file, replace all hardcoded Tailwind color classes with design-token-based equivalents:
     - `bg-blue-600` -> `bg-accent`, `hover:bg-blue-700` -> `hover:bg-accent-hover`
     - `text-blue-600` -> `text-accent`, `focus:ring-blue-500` -> `focus:ring-accent`
@@ -426,54 +426,49 @@ Review all tests written by Groups 1-3 (3 token tests + 8 component tests + 5 pa
 ### Sub-tasks
 
 - [ ] **4.1 Audit existing test coverage**
-  Review all test files:
+      Review all test files:
   - `src/lib/components/__tests__/design-tokens.test.ts` (3 tests)
   - `src/lib/components/__tests__/design-system-components.test.ts` (8 tests)
   - `src/lib/components/__tests__/page-retrofit.test.ts` (5 tests)
-  Document which paths are covered and which critical paths are missing. Focus on: accessibility compliance, WCAG contrast ratios, keyboard navigation, component interaction edge cases, and responsive behavior verification.
+    Document which paths are covered and which critical paths are missing. Focus on: accessibility compliance, WCAG contrast ratios, keyboard navigation, component interaction edge cases, and responsive behavior verification.
 
 - [ ] **4.2 Write accessibility audit tests**
-  Create test file: `src/lib/components/__tests__/accessibility.test.ts`
-  Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each):
+      Create test file: `src/lib/components/__tests__/accessibility.test.ts`
+      Tests (Vitest with `@testing-library/svelte`, jsdom environment, `cleanup()` after each):
   1. **Test:** `Button` has accessible name derived from children content. Render a Button with text "Submit" and assert `getByRole('button', { name: 'Submit' })` succeeds.
   2. **Test:** `NavHeader` keyboard navigation. Render NavHeader and verify all links are focusable via tab order. Assert each link has a visible `focus` style indicator (the element receives focus when tabbed to).
   3. **Test:** `Select` associates label with select element. Render Select with `label="Season"` and `id="season"`. Assert `getByLabelText('Season')` returns the select element.
   4. **Test:** `Banner` with `role="alert"` is announced to screen readers. Render an error Banner and assert `getByRole('alert')` succeeds and contains the title and message text.
 
 - [ ] **4.3 Write contrast verification tests**
-  Create test file: `src/lib/components/__tests__/contrast.test.ts`
-  Tests:
-  5. **Test:** Verify all text/background color pairings from the design tokens meet WCAG AA contrast ratio (4.5:1 for normal text). Test the following pairings by computing contrast ratios from hex values:
-     - `--color-text-primary` (#111827) on `--color-bg` (#FAFAFA) -- expect >= 4.5
-     - `--color-text-primary` (#111827) on `--color-surface` (#FFFFFF) -- expect >= 4.5
-     - `--color-text-secondary` (#4B5563) on `--color-surface` (#FFFFFF) -- expect >= 4.5
-     - `--color-text-muted` (#9CA3AF) on `--color-surface` (#FFFFFF) -- expect >= 3.0 (large text threshold, since muted text is used for captions)
-     - `--color-accent` (#2563EB) on `--color-surface` (#FFFFFF) -- expect >= 4.5
-     - `--color-error` (#DC2626) on `--color-surface` (#FFFFFF) -- expect >= 4.5
-     - White text (#FFFFFF) on `--color-accent` (#2563EB) -- expect >= 4.5
-     - White text (#FFFFFF) on `--color-error` (#DC2626) -- expect >= 4.5
+      Create test file: `src/lib/components/__tests__/contrast.test.ts`
+      Tests: 5. **Test:** Verify all text/background color pairings from the design tokens meet WCAG AA contrast ratio (4.5:1 for normal text). Test the following pairings by computing contrast ratios from hex values:
+  - `--color-text-primary` (#111827) on `--color-bg` (#FAFAFA) -- expect >= 4.5
+  - `--color-text-primary` (#111827) on `--color-surface` (#FFFFFF) -- expect >= 4.5
+  - `--color-text-secondary` (#4B5563) on `--color-surface` (#FFFFFF) -- expect >= 4.5
+  - `--color-text-muted` (#9CA3AF) on `--color-surface` (#FFFFFF) -- expect >= 3.0 (large text threshold, since muted text is used for captions)
+  - `--color-accent` (#2563EB) on `--color-surface` (#FFFFFF) -- expect >= 4.5
+  - `--color-error` (#DC2626) on `--color-surface` (#FFFFFF) -- expect >= 4.5
+  - White text (#FFFFFF) on `--color-accent` (#2563EB) -- expect >= 4.5
+  - White text (#FFFFFF) on `--color-error` (#DC2626) -- expect >= 4.5
   6. **Test:** Verify tier color backgrounds maintain text readability. Test `--color-text-primary` (#111827) against each tier background:
      - On `--color-tier-1` (#FEF9C3) -- expect >= 4.5
      - On `--color-tier-2` (#E0F2FE) -- expect >= 4.5
      - On `--color-tier-3` (#F0FDF4) -- expect >= 4.5
 
 - [ ] **4.4 Write component edge case tests**
-  Create test file: `src/lib/components/__tests__/component-edge-cases.test.ts`
-  Tests:
-  7. **Test:** `FreshnessIndicator` handles edge cases: pass a timestamp from exactly now (expect "Just now"), from 90 minutes ago (expect "1 hours ago" or similar), and from 2 days ago (expect "2 days ago").
-  8. **Test:** `TierRow` boundary values. Render TierRow with rank=5 (expect tier-1), rank=6 (expect tier-2), rank=15 (expect tier-2), rank=16 (expect tier-3), rank=30 (expect tier-3), rank=31 (expect tier-4/transparent).
-  9. **Test:** `Card` with `padding="none"` renders children without padding wrapper. Assert the content container does NOT have `p-6` class.
-  10. **Test:** `Button` with `loading={true}` renders a spinner element and disables click interaction. Click the button and verify the `onclick` callback was NOT called.
+      Create test file: `src/lib/components/__tests__/component-edge-cases.test.ts`
+      Tests: 7. **Test:** `FreshnessIndicator` handles edge cases: pass a timestamp from exactly now (expect "Just now"), from 90 minutes ago (expect "1 hours ago" or similar), and from 2 days ago (expect "2 days ago"). 8. **Test:** `TierRow` boundary values. Render TierRow with rank=5 (expect tier-1), rank=6 (expect tier-2), rank=15 (expect tier-2), rank=16 (expect tier-3), rank=30 (expect tier-3), rank=31 (expect tier-4/transparent). 9. **Test:** `Card` with `padding="none"` renders children without padding wrapper. Assert the content container does NOT have `p-6` class. 10. **Test:** `Button` with `loading={true}` renders a spinner element and disables click interaction. Click the button and verify the `onclick` callback was NOT called.
 
 - [ ] **4.5 Run complete feature test suite**
-  Run ALL tests across all groups:
+      Run ALL tests across all groups:
   - `src/lib/components/__tests__/design-tokens.test.ts` (3 tests)
   - `src/lib/components/__tests__/design-system-components.test.ts` (8 tests)
   - `src/lib/components/__tests__/page-retrofit.test.ts` (5 tests)
   - `src/lib/components/__tests__/accessibility.test.ts` (4 tests)
   - `src/lib/components/__tests__/contrast.test.ts` (2 tests)
   - `src/lib/components/__tests__/component-edge-cases.test.ts` (4 tests)
-  Expected total: 26 tests. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
+    Expected total: 26 tests. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
 
 ### Acceptance Criteria
 
@@ -520,12 +515,12 @@ npm run build
 
 ## Summary
 
-| Group | Implementer | Focus | Sub-tasks | Tests | Depends On |
-|-------|-------------|-------|-----------|-------|------------|
-| 1. Design Tokens & Theme | `ui-designer` | CSS custom properties, Tailwind v4 `@theme` | 6 | 3 | None |
-| 2. Component Library | `ui-designer` | 12 Svelte 5 components | 14 | 8 | Group 1 |
-| 3. Page Retrofitting | `ui-designer` | Apply design system to pages, layout | 8 | 5 | Groups 1, 2 |
-| 4. Test Review & Gap Analysis | `testing-engineer` | Accessibility, contrast, edge cases | 5 | up to 10 | Groups 1, 2, 3 |
+| Group                         | Implementer        | Focus                                       | Sub-tasks | Tests    | Depends On     |
+| ----------------------------- | ------------------ | ------------------------------------------- | --------- | -------- | -------------- |
+| 1. Design Tokens & Theme      | `ui-designer`      | CSS custom properties, Tailwind v4 `@theme` | 6         | 3        | None           |
+| 2. Component Library          | `ui-designer`      | 12 Svelte 5 components                      | 14        | 8        | Group 1        |
+| 3. Page Retrofitting          | `ui-designer`      | Apply design system to pages, layout        | 8         | 5        | Groups 1, 2    |
+| 4. Test Review & Gap Analysis | `testing-engineer` | Accessibility, contrast, edge cases         | 5         | up to 10 | Groups 1, 2, 3 |
 
 **Total sub-tasks:** 33
 **Total tests:** 16 (Groups 1-3) + up to 10 (Group 4) = up to 26
@@ -550,31 +545,31 @@ Group 4: Test Review & Gap Analysis (testing-engineer)
 
 ### Existing Code Modified
 
-| Asset | Location | Design System Action |
-|-------|----------|---------------------|
-| `app.css` | `src/app.css` | Add `:root` tokens + `@theme` block before `@import 'tailwindcss'` |
-| `+layout.svelte` | `src/routes/+layout.svelte` | Add NavHeader + PageShell wrapper |
-| `/import` page | `src/routes/import/+page.svelte` | Replace ad-hoc markup with Card, Select, Button, Banner, PageHeader |
-| `/ranking` page | `src/routes/ranking/+page.svelte` | Replace ad-hoc markup, add FreshnessIndicator |
-| `RankingResultsTable` | `src/lib/components/RankingResultsTable.svelte` | Add TierRow, RankBadge, DataTable, responsive column hiding, design token colors |
-| `FileDropZone` | `src/lib/components/FileDropZone.svelte` | Replace hardcoded colors with design token references |
-| `DataPreviewTable` | `src/lib/components/DataPreviewTable.svelte` | Replace hardcoded colors with design token references |
-| `ImportSummary` | `src/lib/components/ImportSummary.svelte` | Replace hardcoded colors with design token references |
-| `IdentityResolutionPanel` | `src/lib/components/IdentityResolutionPanel.svelte` | Replace hardcoded colors with design token references |
+| Asset                     | Location                                            | Design System Action                                                             |
+| ------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `app.css`                 | `src/app.css`                                       | Add `:root` tokens + `@theme` block before `@import 'tailwindcss'`               |
+| `+layout.svelte`          | `src/routes/+layout.svelte`                         | Add NavHeader + PageShell wrapper                                                |
+| `/import` page            | `src/routes/import/+page.svelte`                    | Replace ad-hoc markup with Card, Select, Button, Banner, PageHeader              |
+| `/ranking` page           | `src/routes/ranking/+page.svelte`                   | Replace ad-hoc markup, add FreshnessIndicator                                    |
+| `RankingResultsTable`     | `src/lib/components/RankingResultsTable.svelte`     | Add TierRow, RankBadge, DataTable, responsive column hiding, design token colors |
+| `FileDropZone`            | `src/lib/components/FileDropZone.svelte`            | Replace hardcoded colors with design token references                            |
+| `DataPreviewTable`        | `src/lib/components/DataPreviewTable.svelte`        | Replace hardcoded colors with design token references                            |
+| `ImportSummary`           | `src/lib/components/ImportSummary.svelte`           | Replace hardcoded colors with design token references                            |
+| `IdentityResolutionPanel` | `src/lib/components/IdentityResolutionPanel.svelte` | Replace hardcoded colors with design token references                            |
 
 ### New Components Created
 
-| Component | Location | Purpose |
-|-----------|----------|---------|
-| `Button.svelte` | `src/lib/components/Button.svelte` | Primary/secondary/danger/ghost button variants |
-| `Select.svelte` | `src/lib/components/Select.svelte` | Labeled select with error state |
-| `Card.svelte` | `src/lib/components/Card.svelte` | Bordered surface container |
-| `Banner.svelte` | `src/lib/components/Banner.svelte` | Success/error/warning/info alert |
-| `PageHeader.svelte` | `src/lib/components/PageHeader.svelte` | H1 + subtitle page title |
-| `NavHeader.svelte` | `src/lib/components/NavHeader.svelte` | Persistent navigation bar |
-| `PageShell.svelte` | `src/lib/components/PageShell.svelte` | Page wrapper with container |
-| `DataTable.svelte` | `src/lib/components/DataTable.svelte` | Table chrome with scroll/sticky |
-| `RankBadge.svelte` | `src/lib/components/RankBadge.svelte` | Styled rank number |
-| `TierRow.svelte` | `src/lib/components/TierRow.svelte` | Tier-colored table row |
-| `FreshnessIndicator.svelte` | `src/lib/components/FreshnessIndicator.svelte` | Relative timestamp display |
-| `Spinner.svelte` | `src/lib/components/Spinner.svelte` | Loading spinner |
+| Component                   | Location                                       | Purpose                                        |
+| --------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| `Button.svelte`             | `src/lib/components/Button.svelte`             | Primary/secondary/danger/ghost button variants |
+| `Select.svelte`             | `src/lib/components/Select.svelte`             | Labeled select with error state                |
+| `Card.svelte`               | `src/lib/components/Card.svelte`               | Bordered surface container                     |
+| `Banner.svelte`             | `src/lib/components/Banner.svelte`             | Success/error/warning/info alert               |
+| `PageHeader.svelte`         | `src/lib/components/PageHeader.svelte`         | H1 + subtitle page title                       |
+| `NavHeader.svelte`          | `src/lib/components/NavHeader.svelte`          | Persistent navigation bar                      |
+| `PageShell.svelte`          | `src/lib/components/PageShell.svelte`          | Page wrapper with container                    |
+| `DataTable.svelte`          | `src/lib/components/DataTable.svelte`          | Table chrome with scroll/sticky                |
+| `RankBadge.svelte`          | `src/lib/components/RankBadge.svelte`          | Styled rank number                             |
+| `TierRow.svelte`            | `src/lib/components/TierRow.svelte`            | Tier-colored table row                         |
+| `FreshnessIndicator.svelte` | `src/lib/components/FreshnessIndicator.svelte` | Relative timestamp display                     |
+| `Spinner.svelte`            | `src/lib/components/Spinner.svelte`            | Loading spinner                                |

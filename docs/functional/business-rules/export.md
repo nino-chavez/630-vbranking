@@ -23,11 +23,11 @@ This document describes how ranking results are exported from the system in thre
 
 The system produces ranking exports in three formats to serve different audiences:
 
-| Format | Best For | Key Characteristics |
-|--------|----------|-------------------|
-| **CSV** | Data analysts, spreadsheet users, archival | Plain text, easily opened in any spreadsheet application or processed by other systems |
-| **Excel (XLSX)** | Committee members, administrators | Native Excel workbook with multiple sheets, ready for review and distribution |
-| **PDF** | Official publication, printing, email distribution | Formatted report with title, headers, page numbers, and professional table layout |
+| Format           | Best For                                           | Key Characteristics                                                                    |
+| ---------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **CSV**          | Data analysts, spreadsheet users, archival         | Plain text, easily opened in any spreadsheet application or processed by other systems |
+| **Excel (XLSX)** | Committee members, administrators                  | Native Excel workbook with multiple sheets, ready for review and distribution          |
+| **PDF**          | Official publication, printing, email distribution | Formatted report with title, headers, page numbers, and professional table layout      |
 
 All three formats contain the same underlying data. The difference is in presentation and structure.
 
@@ -39,15 +39,15 @@ Every export includes the following information for each ranked team, sorted by 
 
 ### Standard Columns (Always Included)
 
-| Column | Description | Example |
-|--------|-------------|---------|
-| **Final Rank** | The team's published rank position (reflects overrides if any) | 1 |
-| **Team** | The team's full name | "Thunder VBC" |
-| **Region** | The team's geographic region | "Southeast" |
-| **Agg Rating** | The aggregate rating score (0-100 scale, two decimal places) | 82.45 |
-| **Agg Rank** | The algorithmically computed rank (before any overrides) | 1 |
-| **Win %** | The team's win percentage across all tournaments | 75.0 |
-| **Best National Finish** | The team's highest placement at a Tier-1 tournament | 3 |
+| Column                   | Description                                                    | Example       |
+| ------------------------ | -------------------------------------------------------------- | ------------- |
+| **Final Rank**           | The team's published rank position (reflects overrides if any) | 1             |
+| **Team**                 | The team's full name                                           | "Thunder VBC" |
+| **Region**               | The team's geographic region                                   | "Southeast"   |
+| **Agg Rating**           | The aggregate rating score (0-100 scale, two decimal places)   | 82.45         |
+| **Agg Rank**             | The algorithmically computed rank (before any overrides)       | 1             |
+| **Win %**                | The team's win percentage across all tournaments               | 75.0          |
+| **Best National Finish** | The team's highest placement at a Tier-1 tournament            | 3             |
 
 ### Rules
 
@@ -66,9 +66,9 @@ The user can control what level of detail is included in the export.
 
 When the user enables algorithm breakdowns, the export includes ten additional columns:
 
-| Additional Columns | Description |
-|-------------------|-------------|
-| **Algo 1 Rating** and **Algo 1 Rank** | Colley Matrix rating and rank |
+| Additional Columns                    | Description                                   |
+| ------------------------------------- | --------------------------------------------- |
+| **Algo 1 Rating** and **Algo 1 Rank** | Colley Matrix rating and rank                 |
 | **Algo 2 Rating** and **Algo 2 Rank** | Elo Variant A (starting 2200) rating and rank |
 | **Algo 3 Rating** and **Algo 3 Rank** | Elo Variant B (starting 2400) rating and rank |
 | **Algo 4 Rating** and **Algo 4 Rank** | Elo Variant C (starting 2500) rating and rank |
@@ -139,12 +139,12 @@ The first sheet ("Rankings") contains:
 
 When committee overrides exist, a second sheet ("Overrides") is added with:
 
-| Column | Content |
-|--------|---------|
-| **Team** | The team name |
-| **Original Rank** | The team's algorithmic rank before the override |
-| **Final Rank** | The team's rank after the override |
-| **Justification** | The written reason for the override |
+| Column               | Content                                          |
+| -------------------- | ------------------------------------------------ |
+| **Team**             | The team name                                    |
+| **Original Rank**    | The team's algorithmic rank before the override  |
+| **Final Rank**       | The team's rank after the override               |
+| **Justification**    | The written reason for the override              |
 | **Committee Member** | The name of the person who authorized the change |
 
 ### Rules
@@ -162,13 +162,13 @@ The PDF format produces a formatted, print-ready document suitable for official 
 
 ### Layout
 
-| Section | Content |
-|---------|---------|
-| **Title** | "Volleyball Rankings Report" -- centered at the top of the first page |
-| **Metadata block** | Season, age group, run date, team count, status, export date -- left-aligned below the title |
-| **Rankings table** | All teams with column headers, formatted as a professional table |
-| **Override summary table** (conditional) | Appears below the rankings table when overrides exist |
-| **Page numbers** | Centered at the bottom of every page: "Page X of Y" |
+| Section                                  | Content                                                                                      |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **Title**                                | "Volleyball Rankings Report" -- centered at the top of the first page                        |
+| **Metadata block**                       | Season, age group, run date, team count, status, export date -- left-aligned below the title |
+| **Rankings table**                       | All teams with column headers, formatted as a professional table                             |
+| **Override summary table** (conditional) | Appears below the rankings table when overrides exist                                        |
+| **Page numbers**                         | Centered at the bottom of every page: "Page X of Y"                                          |
 
 ### Formatting Rules
 
@@ -193,11 +193,11 @@ When committee overrides have been applied to a ranking run, all three export fo
 
 When a team has an override, three additional columns appear in the data section (when applicable):
 
-| Column | Content |
-|--------|---------|
-| **Override Original Rank** | The team's algorithmic rank before the committee adjustment |
-| **Override Justification** | The reason the committee gave for the change |
-| **Override Committee Member** | The name of the committee member who authorized the change |
+| Column                        | Content                                                     |
+| ----------------------------- | ----------------------------------------------------------- |
+| **Override Original Rank**    | The team's algorithmic rank before the committee adjustment |
+| **Override Justification**    | The reason the committee gave for the change                |
+| **Override Committee Member** | The name of the committee member who authorized the change  |
 
 ### Rules
 
@@ -208,9 +208,9 @@ When a team has an override, three additional columns appear in the data section
 
 > **Example of how an overridden team appears:**
 >
-> | Final Rank | Team | Region | Agg Rating | Agg Rank | ... | Override Original Rank | Override Justification | Override Committee Member |
-> |-----------|------|--------|-----------|---------|-----|----------------------|----------------------|--------------------------|
-> | 5 | Coastal VBC | Southeast | 78.30 | 8 | ... | 8 | "Head-to-head 4-1 against teams ranked 5-7" | "Maria Johnson" |
+> | Final Rank | Team        | Region    | Agg Rating | Agg Rank | ... | Override Original Rank | Override Justification                      | Override Committee Member |
+> | ---------- | ----------- | --------- | ---------- | -------- | --- | ---------------------- | ------------------------------------------- | ------------------------- |
+> | 5          | Coastal VBC | Southeast | 78.30      | 8        | ... | 8                      | "Head-to-head 4-1 against teams ranked 5-7" | "Maria Johnson"           |
 >
 > This shows that Coastal VBC was algorithmically ranked 8th but was moved to 5th by the committee.
 
@@ -220,14 +220,14 @@ When a team has an override, three additional columns appear in the data section
 
 Every export includes the following metadata, regardless of format:
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| **Season** | The season name | "2025-2026" |
-| **Age Group** | The age division | "16U" |
-| **Run At** | When the ranking computation was performed | "2026-02-20T14:30:00Z" |
-| **Teams Ranked** | Total number of teams in the ranking | 24 |
-| **Status** | Whether the run is Draft or Finalized | "Finalized" |
-| **Exported At** | When the export was generated | "2026-02-24T10:00:00Z" |
+| Field            | Description                                | Example                |
+| ---------------- | ------------------------------------------ | ---------------------- |
+| **Season**       | The season name                            | "2025-2026"            |
+| **Age Group**    | The age division                           | "16U"                  |
+| **Run At**       | When the ranking computation was performed | "2026-02-20T14:30:00Z" |
+| **Teams Ranked** | Total number of teams in the ranking       | 24                     |
+| **Status**       | Whether the run is Draft or Finalized      | "Finalized"            |
+| **Exported At**  | When the export was generated              | "2026-02-24T10:00:00Z" |
 
 ### Rules
 

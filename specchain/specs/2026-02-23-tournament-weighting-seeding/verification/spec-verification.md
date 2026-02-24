@@ -32,7 +32,7 @@ PASS. The spec contains: Goal, User Stories, Core Requirements (Functional F1-F7
 PASS with minor gaps. F1-F6 are thoroughly specified. F7 has a minor gap: the spec states "Modify `GET /api/ranking/results` to include seeding factors in the response" and describes how to compute them, but does not specify whether the `ranking_run` record needs a `season_id` column and what the exact DB query looks like for re-fetching pairwise records in the results endpoint. The Technical Approach section does describe this flow in prose, but the pairwise data re-fetch for the results endpoint is less crisply specified than F5's API schemas. This is a minor gap, not a blocker.
 
 **B3. Are algorithm modifications mathematically specified?**
-PASS. Both the Colley and Elo weighted formulas are provided with full mathematical descriptions and pseudocode. The Colley formulation correctly describes weighted diagonal, off-diagonal, and b-vector contributions. The Elo formulation correctly defines effective_K = base_K * w.
+PASS. Both the Colley and Elo weighted formulas are provided with full mathematical descriptions and pseudocode. The Colley formulation correctly describes weighted diagonal, off-diagonal, and b-vector contributions. The Elo formulation correctly defines effective_K = base_K \* w.
 
 **B4. Are API endpoints fully specified (method, path, request/response schemas)?**
 PASS. `GET /api/ranking/weights` and `PUT /api/ranking/weights` are fully specified with request params, response JSON, and error codes. F7's modification to `GET /api/ranking/results` shows the updated response schema. File locations are specified.
@@ -49,6 +49,7 @@ PASS. F1 (weighted Colley) -> task 1.3. F2 (weighted Elo) -> task 1.4. F3 (Ranki
 
 **C2. Are all "New Components Required" from the spec represented in the tasks?**
 PASS. All eight new components from the spec's "New Components Required" table are represented in the tasks:
+
 - `SeedingFactors` interface -> task 1.2
 - `seeding-factors.ts` module -> task 1.5
 - `weights/+server.ts` API -> task 2.4
@@ -73,6 +74,7 @@ PASS. Group 1 has no dependencies. Group 2 depends on Group 1. Group 3 depends o
 
 **D3. Are file paths in tasks consistent with existing codebase structure?**
 PASS. All file paths match the observed directory structure:
+
 - `src/lib/ranking/` for algorithm files
 - `src/lib/ranking/__tests__/` for algorithm tests (existing pattern confirmed)
 - `src/routes/api/ranking/` for API endpoints
@@ -199,15 +201,15 @@ PASS with note. The spec acknowledges the performance requirement (NF1: under 5 
 
 ```typescript
 export function computeSeedingFactors(
-  pairwiseRecords: PairwiseRecord[],
-  teams: TeamInfo[],
-  tier1TournamentFinishes: Array<{
-    team_id: string;
-    tournament_id: string;
-    tournament_name: string;
-    finish_position: number;
-  }>
-): SeedingFactors[]
+	pairwiseRecords: PairwiseRecord[],
+	teams: TeamInfo[],
+	tier1TournamentFinishes: Array<{
+		team_id: string;
+		tournament_id: string;
+		tournament_name: string;
+		finish_position: number;
+	}>,
+): SeedingFactors[];
 ```
 
 The spec's New Components table says "takes flattened pairwise records, Tier-1 tournament IDs, tournament results, tournament names, and team list" -- listing Tier-1 tournament IDs separately from results. The task signature combines them into a pre-joined `tier1TournamentFinishes` array that already includes the tournament name. These are semantically equivalent but the description and the implementation signature do not match precisely. A verifier comparing spec to task would see the discrepancy.
@@ -254,15 +256,15 @@ The initial concern about zero-weight Colley was investigated and found to be no
 
 ## Summary Table
 
-| Issue | Severity | Section |
-|-------|----------|---------|
-| 1. `RankingRunOutput` type change breaks existing tests and service return sites | Critical | E1, F2, Tasks 1.2/4.4 |
-| 2. Intermediate compile-error state between tasks 2.2 and 2.3 | Critical | D5, Tasks 2.2/2.3 |
-| 3. No mechanism to delete/revert a custom tournament weight | Critical | B5, F5, F6 |
-| 4. Seeding factors architectural gap: double computation, run endpoint doesn't expose them | Critical | F7, Tasks 2.3/2.5 |
-| 5. H2H computation discrepancy between requirements Q4 and spec Out of Scope | Minor | A2 |
-| 6. `tournamentWeightInsertSchema` shape mismatch with PUT request body entries | Minor | B4, Task 2.4 |
-| 7. `computeSeedingFactors` signature in task 1.5 doesn't match spec F4 New Components description | Minor | C1, Task 1.5 |
-| 8. W%/Natl. Finish column placement description contradicts task 3.4 | Minor | F7, Task 3.4 |
-| 9. Test count arithmetic breakdown inconsistency in task 4.5 | Minor | D1 |
-| 10. (No issue -- $app/state confirmation) | N/A | E6 |
+| Issue                                                                                             | Severity | Section               |
+| ------------------------------------------------------------------------------------------------- | -------- | --------------------- |
+| 1. `RankingRunOutput` type change breaks existing tests and service return sites                  | Critical | E1, F2, Tasks 1.2/4.4 |
+| 2. Intermediate compile-error state between tasks 2.2 and 2.3                                     | Critical | D5, Tasks 2.2/2.3     |
+| 3. No mechanism to delete/revert a custom tournament weight                                       | Critical | B5, F5, F6            |
+| 4. Seeding factors architectural gap: double computation, run endpoint doesn't expose them        | Critical | F7, Tasks 2.3/2.5     |
+| 5. H2H computation discrepancy between requirements Q4 and spec Out of Scope                      | Minor    | A2                    |
+| 6. `tournamentWeightInsertSchema` shape mismatch with PUT request body entries                    | Minor    | B4, Task 2.4          |
+| 7. `computeSeedingFactors` signature in task 1.5 doesn't match spec F4 New Components description | Minor    | C1, Task 1.5          |
+| 8. W%/Natl. Finish column placement description contradicts task 3.4                              | Minor    | F7, Task 3.4          |
+| 9. Test count arithmetic breakdown inconsistency in task 4.5                                      | Minor    | D1                    |
+| 10. (No issue -- $app/state confirmation)                                                         | N/A      | E6                    |

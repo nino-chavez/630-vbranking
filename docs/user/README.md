@@ -4,14 +4,14 @@ Welcome to the Volleyball Ranking Engine user documentation. This guide is writt
 
 ## Quick Links
 
-| I want to... | Go to |
-|---|---|
-| Get started for the first time | [Getting Started Tutorial](tutorials/getting-started.md) |
-| Import a spreadsheet | [Importing Data Guide](guides/importing-data.md) |
-| Run a ranking computation | [Running Rankings Guide](guides/running-rankings.md) |
-| Override a team's rank | [Overrides and Finalization Guide](guides/overrides-and-finalization.md) |
-| Export results to CSV, Excel, or PDF | [Exporting Results Guide](guides/exporting-results.md) |
-| Adjust tournament weights | [Tournament Weights Guide](guides/tournament-weights.md) |
+| I want to...                         | Go to                                                                    |
+| ------------------------------------ | ------------------------------------------------------------------------ |
+| Get started for the first time       | [Getting Started Tutorial](tutorials/getting-started.md)                 |
+| Import a spreadsheet                 | [Importing Data Guide](guides/importing-data.md)                         |
+| Run a ranking computation            | [Running Rankings Guide](guides/running-rankings.md)                     |
+| Override a team's rank               | [Overrides and Finalization Guide](guides/overrides-and-finalization.md) |
+| Export results to CSV, Excel, or PDF | [Exporting Results Guide](guides/exporting-results.md)                   |
+| Adjust tournament weights            | [Tournament Weights Guide](guides/tournament-weights.md)                 |
 
 ## Documentation Structure
 
@@ -55,11 +55,11 @@ The Volleyball Ranking Engine computes team rankings for AAU volleyball across f
 
 The application has three main sections, accessible from the navigation bar at the top of every page:
 
-| Page | URL Path | Purpose |
-|---|---|---|
-| **Import** | `/import` | Upload tournament data spreadsheets |
-| **Rankings** | `/ranking` | Run ranking computations and review results |
-| **Weights** | `/ranking/weights` | Manage tournament importance weights |
+| Page         | URL Path           | Purpose                                     |
+| ------------ | ------------------ | ------------------------------------------- |
+| **Import**   | `/import`          | Upload tournament data spreadsheets         |
+| **Rankings** | `/ranking`         | Run ranking computations and review results |
+| **Weights**  | `/ranking/weights` | Manage tournament importance weights        |
 
 ### Typical Workflow
 
@@ -73,4 +73,4 @@ The application has three main sections, accessible from the navigation bar at t
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

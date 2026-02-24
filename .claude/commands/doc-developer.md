@@ -3,6 +3,7 @@
 Description: Creates comprehensive developer onboarding documentation including setup guides, contribution guidelines, and environment configuration using a three-phase refinement pipeline.
 
 Arguments:
+
 - focus: (optional) Specific aspect to document: "setup", "contributing", "environment". Defaults to all.
 
 ---
@@ -13,26 +14,27 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 
 ## PHASE 1: GENERATOR (Draft)
 
-*Persona: Developer Experience Engineer creating initial draft*
+_Persona: Developer Experience Engineer creating initial draft_
 
 ### Step 1: Prerequisites Detection
 
 Scan for version requirements:
 
-| File | Extract |
-|------|---------|
-| `package.json` | `engines.node`, `engines.npm` |
-| `.nvmrc` / `.node-version` | Node version |
-| `.python-version` / `pyproject.toml` | Python version |
-| `go.mod` | Go version |
-| `.tool-versions` | All tool versions (asdf) |
-| `rust-toolchain.toml` | Rust version |
-| `Dockerfile` | Base image versions |
-| `docker-compose.yml` | Required services |
+| File                                 | Extract                       |
+| ------------------------------------ | ----------------------------- |
+| `package.json`                       | `engines.node`, `engines.npm` |
+| `.nvmrc` / `.node-version`           | Node version                  |
+| `.python-version` / `pyproject.toml` | Python version                |
+| `go.mod`                             | Go version                    |
+| `.tool-versions`                     | All tool versions (asdf)      |
+| `rust-toolchain.toml`                | Rust version                  |
+| `Dockerfile`                         | Base image versions           |
+| `docker-compose.yml`                 | Required services             |
 
 ### Step 2: Installation Steps
 
 Identify install commands from:
+
 - `package.json` scripts (`install`, `setup`, `bootstrap`)
 - `Makefile` targets (`install`, `setup`, `deps`)
 - `setup.sh` / `bootstrap.sh` scripts
@@ -42,6 +44,7 @@ Identify install commands from:
 ### Step 3: Environment Configuration
 
 Analyze:
+
 - `.env.example` / `.env.sample` / `.env.template`
 - `config/` directory
 - Environment variable references in code
@@ -51,6 +54,7 @@ Analyze:
 ### Step 4: Development Workflow
 
 Identify from scripts/Makefile:
+
 - Dev server command
 - Build command
 - Test commands (unit, integration, e2e)
@@ -61,6 +65,7 @@ Identify from scripts/Makefile:
 ### Draft Output
 
 Generate initial documentation with:
+
 - Quick Start (under 10 minutes)
 - Prerequisites with versions
 - Environment setup steps
@@ -72,7 +77,7 @@ Generate initial documentation with:
 
 ## PHASE 2: REFINER (Polish)
 
-*Persona: Technical Editor improving usability*
+_Persona: Technical Editor improving usability_
 
 ### Clarity Pass
 
@@ -98,6 +103,7 @@ Generate initial documentation with:
 ### Enhancement
 
 For each section, ask:
+
 - Can a new developer follow this on day 1?
 - Would they know if something went wrong?
 - Can they get unstuck without asking someone?
@@ -108,11 +114,12 @@ Revise the draft to address any gaps.
 
 ## PHASE 3: VALIDATOR (QA)
 
-*Persona: Quality Assurance reviewing against voice standards*
+_Persona: Quality Assurance reviewing against voice standards_
 
 ### Voice Compliance (from docs/voice/developer-voice.md)
 
 Verify:
+
 - [ ] Imperative mood for all instructions ("Run", "Install", "Configure")
 - [ ] No passive voice in procedures
 - [ ] No unexplained jargon
@@ -123,13 +130,13 @@ Verify:
 
 Reject if any of these appear:
 
-| Anti-Pattern | Example | Fix |
-|--------------|---------|-----|
-| Wall of text before action | 3+ paragraphs before first command | Lead with Quick Start |
-| Assumed knowledge | "Configure your SSH keys and pull" | Provide link or inline instructions |
-| Passive voice | "The config file should be created" | "Create the config file" |
-| Commands without context | Just a code block | Add what it does and expected output |
-| "Simply" or "just" | "Simply run the install" | Remove minimizing language |
+| Anti-Pattern               | Example                             | Fix                                  |
+| -------------------------- | ----------------------------------- | ------------------------------------ |
+| Wall of text before action | 3+ paragraphs before first command  | Lead with Quick Start                |
+| Assumed knowledge          | "Configure your SSH keys and pull"  | Provide link or inline instructions  |
+| Passive voice              | "The config file should be created" | "Create the config file"             |
+| Commands without context   | Just a code block                   | Add what it does and expected output |
+| "Simply" or "just"         | "Simply run the install"            | Remove minimizing language           |
 
 ### Red Flag Check
 
@@ -159,7 +166,7 @@ If ANY of these are present, return to Phase 2:
 
 ### docs/developer/README.md
 
-```markdown
+````markdown
 # Developer Guide
 
 > Auto-generated by Autonomous Knowledge Synthesis
@@ -187,6 +194,7 @@ cp .env.example .env
 # Verify setup
 [detected test or health check command]
 ```
+````
 
 **Success:** You should see [expected output]. If not, see [Troubleshooting](#troubleshooting).
 
@@ -194,20 +202,21 @@ cp .env.example .env
 
 ### Required Software
 
-| Tool | Version | Installation |
-|------|---------|--------------|
+| Tool   | Version   | Installation                             |
+| ------ | --------- | ---------------------------------------- |
 | [Tool] | [Version] | `brew install [tool]` or [download link] |
 
 ### Required Services
 
 [If Docker services needed]
+
 ```bash
 docker compose up -d [service-names]
 ```
 
-| Service | Purpose | Local Port |
-|---------|---------|------------|
-| PostgreSQL | Primary database | 5432 |
+| Service    | Purpose          | Local Port |
+| ---------- | ---------------- | ---------- |
+| PostgreSQL | Primary database | 5432       |
 
 ## Environment Setup
 
@@ -222,6 +231,7 @@ docker compose up -d [service-names]
 ### Step 2: Configure Environment
 
 1. Copy the example environment file:
+
    ```bash
    cp .env.example .env
    ```
@@ -230,15 +240,15 @@ docker compose up -d [service-names]
 
 #### Required Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
+| Variable       | Description                | Example                                    |
+| -------------- | -------------------------- | ------------------------------------------ |
 | `DATABASE_URL` | Database connection string | `postgresql://user:pass@localhost:5432/db` |
 
 #### Optional Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `LOG_LEVEL` | Logging verbosity | `info` |
+| Variable    | Description       | Default |
+| ----------- | ----------------- | ------- |
+| `LOG_LEVEL` | Logging verbosity | `info`  |
 
 ### Step 3: Database Setup
 
@@ -269,17 +279,18 @@ docker compose up -d [service-names]
 ```
 
 Available at:
+
 - **Web:** http://localhost:[port]
 - **API:** http://localhost:[port]/api
 
 ### Common Tasks
 
-| Task | Command |
-|------|---------|
-| Run all tests | `[test command]` |
-| Run linter | `[lint command]` |
-| Format code | `[format command]` |
-| Build | `[build command]` |
+| Task          | Command            |
+| ------------- | ------------------ |
+| Run all tests | `[test command]`   |
+| Run linter    | `[lint command]`   |
+| Format code   | `[format command]` |
+| Build         | `[build command]`  |
 
 ## Project Structure
 
@@ -296,6 +307,7 @@ Available at:
 ### VS Code (Recommended)
 
 Install recommended extensions:
+
 ```bash
 code --install-extension [extension-id]
 ```
@@ -324,7 +336,8 @@ code --install-extension [extension-id]
 
 - Read the [Architecture Overview](../architecture/README.md)
 - Review [Contributing Guidelines](./contributing.md)
-```
+
+````
 
 ### docs/developer/contributing.md
 
@@ -342,11 +355,12 @@ code --install-extension [extension-id]
 
 # Auto-fix
 [format command]
-```
+````
 
 ## Git Workflow
 
 ### Branch Naming
+
 - `feature/[ticket-id]-description`
 - `fix/[ticket-id]-description`
 - `chore/description`
@@ -354,6 +368,7 @@ code --install-extension [extension-id]
 ### Commit Messages
 
 Use [Conventional Commits](https://conventionalcommits.org):
+
 ```
 type(scope): description
 
@@ -376,4 +391,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 - All new features require tests
 - Maintain or improve code coverage
 - Run `[test command]` before pushing
+
+```
+
 ```

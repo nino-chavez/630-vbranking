@@ -2,7 +2,12 @@ export { FinishesParser } from './finishes-parser.js';
 export { ColleyParser } from './colley-parser.js';
 export type { MatchFileParser, ParsedMatchRow } from './match-parser.js';
 
-import type { ImportFormat, FileParserInterface, ParsedFinishesRow, ParsedColleyRow } from '../types.js';
+import type {
+	ImportFormat,
+	FileParserInterface,
+	ParsedFinishesRow,
+	ParsedColleyRow,
+} from '../types.js';
 import { FinishesParser } from './finishes-parser.js';
 import { ColleyParser } from './colley-parser.js';
 
@@ -14,14 +19,14 @@ import { ColleyParser } from './colley-parser.js';
  * @throws Error if the format is not supported
  */
 export function getParser(
-  format: ImportFormat,
+	format: ImportFormat,
 ): FileParserInterface<ParsedFinishesRow> | FileParserInterface<ParsedColleyRow> {
-  switch (format) {
-    case 'finishes':
-      return new FinishesParser();
-    case 'colley':
-      return new ColleyParser();
-    default:
-      throw new Error(`Unsupported import format: ${format satisfies never}`);
-  }
+	switch (format) {
+		case 'finishes':
+			return new FinishesParser();
+		case 'colley':
+			return new ColleyParser();
+		default:
+			throw new Error(`Unsupported import format: ${format satisfies never}`);
+	}
 }

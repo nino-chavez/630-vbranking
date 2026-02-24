@@ -8,13 +8,13 @@ Built for the AAU ranking committee to import tournament data, run transparent m
 
 The engine runs five independent rating algorithms on every ranking computation:
 
-| Algorithm | Method | Characteristic |
-|-----------|--------|----------------|
+| Algorithm     | Method                           | Characteristic                             |
+| ------------- | -------------------------------- | ------------------------------------------ |
 | Colley Matrix | Solves Cr=b via LU decomposition | Time-independent, treats all games equally |
-| Elo (2200) | Chronological with K=32 | Lower starting baseline |
-| Elo (2400) | Chronological with K=32 | Mid-low starting baseline |
-| Elo (2500) | Chronological with K=32 | Mid-high starting baseline |
-| Elo (2700) | Chronological with K=32 | Higher starting baseline |
+| Elo (2200)    | Chronological with K=32          | Lower starting baseline                    |
+| Elo (2400)    | Chronological with K=32          | Mid-low starting baseline                  |
+| Elo (2500)    | Chronological with K=32          | Mid-high starting baseline                 |
+| Elo (2700)    | Chronological with K=32          | Higher starting baseline                   |
 
 Each algorithm's output is normalized to a 0-100 scale, then averaged into an **Aggregate Rating**. Teams are ranked by aggregate rating with alphabetical tie-breaking. Tournament weights allow the committee to scale the importance of individual tournaments across all algorithms.
 
@@ -33,16 +33,16 @@ This ensemble approach produces rankings that are defensible, transparent, and r
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Framework | SvelteKit 2.50 (Svelte 5) |
-| Language | TypeScript 5.9 |
-| Styling | Tailwind CSS 4.2 |
-| Database | Supabase (PostgreSQL) |
-| Validation | Zod 4.3 |
-| Testing | Vitest 4.0 (180 tests) |
-| Math | ml-matrix (Colley), custom Elo |
-| Export | jspdf, xlsx |
+| Layer      | Technology                     |
+| ---------- | ------------------------------ |
+| Framework  | SvelteKit 2.50 (Svelte 5)      |
+| Language   | TypeScript 5.9                 |
+| Styling    | Tailwind CSS 4.2               |
+| Database   | Supabase (PostgreSQL)          |
+| Validation | Zod 4.3                        |
+| Testing    | Vitest 4.0 (180 tests)         |
+| Math       | ml-matrix (Colley), custom Elo |
+| Export     | jspdf, xlsx                    |
 
 ## Quick Start
 
@@ -125,33 +125,33 @@ erDiagram
 
 ## API Endpoints
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| POST | `/api/import/upload` | Parse XLSX, return preview |
-| POST | `/api/import/confirm` | Commit import to database |
-| POST | `/api/ranking/run` | Execute ranking computation |
-| GET | `/api/ranking/results` | Get results for a run |
-| GET | `/api/ranking/runs` | List runs (filter by season, age group) |
-| POST | `/api/ranking/runs/finalize` | Lock a run |
-| GET/PUT | `/api/ranking/weights` | Tournament weight management |
-| GET/POST/DELETE | `/api/ranking/overrides` | Committee overrides |
-| GET | `/api/ranking/team/[id]` | Team detail with breakdown |
-| GET | `/api/ranking/team/[id]/h2h` | Head-to-head records |
-| GET | `/api/ranking/team/[id]/history` | Rank history across runs |
+| Method          | Endpoint                         | Purpose                                 |
+| --------------- | -------------------------------- | --------------------------------------- |
+| POST            | `/api/import/upload`             | Parse XLSX, return preview              |
+| POST            | `/api/import/confirm`            | Commit import to database               |
+| POST            | `/api/ranking/run`               | Execute ranking computation             |
+| GET             | `/api/ranking/results`           | Get results for a run                   |
+| GET             | `/api/ranking/runs`              | List runs (filter by season, age group) |
+| POST            | `/api/ranking/runs/finalize`     | Lock a run                              |
+| GET/PUT         | `/api/ranking/weights`           | Tournament weight management            |
+| GET/POST/DELETE | `/api/ranking/overrides`         | Committee overrides                     |
+| GET             | `/api/ranking/team/[id]`         | Team detail with breakdown              |
+| GET             | `/api/ranking/team/[id]/h2h`     | Head-to-head records                    |
+| GET             | `/api/ranking/team/[id]/history` | Rank history across runs                |
 
 ## Documentation
 
 Comprehensive documentation is available in [`docs/`](docs/):
 
-| Layer | Description | Entry Point |
-|-------|-------------|-------------|
-| [Architecture](docs/architecture/) | System design, ADRs, diagrams | [Overview](docs/architecture/README.md) |
-| [Developer](docs/developer/) | Setup, contributing, onboarding | [Dev Guide](docs/developer/README.md) |
-| [Testing](docs/testing/) | Strategy, patterns, coverage | [Testing Strategy](docs/testing/README.md) |
-| [Functional](docs/functional/) | Business rules (non-technical) | [Specifications](docs/functional/README.md) |
-| [Strategic](docs/strategic/) | Health assessment, tech debt, roadmap | [Assessment](docs/strategic/README.md) |
-| [Operations](docs/ops/) | Deployment, infrastructure, runbooks | [Ops Guide](docs/ops/README.md) |
-| [User Guide](docs/user/) | Tutorials, how-to guides, reference | [User Docs](docs/user/README.md) |
+| Layer                              | Description                           | Entry Point                                 |
+| ---------------------------------- | ------------------------------------- | ------------------------------------------- |
+| [Architecture](docs/architecture/) | System design, ADRs, diagrams         | [Overview](docs/architecture/README.md)     |
+| [Developer](docs/developer/)       | Setup, contributing, onboarding       | [Dev Guide](docs/developer/README.md)       |
+| [Testing](docs/testing/)           | Strategy, patterns, coverage          | [Testing Strategy](docs/testing/README.md)  |
+| [Functional](docs/functional/)     | Business rules (non-technical)        | [Specifications](docs/functional/README.md) |
+| [Strategic](docs/strategic/)       | Health assessment, tech debt, roadmap | [Assessment](docs/strategic/README.md)      |
+| [Operations](docs/ops/)            | Deployment, infrastructure, runbooks  | [Ops Guide](docs/ops/README.md)             |
+| [User Guide](docs/user/)           | Tutorials, how-to guides, reference   | [User Docs](docs/user/README.md)            |
 
 ## Architecture
 

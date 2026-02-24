@@ -25,6 +25,7 @@ These decisions are already documented in `specchain/product/design-principles.m
 ## Scope Summary
 
 This spec defines:
+
 1. **Design tokens**: Color palette, typography scale, spacing system as CSS custom properties
 2. **Tailwind theme extension**: Map tokens into Tailwind v4's `@theme` system
 3. **Layout primitives**: Page shell, container, grid, responsive breakpoints
@@ -34,6 +35,7 @@ This spec defines:
 7. **Information architecture**: Navigation structure, page hierarchy
 
 This spec does NOT include:
+
 - Dark mode
 - Figma design files
 - Complex data visualizations (sparklines, charts) — deferred to Feature 6

@@ -16,32 +16,32 @@ The Data Ingestion Pipeline feature has been fully implemented and verified. All
 
 ## Test Summary
 
-| Metric | Result |
-|--------|--------|
-| **Total tests** | **35 / 35 pass** |
-| **Test files** | 7 / 7 pass |
-| **TypeScript errors** | **0** |
-| **Test duration** | 237ms |
+| Metric                | Result           |
+| --------------------- | ---------------- |
+| **Total tests**       | **35 / 35 pass** |
+| **Test files**        | 7 / 7 pass       |
+| **TypeScript errors** | **0**            |
+| **Test duration**     | 237ms            |
 
 ### Test Breakdown by Group
 
-| Group | Test File | Tests | Status |
-|-------|-----------|-------|--------|
-| 1 | `src/lib/import/parsers/__tests__/finishes-parser.test.ts` | 5 | PASS |
-| 1 | `src/lib/import/parsers/__tests__/colley-parser.test.ts` | 3 | PASS |
-| 2 | `src/lib/import/__tests__/import-service.test.ts` | 7 | PASS |
-| 3 | `src/lib/components/__tests__/import-ui.test.ts` | 12 | PASS |
-| 4 | `src/lib/import/__tests__/validation-integration.test.ts` | 3 | PASS |
-| 4 | `src/lib/import/parsers/__tests__/error-handling.test.ts` | 3 | PASS |
-| 4 | `src/lib/import/__tests__/import-mode-edge-cases.test.ts` | 2 | PASS |
+| Group | Test File                                                  | Tests | Status |
+| ----- | ---------------------------------------------------------- | ----- | ------ |
+| 1     | `src/lib/import/parsers/__tests__/finishes-parser.test.ts` | 5     | PASS   |
+| 1     | `src/lib/import/parsers/__tests__/colley-parser.test.ts`   | 3     | PASS   |
+| 2     | `src/lib/import/__tests__/import-service.test.ts`          | 7     | PASS   |
+| 3     | `src/lib/components/__tests__/import-ui.test.ts`           | 12    | PASS   |
+| 4     | `src/lib/import/__tests__/validation-integration.test.ts`  | 3     | PASS   |
+| 4     | `src/lib/import/parsers/__tests__/error-handling.test.ts`  | 3     | PASS   |
+| 4     | `src/lib/import/__tests__/import-mode-edge-cases.test.ts`  | 2     | PASS   |
 
 ### Test Breakdown by Domain
 
-| Domain | Tests | Status |
-|--------|-------|--------|
-| Backend (parsers + services + validation + edge cases) | 23 | PASS |
-| Frontend (UI logic + state machine) | 12 | PASS |
-| **Total** | **35** | **PASS** |
+| Domain                                                 | Tests  | Status   |
+| ------------------------------------------------------ | ------ | -------- |
+| Backend (parsers + services + validation + edge cases) | 23     | PASS     |
+| Frontend (UI logic + state machine)                    | 12     | PASS     |
+| **Total**                                              | **35** | **PASS** |
 
 ---
 
@@ -62,16 +62,16 @@ All source files, including Svelte components, pass TypeScript strict type-check
 **Verified by:** backend-verifier
 **Implementer:** api-engineer
 
-| Sub-task | Description | Status |
-|----------|-------------|--------|
-| 1.1 | Shared import types (`src/lib/import/types.ts`) | PASS |
-| 1.2 | Finishes parser (`src/lib/import/parsers/finishes-parser.ts`) | PASS |
-| 1.3 | Colley parser (`src/lib/import/parsers/colley-parser.ts`) | PASS |
-| 1.4 | MatchFileParser interface (`src/lib/import/parsers/match-parser.ts`) | PASS |
-| 1.5 | Parser barrel export (`src/lib/import/parsers/index.ts`) | PASS |
-| 1.6 | Test fixtures (2 .xlsx files + generator script) | PASS |
-| 1.7 | Finishes parser tests (5 tests) | PASS |
-| 1.8 | Colley parser tests (3 tests) | PASS |
+| Sub-task | Description                                                          | Status |
+| -------- | -------------------------------------------------------------------- | ------ |
+| 1.1      | Shared import types (`src/lib/import/types.ts`)                      | PASS   |
+| 1.2      | Finishes parser (`src/lib/import/parsers/finishes-parser.ts`)        | PASS   |
+| 1.3      | Colley parser (`src/lib/import/parsers/colley-parser.ts`)            | PASS   |
+| 1.4      | MatchFileParser interface (`src/lib/import/parsers/match-parser.ts`) | PASS   |
+| 1.5      | Parser barrel export (`src/lib/import/parsers/index.ts`)             | PASS   |
+| 1.6      | Test fixtures (2 .xlsx files + generator script)                     | PASS   |
+| 1.7      | Finishes parser tests (5 tests)                                      | PASS   |
+| 1.8      | Colley parser tests (3 tests)                                        | PASS   |
 
 Files: 10 | Tests: 8
 
@@ -80,16 +80,16 @@ Files: 10 | Tests: 8
 **Verified by:** backend-verifier
 **Implementer:** database-engineer
 
-| Sub-task | Description | Status |
-|----------|-------------|--------|
-| 2.1 | Identity resolver (`src/lib/import/identity-resolver.ts`) | PASS |
-| 2.2 | Import service (`src/lib/import/import-service.ts`) | PASS |
-| 2.3 | RPC migration (`supabase/migrations/20260223180012_create_import_replace_rpc.sql`) | PASS |
-| 2.4 | Duplicate detector (`src/lib/import/duplicate-detector.ts`) | PASS |
-| 2.5 | Upload API endpoint (`src/routes/api/import/upload/+server.ts`) | PASS |
-| 2.6 | Confirm API endpoint (`src/routes/api/import/confirm/+server.ts`) | PASS |
-| 2.7 | Page server load (`src/routes/import/+page.server.ts`) | PASS |
-| 2.8 | Import service tests (7 tests) | PASS |
+| Sub-task | Description                                                                        | Status |
+| -------- | ---------------------------------------------------------------------------------- | ------ |
+| 2.1      | Identity resolver (`src/lib/import/identity-resolver.ts`)                          | PASS   |
+| 2.2      | Import service (`src/lib/import/import-service.ts`)                                | PASS   |
+| 2.3      | RPC migration (`supabase/migrations/20260223180012_create_import_replace_rpc.sql`) | PASS   |
+| 2.4      | Duplicate detector (`src/lib/import/duplicate-detector.ts`)                        | PASS   |
+| 2.5      | Upload API endpoint (`src/routes/api/import/upload/+server.ts`)                    | PASS   |
+| 2.6      | Confirm API endpoint (`src/routes/api/import/confirm/+server.ts`)                  | PASS   |
+| 2.7      | Page server load (`src/routes/import/+page.server.ts`)                             | PASS   |
+| 2.8      | Import service tests (7 tests)                                                     | PASS   |
 
 Files: 9 (including 1 migration, 1 supporting file) | Tests: 7
 
@@ -98,15 +98,15 @@ Files: 9 (including 1 migration, 1 supporting file) | Tests: 7
 **Verified by:** frontend-verifier
 **Implementer:** ui-designer
 
-| Sub-task | Description | Status |
-|----------|-------------|--------|
-| 3.1 | FileDropZone component | PASS |
-| 3.2 | IdentityResolutionPanel component | PASS |
-| 3.3 | DataPreviewTable component | PASS |
-| 3.4 | ImportSummary component | PASS |
-| 3.5 | Import page with multi-step state flow | PASS |
-| 3.6 | Import page layout styling | PASS |
-| 3.7 | UI component tests (12 tests) | PASS |
+| Sub-task | Description                            | Status |
+| -------- | -------------------------------------- | ------ |
+| 3.1      | FileDropZone component                 | PASS   |
+| 3.2      | IdentityResolutionPanel component      | PASS   |
+| 3.3      | DataPreviewTable component             | PASS   |
+| 3.4      | ImportSummary component                | PASS   |
+| 3.5      | Import page with multi-step state flow | PASS   |
+| 3.6      | Import page layout styling             | PASS   |
+| 3.7      | UI component tests (12 tests)          | PASS   |
 
 Files: 6 | Tests: 12
 
@@ -114,14 +114,14 @@ Files: 6 | Tests: 12
 
 **Implementer:** testing-engineer
 
-| Sub-task | Description | Status |
-|----------|-------------|--------|
-| 4.1 | Audit existing test coverage | PASS |
-| 4.2 | Zod validation integration tests (3 tests) | PASS |
-| 4.3 | Malformed file handling tests (3 tests) | PASS |
-| 4.4 | Import mode edge case tests (2 tests) | PASS |
-| 4.5 | E2E workflow test | SKIPPED (see notes) |
-| 4.6 | Full test suite verification (35/35) | PASS |
+| Sub-task | Description                                | Status              |
+| -------- | ------------------------------------------ | ------------------- |
+| 4.1      | Audit existing test coverage               | PASS                |
+| 4.2      | Zod validation integration tests (3 tests) | PASS                |
+| 4.3      | Malformed file handling tests (3 tests)    | PASS                |
+| 4.4      | Import mode edge case tests (2 tests)      | PASS                |
+| 4.5      | E2E workflow test                          | SKIPPED (see notes) |
+| 4.6      | Full test suite verification (35/35)       | PASS                |
 
 Files: 3 | Tests: 8
 
@@ -129,20 +129,20 @@ Files: 3 | Tests: 8
 
 ## Files Created
 
-| Category | Count |
-|----------|-------|
-| Group 1: Parsing & Types | 10 |
-| Group 2: Services & API | 9 |
-| Group 3: Frontend UI | 6 |
-| Group 4: Gap Tests | 3 |
-| **Total files created** | **28** |
+| Category                 | Count  |
+| ------------------------ | ------ |
+| Group 1: Parsing & Types | 10     |
+| Group 2: Services & API  | 9      |
+| Group 3: Frontend UI     | 6      |
+| Group 4: Gap Tests       | 3      |
+| **Total files created**  | **28** |
 
 ### Modified Files (from prior features)
 
-| File | Change |
-|------|--------|
+| File                              | Change                              |
+| --------------------------------- | ----------------------------------- |
 | `src/lib/types/database.types.ts` | Added RPC function type definitions |
-| `vite.config.ts` | Updated test configuration |
+| `vite.config.ts`                  | Updated test configuration          |
 
 ---
 

@@ -48,17 +48,20 @@ This document contains step-by-step runbooks for diagnosing and resolving common
 ### Resolution
 
 **If the migration has a SQL syntax error:**
+
 1. Fix the SQL in the migration file.
 2. If the migration has not been applied to any environment, edit it in place.
 3. If the migration was partially applied, write a corrective migration and apply it.
 
 **If the migration conflicts with existing data:**
+
 1. Identify the constraint violation (e.g., NOT NULL on a column with NULL values).
 2. Write a data backfill step before the constraint change, or add a DEFAULT value.
 3. Test locally with `supabase db reset`.
 4. Push to production with `supabase db push`.
 
 **If the remote schema has diverged:**
+
 1. Generate a diff to understand the current remote state:
    ```bash
    supabase db diff
@@ -130,10 +133,12 @@ After an XLSX file import, ranking computations produce unexpected results. Poss
 ### Resolution
 
 **If corrupted data is limited to tournament results for a specific season and age group:**
+
 1. Re-import the corrected XLSX file. The `import_replace_tournament_results` RPC function atomically deletes all existing results for the season + age group and re-inserts, so a clean re-import resolves the issue.
 2. Re-run rankings for the affected season and age group via `POST /api/ranking/run`.
 
 **If corrupted data has propagated to ranking runs:**
+
 1. Delete the affected ranking runs (cascade will remove `ranking_results` and `ranking_overrides`):
    ```sql
    DELETE FROM ranking_runs WHERE id = '<affected_run_id>';
@@ -143,6 +148,7 @@ After an XLSX file import, ranking computations produce unexpected results. Poss
 4. If committee overrides existed on the deleted run, reapply them manually.
 
 **If team identity resolution failed (wrong team matched):**
+
 1. Identify the incorrectly matched team and the correct team.
 2. Update the `tournament_results` rows to point to the correct `team_id`.
 3. Re-run rankings for the affected season and age group.
@@ -171,12 +177,15 @@ A team's computed rank does not match expectations. The committee or a user repo
 ### Diagnosis Steps
 
 1. Retrieve the team's ranking breakdown for the specific run:
+
    ```
    GET /api/ranking/team/<team_id>
    ```
+
    This returns all five algorithm scores (Colley, Elo-2200, Elo-2400, Elo-2500, Elo-2700), the normalized scores, and the aggregate rating.
 
 2. Check the individual algorithm scores in the database:
+
    ```sql
    SELECT rr.*, t.name AS team_name
    FROM ranking_results rr
@@ -186,6 +195,7 @@ A team's computed rank does not match expectations. The committee or a user repo
    ```
 
 3. Examine the team's tournament results that fed into the ranking:
+
    ```sql
    SELECT tr.finish_position, tr.field_size, tr.division,
           tn.name AS tournament_name, tw.weight, tw.tier
@@ -198,6 +208,7 @@ A team's computed rank does not match expectations. The committee or a user repo
    ```
 
 4. Check the team's match record for Colley and Elo calculations:
+
    ```sql
    SELECT m.*, ta.name AS team_a_name, tb.name AS team_b_name
    FROM matches m
@@ -211,6 +222,7 @@ A team's computed rank does not match expectations. The committee or a user repo
    ```
 
 5. Check whether tournament weights are affecting the outcome disproportionately:
+
    ```sql
    SELECT tn.name, tw.weight, tw.tier
    FROM tournament_weights tw
@@ -220,6 +232,7 @@ A team's computed rank does not match expectations. The committee or a user repo
    ```
 
 6. Compare the team's rank to nearby teams to determine whether the discrepancy is a relative issue:
+
    ```sql
    SELECT rr.agg_rank, rr.agg_rating, t.name,
           rr.algo1_rank, rr.algo2_rank, rr.algo3_rank,
@@ -243,17 +256,21 @@ A team's computed rank does not match expectations. The committee or a user repo
 ### Resolution
 
 **If the data is correct and the rank reflects the algorithm:**
+
 - Explain the ranking methodology to the committee. The five-algorithm ensemble (Colley + 4 Elo variants) can produce counterintuitive results when one algorithm disagrees with the others.
 - If the committee disagrees, apply a ranking override via `POST /api/ranking/overrides` with a justification.
 
 **If tournament weights are skewing results:**
+
 - Adjust weights via `PUT /api/ranking/weights`.
 - Re-run the ranking computation.
 
 **If source data is incorrect:**
+
 - Follow the [Import Data Corruption](#2-import-data-corruption) runbook.
 
 **If an algorithm bug is suspected:**
+
 - Review the ranking engine source code in `src/lib/ranking/`.
 - Create a minimal test case with known inputs and expected outputs.
 - File a bug report with the test case and the divergent output.
@@ -288,12 +305,14 @@ The application fails to load data, displays empty rankings, or returns API erro
 1. Verify the Supabase project is online. Open the Supabase Dashboard at `https://supabase.com/dashboard/project/<project-ref>` and check the project status.
 
 2. Test direct API connectivity:
+
    ```bash
    curl -s -o /dev/null -w "%{http_code}" \
      "https://<project-ref>.supabase.co/rest/v1/" \
      -H "apikey: <publishable-key>" \
      -H "Authorization: Bearer <publishable-key>"
    ```
+
    Expected: HTTP 200. If 401 or 403, the API key is invalid.
 
 3. Check environment variables in the deployment:
@@ -306,9 +325,11 @@ The application fails to load data, displays empty rankings, or returns API erro
 5. Check for Supabase service incidents at [status.supabase.com](https://status.supabase.com).
 
 6. Test database connectivity from the Supabase SQL editor:
+
    ```sql
    SELECT 1;
    ```
+
    If this fails, the database instance itself may be down.
 
 7. Check for connection pool exhaustion in the Supabase Dashboard > Database > Connection Pooler section. Look for:
@@ -327,22 +348,26 @@ The application fails to load data, displays empty rankings, or returns API erro
 ### Resolution
 
 **If the Supabase project is paused (free tier):**
+
 1. Open the Supabase Dashboard.
 2. Click "Restore project" to resume the instance.
 3. Wait for the project to become available (typically 1-2 minutes).
 4. Verify connectivity with a test query.
 
 **If API keys have been rotated:**
+
 1. Obtain the new keys from Dashboard > Settings > API.
 2. Update `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in the deployment environment.
 3. Redeploy the application (or restart the server if using Node adapter).
 
 **If there is a Supabase service incident:**
+
 1. Monitor [status.supabase.com](https://status.supabase.com) for updates.
 2. There is no action to take other than wait for Supabase to resolve the issue.
 3. Communicate the outage to users.
 
 **If the connection pool is exhausted:**
+
 1. Check for long-running queries or transactions in the Supabase Dashboard.
 2. Terminate idle connections:
    ```sql
@@ -361,6 +386,7 @@ The application fails to load data, displays empty rankings, or returns API erro
    ```
 
 **If the local Supabase instance is not running:**
+
 1. Start it:
    ```bash
    supabase start

@@ -88,56 +88,56 @@ No mockups. The visual approach is described here for implementation.
 
 **60% -- Dominant (backgrounds, surfaces, large areas)**
 
-| Token | Value | Usage |
-|---|---|---|
-| `--color-bg` | `#FAFAFA` | Page background |
-| `--color-surface` | `#FFFFFF` | Cards, panels, table backgrounds |
+| Token                 | Value     | Usage                                         |
+| --------------------- | --------- | --------------------------------------------- |
+| `--color-bg`          | `#FAFAFA` | Page background                               |
+| `--color-surface`     | `#FFFFFF` | Cards, panels, table backgrounds              |
 | `--color-surface-alt` | `#F5F5F5` | Zebra-striped table rows, section backgrounds |
 
 **30% -- Secondary (supporting structure, borders, text)**
 
-| Token | Value | Usage |
-|---|---|---|
-| `--color-border` | `#E5E7EB` | Card borders, table dividers, input borders |
-| `--color-border-strong` | `#D1D5DB` | Emphasized borders, active input borders |
-| `--color-text-primary` | `#111827` | Headings, rank numbers, primary content |
-| `--color-text-secondary` | `#4B5563` | Body text, table cell values |
-| `--color-text-muted` | `#9CA3AF` | Captions, timestamps, helper text |
+| Token                    | Value     | Usage                                       |
+| ------------------------ | --------- | ------------------------------------------- |
+| `--color-border`         | `#E5E7EB` | Card borders, table dividers, input borders |
+| `--color-border-strong`  | `#D1D5DB` | Emphasized borders, active input borders    |
+| `--color-text-primary`   | `#111827` | Headings, rank numbers, primary content     |
+| `--color-text-secondary` | `#4B5563` | Body text, table cell values                |
+| `--color-text-muted`     | `#9CA3AF` | Captions, timestamps, helper text           |
 
 **10% -- Accent (CTAs, emphasis, ranking highlights)**
 
-| Token | Value | Usage |
-|---|---|---|
-| `--color-accent` | `#2563EB` | Primary buttons, active nav link, focus rings |
-| `--color-accent-hover` | `#1D4ED8` | Primary button hover |
-| `--color-accent-light` | `#EFF6FF` | Selected states, active backgrounds |
-| `--color-success` | `#16A34A` | Success banners, "OK" status, import complete |
-| `--color-error` | `#DC2626` | Error banners, validation errors |
-| `--color-warning` | `#D97706` | Warning banners, unresolved conflicts |
+| Token                  | Value     | Usage                                         |
+| ---------------------- | --------- | --------------------------------------------- |
+| `--color-accent`       | `#2563EB` | Primary buttons, active nav link, focus rings |
+| `--color-accent-hover` | `#1D4ED8` | Primary button hover                          |
+| `--color-accent-light` | `#EFF6FF` | Selected states, active backgrounds           |
+| `--color-success`      | `#16A34A` | Success banners, "OK" status, import complete |
+| `--color-error`        | `#DC2626` | Error banners, validation errors              |
+| `--color-warning`      | `#D97706` | Warning banners, unresolved conflicts         |
 
 **Ranking tier colors (background tints, not text colors)**
 
-| Token | Value | Usage |
-|---|---|---|
-| `--color-tier-1` | `#FEF9C3` | Ranks 1-5 (warm gold tint) |
-| `--color-tier-2` | `#E0F2FE` | Ranks 6-15 (cool blue tint) |
-| `--color-tier-3` | `#F0FDF4` | Ranks 16-30 (light green tint) |
+| Token            | Value         | Usage                                |
+| ---------------- | ------------- | ------------------------------------ |
+| `--color-tier-1` | `#FEF9C3`     | Ranks 1-5 (warm gold tint)           |
+| `--color-tier-2` | `#E0F2FE`     | Ranks 6-15 (cool blue tint)          |
+| `--color-tier-3` | `#F0FDF4`     | Ranks 16-30 (light green tint)       |
 | `--color-tier-4` | `transparent` | Ranks 31+ (no tint, default surface) |
 
 ### Typography Scale (Principle 2: Typography as the Interface)
 
 Use the system font stack for performance. Define a modular scale:
 
-| Token | Size | Weight | Line Height | Usage |
-|---|---|---|---|---|
-| `--text-h1` | `1.875rem` (30px) | 700 | 1.2 | Page titles ("Rankings", "Import Data") |
-| `--text-h2` | `1.25rem` (20px) | 600 | 1.3 | Section headings ("Ranking Settings", "Data Preview") |
-| `--text-h3` | `1.125rem` (18px) | 600 | 1.4 | Card titles, modal titles |
-| `--text-body` | `0.875rem` (14px) | 400 | 1.5 | General body text, table cells |
-| `--text-body-strong` | `0.875rem` (14px) | 600 | 1.5 | Emphasized table cells (team name, AggRating) |
-| `--text-caption` | `0.75rem` (12px) | 400 | 1.5 | Timestamps, helper text, column headers |
-| `--text-label` | `0.875rem` (14px) | 500 | 1.5 | Form labels, nav links |
-| `--text-stat` | `1.5rem` (24px) | 700 | 1.2 | Large stat numbers (import summary counts) |
+| Token                | Size              | Weight | Line Height | Usage                                                 |
+| -------------------- | ----------------- | ------ | ----------- | ----------------------------------------------------- |
+| `--text-h1`          | `1.875rem` (30px) | 700    | 1.2         | Page titles ("Rankings", "Import Data")               |
+| `--text-h2`          | `1.25rem` (20px)  | 600    | 1.3         | Section headings ("Ranking Settings", "Data Preview") |
+| `--text-h3`          | `1.125rem` (18px) | 600    | 1.4         | Card titles, modal titles                             |
+| `--text-body`        | `0.875rem` (14px) | 400    | 1.5         | General body text, table cells                        |
+| `--text-body-strong` | `0.875rem` (14px) | 600    | 1.5         | Emphasized table cells (team name, AggRating)         |
+| `--text-caption`     | `0.75rem` (12px)  | 400    | 1.5         | Timestamps, helper text, column headers               |
+| `--text-label`       | `0.875rem` (14px) | 500    | 1.5         | Form labels, nav links                                |
+| `--text-stat`        | `1.5rem` (24px)   | 700    | 1.2         | Large stat numbers (import summary counts)            |
 
 System font stack: `'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif`
 
@@ -147,19 +147,20 @@ Note: Inter is optional. If not loaded, the system stack provides a clean fallba
 
 4px base unit, exposed as CSS custom properties:
 
-| Token | Value | Typical use |
-|---|---|---|
-| `--space-1` | `0.25rem` (4px) | Tight padding inside badges |
-| `--space-2` | `0.5rem` (8px) | Icon gaps, inline spacing |
-| `--space-3` | `0.75rem` (12px) | Table cell padding |
-| `--space-4` | `1rem` (16px) | Card padding (mobile), input padding |
-| `--space-6` | `1.5rem` (24px) | Card padding (desktop), section gaps |
-| `--space-8` | `2rem` (32px) | Page section spacing |
-| `--space-12` | `3rem` (48px) | Page top/bottom padding |
+| Token        | Value            | Typical use                          |
+| ------------ | ---------------- | ------------------------------------ |
+| `--space-1`  | `0.25rem` (4px)  | Tight padding inside badges          |
+| `--space-2`  | `0.5rem` (8px)   | Icon gaps, inline spacing            |
+| `--space-3`  | `0.75rem` (12px) | Table cell padding                   |
+| `--space-4`  | `1rem` (16px)    | Card padding (mobile), input padding |
+| `--space-6`  | `1.5rem` (24px)  | Card padding (desktop), section gaps |
+| `--space-8`  | `2rem` (32px)    | Page section spacing                 |
+| `--space-12` | `3rem` (48px)    | Page top/bottom padding              |
 
 ### Responsive Behavior
 
 **Mobile (< 640px)**
+
 - Navigation collapses to a horizontal scrollable tab bar or hamburger menu.
 - Cards stack vertically, full width.
 - Rankings table: Hide per-algorithm columns. Show only AggRank, Team Name, AggRating, and W/L Record. Provide a "Show all columns" toggle or horizontal scroll.
@@ -167,11 +168,13 @@ Note: Inter is optional. If not loaded, the system stack provides a clean fallba
 - Buttons become full width within their container.
 
 **Tablet (640px - 1024px)**
+
 - Navigation remains as a horizontal top bar.
 - Form selects arranged in 2-column grid.
 - Rankings table: Show key columns, allow horizontal scroll for algorithm breakdown.
 
 **Desktop (> 1024px)**
+
 - Full navigation header with all links visible.
 - Form selects in 2-3 column grid (as currently implemented).
 - Rankings table: All columns visible. Sticky first two columns (Rank, Team Name) on horizontal scroll.
@@ -182,15 +185,15 @@ Note: Inter is optional. If not loaded, the system stack provides a clean fallba
 
 The following components and patterns already exist and should be enhanced, not replaced:
 
-| File | What it provides | Design system action |
-|---|---|---|
-| `src/lib/components/RankingResultsTable.svelte` | Rankings data table with sticky headers, zebra rows, tabular-nums | Add tier color bands, rank badges, responsive column hiding, use design tokens for colors |
-| `src/lib/components/FileDropZone.svelte` | Drag-and-drop file upload with validation | Restyle using design tokens. Replace hardcoded blue/red/gray with token references |
-| `src/lib/components/DataPreviewTable.svelte` | Editable data preview table with error highlighting | Restyle using design tokens and Card component |
-| `src/lib/components/ImportSummary.svelte` | Stats grid with success banner | Restyle using Card, Banner, and stat token styles |
-| `src/lib/components/IdentityResolutionPanel.svelte` | Conflict resolution with dropdowns | Restyle using Card, Button, Select, Banner components |
-| `src/routes/+layout.svelte` | Root layout importing `app.css` | Add navigation header and page shell |
-| `src/app.css` | Tailwind v4 import (`@import 'tailwindcss'`) | Add `@theme` block and CSS custom properties before the import |
+| File                                                | What it provides                                                  | Design system action                                                                      |
+| --------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `src/lib/components/RankingResultsTable.svelte`     | Rankings data table with sticky headers, zebra rows, tabular-nums | Add tier color bands, rank badges, responsive column hiding, use design tokens for colors |
+| `src/lib/components/FileDropZone.svelte`            | Drag-and-drop file upload with validation                         | Restyle using design tokens. Replace hardcoded blue/red/gray with token references        |
+| `src/lib/components/DataPreviewTable.svelte`        | Editable data preview table with error highlighting               | Restyle using design tokens and Card component                                            |
+| `src/lib/components/ImportSummary.svelte`           | Stats grid with success banner                                    | Restyle using Card, Banner, and stat token styles                                         |
+| `src/lib/components/IdentityResolutionPanel.svelte` | Conflict resolution with dropdowns                                | Restyle using Card, Button, Select, Banner components                                     |
+| `src/routes/+layout.svelte`                         | Root layout importing `app.css`                                   | Add navigation header and page shell                                                      |
+| `src/app.css`                                       | Tailwind v4 import (`@import 'tailwindcss'`)                      | Add `@theme` block and CSS custom properties before the import                            |
 
 ### Existing Patterns to Standardize
 
@@ -205,20 +208,20 @@ These ad-hoc patterns appear repeatedly and should become components:
 
 ### New Components Required
 
-| Component | Props | Notes |
-|---|---|---|
-| `Button.svelte` | `variant` (primary / secondary / danger / ghost), `size` (sm / md), `disabled`, `loading`, `type`, `onclick` | Replaces all ad-hoc button styles. Loading state includes spinner. |
-| `Select.svelte` | `label`, `id`, `options`, `value` (bindable), `placeholder`, `disabled`, `error` | Replaces repeated label + select markup. |
-| `Card.svelte` | `children` (snippet), `header` (snippet, optional), `padding` (default / none) | Wraps the `rounded-lg border` pattern. |
-| `Banner.svelte` | `variant` (success / error / warning / info), `title`, `children` (snippet), `dismissible` | Replaces ad-hoc alert banners. |
-| `PageHeader.svelte` | `title`, `subtitle` | H1 + subtitle with proper spacing. |
-| `NavHeader.svelte` | `currentPath` | Top navigation bar with app logo/title and page links. Highlights active route. |
-| `PageShell.svelte` | `children` (snippet) | Wraps NavHeader + Container + main content area. Applied in `+layout.svelte`. |
-| `DataTable.svelte` | `children` (snippet), `caption`, `stickyHeader` | Wrapper providing consistent table chrome (border, scroll, sticky thead). Existing tables compose into this. |
-| `RankBadge.svelte` | `rank` | Styled numeric rank display. Bolder/larger for top-5, standard for others. |
-| `TierRow.svelte` | `rank`, `children` (snippet) | Table row that applies tier background color based on rank range. |
-| `FreshnessIndicator.svelte` | `timestamp` (ISO string) | Displays "Ran 5 min ago" with muted caption styling. |
-| `Spinner.svelte` | `size` (sm / md) | Reusable loading spinner. Replaces the repeated inline SVG spinner in 3+ places. |
+| Component                   | Props                                                                                                        | Notes                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `Button.svelte`             | `variant` (primary / secondary / danger / ghost), `size` (sm / md), `disabled`, `loading`, `type`, `onclick` | Replaces all ad-hoc button styles. Loading state includes spinner.                                           |
+| `Select.svelte`             | `label`, `id`, `options`, `value` (bindable), `placeholder`, `disabled`, `error`                             | Replaces repeated label + select markup.                                                                     |
+| `Card.svelte`               | `children` (snippet), `header` (snippet, optional), `padding` (default / none)                               | Wraps the `rounded-lg border` pattern.                                                                       |
+| `Banner.svelte`             | `variant` (success / error / warning / info), `title`, `children` (snippet), `dismissible`                   | Replaces ad-hoc alert banners.                                                                               |
+| `PageHeader.svelte`         | `title`, `subtitle`                                                                                          | H1 + subtitle with proper spacing.                                                                           |
+| `NavHeader.svelte`          | `currentPath`                                                                                                | Top navigation bar with app logo/title and page links. Highlights active route.                              |
+| `PageShell.svelte`          | `children` (snippet)                                                                                         | Wraps NavHeader + Container + main content area. Applied in `+layout.svelte`.                                |
+| `DataTable.svelte`          | `children` (snippet), `caption`, `stickyHeader`                                                              | Wrapper providing consistent table chrome (border, scroll, sticky thead). Existing tables compose into this. |
+| `RankBadge.svelte`          | `rank`                                                                                                       | Styled numeric rank display. Bolder/larger for top-5, standard for others.                                   |
+| `TierRow.svelte`            | `rank`, `children` (snippet)                                                                                 | Table row that applies tier background color based on rank range.                                            |
+| `FreshnessIndicator.svelte` | `timestamp` (ISO string)                                                                                     | Displays "Ran 5 min ago" with muted caption styling.                                                         |
+| `Spinner.svelte`            | `size` (sm / md)                                                                                             | Reusable loading spinner. Replaces the repeated inline SVG spinner in 3+ places.                             |
 
 All new components live in `src/lib/components/` using PascalCase filenames (per coding style standard).
 
@@ -248,6 +251,7 @@ All tokens are defined in `src/app.css`. Structure:
 ```
 
 This approach gives:
+
 - Direct CSS variable access for any custom styling or computed values.
 - Tailwind utility classes like `bg-surface`, `text-accent`, `border-border` for template usage.
 - A single file to update when evolving the palette.

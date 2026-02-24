@@ -11,6 +11,7 @@
 All three task groups for the Data Model & Database Schema spec have been implemented and verified.
 
 ### Task Group 1: Database Migrations -- COMPLETE
+
 - 11 sequential migration files in `supabase/migrations/`
 - 8 tables created with correct column names, types, and defaults
 - 2 PostgreSQL enums (`age_group_enum`, `ranking_scope_enum`) with correct values
@@ -21,6 +22,7 @@ All three task groups for the Data Model & Database Schema spec have been implem
 - 11 indexes on FK and common query columns
 
 ### Task Group 2: TypeScript Types & Zod Schemas -- COMPLETE
+
 - 8 Zod schemas with insert/update/type variants in `src/lib/schemas/`
 - Shared enums in `enums.ts` reused across schemas
 - Zod v4 format validators (`z.uuid()`, `z.iso.datetime()`, `z.iso.date()`)
@@ -30,6 +32,7 @@ All three task groups for the Data Model & Database Schema spec have been implem
 - Typed Supabase client at `src/lib/supabase.ts`
 
 ### Task Group 3: Test Review & Gap Analysis -- COMPLETE
+
 - 8 Zod schema validation tests in `tests/schemas/schemas.test.ts`
 - 5 referential integrity structural tests in `tests/integration/referential-integrity.test.ts`
 - 5 constraint and edge case tests in `tests/integration/constraints-edge-cases.test.ts`

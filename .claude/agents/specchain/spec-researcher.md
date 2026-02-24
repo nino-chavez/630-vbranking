@@ -54,6 +54,7 @@ Before generating questions, understand the broader product context:
    - Libraries and tools available
 
 This context will help you:
+
 - Ask more relevant and contextual questions
 - Identify existing features that might be reused or referenced
 - Ensure the feature aligns with product goals
@@ -64,18 +65,21 @@ This context will help you:
 Generate targeted, NUMBERED questions based on the execution **depth**:
 
 #### Depth: `lean`
+
 - Generate **3-5** targeted questions focused on **functional requirements only**
 - **SKIP** the visual asset request entirely
 - **SKIP** the reusability question entirely
 - Keep questions direct and minimal — confirm core behaviors and scope boundaries
 
 #### Depth: `standard`
+
 - Generate **6-9** targeted questions
 - **INCLUDE** the visual asset request at the end
 - **INCLUDE** the reusability question at the end
 - This is the current default behavior (see format below)
 
 #### Depth: `thorough`
+
 - Generate **6-9** targeted questions (same as standard)
 - **INCLUDE** the visual asset request at the end
 - **INCLUDE** the reusability question at the end
@@ -84,6 +88,7 @@ Generate targeted, NUMBERED questions based on the execution **depth**:
   - **Critical test scenarios**: "What are the most critical user workflows or edge cases that must be covered by tests for this feature?"
 
 **Question generation guidelines (all depths):**
+
 - Start each question with a number
 - Propose sensible assumptions based on best practices
 - Frame questions as "I'm assuming X, is that correct?"
@@ -92,6 +97,7 @@ Generate targeted, NUMBERED questions based on the execution **depth**:
 - Always end with an open question about exclusions
 
 **Required output format for `standard` and `thorough`:**
+
 ```
 Based on your idea for [spec name], I have some clarifying questions:
 
@@ -125,6 +131,7 @@ Please answer the questions above and let me know if you've added any visual fil
 ```
 
 **Required output format for `lean`:**
+
 ```
 Based on your idea for [spec name], I have a few focused questions:
 
@@ -172,21 +179,25 @@ ls -la [spec-path]/planning/visuals/ 2>/dev/null | grep -E '\.(png|jpg|jpeg|gif|
 Determine if follow-up questions are needed based on:
 
 **Visual-triggered follow-ups:**
+
 - If visuals were found but user didn't mention them: "I found [filename(s)] in the visuals folder. Let me analyze these for the specification."
 - If filenames contain "lofi", "lo-fi", "wireframe", "sketch", or "rough": "I notice you've provided [filename(s)] which appear to be wireframes/low-fidelity mockups. Should we treat these as layout and structure guides rather than exact design specifications, using our application's existing styling instead?"
 - If visuals show features not discussed in answers
 - If there are discrepancies between answers and visuals
 
 **Reusability follow-ups:**
-   - If user didn't provide similar features but the spec seems common: "This seems like it might share patterns with existing features. Could you point me to any similar forms/pages/logic in your app?"
+
+- If user didn't provide similar features but the spec seems common: "This seems like it might share patterns with existing features. Could you point me to any similar forms/pages/logic in your app?"
 - If provided paths seem incomplete you can ask something like: "You mentioned [feature]. Are there any service objects or backend logic we should also reference?"
 
 **User's Answers-triggered follow-ups:**
+
 - Vague requirements need clarification
 - Missing technical details
 - Unclear scope boundaries
 
 **If follow-ups needed, OUTPUT to orchestrator:**
+
 ```
 Based on your answers [and the visual files I found], I have a few follow-up questions:
 
@@ -206,6 +217,7 @@ After all questions are answered, record ALL gathered information to `[spec-path
 # Spec Requirements: [Spec Name]
 
 ## Initial Description
+
 [User's original spec description from initialization.md]
 
 ## Requirements Discussion
@@ -221,9 +233,11 @@ After all questions are answered, record ALL gathered information to `[spec-path
 [Continue for all questions]
 
 ### Existing Code to Reference
+
 [Based on user's response about similar features]
 
 **Similar Features Identified:**
+
 - Feature: [Name] - Path: `[path provided by user]`
 - Components to potentially reuse: [user's description]
 - Backend logic to reference: [user's description]
@@ -232,6 +246,7 @@ After all questions are answered, record ALL gathered information to `[spec-path
 No similar existing features identified for reference.
 
 ### Follow-up Questions
+
 [If any were asked]
 
 **Follow-up 1:** [Question]
@@ -240,11 +255,14 @@ No similar existing features identified for reference.
 ## Visual Assets
 
 ### Files Provided:
+
 [Based on actual bash check, not user statement]
+
 - `filename.png`: [Description of what it shows from your analysis]
 - `filename2.jpg`: [Key elements observed from your analysis]
 
 ### Visual Insights:
+
 - [Design patterns identified]
 - [User flow implications]
 - [UI components shown]
@@ -256,24 +274,30 @@ No visual assets provided.
 ## Requirements Summary
 
 ### Functional Requirements
+
 - [Core functionality based on answers]
 - [User actions enabled]
 - [Data to be managed]
 
 ### Reusability Opportunities
+
 - [Components that might exist already based on user's input]
 - [Backend patterns to investigate]
 - [Similar features to model after]
 
 ### Scope Boundaries
+
 **In Scope:**
+
 - [What will be built]
 
 **Out of Scope:**
+
 - [What won't be built]
 - [Future enhancements mentioned]
 
 ### Technical Considerations
+
 - [Integration points mentioned]
 - [Existing system constraints]
 - [Technology preferences stated]
@@ -309,7 +333,6 @@ Ready for specification creation.
 - Document all visual findings including fidelity level
 - Document paths to similar features for spec-writer to reference
 - OUTPUT questions and STOP to wait for orchestrator to relay responses
-
 
 ## User Standards & Preferences Compliance
 

@@ -18,13 +18,13 @@ Tournament weights solve this problem by allowing the committee to specify how m
 
 The system organizes tournaments into five tiers, each with a default weight multiplier:
 
-| Tier | Weight | Description | Example |
-|---|---|---|---|
-| Tier 1 | 3.0x | National Championship | AAU National Championship |
-| Tier 2 | 2.5x | Major National | AAU Grand Prix |
-| Tier 3 | 2.0x | Regional Championship | Northeast Regional Championship |
-| Tier 4 | 1.5x | Regional Qualifier | State qualifier tournament |
-| Tier 5 | 1.0x | Local Tournament | Weekend invitational |
+| Tier   | Weight | Description           | Example                         |
+| ------ | ------ | --------------------- | ------------------------------- |
+| Tier 1 | 3.0x   | National Championship | AAU National Championship       |
+| Tier 2 | 2.5x   | Major National        | AAU Grand Prix                  |
+| Tier 3 | 2.0x   | Regional Championship | Northeast Regional Championship |
+| Tier 4 | 1.5x   | Regional Qualifier    | State qualifier tournament      |
+| Tier 5 | 1.0x   | Local Tournament      | Weekend invitational            |
 
 The weight is a multiplier. A weight of 3.0 means that results at that tournament count three times as much as results at a weight-1.0 tournament.
 
@@ -39,6 +39,7 @@ Tournament weights influence both the Colley Matrix and Elo algorithms. Here is 
 In the Colley Matrix, each game between two teams adds information to a mathematical equation. When a game carries a weight of 1.0, it adds a standard amount of information. When a game carries a weight of 3.0, it adds three times as much.
 
 Think of it this way: a weighted game at a Tier-1 tournament is treated as if the same two teams played each other three times with the same result. This means:
+
 - Beating a strong opponent at nationals has a much larger positive effect on your rating than beating them at a local tournament.
 - Losing to an opponent at nationals has a correspondingly larger negative effect.
 
@@ -47,12 +48,12 @@ Think of it this way: a weighted game at a Tier-1 tournament is treated as if th
 In the Elo system, the **K-factor** controls how much a single game can change a team's rating. The default K-factor is 32. Tournament weights multiply the K-factor:
 
 | Tournament Weight | Effective K-Factor | Rating Change Multiplier |
-|---|---|---|
-| 1.0 (Tier 5) | 32 | 1x (baseline) |
-| 1.5 (Tier 4) | 48 | 1.5x |
-| 2.0 (Tier 3) | 64 | 2x |
-| 2.5 (Tier 2) | 80 | 2.5x |
-| 3.0 (Tier 1) | 96 | 3x |
+| ----------------- | ------------------ | ------------------------ |
+| 1.0 (Tier 5)      | 32                 | 1x (baseline)            |
+| 1.5 (Tier 4)      | 48                 | 1.5x                     |
+| 2.0 (Tier 3)      | 64                 | 2x                       |
+| 2.5 (Tier 2)      | 80                 | 2.5x                     |
+| 3.0 (Tier 1)      | 96                 | 3x                       |
 
 A higher effective K-factor means each game result causes a bigger rating change. Wins are more rewarding and losses are more costly at higher-weight tournaments.
 
@@ -65,11 +66,13 @@ A higher effective K-factor means each game result causes a bigger rating change
 Consider two teams, the Hawks and the Eagles, who each play 10 games during the season.
 
 **Hawks:**
+
 - 5 wins at a Tier-1 national tournament (weight 3.0)
 - 5 losses at local tournaments (weight 1.0)
 - Raw record: 5-5
 
 **Eagles:**
+
 - 5 wins at local tournaments (weight 1.0)
 - 5 losses at a Tier-1 national tournament (weight 3.0)
 - Raw record: 5-5
@@ -85,13 +88,14 @@ The Hawks would rank significantly higher because their wins came against nation
 
 Suppose Team Alpha has these season results:
 
-| Tournament | Weight | Games Won | Games Lost |
-|---|---|---|---|
-| AAU Nationals | 3.0 | 4 | 2 |
-| Regional Championship | 2.0 | 3 | 1 |
-| Local Invitational | 1.0 | 2 | 0 |
+| Tournament            | Weight | Games Won | Games Lost |
+| --------------------- | ------ | --------- | ---------- |
+| AAU Nationals         | 3.0    | 4         | 2          |
+| Regional Championship | 2.0    | 3         | 1          |
+| Local Invitational    | 1.0    | 2         | 0          |
 
 Their effective game contributions:
+
 - Nationals: 4 x 3.0 = 12 weighted wins, 2 x 3.0 = 6 weighted losses
 - Regionals: 3 x 2.0 = 6 weighted wins, 1 x 2.0 = 2 weighted losses
 - Local: 2 x 1.0 = 2 weighted wins, 0 x 1.0 = 0 weighted losses
@@ -132,4 +136,4 @@ The 3:1 range strikes a balance: national results carry more weight, but a consi
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

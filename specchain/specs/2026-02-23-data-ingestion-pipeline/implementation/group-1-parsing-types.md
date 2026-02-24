@@ -14,18 +14,18 @@
 
 Defined and exported all shared types:
 
-| Type | Description |
-|------|-------------|
-| `ImportFormat` | `'finishes' \| 'colley'` union type |
-| `ImportMode` | `'replace' \| 'merge'` union type |
-| `ParsedFinishesRow` | Row shape for parsed Finishes spreadsheet data |
-| `ParsedColleyRow` | Row shape for parsed Colley spreadsheet data (16 fields including 5 algo rating/rank pairs + agg) |
-| `ParseError` | Error attached to a specific cell with row, column, message, and severity |
-| `IdentityConflict` | Unmatched entity with fuzzy-match suggestions |
-| `ParseResult<T>` | Generic result container with rows, errors, identity conflicts, and metadata |
-| `IdentityMapping` | User resolution for a conflict (create/map/skip) |
-| `ImportSummaryData` | Post-import summary statistics |
-| `FileParserInterface<T>` | Generic interface with `parse(buffer, options?)` method |
+| Type                     | Description                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------------------------- |
+| `ImportFormat`           | `'finishes' \| 'colley'` union type                                                               |
+| `ImportMode`             | `'replace' \| 'merge'` union type                                                                 |
+| `ParsedFinishesRow`      | Row shape for parsed Finishes spreadsheet data                                                    |
+| `ParsedColleyRow`        | Row shape for parsed Colley spreadsheet data (16 fields including 5 algo rating/rank pairs + agg) |
+| `ParseError`             | Error attached to a specific cell with row, column, message, and severity                         |
+| `IdentityConflict`       | Unmatched entity with fuzzy-match suggestions                                                     |
+| `ParseResult<T>`         | Generic result container with rows, errors, identity conflicts, and metadata                      |
+| `IdentityMapping`        | User resolution for a conflict (create/map/skip)                                                  |
+| `ImportSummaryData`      | Post-import summary statistics                                                                    |
+| `FileParserInterface<T>` | Generic interface with `parse(buffer, options?)` method                                           |
 
 ### 1.2 Finishes Parser
 
@@ -77,23 +77,23 @@ The `ColleyParser` class implements `FileParserInterface<ParsedColleyRow>` with:
 
 **File:** `src/lib/import/parsers/__tests__/finishes-parser.test.ts`
 
-| # | Test | Assertion |
-|---|------|-----------|
-| 1 | Detects tournament column boundaries | 2 valid tournaments detected, "Fake Event" skipped |
-| 2 | Extracts team name and code | All 5 teams present in parsed rows |
-| 3 | Skips padding columns | No phantom tournaments; only "AZ Region #1" and "CA Invitational" |
-| 4 | Handles merged cells in Row 1 | Tournament names read from leftmost cell of merge range |
-| 5 | Skips empty Fin/Tot pairs | Bravo has 1 row (AZ only), Charlie has 1 row (CA only), total 8 rows |
+| #   | Test                                 | Assertion                                                            |
+| --- | ------------------------------------ | -------------------------------------------------------------------- |
+| 1   | Detects tournament column boundaries | 2 valid tournaments detected, "Fake Event" skipped                   |
+| 2   | Extracts team name and code          | All 5 teams present in parsed rows                                   |
+| 3   | Skips padding columns                | No phantom tournaments; only "AZ Region #1" and "CA Invitational"    |
+| 4   | Handles merged cells in Row 1        | Tournament names read from leftmost cell of merge range              |
+| 5   | Skips empty Fin/Tot pairs            | Bravo has 1 row (AZ only), Charlie has 1 row (CA only), total 8 rows |
 
 ### 1.8 Colley Parser Tests (3 tests)
 
 **File:** `src/lib/import/parsers/__tests__/colley-parser.test.ts`
 
-| # | Test | Assertion |
-|---|------|-----------|
-| 1 | Maps all 16 columns | All rating/rank values match fixture data for Alpha and Echo |
-| 2 | Flags non-numeric errors | Non-numeric Algo1Rating/Algo1Rank produce errors; row still included with null values |
-| 3 | Skips header row | 5 data rows parsed; no row has "Team" as teamName |
+| #   | Test                     | Assertion                                                                             |
+| --- | ------------------------ | ------------------------------------------------------------------------------------- |
+| 1   | Maps all 16 columns      | All rating/rank values match fixture data for Alpha and Echo                          |
+| 2   | Flags non-numeric errors | Non-numeric Algo1Rating/Algo1Rank produce errors; row still included with null values |
+| 3   | Skips header row         | 5 data rows parsed; no row has "Team" as teamName                                     |
 
 ---
 
@@ -120,18 +120,18 @@ The `ColleyParser` class implements `FileParserInterface<ParsedColleyRow>` with:
 
 ## File Inventory
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `src/lib/import/types.ts` | 96 | Shared types and interfaces |
-| `src/lib/import/parsers/finishes-parser.ts` | 189 | Adaptive Finishes Excel parser |
-| `src/lib/import/parsers/colley-parser.ts` | 176 | Fixed-column Colley Excel parser |
-| `src/lib/import/parsers/match-parser.ts` | 28 | MatchFileParser interface (architecture only) |
-| `src/lib/import/parsers/index.ts` | 27 | Barrel exports + getParser factory |
-| `src/lib/import/__fixtures__/create-fixtures.ts` | 99 | Fixture generation script |
-| `src/lib/import/__fixtures__/finishes-test-fixture.xlsx` | -- | Binary fixture file |
-| `src/lib/import/__fixtures__/colley-test-fixture.xlsx` | -- | Binary fixture file |
-| `src/lib/import/parsers/__tests__/finishes-parser.test.ts` | 133 | 5 Finishes parser tests |
-| `src/lib/import/parsers/__tests__/colley-parser.test.ts` | 139 | 3 Colley parser tests |
+| File                                                       | Lines | Purpose                                       |
+| ---------------------------------------------------------- | ----- | --------------------------------------------- |
+| `src/lib/import/types.ts`                                  | 96    | Shared types and interfaces                   |
+| `src/lib/import/parsers/finishes-parser.ts`                | 189   | Adaptive Finishes Excel parser                |
+| `src/lib/import/parsers/colley-parser.ts`                  | 176   | Fixed-column Colley Excel parser              |
+| `src/lib/import/parsers/match-parser.ts`                   | 28    | MatchFileParser interface (architecture only) |
+| `src/lib/import/parsers/index.ts`                          | 27    | Barrel exports + getParser factory            |
+| `src/lib/import/__fixtures__/create-fixtures.ts`           | 99    | Fixture generation script                     |
+| `src/lib/import/__fixtures__/finishes-test-fixture.xlsx`   | --    | Binary fixture file                           |
+| `src/lib/import/__fixtures__/colley-test-fixture.xlsx`     | --    | Binary fixture file                           |
+| `src/lib/import/parsers/__tests__/finishes-parser.test.ts` | 133   | 5 Finishes parser tests                       |
+| `src/lib/import/parsers/__tests__/colley-parser.test.ts`   | 139   | 3 Colley parser tests                         |
 
 ## Design Decisions
 

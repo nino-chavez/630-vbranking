@@ -10,11 +10,11 @@ The Volleyball Ranking Engine computes, reviews, and publishes team rankings for
 
 ## Business Domains
 
-| Domain | Description | Link |
-|--------|-------------|------|
-| Ranking System | How team rankings are computed, normalized, aggregated, and finalized | [Ranking Rules](business-rules/ranking.md) |
-| Data Import | How tournament results and pre-computed ratings are uploaded into the system | [Data Import Rules](business-rules/data-import.md) |
-| Export and Reporting | How rankings are exported as CSV, Excel, and PDF documents | [Export Rules](business-rules/export.md) |
+| Domain               | Description                                                                  | Link                                               |
+| -------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------- |
+| Ranking System       | How team rankings are computed, normalized, aggregated, and finalized        | [Ranking Rules](business-rules/ranking.md)         |
+| Data Import          | How tournament results and pre-computed ratings are uploaded into the system | [Data Import Rules](business-rules/data-import.md) |
+| Export and Reporting | How rankings are exported as CSV, Excel, and PDF documents                   | [Export Rules](business-rules/export.md)           |
 
 ## Key Concepts
 

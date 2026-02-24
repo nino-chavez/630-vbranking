@@ -1,6 +1,7 @@
 # ADR-002: SvelteKit Monolith with Supabase Backend
 
 ## Status
+
 Accepted
 
 ## Context
@@ -36,12 +37,14 @@ Database schema management uses Supabase migrations (15 SQL files in `supabase/m
 ## Consequences
 
 **Easier:**
+
 - Single deployment artifact. No service coordination, no API gateway, no separate frontend/backend deployments.
 - Supabase provides managed PostgreSQL with automatic backups, a web dashboard for data inspection, and generated TypeScript types.
 - SvelteKit's file-system routing maps directly to the application's URL structure (`/ranking`, `/import`, `/api/ranking/run`).
 - Database migrations in `supabase/migrations/` provide version-controlled schema evolution.
 
 **More difficult:**
+
 - Vendor coupling to Supabase's JavaScript client library. Switching to a different PostgreSQL host would require replacing `SupabaseClient` calls in 5 service files (`RankingService`, `ImportService`, `IdentityResolver`, `DuplicateDetector`, and `supabase-server.ts`).
 - No built-in authentication. Supabase Auth is available but not configured. The system currently relies on network-level access control.
 - Scaling is limited to vertical scaling of the SvelteKit server. Horizontal scaling would require session management and stateless API design (which the current codebase supports, as no server-side session state exists).

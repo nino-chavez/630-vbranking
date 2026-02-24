@@ -19,6 +19,7 @@
 9. [x] **Multi-Age-Group Support** -- Extend the system to support 15U, 16U, and 17U divisions alongside 18U. Each age group operates as an independent data set using the same schema, algorithms, and UI, selectable via an age-group switcher in the dashboard. `M`
 
 > Notes
+>
 > - 9 items total, ordered by strict technical dependency chain
 > - Items 1-4 form the algorithmic core (data in, rankings out)
 > - Item 5 establishes the visual design system before any UI work

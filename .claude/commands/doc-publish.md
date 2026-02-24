@@ -3,6 +3,7 @@
 Description: Deploys built documentation site to hosting providers (GitHub Pages, Vercel, or Netlify).
 
 Arguments:
+
 - target: Required. One of: "github-pages", "vercel", "netlify"
 - source: (optional) Path to built site. Default: "site/"
 - branch: (optional) For GitHub Pages deployment branch. Default: "gh-pages"
@@ -19,21 +20,27 @@ You are executing a three-phase documentation deployment pipeline. Read CLAUDE.m
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: VALIDATOR
-*Persona: DevOps Engineer validating build*
+
+_Persona: DevOps Engineer validating build_
+
 - Verify built site exists at source path
 - Detect platform type from configuration files
 - Validate site structure matches platform requirements
 - Check for required deployment prerequisites
 
 ### PHASE 2: CONFIGURATOR
-*Persona: Platform Deployment Specialist*
+
+_Persona: Platform Deployment Specialist_
+
 - Generate deployment configuration files
 - Set up CI/CD workflow if needed
 - Configure custom domain if provided
 - Prepare deployment commands
 
 ### PHASE 3: DEPLOYER
-*Persona: Release Engineer executing deployment*
+
+_Persona: Release Engineer executing deployment_
+
 - Execute deployment steps
 - Verify deployment succeeded
 - Report live URL and next steps
@@ -45,11 +52,13 @@ You are executing a three-phase documentation deployment pipeline. Read CLAUDE.m
 ### Step 1.1: Verify Source Exists
 
 Check that `$source` directory exists:
+
 ```bash
 ls -la $source
 ```
 
 If not found, output error:
+
 ```
 Error: No built site found at $source
        Run /doc-build first to generate the site.
@@ -59,25 +68,28 @@ Error: No built site found at $source
 
 Check for platform indicator files:
 
-| Platform | Indicator Files |
-|----------|-----------------|
-| Jekyll | `_config.yml`, `Gemfile` |
+| Platform   | Indicator Files                        |
+| ---------- | -------------------------------------- |
+| Jekyll     | `_config.yml`, `Gemfile`               |
 | Docusaurus | `docusaurus.config.js`, `package.json` |
-| MkDocs | `mkdocs.yml` |
+| MkDocs     | `mkdocs.yml`                           |
 
 ### Step 1.3: Validate Site Structure
 
 **Jekyll:**
+
 - [ ] `_config.yml` exists and is valid YAML
 - [ ] `index.md` or `index.html` exists
 - [ ] At least one content file with frontmatter
 
 **Docusaurus:**
+
 - [ ] `docusaurus.config.js` exists
 - [ ] `docs/` directory with content
 - [ ] `package.json` with required dependencies
 
 **MkDocs:**
+
 - [ ] `mkdocs.yml` exists and is valid YAML
 - [ ] `docs/index.md` exists
 - [ ] Nav structure references existing files
@@ -85,15 +97,18 @@ Check for platform indicator files:
 ### Step 1.4: Check Prerequisites
 
 **GitHub Pages:**
+
 - [ ] Git repository initialized
 - [ ] Remote origin configured
 - [ ] User has push access (cannot verify, will fail at deploy)
 
 **Vercel:**
+
 - [ ] Check if `vercel` CLI available: `which vercel`
 - [ ] If not, provide installation instructions
 
 **Netlify:**
+
 - [ ] Check if `netlify` CLI available: `which netlify`
 - [ ] If not, provide installation instructions
 
@@ -106,11 +121,13 @@ Check for platform indicator files:
 #### Step 2.1: Determine Deployment Method
 
 **Option A: GitHub Actions (Recommended)**
+
 - Works with any static site generator
 - Builds on push, no local build required
 - Supports custom domains
 
 **Option B: Direct gh-pages Branch Push**
+
 - Requires local build
 - Simpler for Jekyll (GitHub builds natively)
 - Manual deployment
@@ -123,34 +140,38 @@ Create `.github/workflows/docs.yml`:
 
 Use template from `templates/github-actions/docs.yml.template` with substitutions:
 
-| Placeholder | Source |
-|-------------|--------|
-| `{{PLATFORM}}` | Detected platform (jekyll, docusaurus, mkdocs) |
-| `{{SOURCE_PATH}}` | $source argument |
-| `{{NODE_VERSION}}` | "20" for Docusaurus |
-| `{{PYTHON_VERSION}}` | "3.x" for MkDocs |
-| `{{RUBY_VERSION}}` | "3.2" for Jekyll |
+| Placeholder          | Source                                         |
+| -------------------- | ---------------------------------------------- |
+| `{{PLATFORM}}`       | Detected platform (jekyll, docusaurus, mkdocs) |
+| `{{SOURCE_PATH}}`    | $source argument                               |
+| `{{NODE_VERSION}}`   | "20" for Docusaurus                            |
+| `{{PYTHON_VERSION}}` | "3.x" for MkDocs                               |
+| `{{RUBY_VERSION}}`   | "3.2" for Jekyll                               |
 
 #### Step 2.3: Configure Custom Domain (if provided)
 
 Create `$source/CNAME` file:
+
 ```
 {{DOMAIN}}
 ```
 
 Add to `_config.yml` (Jekyll):
+
 ```yaml
-url: "https://{{DOMAIN}}"
-baseurl: ""
+url: 'https://{{DOMAIN}}'
+baseurl: ''
 ```
 
 Or `docusaurus.config.js`:
+
 ```javascript
 url: 'https://{{DOMAIN}}',
 baseUrl: '/',
 ```
 
 Or `mkdocs.yml`:
+
 ```yaml
 site_url: https://{{DOMAIN}}
 ```
@@ -189,6 +210,7 @@ vercel --version
 ```
 
 If not installed:
+
 ```
 Vercel CLI not found. Install with:
   npm install -g vercel
@@ -201,44 +223,47 @@ Then run /doc-publish again.
 Create `$source/vercel.json`:
 
 **For Jekyll (pre-built):**
+
 ```json
 {
-  "version": 2,
-  "name": "{{PROJECT_NAME}}-docs",
-  "builds": [
-    {
-      "src": "_site/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/_site/$1"
-    }
-  ]
+	"version": 2,
+	"name": "{{PROJECT_NAME}}-docs",
+	"builds": [
+		{
+			"src": "_site/**",
+			"use": "@vercel/static"
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "/_site/$1"
+		}
+	]
 }
 ```
 
 **For Docusaurus:**
+
 ```json
 {
-  "version": 2,
-  "name": "{{PROJECT_NAME}}-docs",
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
-  "framework": "docusaurus-2"
+	"version": 2,
+	"name": "{{PROJECT_NAME}}-docs",
+	"buildCommand": "npm run build",
+	"outputDirectory": "build",
+	"framework": "docusaurus-2"
 }
 ```
 
 **For MkDocs:**
+
 ```json
 {
-  "version": 2,
-  "name": "{{PROJECT_NAME}}-docs",
-  "buildCommand": "mkdocs build",
-  "outputDirectory": "site",
-  "installCommand": "pip install mkdocs-material"
+	"version": 2,
+	"name": "{{PROJECT_NAME}}-docs",
+	"buildCommand": "mkdocs build",
+	"outputDirectory": "site",
+	"installCommand": "pip install mkdocs-material"
 }
 ```
 
@@ -250,6 +275,7 @@ vercel --prod
 ```
 
 If custom domain provided:
+
 ```bash
 vercel --prod --name={{DOMAIN}}
 ```
@@ -271,6 +297,7 @@ netlify --version
 ```
 
 If not installed:
+
 ```
 Netlify CLI not found. Install with:
   npm install -g netlify-cli
@@ -283,6 +310,7 @@ Then run /doc-publish again.
 Create `$source/netlify.toml`:
 
 **For Jekyll:**
+
 ```toml
 [build]
   publish = "_site"
@@ -298,6 +326,7 @@ Create `$source/netlify.toml`:
 ```
 
 **For Docusaurus:**
+
 ```toml
 [build]
   publish = "build"
@@ -313,6 +342,7 @@ Create `$source/netlify.toml`:
 ```
 
 **For MkDocs:**
+
 ```toml
 [build]
   publish = "site"
@@ -338,6 +368,7 @@ netlify deploy --prod
 ```
 
 If first time, this will prompt for:
+
 - Team selection
 - Site name
 - Build settings confirmation
@@ -345,6 +376,7 @@ If first time, this will prompt for:
 #### Step 2.4: Configure Custom Domain (if provided)
 
 After deployment:
+
 ```bash
 netlify domains:add {{DOMAIN}}
 ```
@@ -356,23 +388,29 @@ netlify domains:add {{DOMAIN}}
 ### Step 3.1: Verify Deployment Success
 
 **GitHub Pages:**
+
 - Check workflow run status:
+
 ```bash
 gh run list --workflow=docs.yml --limit=1
 ```
+
 - Expected: Completed successfully
 
 **Vercel:**
+
 - Check deployment output for URL
 - Verify site is accessible
 
 **Netlify:**
+
 - Check deployment output for URL
 - Verify site is accessible
 
 ### Step 3.2: Test Live Site
 
 Attempt to fetch the deployed URL:
+
 ```bash
 curl -I {{LIVE_URL}}
 ```
@@ -439,14 +477,14 @@ CNAME   docs    [your-site-url]
 
 ## ERROR HANDLING
 
-| Error | Resolution |
-|-------|------------|
-| No site found at source | Run `/doc-build` first |
-| Unknown platform type | Ensure build was successful |
-| CLI not installed | Provide installation command |
-| Authentication failed | Guide user to login |
-| Deployment failed | Show error details, suggest fixes |
-| DNS not configured | Provide DNS setup instructions |
+| Error                   | Resolution                        |
+| ----------------------- | --------------------------------- |
+| No site found at source | Run `/doc-build` first            |
+| Unknown platform type   | Ensure build was successful       |
+| CLI not installed       | Provide installation command      |
+| Authentication failed   | Guide user to login               |
+| Deployment failed       | Show error details, suggest fixes |
+| DNS not configured      | Provide DNS setup instructions    |
 
 ---
 
@@ -455,6 +493,7 @@ CNAME   docs    [your-site-url]
 If deployment has issues:
 
 **GitHub Pages:**
+
 ```bash
 # Revert to previous workflow
 git revert HEAD
@@ -462,6 +501,7 @@ git push origin main
 ```
 
 **Vercel:**
+
 ```bash
 # List deployments
 vercel ls
@@ -471,6 +511,7 @@ vercel promote [deployment-url]
 ```
 
 **Netlify:**
+
 ```bash
 # List deploys
 netlify deploys

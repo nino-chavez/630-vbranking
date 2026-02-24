@@ -84,16 +84,16 @@ Before running rankings, you may want to adjust how much weight each tournament 
 
 **What you should see:** A green banner showing "Ranked [N] teams" with a freshness indicator. Below it, a large results table with the following columns:
 
-| Column | Description |
-|---|---|
-| Rank | The team's aggregate rank position |
-| Team Name | The team name (clickable link to team detail page) |
-| Colley Rating / Rank | Colley Matrix algorithm score and rank |
-| Elo-2200 Rating / Rank | Elo variant with 2200 starting rating |
-| Elo-2400 Rating / Rank | Elo variant with 2400 starting rating |
-| Elo-2500 Rating / Rank | Elo variant with 2500 starting rating |
-| Elo-2700 Rating / Rank | Elo variant with 2700 starting rating |
-| AggRating | The aggregate score (average of 5 normalized scores) |
+| Column                 | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| Rank                   | The team's aggregate rank position                   |
+| Team Name              | The team name (clickable link to team detail page)   |
+| Colley Rating / Rank   | Colley Matrix algorithm score and rank               |
+| Elo-2200 Rating / Rank | Elo variant with 2200 starting rating                |
+| Elo-2400 Rating / Rank | Elo variant with 2400 starting rating                |
+| Elo-2500 Rating / Rank | Elo variant with 2500 starting rating                |
+| Elo-2700 Rating / Rank | Elo variant with 2700 starting rating                |
+| AggRating              | The aggregate score (average of 5 normalized scores) |
 
 ---
 
@@ -170,4 +170,4 @@ You have completed the basic workflow. Here are some resources for more advanced
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

@@ -38,13 +38,13 @@ The depth affects Steps 1-4 and enables Step 5 (thorough only) as documented bel
 Check `specchain/specs/[this-spec]/tasks.md` and ensure that all tasks and their sub-tasks are marked as completed with `- [x]`.
 
 If a task is still marked incomplete, then verify that it has in fact been completed by checking the following:
+
 - Run a brief spot check in the code to find evidence that this task's details have been implemented
 - Check for existence of an implementation report titled using this task's title in `specchain/spec/[this-spec]/implementation/` folder.
 
 IF you have concluded that this task has been completed, then mark it's checkbox and its' sub-tasks checkboxes as completed with `- [x]`.
 
 IF you have concluded that this task has NOT been completed, then mark this checkbox with a warning and note it's incompleteness in your verification report.
-
 
 ### Step 2: Verify that implementations and verifications have been documented
 
@@ -58,15 +58,13 @@ For example, if the 3rd task group is titled "Commenting System", then the imple
 
 If documentation is missing for any task group, include this in your final verification report.
 
-
 ### Step 3: Update roadmap (if applicable)
 
 **Depth: `lean`** — **SKIP this step entirely.**
 
 **Depth: `standard` / `thorough`** — Current behavior:
 
-Open `specchain/product/roadmap.md` and check to see whether any item(s) match the description of the current spec that has just been implemented.  If so, then ensure that these item(s) are marked as completed by updating their checkbox(s) to `- [x]`.
-
+Open `specchain/product/roadmap.md` and check to see whether any item(s) match the description of the current spec that has just been implemented. If so, then ensure that these item(s) are marked as completed by updating their checkbox(s) to `- [x]`.
 
 ### Step 4: Run tests
 
@@ -78,8 +76,7 @@ Open `specchain/product/roadmap.md` and check to see whether any item(s) match t
 
 Include test counts and the list of failed tests in your final verification report.
 
-DO NOT attempt to fix any failing tests.  Just note their failures in your final verification report.
-
+DO NOT attempt to fix any failing tests. Just note their failures in your final verification report.
 
 ### Step 5: Manual Verification Plan (thorough only)
 
@@ -93,6 +90,7 @@ Present a manual verification plan to the user that outlines:
 4. **Data integrity checks**: Database state verification after key operations
 
 Present this plan to the user and **wait for confirmation**:
+
 ```
 Manual Verification Plan for [Spec Name]:
 
@@ -105,7 +103,6 @@ Please complete these manual checks and confirm. (y/done/skip)
 ```
 
 Record the user's response (confirmed, skipped, or specific findings) in the final verification report.
-
 
 ### Step 6: Update STATE.md
 
@@ -124,7 +121,6 @@ Update `specchain/STATE.md` to reflect the completion of this spec's implementat
      - Architectural decisions that should be followed in future specs
      - Testing approaches that worked well
      - Integration patterns between components
-
 
 ### Step 7: Create final verification report
 
@@ -154,6 +150,7 @@ The content of this report should follow this structure:
 **Status:** All Complete | Issues Found
 
 ### Completed Tasks
+
 - [x] Task Group 1: [Title]
   - [x] Subtask 1.1
   - [x] Subtask 1.2
@@ -161,6 +158,7 @@ The content of this report should follow this structure:
   - [x] Subtask 2.1
 
 ### Incomplete or Issues
+
 [List any tasks that were found incomplete or have issues, or note "None" if all complete]
 
 ---
@@ -172,13 +170,16 @@ The content of this report should follow this structure:
 **Status:** Complete | Issues Found
 
 ### Implementation Documentation
+
 - [x] Task Group 1 Implementation: `implementations/1-[task-name]-implementation.md`
 - [x] Task Group 2 Implementation: `implementations/2-[task-name]-implementation.md`
 
 ### Verification Documentation
+
 [List verification documents from area verifiers if applicable]
 
 ### Missing Documentation
+
 [List any missing documentation, or note "None"]
 
 ---
@@ -190,9 +191,11 @@ The content of this report should follow this structure:
 **Status:** Updated | No Updates Needed | Issues Found
 
 ### Updated Roadmap Items
+
 - [x] [Roadmap item that was marked complete]
 
 ### Notes
+
 [Any relevant notes about roadmap updates, or note if no updates were needed]
 
 ---
@@ -203,20 +206,24 @@ The content of this report should follow this structure:
 **Scope:** Feature-specific only (lean) | Full suite (standard) | Full suite + coverage (thorough)
 
 ### Test Summary
+
 - **Total Tests:** [count]
 - **Passing:** [count]
 - **Failing:** [count]
 - **Errors:** [count]
 
 ### Coverage Report (thorough only)
+
 - **Overall Coverage:** [percentage]
 - **Feature Files Coverage:** [percentage]
 - **Uncovered Critical Paths:** [list or "None"]
 
 ### Failed Tests
+
 [List any failing tests with their descriptions, or note "None - all tests passing"]
 
 ### Notes
+
 [Any additional context about test results, known issues, or regressions]
 
 ---
@@ -228,9 +235,11 @@ The content of this report should follow this structure:
 **Status:** Confirmed | Skipped | Findings Reported
 
 ### Verification Plan
+
 [The plan that was presented to the user]
 
 ### User Response
+
 [What the user confirmed, skipped, or reported]
 
 ---
@@ -240,8 +249,10 @@ The content of this report should follow this structure:
 **Status:** Updated | No Updates Needed
 
 ### Resolved Blockers Moved
+
 [List any blockers that were moved from Active to Resolved, or note "None"]
 
 ### Patterns Added
+
 [List any new patterns added to Patterns Established section, or note "None"]
 ```

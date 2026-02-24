@@ -1,6 +1,7 @@
 # ADR-001: Five-Algorithm Ensemble Ranking
 
 ## Status
+
 Accepted
 
 ## Context
@@ -16,17 +17,18 @@ The committee required a ranking methodology that is defensible, transparent (co
 
 The system runs five independent rating algorithms for each ranking computation:
 
-| Algorithm | Key | Implementation | Characteristic |
-|-----------|-----|---------------|----------------|
-| Colley Matrix | algo1 | `src/lib/ranking/colley.ts` | Time-independent, solves Cr=b via LU decomposition |
-| Elo (start=2200) | algo2 | `src/lib/ranking/elo.ts` | Chronological, lower baseline |
-| Elo (start=2400) | algo3 | `src/lib/ranking/elo.ts` | Chronological, mid-low baseline |
-| Elo (start=2500) | algo4 | `src/lib/ranking/elo.ts` | Chronological, mid-high baseline |
-| Elo (start=2700) | algo5 | `src/lib/ranking/elo.ts` | Chronological, higher baseline |
+| Algorithm        | Key   | Implementation              | Characteristic                                     |
+| ---------------- | ----- | --------------------------- | -------------------------------------------------- |
+| Colley Matrix    | algo1 | `src/lib/ranking/colley.ts` | Time-independent, solves Cr=b via LU decomposition |
+| Elo (start=2200) | algo2 | `src/lib/ranking/elo.ts`    | Chronological, lower baseline                      |
+| Elo (start=2400) | algo3 | `src/lib/ranking/elo.ts`    | Chronological, mid-low baseline                    |
+| Elo (start=2500) | algo4 | `src/lib/ranking/elo.ts`    | Chronological, mid-high baseline                   |
+| Elo (start=2700) | algo5 | `src/lib/ranking/elo.ts`    | Chronological, higher baseline                     |
 
 After all five algorithms produce raw ratings, the normalization step (`normalizeAndAggregate`) applies min-max normalization to each algorithm's output, mapping ratings to a 0--100 scale. The aggregate rating (AggRating) is the arithmetic mean of the five normalized scores. AggRank is derived by sorting AggRating descending, with alphabetical tie-breaking by team name.
 
 Tournament weights scale the impact of individual tournaments across all algorithms:
+
 - In Colley, weights scale the diagonal and off-diagonal matrix entries and the b-vector.
 - In Elo, weights scale the effective K-factor for matches in that tournament.
 
@@ -43,11 +45,13 @@ Tournament weights scale the impact of individual tournaments across all algorit
 ## Consequences
 
 **Easier:**
+
 - Committee members see five independent perspectives on team strength, increasing confidence in the final ranking.
 - Disagreements between algorithms highlight genuinely close matchups, providing the committee with information for targeted overrides.
 - Adding a new algorithm variant (e.g., a sixth Elo starting rating) requires only adding a column to the database and an entry in the algorithm map.
 
 **More difficult:**
+
 - Storage cost: 12 numeric columns per team per run (5 algorithms x 2 columns + agg_rating + agg_rank).
 - Computation time scales linearly with the number of algorithms. Five algorithms take approximately 5x the time of a single one.
 - Export reports must accommodate 10+ data columns per team when algorithm breakdowns are included, requiring landscape PDF orientation.

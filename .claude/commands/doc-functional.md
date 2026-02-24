@@ -3,6 +3,7 @@
 Description: Extracts and documents business logic, rules, and functional specifications from code implementation using a three-phase refinement pipeline.
 
 Arguments:
+
 - domain: (optional) Specific domain/module to analyze (e.g., "pricing", "auth", "orders").
 - output-format: (optional) "technical" for developers or "business" for stakeholders. Defaults to "business".
 
@@ -15,19 +16,24 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: GENERATOR
-*Persona: Business Analyst creating initial draft*
+
+_Persona: Business Analyst creating initial draft_
+
 - Execute the Analysis Protocol below
 - Generate draft documentation for all output files
 
 ### PHASE 2: REFINER
-*Persona: Technical Editor translating to business language*
+
+_Persona: Technical Editor translating to business language_
+
 - All rules expressed in When/Then format
 - No code terminology (variables, functions, databases)
 - Workflows visualized with state diagrams
 - Calculations explained with concrete examples
 
 ### PHASE 3: VALIDATOR
-*Persona: QA reviewing against voice standards (see docs/voice/functional-voice.md)*
+
+_Persona: QA reviewing against voice standards (see docs/voice/functional-voice.md)_
 
 **Anti-Patterns to Reject:**
 | Anti-Pattern | Example | Fix |
@@ -38,6 +44,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 | Vague behavior | "The system validates the input" | Specific validation rules with examples |
 
 **Red Flags (Return to Phase 2):**
+
 - [ ] Code snippets anywhere in the document
 - [ ] References to databases, APIs, or services
 - [ ] "The backend handles..." or similar
@@ -51,12 +58,14 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 **Translate implementation into intent.**
 
 Your output must be readable by non-technical stakeholders. Never mention:
+
 - Variable names, arrays, loops, conditionals (as code concepts)
 - Database tables, columns, SQL
 - HTTP methods, status codes, endpoints
 - Classes, functions, methods
 
 Instead describe:
+
 - Business rules and their conditions
 - User capabilities and restrictions
 - System behaviors and outcomes
@@ -70,13 +79,13 @@ Instead describe:
 
 If no specific domain provided, scan for business logic locations:
 
-| Pattern | Likely Contains Business Logic |
-|---------|-------------------------------|
-| `services/`, `usecases/`, `domain/` | Core business operations |
-| `validators/`, `rules/` | Validation rules |
-| `policies/`, `permissions/` | Access control rules |
-| `pricing/`, `billing/` | Financial calculations |
-| `workflows/`, `state-machines/` | Process flows |
+| Pattern                             | Likely Contains Business Logic |
+| ----------------------------------- | ------------------------------ |
+| `services/`, `usecases/`, `domain/` | Core business operations       |
+| `validators/`, `rules/`             | Validation rules               |
+| `policies/`, `permissions/`         | Access control rules           |
+| `pricing/`, `billing/`              | Financial calculations         |
+| `workflows/`, `state-machines/`     | Process flows                  |
 
 ### Step 2: Rule Extraction
 
@@ -92,13 +101,13 @@ For each service/domain file:
 
 Convert code logic to business language:
 
-| Code Pattern | Business Translation |
-|--------------|---------------------|
-| `if (user.role === 'admin')` | "Administrators can..." |
-| `if (order.total > 100)` | "Orders exceeding $100..." |
-| `throw new Error('Invalid')` | "The system rejects... when..." |
-| `return price * 0.9` | "A 10% discount is applied..." |
-| `status = 'pending'` | "The request enters a pending state..." |
+| Code Pattern                 | Business Translation                    |
+| ---------------------------- | --------------------------------------- |
+| `if (user.role === 'admin')` | "Administrators can..."                 |
+| `if (order.total > 100)`     | "Orders exceeding $100..."              |
+| `throw new Error('Invalid')` | "The system rejects... when..."         |
+| `return price * 0.9`         | "A 10% discount is applied..."          |
+| `status = 'pending'`         | "The request enters a pending state..." |
 
 ---
 
@@ -116,22 +125,22 @@ This document describes the business rules and system behaviors implemented in [
 
 ## Domain Index
 
-| Domain | Description | Spec |
-|--------|-------------|------|
-| [User Management] | User registration, authentication, permissions | [Link](./business-rules/users.md) |
-| [Orders] | Order creation, processing, fulfillment | [Link](./business-rules/orders.md) |
-| [Pricing] | Discounts, promotions, calculations | [Link](./business-rules/pricing.md) |
+| Domain            | Description                                    | Spec                                |
+| ----------------- | ---------------------------------------------- | ----------------------------------- |
+| [User Management] | User registration, authentication, permissions | [Link](./business-rules/users.md)   |
+| [Orders]          | Order creation, processing, fulfillment        | [Link](./business-rules/orders.md)  |
+| [Pricing]         | Discounts, promotions, calculations            | [Link](./business-rules/pricing.md) |
 
 ## Cross-Domain Rules
 
 ### Data Validation Standards
 
-| Field Type | Rules |
-|------------|-------|
-| Email addresses | Must be valid format, unique in system |
-| Phone numbers | [Country-specific format requirements] |
-| Dates | [Timezone handling, format requirements] |
-| Currency | [Precision, rounding rules] |
+| Field Type      | Rules                                    |
+| --------------- | ---------------------------------------- |
+| Email addresses | Must be valid format, unique in system   |
+| Phone numbers   | [Country-specific format requirements]   |
+| Dates           | [Timezone handling, format requirements] |
+| Currency        | [Precision, rounding rules]              |
 
 ### Universal Constraints
 
@@ -145,7 +154,7 @@ This document describes the business rules and system behaviors implemented in [
 
 For each identified domain, create a specification:
 
-```markdown
+````markdown
 # [Domain Name] - Functional Specification
 
 ## Purpose
@@ -154,24 +163,27 @@ For each identified domain, create a specification:
 
 ## Actors
 
-| Actor | Description |
-|-------|-------------|
-| Guest | Unauthenticated visitor |
-| User | Registered, logged-in customer |
-| Admin | System administrator |
+| Actor | Description                    |
+| ----- | ------------------------------ |
+| Guest | Unauthenticated visitor        |
+| User  | Registered, logged-in customer |
+| Admin | System administrator           |
 
 ## Capabilities by Actor
 
 ### Guest Can:
+
 - [Action 1]
 - [Action 2]
 
 ### User Can:
+
 - [Everything Guest can do, plus:]
 - [Action 3]
 - [Action 4]
 
 ### Admin Can:
+
 - [Everything User can do, plus:]
 - [Action 5]
 
@@ -184,9 +196,11 @@ For each identified domain, create a specification:
 **Behavior:** [What happens]
 
 **Example:**
+
 > [Concrete scenario illustrating the rule]
 
 **Exceptions:**
+
 - [Any exceptions to this rule]
 
 ---
@@ -201,18 +215,18 @@ For each identified domain, create a specification:
 
 ### [Entity Name] Validation
 
-| Field | Required | Rules |
-|-------|----------|-------|
-| Name | Yes | Between 2-100 characters |
-| Email | Yes | Valid email format, must be unique |
-| Age | No | If provided, must be 18 or older |
+| Field | Required | Rules                              |
+| ----- | -------- | ---------------------------------- |
+| Name  | Yes      | Between 2-100 characters           |
+| Email | Yes      | Valid email format, must be unique |
+| Age   | No       | If provided, must be 18 or older   |
 
 ### Error Conditions
 
-| Condition | System Response |
-|-----------|-----------------|
+| Condition                | System Response                          |
+| ------------------------ | ---------------------------------------- |
 | Email already registered | Informs user to log in or reset password |
-| Invalid payment method | Requests alternative payment |
+| Invalid payment method   | Requests alternative payment             |
 
 ## Workflows
 
@@ -228,24 +242,25 @@ stateDiagram-v2
     Rejected --> [*]
     Completed --> [*]
 ```
+````
 
 **State Descriptions:**
 
-| State | Meaning | Allowed Actions |
-|-------|---------|-----------------|
+| State     | Meaning                           | Allowed Actions      |
+| --------- | --------------------------------- | -------------------- |
 | Initiated | Request created but not submitted | Edit, Delete, Submit |
-| Pending | Awaiting review | Cancel |
-| Approved | Ready for fulfillment | None (automatic) |
-| Rejected | Did not pass review | Appeal, Resubmit |
-| Completed | Successfully fulfilled | View history |
+| Pending   | Awaiting review                   | Cancel               |
+| Approved  | Ready for fulfillment             | None (automatic)     |
+| Rejected  | Did not pass review               | Appeal, Resubmit     |
+| Completed | Successfully fulfilled            | View history         |
 
 **Transitions:**
 
-| From | To | Trigger | Conditions |
-|------|-----|---------|------------|
-| Initiated | Pending | User submits | All required fields valid |
-| Pending | Approved | Reviewer approves | Passes all checks |
-| Pending | Rejected | Reviewer rejects | Fails any check |
+| From      | To       | Trigger           | Conditions                |
+| --------- | -------- | ----------------- | ------------------------- |
+| Initiated | Pending  | User submits      | All required fields valid |
+| Pending   | Approved | Reviewer approves | Passes all checks         |
+| Pending   | Rejected | Reviewer rejects  | Fails any check           |
 
 ## Calculations
 
@@ -254,28 +269,31 @@ stateDiagram-v2
 **Purpose:** [What this calculation determines]
 
 **Formula:**
+
 > [Business-friendly description]
 
 **Components:**
 
-| Component | Description |
-|-----------|-------------|
+| Component   | Description          |
+| ----------- | -------------------- |
 | Base Amount | [What it represents] |
-| Modifier | [What affects it] |
-| Result | [What is produced] |
+| Modifier    | [What affects it]    |
+| Result      | [What is produced]   |
 
 **Example:**
+
 > For an order of $100 with a Gold membership:
+>
 > - Base: $100
 > - Membership discount: 20%
 > - Final: $80
 
 ## Business Glossary
 
-| Term | Definition |
-|------|------------|
+| Term     | Definition                       |
+| -------- | -------------------------------- |
 | [Term 1] | [Definition used in this domain] |
-| [Term 2] | [Definition] |
+| [Term 2] | [Definition]                     |
 
 ## Compliance Notes
 
@@ -287,8 +305,8 @@ stateDiagram-v2
 
 ## Change History
 
-| Date | Change | Impact |
-|------|--------|--------|
+| Date   | Change         | Impact           |
+| ------ | -------------- | ---------------- |
 | [Date] | [Rule changed] | [Affected areas] |
 
 ---
@@ -297,6 +315,7 @@ stateDiagram-v2
 
 - [Related Domain 1](./related-domain.md)
 - [System Architecture](../../architecture/README.md)
+
 ```
 
 ---
@@ -310,3 +329,4 @@ stateDiagram-v2
 - [ ] Calculations explained with examples
 - [ ] Validation requirements tables
 - [ ] Glossary of business terms
+```

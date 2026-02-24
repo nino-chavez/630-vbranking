@@ -40,30 +40,30 @@ graph TB
 
 The Supabase project is configured in `supabase/config.toml`:
 
-| Setting | Value | Purpose |
-|---------|-------|---------|
-| `project_id` | `volleyball-ranking-engine` | Project identifier for local CLI |
-| `db.port` | `54322` | Local PostgreSQL port |
-| `db.shadow_port` | `54320` | Shadow database for `supabase db diff` |
-| `db.major_version` | `17` | PostgreSQL major version (must match remote) |
-| `api.port` | `54321` | Local PostgREST API port |
-| `api.max_rows` | `1000` | Maximum rows per API response |
-| `studio.port` | `54323` | Local Supabase Studio UI port |
-| `db.pooler.enabled` | `false` | Connection pooler disabled locally |
-| `db.migrations.enabled` | `true` | Migrations run on `db push` and `db reset` |
-| `storage.file_size_limit` | `50MiB` | Maximum upload file size |
+| Setting                   | Value                       | Purpose                                      |
+| ------------------------- | --------------------------- | -------------------------------------------- |
+| `project_id`              | `volleyball-ranking-engine` | Project identifier for local CLI             |
+| `db.port`                 | `54322`                     | Local PostgreSQL port                        |
+| `db.shadow_port`          | `54320`                     | Shadow database for `supabase db diff`       |
+| `db.major_version`        | `17`                        | PostgreSQL major version (must match remote) |
+| `api.port`                | `54321`                     | Local PostgREST API port                     |
+| `api.max_rows`            | `1000`                      | Maximum rows per API response                |
+| `studio.port`             | `54323`                     | Local Supabase Studio UI port                |
+| `db.pooler.enabled`       | `false`                     | Connection pooler disabled locally           |
+| `db.migrations.enabled`   | `true`                      | Migrations run on `db push` and `db reset`   |
+| `storage.file_size_limit` | `50MiB`                     | Maximum upload file size                     |
 
 ### Services Enabled Locally
 
-| Service | Status | Notes |
-|---------|--------|-------|
-| API (PostgREST) | Enabled | Schemas: `public`, `graphql_public` |
-| Realtime | Enabled | WebSocket subscriptions available |
-| Auth | Enabled | Not actively used by the application |
-| Storage | Enabled | S3-compatible protocol enabled |
-| Studio | Enabled | Web UI at port 54323 |
-| Edge Runtime | Enabled | Deno 2, per-worker policy |
-| Analytics | Enabled | PostgreSQL backend, port 54327 |
+| Service         | Status  | Notes                                |
+| --------------- | ------- | ------------------------------------ |
+| API (PostgREST) | Enabled | Schemas: `public`, `graphql_public`  |
+| Realtime        | Enabled | WebSocket subscriptions available    |
+| Auth            | Enabled | Not actively used by the application |
+| Storage         | Enabled | S3-compatible protocol enabled       |
+| Studio          | Enabled | Web UI at port 54323                 |
+| Edge Runtime    | Enabled | Deno 2, per-worker policy            |
+| Analytics       | Enabled | PostgreSQL backend, port 54327       |
 
 ## Database Schema
 
@@ -71,9 +71,9 @@ The database consists of 9 tables, 2 custom enums, 2 RPC functions, and 1 trigge
 
 ### Custom Enums
 
-| Enum | Values | Purpose |
-|------|--------|---------|
-| `age_group_enum` | `15U`, `16U`, `17U`, `18U` | Competition age divisions |
+| Enum                 | Values                          | Purpose                   |
+| -------------------- | ------------------------------- | ------------------------- |
+| `age_group_enum`     | `15U`, `16U`, `17U`, `18U`      | Competition age divisions |
 | `ranking_scope_enum` | `single_season`, `cross_season` | Season ranking data scope |
 
 ### Entity-Relationship Diagram
@@ -192,6 +192,7 @@ erDiagram
 ### Table Details
 
 #### `seasons`
+
 Temporal grouping for tournaments and ranking runs.
 
 - **Primary Key**: `id` (UUID)
@@ -200,6 +201,7 @@ Temporal grouping for tournaments and ranking runs.
 - **Notable**: `is_active` flag designates the current season; `ranking_scope` controls cross-season data aggregation.
 
 #### `teams`
+
 Teams identified by code and age group.
 
 - **Primary Key**: `id` (UUID)
@@ -208,6 +210,7 @@ Teams identified by code and age group.
 - **Notable**: `code` is an opaque identifier from source data, not parsed or decomposed.
 
 #### `tournaments`
+
 Tournament events belonging to a season.
 
 - **Primary Key**: `id` (UUID)
@@ -215,6 +218,7 @@ Tournament events belonging to a season.
 - **Indexes**: `season_id`
 
 #### `tournament_weights`
+
 Per-tournament, per-season importance multipliers.
 
 - **Primary Key**: `id` (UUID)
@@ -224,6 +228,7 @@ Per-tournament, per-season importance multipliers.
 - **Notable**: `weight` is a numeric multiplier (0.0-5.0); `tier` is an integer grouping.
 
 #### `tournament_results`
+
 Team placement data at each tournament.
 
 - **Primary Key**: `id` (UUID)
@@ -232,6 +237,7 @@ Team placement data at each tournament.
 - **Indexes**: `team_id`, `tournament_id`
 
 #### `matches`
+
 Individual game records between two teams.
 
 - **Primary Key**: `id` (UUID)
@@ -241,6 +247,7 @@ Individual game records between two teams.
 - **Notable**: `set_scores` (JSONB) and `point_differential` are nullable, reserved for future use.
 
 #### `ranking_runs`
+
 Point-in-time ranking computation snapshots.
 
 - **Primary Key**: `id` (UUID)
@@ -249,6 +256,7 @@ Point-in-time ranking computation snapshots.
 - **Notable**: `status` is `draft` or `finalized` (CHECK constraint); `parameters` (JSONB) captures algorithm configuration at run time.
 
 #### `ranking_results`
+
 Per-team algorithm outputs for a ranking run.
 
 - **Primary Key**: `id` (UUID)
@@ -258,6 +266,7 @@ Per-team algorithm outputs for a ranking run.
 - **Algorithm Columns**: `algo1` = Colley Matrix, `algo2` = Elo-2200, `algo3` = Elo-2400, `algo4` = Elo-2500, `algo5` = Elo-2700
 
 #### `ranking_overrides`
+
 Committee manual adjustments with audit trail.
 
 - **Primary Key**: `id` (UUID)
@@ -268,17 +277,17 @@ Committee manual adjustments with audit trail.
 
 ### RPC Functions
 
-| Function | Parameters | Purpose |
-|----------|-----------|---------|
+| Function                            | Parameters                                             | Purpose                                                                         |
+| ----------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | `import_replace_tournament_results` | `p_season_id UUID`, `p_age_group TEXT`, `p_rows JSONB` | Atomically delete and re-insert all tournament results for a season + age group |
-| `import_replace_ranking_results` | `p_ranking_run_id UUID`, `p_rows JSONB` | Atomically delete and re-insert all ranking results for a ranking run |
+| `import_replace_ranking_results`    | `p_ranking_run_id UUID`, `p_rows JSONB`                | Atomically delete and re-insert all ranking results for a ranking run           |
 
 Both functions run within a single transaction (PostgreSQL function bodies are inherently transactional), ensuring no partial state on failure.
 
 ### Trigger Function
 
-| Function | Purpose |
-|----------|---------|
+| Function                     | Purpose                                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `update_updated_at_column()` | Automatically sets `updated_at = now()` on every row update. Attached as a `BEFORE UPDATE` trigger on all 9 tables. |
 
 ## Migration Strategy
@@ -295,23 +304,23 @@ Example: `20260223180005_create_teams_table.sql`
 
 ### Current Migrations (15 total)
 
-| # | Migration | Purpose |
-|---|-----------|---------|
-| 01 | `create_updated_at_trigger_function` | Reusable `updated_at` trigger |
-| 02 | `create_age_group_enum` | `age_group_enum` type |
-| 03 | `create_ranking_scope_enum` | `ranking_scope_enum` type |
-| 04 | `create_seasons_table` | Seasons with ranking scope |
-| 05 | `create_teams_table` | Teams with code + age group uniqueness |
-| 06 | `create_tournaments_table` | Tournament events |
-| 07 | `create_tournament_weights_table` | Tournament importance multipliers |
-| 08 | `create_tournament_results_table` | Team placements |
-| 09 | `create_matches_table` | Individual game records |
-| 10 | `create_ranking_runs_table` | Ranking computation snapshots |
-| 11 | `create_ranking_results_table` | Per-team algorithm scores |
-| 12 | `create_import_replace_rpc` | Atomic import RPC functions |
-| 13 | `add_ranking_run_status` | Draft/finalized workflow |
-| 14 | `create_ranking_overrides_table` | Committee override audit trail |
-| 15 | `add_age_group_to_ranking_runs` | Per-age-group ranking runs |
+| #   | Migration                            | Purpose                                |
+| --- | ------------------------------------ | -------------------------------------- |
+| 01  | `create_updated_at_trigger_function` | Reusable `updated_at` trigger          |
+| 02  | `create_age_group_enum`              | `age_group_enum` type                  |
+| 03  | `create_ranking_scope_enum`          | `ranking_scope_enum` type              |
+| 04  | `create_seasons_table`               | Seasons with ranking scope             |
+| 05  | `create_teams_table`                 | Teams with code + age group uniqueness |
+| 06  | `create_tournaments_table`           | Tournament events                      |
+| 07  | `create_tournament_weights_table`    | Tournament importance multipliers      |
+| 08  | `create_tournament_results_table`    | Team placements                        |
+| 09  | `create_matches_table`               | Individual game records                |
+| 10  | `create_ranking_runs_table`          | Ranking computation snapshots          |
+| 11  | `create_ranking_results_table`       | Per-team algorithm scores              |
+| 12  | `create_import_replace_rpc`          | Atomic import RPC functions            |
+| 13  | `add_ranking_run_status`             | Draft/finalized workflow               |
+| 14  | `create_ranking_overrides_table`     | Committee override audit trail         |
+| 15  | `add_age_group_to_ranking_runs`      | Per-age-group ranking runs             |
 
 ### Migration Commands
 
@@ -333,11 +342,11 @@ supabase migration list
 
 ### Required for Application
 
-| Variable | Scope | Example | Source |
-|----------|-------|---------|--------|
-| `PUBLIC_SUPABASE_URL` | Client + Server | `https://<project-ref>.supabase.co` | Supabase Dashboard > Settings > API |
-| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Client | `sb_publishable_...` | Supabase Dashboard > Settings > API |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only | `sb_secret_...` | Supabase Dashboard > Settings > API |
+| Variable                                  | Scope           | Example                             | Source                              |
+| ----------------------------------------- | --------------- | ----------------------------------- | ----------------------------------- |
+| `PUBLIC_SUPABASE_URL`                     | Client + Server | `https://<project-ref>.supabase.co` | Supabase Dashboard > Settings > API |
+| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Client          | `sb_publishable_...`                | Supabase Dashboard > Settings > API |
+| `SUPABASE_SERVICE_ROLE_KEY`               | Server only     | `sb_secret_...`                     | Supabase Dashboard > Settings > API |
 
 ### Supabase Client Architecture
 

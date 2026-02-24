@@ -16,38 +16,46 @@ Define and migrate the core PostgreSQL database schema that underpins the entire
 ### Functional Requirements
 
 **Teams**
+
 - Store: `name` (text), `code` (text, raw/opaque -- not parsed), `region` (text), `age_group` (PostgreSQL enum: `15U`, `16U`, `17U`, `18U`).
 - `code` is a unique identifier string from source data (e.g., `b18nsmvc1bg`). Do not decompose it.
 - Unique constraint on `code` + `age_group` to prevent duplicates.
 
 **Seasons**
+
 - Store: `name` (text), `start_date`, `end_date`, `is_active` (boolean).
 - Support multiple seasons concurrently in the database.
 - Include a `ranking_scope` field (enum or text: `single_season`, `cross_season`) to configure whether ranking runs pull data from one season or aggregate across seasons.
 
 **Tournaments**
+
 - Store: `name` (text), `date` (date), `season_id` (FK to seasons), `location` (text, nullable).
 - Each tournament belongs to exactly one season.
 
 **Tournament Weights**
+
 - Store: `tournament_id` (FK), `season_id` (FK), `weight` (numeric), `tier` (integer or text for priority ordering).
 - Weights are configurable per tournament per season -- the committee adjusts these without code changes.
 - Default weights should follow AAU priority ordering: Chi-Town Challenge, SoCal Winter Formal, Boys Winter Invitational, Brew City Battle, The Open Championship - Utah, Snowball Slam, Rock n Rumble, AAU Nationals.
 
 **Tournament Results**
+
 - Store: `team_id` (FK), `tournament_id` (FK), `division` (text), `finish_position` (integer), `field_size` (integer).
 - One row per team per tournament entry. A team can appear in one division per tournament.
 
 **Match Records**
+
 - Store: `team_a_id` (FK), `team_b_id` (FK), `winner_id` (FK, nullable -- to handle draws if needed), `tournament_id` (FK).
 - Nullable future-enhancement columns: `set_scores` (JSONB, nullable), `point_differential` (integer, nullable), `metadata` (JSONB, nullable).
 - Individual match outcomes are the base granularity. Head-to-head summaries are derived via queries, not stored.
 
 **Ranking Runs**
+
 - Store: `id`, `season_id` (FK), `ran_at` (timestamp), `description` (text, nullable), `parameters` (JSONB, nullable -- to capture algorithm config at time of run).
 - Each run represents a single point-in-time computation of all algorithms.
 
 **Ranking Results (Snapshots)**
+
 - Store: `ranking_run_id` (FK), `team_id` (FK), per-algorithm outputs:
   - `algo1_rating` (numeric), `algo1_rank` (integer) -- Colley Matrix
   - `algo2_rating` (numeric), `algo2_rank` (integer) -- Elo-2200
@@ -59,6 +67,7 @@ Define and migrate the core PostgreSQL database schema that underpins the entire
 - Composite unique constraint on `ranking_run_id` + `team_id`.
 
 **General Schema Conventions**
+
 - All tables include `id` (UUID, primary key, default `gen_random_uuid()`), `created_at` (timestamptz, default `now()`), `updated_at` (timestamptz, default `now()`).
 - Use a PostgreSQL trigger or Supabase helper to auto-update `updated_at` on row modification.
 - Foreign keys with appropriate `ON DELETE` behavior (CASCADE for child records like tournament_results; RESTRICT for referenced entities like teams).
@@ -109,6 +118,7 @@ ranking_runs 1──* ranking_results
 ```
 
 **Entity summary (8 tables):**
+
 1. `seasons` -- temporal grouping and ranking scope config
 2. `teams` -- team identity with age group enum
 3. `tournaments` -- events within a season

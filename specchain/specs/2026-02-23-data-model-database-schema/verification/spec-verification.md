@@ -111,24 +111,24 @@ No user answer was missed. No user answer was contradicted.
 
 ### 2.1 Feature coverage -- no missing features
 
-| Requirement | Present in spec.md? |
-|---|---|
-| Teams table (name, code opaque, region, age_group enum) | YES -- Core Requirements, Teams section |
-| Tournaments table (name, date, season_id FK, location nullable) | YES |
-| Tournament results table (team, tournament, division, finish, field size) | YES |
-| Match records (individual, team A/B/winner, tournament, nullable future columns) | YES |
-| Seasons table with multi-season support | YES |
-| ranking_scope field on seasons | YES -- `ranking_scope` field defined as enum |
-| Tournament weights configurable in DB per season | YES |
-| AAU priority ordering documented | YES -- default weights section lists all 8 tournaments |
-| Ranking runs table | YES |
-| Ranking results snapshots with algo1-5 + agg columns | YES |
-| Supabase migrations in `supabase/migrations/` | YES -- Non-Functional Requirements |
-| Zod schemas for all tables | YES |
-| Standard columns (id UUID, created_at, updated_at) on all tables | YES -- General Schema Conventions |
-| updated_at trigger | YES |
-| Indexes on common query patterns | YES |
-| No auth / no RLS | YES |
+| Requirement                                                                      | Present in spec.md?                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Teams table (name, code opaque, region, age_group enum)                          | YES -- Core Requirements, Teams section                |
+| Tournaments table (name, date, season_id FK, location nullable)                  | YES                                                    |
+| Tournament results table (team, tournament, division, finish, field size)        | YES                                                    |
+| Match records (individual, team A/B/winner, tournament, nullable future columns) | YES                                                    |
+| Seasons table with multi-season support                                          | YES                                                    |
+| ranking_scope field on seasons                                                   | YES -- `ranking_scope` field defined as enum           |
+| Tournament weights configurable in DB per season                                 | YES                                                    |
+| AAU priority ordering documented                                                 | YES -- default weights section lists all 8 tournaments |
+| Ranking runs table                                                               | YES                                                    |
+| Ranking results snapshots with algo1-5 + agg columns                             | YES                                                    |
+| Supabase migrations in `supabase/migrations/`                                    | YES -- Non-Functional Requirements                     |
+| Zod schemas for all tables                                                       | YES                                                    |
+| Standard columns (id UUID, created_at, updated_at) on all tables                 | YES -- General Schema Conventions                      |
+| updated_at trigger                                                               | YES                                                    |
+| Indexes on common query patterns                                                 | YES                                                    |
+| No auth / no RLS                                                                 | YES                                                    |
 
 All 16 requirement items are present in spec.md.
 
@@ -152,15 +152,15 @@ No features, tables, endpoints, or behaviors exist in spec.md that are not trace
 
 ### 2.3 Out-of-scope items correctly excluded
 
-| Item | Absent from spec.md? |
-|---|---|
-| Authentication / user tables | YES -- explicitly listed in Out of Scope |
-| Row Level Security policies | YES -- explicitly noted: "No Auth/RLS" |
+| Item                                | Absent from spec.md?                     |
+| ----------------------------------- | ---------------------------------------- |
+| Authentication / user tables        | YES -- explicitly listed in Out of Scope |
+| Row Level Security policies         | YES -- explicitly noted: "No Auth/RLS"   |
 | Manual override / adjustment tables | YES -- explicitly listed in Out of Scope |
-| Export metadata tables | YES -- explicitly listed in Out of Scope |
-| UI state storage | YES -- explicitly listed in Out of Scope |
-| Seed data / data ingestion | YES -- explicitly listed in Out of Scope |
-| API route implementations | YES -- explicitly listed in Out of Scope |
+| Export metadata tables              | YES -- explicitly listed in Out of Scope |
+| UI state storage                    | YES -- explicitly listed in Out of Scope |
+| Seed data / data ingestion          | YES -- explicitly listed in Out of Scope |
+| API route implementations           | YES -- explicitly listed in Out of Scope |
 
 All out-of-scope items correctly absent. The "No frontend work in this feature" and "No API endpoints are defined in this spec" statements in spec.md are correct and appropriate.
 
@@ -191,11 +191,11 @@ All out-of-scope items correctly absent. The "No frontend work in this feature" 
 
 Execution profile specifies `strategy: squad`. tasks.md uses three task groups with distinct assigned agents:
 
-| Group | Agent | Verifier |
-|---|---|---|
-| 1 -- Database Migrations | `database-engineer` | `backend-verifier` |
-| 2 -- TypeScript Types & Zod Schemas | `api-engineer` | `backend-verifier` |
-| 3 -- Test Review & Gap Analysis | `testing-engineer` | none (final quality gate) |
+| Group                               | Agent               | Verifier                  |
+| ----------------------------------- | ------------------- | ------------------------- |
+| 1 -- Database Migrations            | `database-engineer` | `backend-verifier`        |
+| 2 -- TypeScript Types & Zod Schemas | `api-engineer`      | `backend-verifier`        |
+| 3 -- Test Review & Gap Analysis     | `testing-engineer`  | none (final quality gate) |
 
 Three distinct domain agents. Two groups have verifiers. Group 3 has no verifier per the tasks.md note ("final quality gate"), which is acceptable -- the testing-engineer is itself the quality gate and has no implementation to verify against; it reviews completed work.
 
@@ -209,11 +209,11 @@ Squad structure is correct.
 
 Rules: 2-8 tests per implementation group, max 10 for testing-engineer.
 
-| Group | Test count | Limit | Status |
-|---|---|---|---|
-| Group 1 (database-engineer) | 8 | 2-8 | PASS -- exactly at upper bound |
-| Group 2 (api-engineer) | 8 | 2-8 | PASS -- exactly at upper bound |
-| Group 3 (testing-engineer) | up to 10 | max 10 | PASS -- bounded correctly |
+| Group                       | Test count | Limit  | Status                         |
+| --------------------------- | ---------- | ------ | ------------------------------ |
+| Group 1 (database-engineer) | 8          | 2-8    | PASS -- exactly at upper bound |
+| Group 2 (api-engineer)      | 8          | 2-8    | PASS -- exactly at upper bound |
+| Group 3 (testing-engineer)  | up to 10   | max 10 | PASS -- bounded correctly      |
 
 Total test count: 16 implementation tests + up to 10 gap-fill tests = up to 26. The summary table in tasks.md correctly states this.
 
@@ -257,6 +257,7 @@ The gap analysis (3.1) correctly audits the existing 16 tests. The 10 new tests 
 ### 3.5 Acceptance criteria and verification commands
 
 Each group has:
+
 - Acceptance criteria with specific, testable conditions.
 - Verification commands with expected results described.
 
@@ -274,16 +275,16 @@ All verification commands are appropriate for the tech stack (Supabase CLI, Vite
 
 Checking for unnecessary complexity.
 
-| Potential over-engineering concern | Assessment |
-|---|---|
-| 8 tables for this feature | Correct. Each table serves a distinct purpose traceable to a user answer. No speculative tables added. |
-| Separate migration file per table (11 files) | Appropriate. Sequential migrations are standard Supabase practice and enable clean rollbacks. |
-| JSONB columns for future enhancement on matches | Correct. Explicitly approved in Q2 answer ("architecture for growth"). Nullable, so zero cost if unused. |
-| Zod refinements (finish_position <= field_size, match participant validation) | Appropriate. These protect against logically impossible data states that would corrupt ranking algorithm inputs. |
-| insert/update/full schema pattern in Zod | Standard practice, not over-engineering. Avoids runtime errors from including generated fields in insert operations. |
-| CHECK constraints on matches table | Appropriate database hygiene. Prevents impossible records (team playing itself). |
-| `parameters` JSONB on ranking_runs | Correct. Captures algorithm configuration at snapshot time, enabling future reproducibility. Traceable to Q6 (snapshot requirement). |
-| Index strategy | Four index targets (team_id, tournament_id, season_id, ranking_run_id) are the natural query axes for this schema. Not excessive. |
+| Potential over-engineering concern                                            | Assessment                                                                                                                           |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 8 tables for this feature                                                     | Correct. Each table serves a distinct purpose traceable to a user answer. No speculative tables added.                               |
+| Separate migration file per table (11 files)                                  | Appropriate. Sequential migrations are standard Supabase practice and enable clean rollbacks.                                        |
+| JSONB columns for future enhancement on matches                               | Correct. Explicitly approved in Q2 answer ("architecture for growth"). Nullable, so zero cost if unused.                             |
+| Zod refinements (finish_position <= field_size, match participant validation) | Appropriate. These protect against logically impossible data states that would corrupt ranking algorithm inputs.                     |
+| insert/update/full schema pattern in Zod                                      | Standard practice, not over-engineering. Avoids runtime errors from including generated fields in insert operations.                 |
+| CHECK constraints on matches table                                            | Appropriate database hygiene. Prevents impossible records (team playing itself).                                                     |
+| `parameters` JSONB on ranking_runs                                            | Correct. Captures algorithm configuration at snapshot time, enabling future reproducibility. Traceable to Q6 (snapshot requirement). |
+| Index strategy                                                                | Four index targets (team_id, tournament_id, season_id, ranking_run_id) are the natural query axes for this schema. Not excessive.    |
 
 No over-engineering identified.
 
@@ -326,22 +327,22 @@ The ranking_results columns (`algo1_rating`, `algo1_rank`, etc.) are not marked 
 
 ## Summary
 
-| Section | Verdict |
-|---|---|
-| 1. Requirements accuracy (requirements.md vs. Q&A) | PASS |
-| 2. Spec alignment (spec.md vs. requirements.md) | PASS |
-| 2a. No missing features | PASS |
-| 2b. No scope creep | PASS |
-| 2c. Out-of-scope items excluded | PASS |
-| 2d. Internal consistency | PASS |
-| 3. Tasks validation | PASS |
-| 3a. Squad strategy | PASS |
-| 3b. Test count limits | PASS |
-| 3c. Dependency chain | PASS |
-| 3d. Sub-task completeness | PASS |
-| 3e. Acceptance criteria & verification | PASS |
-| 4. Over-engineering check | PASS |
-| 5. Visuals | PASS |
-| 6. Reusability (spot check) | PASS |
+| Section                                            | Verdict |
+| -------------------------------------------------- | ------- |
+| 1. Requirements accuracy (requirements.md vs. Q&A) | PASS    |
+| 2. Spec alignment (spec.md vs. requirements.md)    | PASS    |
+| 2a. No missing features                            | PASS    |
+| 2b. No scope creep                                 | PASS    |
+| 2c. Out-of-scope items excluded                    | PASS    |
+| 2d. Internal consistency                           | PASS    |
+| 3. Tasks validation                                | PASS    |
+| 3a. Squad strategy                                 | PASS    |
+| 3b. Test count limits                              | PASS    |
+| 3c. Dependency chain                               | PASS    |
+| 3d. Sub-task completeness                          | PASS    |
+| 3e. Acceptance criteria & verification             | PASS    |
+| 4. Over-engineering check                          | PASS    |
+| 5. Visuals                                         | PASS    |
+| 6. Reusability (spot check)                        | PASS    |
 
 **Overall: PASS -- ready for implementation.**

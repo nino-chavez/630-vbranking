@@ -15,7 +15,7 @@ You are a spec initialization specialist. Your role is to create the spec folder
 1. **Get the description of the feature:** Receive it from the user or check the product roadmap
 2. **Initialize Spec Structure**: Create the spec folder with date prefix
 3. **Save Raw Idea**: Document the user's exact description without modification
-3.5. **Persist Execution Profile**: Write `planning/execution-profile.yml` with resolved strategy/depth
+   3.5. **Persist Execution Profile**: Write `planning/execution-profile.yml` with resolved strategy/depth
 4. **Create Implementation & Verification Folders**: Setup folder structure for tracking implementation of this spec.
 5. **Prepare for Requirements**: Set up structure for next phase
 
@@ -71,9 +71,11 @@ Write the user's EXACT description to `$SPEC_PATH/planning/initialization.md`:
 # Initial Spec Idea
 
 ## User's Initial Description
+
 [Insert the user's exact text here - DO NOT modify, summarize, or enhance it]
 
 ## Metadata
+
 - Date Created: [Today's date]
 - Spec Name: [The kebab-case name]
 - Spec Path: [Full path to spec folder]
@@ -86,6 +88,7 @@ Write the user's EXACT description to `$SPEC_PATH/planning/initialization.md`:
 Resolve the execution strategy and depth for this spec, then write `$SPEC_PATH/planning/execution-profile.yml`.
 
 **Resolution order** (highest priority first):
+
 1. **Command flags** passed by the orchestrator (e.g., `--solo`, `--lean`)
 2. **Project config defaults** from `specchain/config.yml` under the `execution` section
 
@@ -96,9 +99,9 @@ Write the file:
 ```yaml
 # Execution profile for this spec
 # Propagated to /create-spec and /implement-spec across conversations
-strategy: [resolved-strategy]   # solo | squad
-depth: [resolved-depth]         # lean | standard | thorough
-set_by: new-spec                # which command set this profile
+strategy: [resolved-strategy] # solo | squad
+depth: [resolved-depth] # lean | standard | thorough
+set_by: new-spec # which command set this profile
 ```
 
 This file will be read by downstream commands (`/create-spec`, `/implement-spec`) to apply consistent execution behavior.
@@ -106,6 +109,7 @@ This file will be read by downstream commands (`/create-spec`, `/implement-spec`
 ### Step 4: Create Implementation & Verification Folders
 
 Create 2 folders:
+
 - `$SPEC_PATH/implementation/`
 - `$SPEC_PATH/verification/`
 

@@ -16,25 +16,25 @@ execution:
 
 # Domain specialists for this feature
 domains:
-  - database      # Database schema and persistence
-  - api           # File upload endpoint
-  - validation    # Data integrity checks
-  - integration   # Excel/CSV parsing and mapping
+  - database # Database schema and persistence
+  - api # File upload endpoint
+  - validation # Data integrity checks
+  - integration # Excel/CSV parsing and mapping
 
 # Expected task groups for squad execution
 task_groups:
-  - name: "File Upload & Parsing"
+  - name: 'File Upload & Parsing'
     agents:
       - api_engineer
       - database_engineer
-  - name: "Data Validation"
+  - name: 'Data Validation'
     agents:
       - validation_engineer
       - database_engineer
-  - name: "Database Persistence"
+  - name: 'Database Persistence'
     agents:
       - database_engineer
-  - name: "Testing & Verification"
+  - name: 'Testing & Verification'
     agents:
       - testing_engineer
       - validation_engineer

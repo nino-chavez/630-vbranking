@@ -17,8 +17,8 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
 ### Sub-tasks
 
 - [x] **1.1 Define ranking module types**
-  Create file: `src/lib/ranking/types.ts`
-  Define and export the following types:
+      Create file: `src/lib/ranking/types.ts`
+      Define and export the following types:
   - `PairwiseRecord`: `{ team_a_id: string, team_b_id: string, winner_id: string, tournament_id: string }` -- represents a single head-to-head result between two teams.
   - `TournamentPairwiseGroup`: `{ tournament_id: string, tournament_date: string, records: PairwiseRecord[] }` -- pairwise records grouped by tournament for chronological Elo processing.
   - `AlgorithmResult`: `{ team_id: string, rating: number, rank: number }` -- output of a single algorithm for one team.
@@ -29,7 +29,7 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
   - `TeamInfo`: `{ id: string, name: string, code: string }` -- minimal team reference for tie-breaking.
 
 - [x] **1.2 Implement pairwise W/L derivation from tournament finishes**
-  Create file: `src/lib/ranking/derive-wins-losses.ts`
+      Create file: `src/lib/ranking/derive-wins-losses.ts`
   - Export function `deriveWinsLossesFromFinishes(tournamentResults: Array<{ team_id: string, tournament_id: string, division: string, finish_position: number }>, tournamentDates: Map<string, string>): TournamentPairwiseGroup[]`:
     - Group tournament results by `tournament_id + division`.
     - Within each group, generate all pairwise combinations: for every pair (i, j) where `finish_position_i < finish_position_j`, create a `PairwiseRecord` with `winner_id = team_i`, `team_a_id = team_i`, `team_b_id = team_j`.
@@ -45,7 +45,7 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
     - Flatten all groups into a single array (used by Colley, which does not need chronological ordering).
 
 - [x] **1.3 Implement the Colley Matrix algorithm**
-  Create file: `src/lib/ranking/colley.ts`
+      Create file: `src/lib/ranking/colley.ts`
   - Export function `computeColleyRatings(pairwiseRecords: PairwiseRecord[], teams: TeamInfo[]): AlgorithmResult[]`:
     - Build a team-index mapping: `team_id -> index (0..N-1)` from the `teams` array.
     - Initialize the Colley matrix `C` as an N x N matrix where `C[i][i] = 2` and all off-diagonal entries are 0.
@@ -67,7 +67,7 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
   - Handle edge case: if no pairwise records exist (no games played), all teams get rating 0.5 and ranks are assigned alphabetically.
 
 - [x] **1.4 Implement the parameterized Elo algorithm**
-  Create file: `src/lib/ranking/elo.ts`
+      Create file: `src/lib/ranking/elo.ts`
   - Export function `computeEloRatings(tournamentGroups: TournamentPairwiseGroup[], teams: TeamInfo[], startingRating: number, kFactor: number): AlgorithmResult[]`:
     - Initialize a rating map: `Map<string, number>` with `team_id -> startingRating` for every team.
     - Process tournaments in order (the input `tournamentGroups` is already sorted chronologically).
@@ -85,7 +85,7 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
   - Export constant `ELO_STARTING_RATINGS = [2200, 2400, 2500, 2700] as const`.
 
 - [x] **1.5 Implement normalization and aggregation**
-  Create file: `src/lib/ranking/normalize.ts`
+      Create file: `src/lib/ranking/normalize.ts`
   - Export function `normalizeAndAggregate(algorithmResults: AlgorithmResultMap, teams: TeamInfo[]): NormalizedTeamResult[]`:
     - For each algorithm (`algo1` through `algo5`), apply min-max normalization:
       - Find `min_rating` and `max_rating` across all teams for that algorithm.
@@ -99,7 +99,7 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
     - Return the array sorted by `agg_rank`.
 
 - [x] **1.6 Create ranking module barrel export**
-  Create file: `src/lib/ranking/index.ts`
+      Create file: `src/lib/ranking/index.ts`
   - Re-export all types from `./types`.
   - Re-export `deriveWinsLossesFromFinishes`, `deriveWinsLossesFromMatches`, `flattenPairwiseGroups` from `./derive-wins-losses`.
   - Re-export `computeColleyRatings` from `./colley`.
@@ -107,32 +107,32 @@ Build the core computational layer: ranking module types, pairwise W/L derivatio
   - Re-export `normalizeAndAggregate` from `./normalize`.
 
 - [x] **1.7 Write W/L derivation tests**
-  Create test file: `src/lib/ranking/__tests__/derive-wins-losses.test.ts`
-  Tests (Vitest, 4 focused tests):
+      Create test file: `src/lib/ranking/__tests__/derive-wins-losses.test.ts`
+      Tests (Vitest, 4 focused tests):
   1. **Test:** 5 teams with finish positions 1-5 in a single tournament produce exactly 10 pairwise records (C(5,2) = 10), and each record has the lower-finish-position team as the winner.
   2. **Test:** Two teams with identical finish positions in the same tournament+division produce NO pairwise record between them (tied finishes).
   3. **Test:** A single team in a tournament produces zero pairwise records.
   4. **Test:** Results from two tournaments are correctly grouped into two `TournamentPairwiseGroup` entries, sorted by tournament date ascending.
 
 - [x] **1.8 Write Colley algorithm tests**
-  Create test file: `src/lib/ranking/__tests__/colley.test.ts`
-  Tests (Vitest, 4 focused tests):
+      Create test file: `src/lib/ranking/__tests__/colley.test.ts`
+      Tests (Vitest, 4 focused tests):
   1. **Test:** 3-team known example: Team A beats B, A beats C, B beats C. Hand-compute Colley ratings: C matrix = [[4,-1,-1],[-1,4,-1],[-1,-1,4]], b = [2.0, 1.0, 0.0]. Solve and verify ratings match expected values to within 0.0001. Verify ranks: A=1, B=2, C=3.
   2. **Test:** Single team returns rating 0.5 and rank 1.
   3. **Test:** No pairwise records (all teams have zero games). All teams get rating 0.5. Ranks assigned alphabetically.
   4. **Test:** Tie-breaking: two teams with identical Colley ratings are ranked alphabetically by team name.
 
 - [x] **1.9 Write Elo algorithm tests**
-  Create test file: `src/lib/ranking/__tests__/elo.test.ts`
-  Tests (Vitest, 4 focused tests):
+      Create test file: `src/lib/ranking/__tests__/elo.test.ts`
+      Tests (Vitest, 4 focused tests):
   1. **Test:** 2-team single-game scenario with starting rating 2200: Team A beats Team B. Verify `E_A = 1 / (1 + 10^0) = 0.5`, `New_R_A = 2200 + 32 * (1 - 0.5) = 2216`, `New_R_B = 2200 + 32 * (0 - 0.5) = 2184`. Match formula to within 0.0001.
   2. **Test:** Chronological processing: two tournaments. After tournament 1 (A beats B), ratings update. Tournament 2 (B beats A) uses the updated ratings from tournament 1. Verify the expected score calculation uses the post-tournament-1 ratings.
   3. **Test:** All four starting ratings (2200, 2400, 2500, 2700) produce different final absolute ratings but the same relative ranking order for a simple 3-team scenario where A > B > C.
   4. **Test:** Teams with no games retain starting rating. All tied teams ranked alphabetically.
 
 - [x] **1.10 Write normalization and aggregation tests**
-  Create test file: `src/lib/ranking/__tests__/normalize.test.ts`
-  Tests (Vitest, 4 focused tests):
+      Create test file: `src/lib/ranking/__tests__/normalize.test.ts`
+      Tests (Vitest, 4 focused tests):
   1. **Test:** Min-max normalization: the highest-rated team per algorithm gets 100.00, the lowest gets 0.00. A team exactly in the middle gets 50.00.
   2. **Test:** Equal-rating edge case: when all teams have the same rating for an algorithm, all teams receive 50.0 for that algorithm.
   3. **Test:** AggRating is the arithmetic mean of the five normalized values for each team. Verify with hand-computed values.
@@ -185,7 +185,7 @@ Build the RankingService orchestrator that fetches data from Supabase, calls the
 ### Sub-tasks
 
 - [ ] **2.1 Implement the RankingService**
-  Create file: `src/lib/ranking/ranking-service.ts`
+      Create file: `src/lib/ranking/ranking-service.ts`
   - Export class `RankingService`.
   - Constructor accepts the Supabase client (typed as `SupabaseClient<Database>` from `src/lib/types/database.types.ts`).
   - Method `async runRanking(config: RankingRunConfig): Promise<RankingRunOutput>`:
@@ -207,7 +207,7 @@ Build the RankingService orchestrator that fetches data from Supabase, calls the
     - Return sorted by `agg_rank` ascending.
 
 - [ ] **2.2 Implement the POST /api/ranking/run endpoint**
-  Create file: `src/routes/api/ranking/run/+server.ts`
+      Create file: `src/routes/api/ranking/run/+server.ts`
   - `POST` handler:
     - Parse request body as JSON. Expect `{ season_id: string, age_group: string }`.
     - Validate `season_id` is a non-empty string. Validate `age_group` is a valid `AgeGroup` enum value using Zod or direct check against the enum.
@@ -219,14 +219,14 @@ Build the RankingService orchestrator that fetches data from Supabase, calls the
   - Follow the pattern from `src/routes/api/import/upload/+server.ts` for request handling conventions.
 
 - [ ] **2.3 Implement the server-side page load for /ranking**
-  Create file: `src/routes/ranking/+page.server.ts`
+      Create file: `src/routes/ranking/+page.server.ts`
   - Load function fetches all seasons from the `seasons` table via the Supabase client.
   - Returns `{ seasons: Array<{ id: string, name: string }> }` to the page component for populating the season dropdown.
   - Follow the pattern from `src/routes/import/+page.server.ts`.
 
 - [ ] **2.4 Write RankingService tests**
-  Create test file: `src/lib/ranking/__tests__/ranking-service.test.ts`
-  Tests (Vitest, 5 focused tests):
+      Create test file: `src/lib/ranking/__tests__/ranking-service.test.ts`
+      Tests (Vitest, 5 focused tests):
   1. **Test:** Full orchestration with mocked Supabase client: create a mock that returns 3 teams, 2 tournaments with finish data. Verify `runRanking()` creates a ranking run record, calls all algorithms, inserts results, and returns a valid `RankingRunOutput` with `teams_ranked === 3`.
   2. **Test:** Error cleanup: mock the Supabase insert for `ranking_results` to throw an error. Verify the ranking run record is deleted (mock delete is called) and the error is re-thrown.
   3. **Test:** Invalid season_id: call `runRanking()` with a non-existent season_id. Verify it throws with a descriptive error message before creating any records.
@@ -277,7 +277,7 @@ Build the minimal ranking page at `/ranking` with season/age group selectors, a 
 ### Sub-tasks
 
 - [ ] **3.1 Create the RankingResultsTable component**
-  Create file: `src/lib/components/RankingResultsTable.svelte`
+      Create file: `src/lib/components/RankingResultsTable.svelte`
   - Props: `results: NormalizedTeamResult[]` (import type from `src/lib/ranking/types.ts`), `teams: Map<string, string>` (team_id -> team name mapping).
   - Render a scrollable table with the following columns:
     - Rank (agg_rank)
@@ -298,7 +298,7 @@ Build the minimal ranking page at `/ranking` with season/age group selectors, a 
   - Display "No results" message when the results array is empty.
 
 - [ ] **3.2 Build the /ranking page with state management**
-  Create file: `src/routes/ranking/+page.svelte`
+      Create file: `src/routes/ranking/+page.svelte`
   - Use Svelte 5 runes (`$state`, `$derived`) for all reactive state.
   - **State variables:**
     - `step: $state<'idle' | 'running' | 'results' | 'error'>('idle')`
@@ -331,7 +331,7 @@ Build the minimal ranking page at `/ranking` with season/age group selectors, a 
   - **Layout:** Tailwind `max-w-7xl mx-auto px-4 py-8`. Page title: "Rankings" as an h1. Selectors in a horizontal flex row with gap. Results table below with margin-top.
 
 - [ ] **3.3 Implement results fetching after a successful run**
-  In the `/ranking` page component (from 3.2), after a successful `POST /api/ranking/run` response:
+      In the `/ranking` page component (from 3.2), after a successful `POST /api/ranking/run` response:
   - Use the returned `ranking_run_id` to fetch full results.
   - Option A: Fetch from a GET endpoint (if available).
   - Option B: Fetch from Supabase client-side using `supabase.from('ranking_results').select('*, teams(name)').eq('ranking_run_id', ranking_run_id).order('agg_rank')`.
@@ -340,8 +340,8 @@ Build the minimal ranking page at `/ranking` with season/age group selectors, a 
   - This sub-task may be implemented inline within sub-task 3.2's success handler, but is called out separately for clarity.
 
 - [ ] **3.4 Write UI component tests**
-  Create test file: `src/lib/components/__tests__/ranking-ui.test.ts`
-  Tests (Vitest with `@testing-library/svelte`, 3 focused tests):
+      Create test file: `src/lib/components/__tests__/ranking-ui.test.ts`
+      Tests (Vitest with `@testing-library/svelte`, 3 focused tests):
   1. **Test:** `RankingResultsTable` renders the correct number of rows for a given results array. Verify column headers include "Rank", "Team Name", "Colley Rating", "AggRating".
   2. **Test:** `RankingResultsTable` displays rating values formatted to 2 decimal places.
   3. **Test:** `RankingResultsTable` displays "No results" message when passed an empty array.
@@ -390,43 +390,35 @@ Review all tests written by Groups 1-3 (16 algorithm tests + 5 service tests + 3
 ### Sub-tasks
 
 - [ ] **4.1 Audit existing test coverage**
-  Review all test files:
+      Review all test files:
   - `src/lib/ranking/__tests__/derive-wins-losses.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/colley.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/elo.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/normalize.test.ts` (4 tests)
   - `src/lib/ranking/__tests__/ranking-service.test.ts` (5 tests)
   - `src/lib/components/__tests__/ranking-ui.test.ts` (3 tests)
-  Document which paths are covered and which critical paths are missing. Focus on: cross-algorithm integration, determinism, numerical precision, large dataset handling, and division filtering in W/L derivation.
+    Document which paths are covered and which critical paths are missing. Focus on: cross-algorithm integration, determinism, numerical precision, large dataset handling, and division filtering in W/L derivation.
 
 - [ ] **4.2 Write determinism verification tests**
-  Create test file: `src/lib/ranking/__tests__/determinism.test.ts`
-  Tests:
+      Create test file: `src/lib/ranking/__tests__/determinism.test.ts`
+      Tests:
   1. **Test:** Run the full algorithm pipeline (derive W/L, Colley, 4 Elo variants, normalize) twice with identical input data. Assert that every rating and rank value is byte-identical between the two runs. Use a 5-team, 3-tournament dataset.
   2. **Test:** Run the full pipeline with teams provided in different array order. Assert that results are identical regardless of team input order (algorithms must not depend on input ordering).
 
 - [ ] **4.3 Write numerical precision tests**
-  Create test file: `src/lib/ranking/__tests__/precision.test.ts`
-  Tests:
-  3. **Test:** Colley with a 10-team dataset: verify that all Colley ratings sum to N/2 (the theoretical invariant of the Colley method: sum of all ratings = N * 0.5). Assert within 0.0001.
-  4. **Test:** Elo with extreme rating gap: Team A (rating 2700) vs Team B (rating 2200). Verify the expected score is close to 1.0 for A and close to 0.0 for B. Verify the rating change for the winner is small (< K * 0.1) and for the loser is large (> K * 0.9).
+      Create test file: `src/lib/ranking/__tests__/precision.test.ts`
+      Tests: 3. **Test:** Colley with a 10-team dataset: verify that all Colley ratings sum to N/2 (the theoretical invariant of the Colley method: sum of all ratings = N _ 0.5). Assert within 0.0001. 4. **Test:** Elo with extreme rating gap: Team A (rating 2700) vs Team B (rating 2200). Verify the expected score is close to 1.0 for A and close to 0.0 for B. Verify the rating change for the winner is small (< K _ 0.1) and for the loser is large (> K \* 0.9).
 
 - [ ] **4.4 Write cross-algorithm integration tests**
-  Create test file: `src/lib/ranking/__tests__/integration.test.ts`
-  Tests:
-  5. **Test:** End-to-end algorithm pipeline: start with raw tournament results for 4 teams across 2 tournaments. Derive W/L, run Colley, run all 4 Elo variants, normalize, and aggregate. Verify that the team that won the most matchups has the highest AggRating and AggRank = 1.
-  6. **Test:** Division filtering: tournament results contain teams from two divisions. Verify that W/L derivation only generates pairwise records between teams in the SAME division within a tournament (no cross-division matchups).
+      Create test file: `src/lib/ranking/__tests__/integration.test.ts`
+      Tests: 5. **Test:** End-to-end algorithm pipeline: start with raw tournament results for 4 teams across 2 tournaments. Derive W/L, run Colley, run all 4 Elo variants, normalize, and aggregate. Verify that the team that won the most matchups has the highest AggRating and AggRank = 1. 6. **Test:** Division filtering: tournament results contain teams from two divisions. Verify that W/L derivation only generates pairwise records between teams in the SAME division within a tournament (no cross-division matchups).
 
 - [ ] **4.5 Write edge case tests**
-  Create test file: `src/lib/ranking/__tests__/edge-cases.test.ts`
-  Tests:
-  7. **Test:** Two teams, zero games between them. Both Colley and Elo return their default ratings (0.5 for Colley, starting rating for Elo). Normalization assigns 50.0 to both (equal ratings edge case).
-  8. **Test:** Large dataset: generate 73 teams and 60 tournaments with random but deterministic finish data (seeded). Verify the full pipeline completes without error and produces exactly 73 results. Verify execution time is under 5 seconds (NF1 performance requirement -- algorithm only, no DB).
-  9. **Test:** All teams tied in every tournament (everyone has finish position 1). Zero pairwise records generated. All algorithms produce default ratings. AggRating is 50.00 for all teams. AggRanks are 1-N alphabetically.
-  10. **Test:** API endpoint returns 400 for missing `age_group` field in request body. Verify error message mentions the missing field.
+      Create test file: `src/lib/ranking/__tests__/edge-cases.test.ts`
+      Tests: 7. **Test:** Two teams, zero games between them. Both Colley and Elo return their default ratings (0.5 for Colley, starting rating for Elo). Normalization assigns 50.0 to both (equal ratings edge case). 8. **Test:** Large dataset: generate 73 teams and 60 tournaments with random but deterministic finish data (seeded). Verify the full pipeline completes without error and produces exactly 73 results. Verify execution time is under 5 seconds (NF1 performance requirement -- algorithm only, no DB). 9. **Test:** All teams tied in every tournament (everyone has finish position 1). Zero pairwise records generated. All algorithms produce default ratings. AggRating is 50.00 for all teams. AggRanks are 1-N alphabetically. 10. **Test:** API endpoint returns 400 for missing `age_group` field in request body. Verify error message mentions the missing field.
 
 - [ ] **4.6 Verify full test suite passes**
-  Run the complete test suite across all groups. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
+      Run the complete test suite across all groups. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
 
 ### Acceptance Criteria
 
@@ -465,12 +457,12 @@ npx vitest run --coverage
 
 ## Summary
 
-| Group | Implementer | Focus | Sub-tasks | Tests | Depends On |
-|-------|-------------|-------|-----------|-------|------------|
-| 1. Algorithm Implementations | `database-engineer` | Types, W/L derivation, Colley, Elo, normalization | 10 | 16 | Feature 1 |
-| 2. Service Layer & API Endpoint | `api-engineer` | RankingService, API route, page server load | 4 | 5 | Group 1 |
-| 3. Frontend UI | `ui-designer` | Ranking page, results table, state management | 4 | 3 | Group 2 |
-| 4. Test Review & Gap Analysis | `testing-engineer` | Determinism, precision, integration, edge cases | 6 | up to 10 | Groups 1, 2, 3 |
+| Group                           | Implementer         | Focus                                             | Sub-tasks | Tests    | Depends On     |
+| ------------------------------- | ------------------- | ------------------------------------------------- | --------- | -------- | -------------- |
+| 1. Algorithm Implementations    | `database-engineer` | Types, W/L derivation, Colley, Elo, normalization | 10        | 16       | Feature 1      |
+| 2. Service Layer & API Endpoint | `api-engineer`      | RankingService, API route, page server load       | 4         | 5        | Group 1        |
+| 3. Frontend UI                  | `ui-designer`       | Ranking page, results table, state management     | 4         | 3        | Group 2        |
+| 4. Test Review & Gap Analysis   | `testing-engineer`  | Determinism, precision, integration, edge cases   | 6         | up to 10 | Groups 1, 2, 3 |
 
 **Total sub-tasks:** 24
 **Total tests:** 24 (Groups 1-3) + up to 10 (Group 4) = up to 34
@@ -495,42 +487,42 @@ Group 4: Test Review & Gap Analysis (testing-engineer)
 
 ### Existing Code Reused
 
-| Asset | Location | Used In |
-|-------|----------|---------|
-| `rankingRunInsertSchema` | `src/lib/schemas/ranking-run.ts` | Group 2 -- validate ranking run records before insert |
-| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts` | Group 2 -- validate each ranking result row before batch insert |
-| `tournamentResultSchema` | `src/lib/schemas/tournament-result.ts` | Group 2 -- type reference for reading tournament results |
-| `matchSchema` | `src/lib/schemas/match.ts` | Group 2 -- type reference for reading match records |
-| `AgeGroup` enum | `src/lib/schemas/enums.ts` | Groups 2, 3 -- validate age group, populate UI selector |
-| `Database` types | `src/lib/types/database.types.ts` | Group 2 -- type-safe Supabase queries |
-| `supabaseServer` | `src/lib/supabase-server.ts` | Group 2 -- server-side Supabase client |
-| `ImportService` pattern | `src/lib/import/import-service.ts` | Group 2 -- reference for service class with Supabase constructor injection |
-| Import page pattern | `src/routes/import/+page.svelte` | Group 3 -- reference for Svelte 5 page with runes and step-based rendering |
-| Upload API pattern | `src/routes/api/import/upload/+server.ts` | Group 2 -- reference for POST handler with validation and JSON response |
-| `ml-matrix` | `node_modules/ml-matrix` | Group 1 -- LU decomposition for Colley Matrix solving |
+| Asset                       | Location                                  | Used In                                                                    |
+| --------------------------- | ----------------------------------------- | -------------------------------------------------------------------------- |
+| `rankingRunInsertSchema`    | `src/lib/schemas/ranking-run.ts`          | Group 2 -- validate ranking run records before insert                      |
+| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts`       | Group 2 -- validate each ranking result row before batch insert            |
+| `tournamentResultSchema`    | `src/lib/schemas/tournament-result.ts`    | Group 2 -- type reference for reading tournament results                   |
+| `matchSchema`               | `src/lib/schemas/match.ts`                | Group 2 -- type reference for reading match records                        |
+| `AgeGroup` enum             | `src/lib/schemas/enums.ts`                | Groups 2, 3 -- validate age group, populate UI selector                    |
+| `Database` types            | `src/lib/types/database.types.ts`         | Group 2 -- type-safe Supabase queries                                      |
+| `supabaseServer`            | `src/lib/supabase-server.ts`              | Group 2 -- server-side Supabase client                                     |
+| `ImportService` pattern     | `src/lib/import/import-service.ts`        | Group 2 -- reference for service class with Supabase constructor injection |
+| Import page pattern         | `src/routes/import/+page.svelte`          | Group 3 -- reference for Svelte 5 page with runes and step-based rendering |
+| Upload API pattern          | `src/routes/api/import/upload/+server.ts` | Group 2 -- reference for POST handler with validation and JSON response    |
+| `ml-matrix`                 | `node_modules/ml-matrix`                  | Group 1 -- LU decomposition for Colley Matrix solving                      |
 
 ### New Files Created
 
-| File | Group | Purpose |
-|------|-------|---------|
-| `src/lib/ranking/types.ts` | 1 | Type definitions for the ranking module |
-| `src/lib/ranking/derive-wins-losses.ts` | 1 | Pairwise W/L derivation from finishes and matches |
-| `src/lib/ranking/colley.ts` | 1 | Colley Matrix algorithm implementation |
-| `src/lib/ranking/elo.ts` | 1 | Parameterized Elo algorithm implementation |
-| `src/lib/ranking/normalize.ts` | 1 | Min-max normalization and AggRating/AggRank computation |
-| `src/lib/ranking/index.ts` | 1 | Barrel export for ranking module |
-| `src/lib/ranking/ranking-service.ts` | 2 | Orchestrator service with Supabase integration |
-| `src/routes/api/ranking/run/+server.ts` | 2 | POST endpoint to trigger ranking runs |
-| `src/routes/ranking/+page.server.ts` | 2 | Server-side load function for seasons data |
-| `src/lib/components/RankingResultsTable.svelte` | 3 | Table component for displaying ranking results |
-| `src/routes/ranking/+page.svelte` | 3 | Ranking page with selectors, button, and results display |
-| `src/lib/ranking/__tests__/derive-wins-losses.test.ts` | 1 | W/L derivation tests |
-| `src/lib/ranking/__tests__/colley.test.ts` | 1 | Colley algorithm tests |
-| `src/lib/ranking/__tests__/elo.test.ts` | 1 | Elo algorithm tests |
-| `src/lib/ranking/__tests__/normalize.test.ts` | 1 | Normalization tests |
-| `src/lib/ranking/__tests__/ranking-service.test.ts` | 2 | Service orchestration tests |
-| `src/lib/components/__tests__/ranking-ui.test.ts` | 3 | UI component tests |
-| `src/lib/ranking/__tests__/determinism.test.ts` | 4 | Determinism verification tests |
-| `src/lib/ranking/__tests__/precision.test.ts` | 4 | Numerical precision tests |
-| `src/lib/ranking/__tests__/integration.test.ts` | 4 | Cross-algorithm integration tests |
-| `src/lib/ranking/__tests__/edge-cases.test.ts` | 4 | Edge case and performance tests |
+| File                                                   | Group | Purpose                                                  |
+| ------------------------------------------------------ | ----- | -------------------------------------------------------- |
+| `src/lib/ranking/types.ts`                             | 1     | Type definitions for the ranking module                  |
+| `src/lib/ranking/derive-wins-losses.ts`                | 1     | Pairwise W/L derivation from finishes and matches        |
+| `src/lib/ranking/colley.ts`                            | 1     | Colley Matrix algorithm implementation                   |
+| `src/lib/ranking/elo.ts`                               | 1     | Parameterized Elo algorithm implementation               |
+| `src/lib/ranking/normalize.ts`                         | 1     | Min-max normalization and AggRating/AggRank computation  |
+| `src/lib/ranking/index.ts`                             | 1     | Barrel export for ranking module                         |
+| `src/lib/ranking/ranking-service.ts`                   | 2     | Orchestrator service with Supabase integration           |
+| `src/routes/api/ranking/run/+server.ts`                | 2     | POST endpoint to trigger ranking runs                    |
+| `src/routes/ranking/+page.server.ts`                   | 2     | Server-side load function for seasons data               |
+| `src/lib/components/RankingResultsTable.svelte`        | 3     | Table component for displaying ranking results           |
+| `src/routes/ranking/+page.svelte`                      | 3     | Ranking page with selectors, button, and results display |
+| `src/lib/ranking/__tests__/derive-wins-losses.test.ts` | 1     | W/L derivation tests                                     |
+| `src/lib/ranking/__tests__/colley.test.ts`             | 1     | Colley algorithm tests                                   |
+| `src/lib/ranking/__tests__/elo.test.ts`                | 1     | Elo algorithm tests                                      |
+| `src/lib/ranking/__tests__/normalize.test.ts`          | 1     | Normalization tests                                      |
+| `src/lib/ranking/__tests__/ranking-service.test.ts`    | 2     | Service orchestration tests                              |
+| `src/lib/components/__tests__/ranking-ui.test.ts`      | 3     | UI component tests                                       |
+| `src/lib/ranking/__tests__/determinism.test.ts`        | 4     | Determinism verification tests                           |
+| `src/lib/ranking/__tests__/precision.test.ts`          | 4     | Numerical precision tests                                |
+| `src/lib/ranking/__tests__/integration.test.ts`        | 4     | Cross-algorithm integration tests                        |
+| `src/lib/ranking/__tests__/edge-cases.test.ts`         | 4     | Edge case and performance tests                          |

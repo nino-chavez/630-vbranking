@@ -17,8 +17,8 @@ Build the Excel parsing subsystem: shared types for all parsers, the adaptive Fi
 ### Sub-tasks
 
 - [x] **1.1 Define shared import types**
-  Create file: `src/lib/import/types.ts`
-  Define and export the following types/enums:
+      Create file: `src/lib/import/types.ts`
+      Define and export the following types/enums:
   - `ImportFormat` enum: `'finishes' | 'colley'`
   - `ImportMode` enum: `'replace' | 'merge'`
   - `ParsedFinishesRow`: `{ teamName: string, teamCode: string, tournamentName: string, division: string, finishPosition: number, fieldSize: number }`
@@ -31,7 +31,7 @@ Build the Excel parsing subsystem: shared types for all parsers, the adaptive Fi
   - `FileParserInterface<T>`: generic interface with method `parse(buffer: ArrayBuffer, options?: Record<string, unknown>): ParseResult<T>`
 
 - [x] **1.2 Implement the adaptive Finishes parser**
-  Create file: `src/lib/import/parsers/finishes-parser.ts`
+      Create file: `src/lib/import/parsers/finishes-parser.ts`
   - Use the `xlsx` (SheetJS) library to read the workbook from an `ArrayBuffer`. Parse only the first sheet.
   - **Row 1 scan**: Iterate all cells in Row 1. For merged cell ranges, read the value from the leftmost cell. Build a map of `columnIndex -> tournamentName`.
   - **Row 2 scan**: Iterate all cells in Row 2. Detect `Div`/`Fin`/`Tot` triplet patterns. A valid tournament column boundary is defined as three consecutive cells in Row 2 where the values match (case-insensitive) `Div`, `Fin`, `Tot`. Record each triplet's start column index. Skip any columns without a valid triplet (padding columns, header-only tournaments).
@@ -43,7 +43,7 @@ Build the Excel parsing subsystem: shared types for all parsers, the adaptive Fi
   - Export the parser as a class `FinishesParser` implementing `FileParserInterface<ParsedFinishesRow>`.
 
 - [x] **1.3 Implement the Colley format parser**
-  Create file: `src/lib/import/parsers/colley-parser.ts`
+      Create file: `src/lib/import/parsers/colley-parser.ts`
   - Use `xlsx` to read the workbook from `ArrayBuffer`. Parse only the first sheet.
   - **Column mapping** (fixed, 0-indexed): 0=Team, 1=teamcode, 2=Wins, 3=Losses, 4=Algo1Rating, 5=Algo1Rank, 6=Algo2Rating, 7=Algo2Rank, 8=Algo3Rating, 9=Algo3Rank, 10=Algo4Rating, 11=Algo4Rank, 12=Algo5Rating, 13=Algo5Rank, 14=AggRating, 15=AggRank.
   - Skip the header row (Row 1). Parse Row 2+ as data rows.
@@ -52,28 +52,28 @@ Build the Excel parsing subsystem: shared types for all parsers, the adaptive Fi
   - Export as `ColleyParser` implementing `FileParserInterface<ParsedColleyRow>`.
 
 - [x] **1.4 Define the MatchFileParser interface (architecture only)**
-  Create file: `src/lib/import/parsers/match-parser.ts`
+      Create file: `src/lib/import/parsers/match-parser.ts`
   - Define `ParsedMatchRow`: `{ teamA: string, teamB: string, winner: string | null, tournament: string }`
   - Define `MatchFileParser` interface extending `FileParserInterface<ParsedMatchRow>`.
   - Add a JSDoc comment documenting the expected CSV columns: Team A, Team B, Winner, Tournament.
   - Export both the type and interface. Do NOT implement a parser class body.
 
 - [x] **1.5 Create parser barrel export**
-  Create file: `src/lib/import/parsers/index.ts`
+      Create file: `src/lib/import/parsers/index.ts`
   - Re-export `FinishesParser` from `./finishes-parser`.
   - Re-export `ColleyParser` from `./colley-parser`.
   - Re-export `MatchFileParser` interface and `ParsedMatchRow` type from `./match-parser`.
   - Export a factory function `getParser(format: ImportFormat)` that returns the correct parser instance.
 
 - [x] **1.6 Create test fixture files**
-  Create directory: `src/lib/import/__fixtures__/`
+      Create directory: `src/lib/import/__fixtures__/`
   - Create a minimal Finishes `.xlsx` fixture: 5 teams, 3 tournaments (one with padding columns, one header-only with no sub-headers/data). Store as `finishes-test-fixture.xlsx`. This fixture must exercise: standard Div/Fin/Tot triplets, empty padding columns between tournaments, a tournament header in Row 1 with no Div/Fin/Tot in Row 2, merged cells in Row 1, at least one empty Fin/Tot pair (team didn't attend).
   - Create a minimal Colley `.xlsx` fixture: 5 teams, all 16 columns populated. Store as `colley-test-fixture.xlsx`.
   - These fixtures are used by tests in sub-tasks 1.7 and 1.8.
 
 - [x] **1.7 Write Finishes parser tests**
-  Create test file: `src/lib/import/parsers/__tests__/finishes-parser.test.ts`
-  Tests (Vitest, 5 focused tests):
+      Create test file: `src/lib/import/parsers/__tests__/finishes-parser.test.ts`
+      Tests (Vitest, 5 focused tests):
   1. **Test:** Correctly detects tournament column boundaries from Row 2 Div/Fin/Tot patterns using the fixture file. Assert tournament count matches expected (e.g., 2 valid tournaments, 1 skipped header-only).
   2. **Test:** Extracts team name and code from columns 0-1 for every data row. Assert row count matches expected teams.
   3. **Test:** Skips padding columns (empty cols between tournament triplets) without producing phantom tournament entries.
@@ -81,8 +81,8 @@ Build the Excel parsing subsystem: shared types for all parsers, the adaptive Fi
   5. **Test:** Skips Fin/Tot pairs where both cells are empty (team did not attend). Returns no row for that team+tournament combination.
 
 - [x] **1.8 Write Colley parser tests**
-  Create test file: `src/lib/import/parsers/__tests__/colley-parser.test.ts`
-  Tests (Vitest, 3 focused tests):
+      Create test file: `src/lib/import/parsers/__tests__/colley-parser.test.ts`
+      Tests (Vitest, 3 focused tests):
   1. **Test:** Correctly maps all 16 columns to `ParsedColleyRow` fields for each row. Assert all rating/rank values match fixture data.
   2. **Test:** Flags an error for rows with non-numeric values in rating/rank columns.
   3. **Test:** Skips the header row and parses only data rows. Assert parsed row count equals fixture data row count.
@@ -132,7 +132,7 @@ Build the identity resolution service, the orchestrating import service (replace
 ### Sub-tasks
 
 - [x] **2.1 Implement the identity resolution service**
-  Create file: `src/lib/import/identity-resolver.ts`
+      Create file: `src/lib/import/identity-resolver.ts`
   - Export class `IdentityResolver`.
   - Constructor accepts the Supabase client (from `src/lib/supabase.ts`).
   - Method `resolveTeams(teamCodes: string[], ageGroup: string): Promise<{ matched: Map<string, string>, unmatched: IdentityConflict[] }>`:
@@ -145,7 +145,7 @@ Build the identity resolution service, the orchestrating import service (replace
   - Helper: Implement a simple Levenshtein distance function (or use a lightweight dependency) for fuzzy matching. Normalize strings to lowercase before comparison.
 
 - [x] **2.2 Implement the import service**
-  Create file: `src/lib/import/import-service.ts`
+      Create file: `src/lib/import/import-service.ts`
   - Export class `ImportService`.
   - Constructor accepts the Supabase client.
   - Method `validateFinishesRows(rows: ParsedFinishesRow[], identityMappings: IdentityMapping[]): ValidatedRow[]`:
@@ -165,7 +165,7 @@ Build the identity resolution service, the orchestrating import service (replace
     - Return summary counts (inserted, updated, skipped).
 
 - [x] **2.3 Implement the Supabase RPC function for atomic replace**
-  Create migration file: `supabase/migrations/YYYYMMDD_create_import_replace_rpc.sql`
+      Create migration file: `supabase/migrations/YYYYMMDD_create_import_replace_rpc.sql`
   - Define a PostgreSQL function `import_replace_tournament_results(p_season_id UUID, p_age_group text, p_rows JSONB)` that:
     1. Deletes all `tournament_results` where `tournament_id IN (SELECT id FROM tournaments WHERE season_id = p_season_id)` AND `team_id IN (SELECT id FROM teams WHERE age_group = p_age_group::age_group_enum)`.
     2. Inserts all rows from the `p_rows` JSONB array.
@@ -174,7 +174,7 @@ Build the identity resolution service, the orchestrating import service (replace
   - These functions guarantee atomicity that the Supabase JS client cannot provide for multi-table operations.
 
 - [x] **2.4 Implement duplicate detection utility**
-  Create file: `src/lib/import/duplicate-detector.ts`
+      Create file: `src/lib/import/duplicate-detector.ts`
   - Export function `detectDuplicateFinishes(rows: ValidatedRow[], supabase: SupabaseClient): Promise<Map<string, string>>`:
     - Query `tournament_results` for existing records matching any `team_id + tournament_id` combinations in the validated rows.
     - Return a map of `"team_id:tournament_id" -> existing_record_id` for rows that already exist.
@@ -183,7 +183,7 @@ Build the identity resolution service, the orchestrating import service (replace
   - These are used by both the validation preview (to flag duplicates in the UI) and the merge logic.
 
 - [x] **2.5 Implement the upload API endpoint**
-  Create file: `src/routes/api/import/upload/+server.ts`
+      Create file: `src/routes/api/import/upload/+server.ts`
   - `POST` handler accepting `multipart/form-data` with fields: `file` (binary .xlsx), `season_id` (UUID string), `age_group` (enum string), `format` (`'finishes' | 'colley'`).
   - Validate request parameters: reject if any required field is missing (400), reject if file is not `.xlsx` (400), reject if file size > 10 MB (400), reject if `age_group` is not a valid `AgeGroup` enum value (400).
   - Read file into `ArrayBuffer`. Use `getParser(format)` from Group 1 to parse.
@@ -193,7 +193,7 @@ Build the identity resolution service, the orchestrating import service (replace
   - Return JSON: `{ success: false, error: string }` on failure (400 or 500).
 
 - [x] **2.6 Implement the confirm API endpoint**
-  Create file: `src/routes/api/import/confirm/+server.ts`
+      Create file: `src/routes/api/import/confirm/+server.ts`
   - `POST` handler accepting `application/json` body: `{ rows: ValidatedRow[], identityMappings: IdentityMapping[], importMode: 'replace' | 'merge', seasonId: string, ageGroup: string, format: 'finishes' | 'colley' }`.
   - First, create any new team/tournament records from identity mappings where `action === 'create'`:
     - Validate against `teamInsertSchema` / `tournamentInsertSchema`.
@@ -206,13 +206,13 @@ Build the identity resolution service, the orchestrating import service (replace
   - Return JSON: `{ success: false, error: string }` on failure (400, 409, or 500).
 
 - [x] **2.7 Implement the server-side page load for /import**
-  Create file: `src/routes/import/+page.server.ts`
+      Create file: `src/routes/import/+page.server.ts`
   - Load function fetches all seasons from the `seasons` table via Supabase client.
   - Returns `{ seasons: Season[] }` to the page component for populating the season dropdown.
 
 - [x] **2.8 Write import service and API tests**
-  Create test file: `src/lib/import/__tests__/import-service.test.ts`
-  Tests (Vitest, 6 focused tests):
+      Create test file: `src/lib/import/__tests__/import-service.test.ts`
+      Tests (Vitest, 6 focused tests):
   1. **Test:** `IdentityResolver.resolveTeams()` returns matched teams in the matched map and unmatched teams with fuzzy suggestions. Use mocked Supabase queries.
   2. **Test:** `IdentityResolver.resolveTournaments()` correctly separates matched from unmatched tournament names.
   3. **Test:** `ImportService.validateFinishesRows()` filters out skipped rows and returns validation errors for invalid rows (e.g., `finish_position > field_size`).
@@ -270,7 +270,7 @@ Build the complete `/import` page with all UI components: context selectors, Fil
 ### Sub-tasks
 
 - [x] **3.1 Create the FileDropZone component**
-  Create file: `src/lib/components/FileDropZone.svelte`
+      Create file: `src/lib/components/FileDropZone.svelte`
   - Drag-and-drop zone with dashed border, hover highlight state, and a "Browse Files" button fallback.
   - Props: `accept` (file extension filter, default `.xlsx`), `maxSizeMB` (default 10), `disabled` (boolean).
   - Events: `onFileDrop(file: File)` callback when a valid file is dropped or selected.
@@ -280,7 +280,7 @@ Build the complete `/import` page with all UI components: context selectors, Fil
   - Show a loading spinner overlay when `disabled` is true (during parsing state).
 
 - [x] **3.2 Create the IdentityResolutionPanel component**
-  Create file: `src/lib/components/IdentityResolutionPanel.svelte`
+      Create file: `src/lib/components/IdentityResolutionPanel.svelte`
   - Props: `conflicts: IdentityConflict[]`, `onResolve(mapping: IdentityMapping): void`.
   - For each conflict, display a row with:
     - The parsed value (team code or tournament name) and conflict type label.
@@ -292,7 +292,7 @@ Build the complete `/import` page with all UI components: context selectors, Fil
   - The panel must prevent the import from proceeding until all conflicts have a resolution (create, map, or skip).
 
 - [x] **3.3 Create the DataPreviewTable component**
-  Create file: `src/lib/components/DataPreviewTable.svelte`
+      Create file: `src/lib/components/DataPreviewTable.svelte`
   - Props: `rows: ParsedRow[]`, `errors: ParseError[]`, `onEditCell(rowIndex: number, column: string, value: string): void`, `onSkipRow(rowIndex: number): void`.
   - Render a scrollable table (max-height with overflow-y-auto) displaying all parsed rows.
   - Columns vary by format:
@@ -304,14 +304,14 @@ Build the complete `/import` page with all UI components: context selectors, Fil
   - Error summary bar at the top: `"X errors in Y rows"` with breakdown by error type.
 
 - [x] **3.4 Create the ImportSummary component**
-  Create file: `src/lib/components/ImportSummary.svelte`
+      Create file: `src/lib/components/ImportSummary.svelte`
   - Props: `summary: ImportSummaryData`.
   - Display: Rows inserted, rows updated, rows skipped, teams created, tournaments created, import mode, timestamp, season name, age group.
   - Visual: Card layout with Tailwind. Green success banner at the top. Stats in a grid.
   - Action: "Import Another File" button that resets the page to the initial state.
 
 - [x] **3.5 Build the /import page with multi-step state flow**
-  Create file: `src/routes/import/+page.svelte`
+      Create file: `src/routes/import/+page.svelte`
   - Use Svelte 5 runes (`$state`, `$derived`) for all reactive state.
   - State machine with steps: `'select' | 'parsing' | 'preview' | 'importing' | 'complete' | 'error'`.
   - **Key state variables:**
@@ -346,8 +346,8 @@ Build the complete `/import` page with all UI components: context selectors, Fil
   - Consistent spacing: `space-y-6` between sections. Card wrappers for each panel.
 
 - [x] **3.7 Write UI component tests**
-  Create test file: `src/lib/components/__tests__/import-ui.test.ts`
-  Tests (Vitest with `@testing-library/svelte`, 4 focused tests):
+      Create test file: `src/lib/components/__tests__/import-ui.test.ts`
+      Tests (Vitest with `@testing-library/svelte`, 4 focused tests):
   1. **Test:** `FileDropZone` rejects a non-.xlsx file and displays an error message. Verify the error text is visible (not color-only).
   2. **Test:** `FileDropZone` rejects a file exceeding 10 MB and displays a size error.
   3. **Test:** `IdentityResolutionPanel` renders one row per conflict and calls `onResolve` with the correct mapping when "Skip" is clicked.
@@ -400,41 +400,34 @@ Review all tests written by Groups 1-3 (8 parser tests + 6 service tests + 4 UI 
 ### Sub-tasks
 
 - [x] **4.1 Audit existing test coverage**
-  Review all test files:
+      Review all test files:
   - `src/lib/import/parsers/__tests__/finishes-parser.test.ts` (5 tests)
   - `src/lib/import/parsers/__tests__/colley-parser.test.ts` (3 tests)
   - `src/lib/import/__tests__/import-service.test.ts` (6 tests)
   - `src/lib/components/__tests__/import-ui.test.ts` (4 tests)
-  Document which paths are covered and which critical paths are missing. Focus on: cross-layer integration, error edge cases, Zod validation of parsed data, malformed file handling, and the complete upload-to-summary flow.
+    Document which paths are covered and which critical paths are missing. Focus on: cross-layer integration, error edge cases, Zod validation of parsed data, malformed file handling, and the complete upload-to-summary flow.
 
 - [x] **4.2 Write Zod validation integration tests**
-  Create test file: `src/lib/import/__tests__/validation-integration.test.ts`
-  Tests:
+      Create test file: `src/lib/import/__tests__/validation-integration.test.ts`
+      Tests:
   1. **Test:** Parsed Finishes rows pass through `tournamentResultInsertSchema` validation. Verify valid rows pass and rows with `finish_position > field_size` fail with the correct Zod error message.
   2. **Test:** Parsed Colley rows pass through `rankingResultInsertSchema` validation. Verify rows with all algo fields null are accepted (nullable columns).
   3. **Test:** A row with missing required field (`division` empty string for Finishes) is rejected by Zod validation.
 
 - [x] **4.3 Write malformed file handling tests**
-  Create test file: `src/lib/import/parsers/__tests__/error-handling.test.ts`
-  Tests:
-  4. **Test:** Finishes parser handles an empty spreadsheet (no data rows) without throwing. Returns `ParseResult` with zero rows and no errors.
-  5. **Test:** Colley parser handles a spreadsheet with only headers and no data rows. Returns zero rows.
-  6. **Test:** Finishes parser handles a spreadsheet where Row 2 has no recognizable Div/Fin/Tot patterns. Returns zero rows and a warning in errors.
+      Create test file: `src/lib/import/parsers/__tests__/error-handling.test.ts`
+      Tests: 4. **Test:** Finishes parser handles an empty spreadsheet (no data rows) without throwing. Returns `ParseResult` with zero rows and no errors. 5. **Test:** Colley parser handles a spreadsheet with only headers and no data rows. Returns zero rows. 6. **Test:** Finishes parser handles a spreadsheet where Row 2 has no recognizable Div/Fin/Tot patterns. Returns zero rows and a warning in errors.
 
 - [x] **4.4 Write import mode edge case tests**
-  Create test file: `src/lib/import/__tests__/import-mode-edge-cases.test.ts`
-  Tests:
-  7. **Test:** Merge mode with identical existing data produces zero inserts, zero updates, and all rows skipped. Verifies idempotency (Success Criterion 6).
-  8. **Test:** Replace mode rolls back deletes if an insert fails. Mock a Supabase RPC call that throws, verify the error is propagated and no data is lost.
+      Create test file: `src/lib/import/__tests__/import-mode-edge-cases.test.ts`
+      Tests: 7. **Test:** Merge mode with identical existing data produces zero inserts, zero updates, and all rows skipped. Verifies idempotency (Success Criterion 6). 8. **Test:** Replace mode rolls back deletes if an insert fails. Mock a Supabase RPC call that throws, verify the error is propagated and no data is lost.
 
 - [x] **4.5 Write E2E workflow test**
-  Create test file: `tests/e2e/import-flow.test.ts` (Playwright)
-  Tests:
-  9. **Test (E2E):** Full Finishes upload flow: Navigate to `/import`, select season and age group from dropdowns, upload the Finishes test fixture, verify preview table appears with parsed rows, verify identity resolution panel shows (if any conflicts exist), select Merge mode, click Confirm Import, verify the summary panel displays with non-zero inserted count.
-  10. **Test (E2E):** Error handling flow: Navigate to `/import`, attempt to upload a `.txt` file, verify the error message appears in the FileDropZone and the page remains on the select step.
+      Create test file: `tests/e2e/import-flow.test.ts` (Playwright)
+      Tests: 9. **Test (E2E):** Full Finishes upload flow: Navigate to `/import`, select season and age group from dropdowns, upload the Finishes test fixture, verify preview table appears with parsed rows, verify identity resolution panel shows (if any conflicts exist), select Merge mode, click Confirm Import, verify the summary panel displays with non-zero inserted count. 10. **Test (E2E):** Error handling flow: Navigate to `/import`, attempt to upload a `.txt` file, verify the error message appears in the FileDropZone and the page remains on the select step.
 
 - [x] **4.6 Verify full test suite passes**
-  Run the complete test suite across all groups. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
+      Run the complete test suite across all groups. Verify zero failures and no test isolation issues (tests do not depend on each other's state). Document final test counts.
 
 ### Acceptance Criteria
 
@@ -474,12 +467,12 @@ npx vitest run --coverage
 
 ## Summary
 
-| Group | Implementer | Focus | Tasks | Tests | Depends On |
-|-------|-------------|-------|-------|-------|------------|
-| 1. Parsing & Types Layer | `api-engineer` | Excel parsers, shared types, parser interface | 8 | 8 | Feature 1 |
-| 2. Import Service & API Layer | `database-engineer` | Identity resolution, import service, API endpoints, DB transactions | 8 | 6 | Group 1 |
-| 3. Frontend UI Layer | `ui-designer` | Import page, all UI components, multi-step flow | 7 | 4 | Groups 1, 2 |
-| 4. Test Review & Gap Analysis | `testing-engineer` | Gap-filling tests, E2E workflow | 6 | up to 10 | Groups 1, 2, 3 |
+| Group                         | Implementer         | Focus                                                               | Tasks | Tests    | Depends On     |
+| ----------------------------- | ------------------- | ------------------------------------------------------------------- | ----- | -------- | -------------- |
+| 1. Parsing & Types Layer      | `api-engineer`      | Excel parsers, shared types, parser interface                       | 8     | 8        | Feature 1      |
+| 2. Import Service & API Layer | `database-engineer` | Identity resolution, import service, API endpoints, DB transactions | 8     | 6        | Group 1        |
+| 3. Frontend UI Layer          | `ui-designer`       | Import page, all UI components, multi-step flow                     | 7     | 4        | Groups 1, 2    |
+| 4. Test Review & Gap Analysis | `testing-engineer`  | Gap-filling tests, E2E workflow                                     | 6     | up to 10 | Groups 1, 2, 3 |
 
 **Total sub-tasks:** 29
 **Total tests:** 18 (Groups 1-3) + up to 10 (Group 4) = up to 28
@@ -504,12 +497,12 @@ Group 4: Test Review & Gap Analysis (testing-engineer)
 
 ### Existing Code Reused
 
-| Asset | Location | Used In |
-|-------|----------|---------|
-| `tournamentResultInsertSchema` | `src/lib/schemas/tournament-result.ts` | Groups 2, 4 -- validate parsed Finishes rows |
-| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts` | Groups 2, 4 -- validate parsed Colley rows |
-| `teamInsertSchema` | `src/lib/schemas/team.ts` | Group 2 -- validate new teams during identity resolution |
-| `tournamentInsertSchema` | `src/lib/schemas/tournament.ts` | Group 2 -- validate new tournaments during identity resolution |
-| `AgeGroup` enum | `src/lib/schemas/enums.ts` | Groups 2, 3 -- validate age group parameter, populate selector |
-| Supabase client | `src/lib/supabase.ts` | Groups 2, 3 -- all database reads and writes |
-| `Database` types | `src/lib/types/database.types.ts` | Group 2 -- type-safe Supabase queries |
+| Asset                          | Location                               | Used In                                                        |
+| ------------------------------ | -------------------------------------- | -------------------------------------------------------------- |
+| `tournamentResultInsertSchema` | `src/lib/schemas/tournament-result.ts` | Groups 2, 4 -- validate parsed Finishes rows                   |
+| `rankingResultInsertSchema`    | `src/lib/schemas/ranking-result.ts`    | Groups 2, 4 -- validate parsed Colley rows                     |
+| `teamInsertSchema`             | `src/lib/schemas/team.ts`              | Group 2 -- validate new teams during identity resolution       |
+| `tournamentInsertSchema`       | `src/lib/schemas/tournament.ts`        | Group 2 -- validate new tournaments during identity resolution |
+| `AgeGroup` enum                | `src/lib/schemas/enums.ts`             | Groups 2, 3 -- validate age group parameter, populate selector |
+| Supabase client                | `src/lib/supabase.ts`                  | Groups 2, 3 -- all database reads and writes                   |
+| `Database` types               | `src/lib/types/database.types.ts`      | Group 2 -- type-safe Supabase queries                          |

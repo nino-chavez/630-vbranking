@@ -40,13 +40,13 @@ The `npm run build` command invokes `vite build`, which:
 
 The output format depends on the active adapter:
 
-| Adapter | Output | Artifact Location |
-|---------|--------|-------------------|
-| `adapter-auto` | Platform-detected | Varies by detected platform |
-| `adapter-vercel` | Serverless functions + static | `.vercel/output/` |
-| `adapter-netlify` | Edge functions + static | `.netlify/` |
-| `adapter-node` | Node.js server | `build/` |
-| `adapter-static` | Static HTML/CSS/JS | `build/` |
+| Adapter           | Output                        | Artifact Location           |
+| ----------------- | ----------------------------- | --------------------------- |
+| `adapter-auto`    | Platform-detected             | Varies by detected platform |
+| `adapter-vercel`  | Serverless functions + static | `.vercel/output/`           |
+| `adapter-netlify` | Edge functions + static       | `.netlify/`                 |
+| `adapter-node`    | Node.js server                | `build/`                    |
+| `adapter-static`  | Static HTML/CSS/JS            | `build/`                    |
 
 ## Adapter Configuration
 
@@ -57,9 +57,9 @@ The project currently uses `@sveltejs/adapter-auto`:
 import adapter from '@sveltejs/adapter-auto';
 
 const config = {
-  kit: {
-    adapter: adapter()
-  }
+	kit: {
+		adapter: adapter(),
+	},
 };
 
 export default config;
@@ -72,33 +72,41 @@ export default config;
 Once a hosting platform is chosen, install the platform-specific adapter for deterministic builds:
 
 **Vercel:**
+
 ```bash
 npm install -D @sveltejs/adapter-vercel
 ```
+
 ```js
 import adapter from '@sveltejs/adapter-vercel';
 ```
 
 **Netlify:**
+
 ```bash
 npm install -D @sveltejs/adapter-netlify
 ```
+
 ```js
 import adapter from '@sveltejs/adapter-netlify';
 ```
 
 **Node.js (self-hosted):**
+
 ```bash
 npm install -D @sveltejs/adapter-node
 ```
+
 ```js
 import adapter from '@sveltejs/adapter-node';
 ```
 
 **Static (SSG):**
+
 ```bash
 npm install -D @sveltejs/adapter-static
 ```
+
 ```js
 import adapter from '@sveltejs/adapter-static';
 ```
@@ -111,24 +119,27 @@ import adapter from '@sveltejs/adapter-static';
 
 Set these three variables in the hosting platform's environment configuration:
 
-| Variable | Required | Scope |
-|----------|----------|-------|
-| `PUBLIC_SUPABASE_URL` | Yes | Available to both client and server |
-| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Yes | Available to both client and server |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Server-side only -- never exposed to the browser |
+| Variable                                  | Required | Scope                                            |
+| ----------------------------------------- | -------- | ------------------------------------------------ |
+| `PUBLIC_SUPABASE_URL`                     | Yes      | Available to both client and server              |
+| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Yes      | Available to both client and server              |
+| `SUPABASE_SERVICE_ROLE_KEY`               | Yes      | Server-side only -- never exposed to the browser |
 
 ### Platform-Specific Configuration
 
 **Vercel:**
+
 1. Navigate to Project Settings > Environment Variables.
 2. Add each variable. Mark `SUPABASE_SERVICE_ROLE_KEY` as "Sensitive" and restrict to server-side.
 3. Select applicable environments (Production, Preview, Development).
 
 **Netlify:**
+
 1. Navigate to Site Configuration > Environment Variables.
 2. Add each variable. Use "Secret values" for `SUPABASE_SERVICE_ROLE_KEY`.
 
 **Node.js (self-hosted):**
+
 1. Set environment variables in the host system, a `.env` file loaded by a process manager, or a secrets manager.
 2. Start the server: `node build/index.js` (or use PM2, systemd, Docker).
 

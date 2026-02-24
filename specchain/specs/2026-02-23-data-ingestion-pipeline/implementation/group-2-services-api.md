@@ -146,12 +146,12 @@ All 15 tests pass with zero failures. No existing tests were broken.
 
 The following exports are available for the frontend UI layer:
 
-| Export | From | Usage |
-|--------|------|-------|
-| `IdentityResolver` | `src/lib/import/identity-resolver.ts` | Used by upload endpoint |
-| `ImportService`, `ValidatedRow` | `src/lib/import/import-service.ts` | Used by confirm endpoint |
-| `detectDuplicateFinishes`, `detectDuplicateColley` | `src/lib/import/duplicate-detector.ts` | Used by upload endpoint |
-| `supabaseServer` | `src/lib/supabase-server.ts` | Server-side Supabase client for all +server.ts and +page.server.ts files |
-| Seasons load data | `src/routes/import/+page.server.ts` | Provides `seasons[]` to the +page.svelte component |
-| `POST /api/import/upload` | `src/routes/api/import/upload/+server.ts` | Upload endpoint for the UI to call |
-| `POST /api/import/confirm` | `src/routes/api/import/confirm/+server.ts` | Confirm endpoint for the UI to call |
+| Export                                             | From                                       | Usage                                                                    |
+| -------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------ |
+| `IdentityResolver`                                 | `src/lib/import/identity-resolver.ts`      | Used by upload endpoint                                                  |
+| `ImportService`, `ValidatedRow`                    | `src/lib/import/import-service.ts`         | Used by confirm endpoint                                                 |
+| `detectDuplicateFinishes`, `detectDuplicateColley` | `src/lib/import/duplicate-detector.ts`     | Used by upload endpoint                                                  |
+| `supabaseServer`                                   | `src/lib/supabase-server.ts`               | Server-side Supabase client for all +server.ts and +page.server.ts files |
+| Seasons load data                                  | `src/routes/import/+page.server.ts`        | Provides `seasons[]` to the +page.svelte component                       |
+| `POST /api/import/upload`                          | `src/routes/api/import/upload/+server.ts`  | Upload endpoint for the UI to call                                       |
+| `POST /api/import/confirm`                         | `src/routes/api/import/confirm/+server.ts` | Confirm endpoint for the UI to call                                      |

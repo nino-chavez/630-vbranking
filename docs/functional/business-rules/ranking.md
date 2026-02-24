@@ -48,10 +48,10 @@ stateDiagram-v2
     }
 ```
 
-| State | What Can Happen | What Cannot Happen |
-|-------|-----------------|-------------------|
-| **Draft** | View results, add overrides, remove overrides, export, re-run | -- |
-| **Finalized** | View results, export | Add overrides, remove overrides, re-run, delete |
+| State         | What Can Happen                                               | What Cannot Happen                              |
+| ------------- | ------------------------------------------------------------- | ----------------------------------------------- |
+| **Draft**     | View results, add overrides, remove overrides, export, re-run | --                                              |
+| **Finalized** | View results, export                                          | Add overrides, remove overrides, re-run, delete |
 
 ### Rules
 
@@ -66,9 +66,9 @@ stateDiagram-v2
 
 The system can draw on two types of source data, and it automatically selects the best available source.
 
-| Data Source | Description | When Used |
-|-------------|-------------|-----------|
-| **Match Records** | Individual game results showing which two teams played and who won | Preferred when available |
+| Data Source             | Description                                                        | When Used                                 |
+| ----------------------- | ------------------------------------------------------------------ | ----------------------------------------- |
+| **Match Records**       | Individual game results showing which two teams played and who won | Preferred when available                  |
 | **Tournament Finishes** | Placement data showing each team's finish position at a tournament | Used when match records are not available |
 
 ### Rules
@@ -92,12 +92,14 @@ When using finish positions, the system generates win/loss records by comparing 
 - **RULE R-DERIVE-03:** Tournament results are grouped by tournament and division. A team's finish in Division Gold does not create matchups against teams in Division Silver.
 
 > **Example:** At the Sunshine Invitational, Open Division:
+>
 > - Team Alpha finished 1st
 > - Team Beta finished 2nd
 > - Team Gamma finished 3rd
 > - Team Delta finished 3rd (tied)
 >
 > Derived records:
+>
 > - Alpha beat Beta, Alpha beat Gamma, Alpha beat Delta
 > - Beta beat Gamma, Beta beat Delta
 > - No record between Gamma and Delta (tied finish)
@@ -122,12 +124,14 @@ When using actual game results, the conversion is more straightforward.
 The Colley Matrix is a mathematical method that evaluates every team's complete season of results simultaneously. It does not care about the order in which games were played.
 
 **How it works in plain language:**
+
 - Every team starts with a baseline rating of 0.5 (on a scale roughly centered around 0.5).
 - Each win nudges a team's rating upward; each loss nudges it downward.
 - The amount a rating changes depends on who the opponent was and how many games each team played.
 - The system solves for the set of ratings where everything is internally consistent -- a team that beats many highly-rated opponents ends up with a higher rating than a team with the same record against weaker opponents.
 
 **Key Properties:**
+
 - Order of games does not matter (a win in January is weighted the same as a win in March).
 - Strength of schedule is inherently accounted for.
 - All teams' ratings are determined simultaneously.
@@ -137,6 +141,7 @@ The Colley Matrix is a mathematical method that evaluates every team's complete 
 The Elo system is a sequential rating method. It processes tournaments in date order and updates team ratings after each matchup.
 
 **How it works in plain language:**
+
 - Every team starts the season with an initial rating.
 - Before each matchup, the system predicts who is expected to win based on current ratings.
 - When the expected team wins, ratings change by a small amount. When an upset occurs, ratings change by a larger amount.
@@ -144,12 +149,12 @@ The Elo system is a sequential rating method. It processes tournaments in date o
 
 The system runs four Elo variants, each starting at a different initial rating:
 
-| Algorithm | Label | Starting Rating |
-|-----------|-------|-----------------|
-| Algorithm 2 | Elo Variant A | 2,200 |
-| Algorithm 3 | Elo Variant B | 2,400 |
-| Algorithm 4 | Elo Variant C | 2,500 |
-| Algorithm 5 | Elo Variant D | 2,700 |
+| Algorithm   | Label         | Starting Rating |
+| ----------- | ------------- | --------------- |
+| Algorithm 2 | Elo Variant A | 2,200           |
+| Algorithm 3 | Elo Variant B | 2,400           |
+| Algorithm 4 | Elo Variant C | 2,500           |
+| Algorithm 5 | Elo Variant D | 2,700           |
 
 **Why four variants?**
 Using different starting points tests whether the final rankings are sensitive to the initial assumption. If a team is truly the best, it should rank highly regardless of whether all teams started at 2,200 or 2,700. Averaging across four starting points reduces the influence of this arbitrary choice.
@@ -183,6 +188,7 @@ Each algorithm's ratings are rescaled to a 0-to-100 point scale:
 > **Example:**
 >
 > Team Phoenix has the following normalized scores across the five algorithms:
+>
 > - Colley: 82.5
 > - Elo A: 78.3
 > - Elo B: 80.1
@@ -199,12 +205,12 @@ Not all tournaments are created equal. The committee assigns a weight to each to
 
 ### How Weights Work
 
-| Weight Value | Effect |
-|-------------|--------|
-| **1.0** (default) | Standard influence -- the tournament counts normally |
+| Weight Value                          | Effect                                                                 |
+| ------------------------------------- | ---------------------------------------------------------------------- |
+| **1.0** (default)                     | Standard influence -- the tournament counts normally                   |
 | **Greater than 1.0** (e.g., 2.0, 3.0) | Increased influence -- results from this tournament count more heavily |
-| **Less than 1.0** (e.g., 0.5) | Reduced influence -- results from this tournament count less |
-| **0.0** | The tournament is effectively ignored in ranking calculations |
+| **Less than 1.0** (e.g., 0.5)         | Reduced influence -- results from this tournament count less           |
+| **0.0**                               | The tournament is effectively ignored in ranking calculations          |
 
 **Valid range:** 0.0 through 5.0 (positive numbers only for non-zero weights).
 
@@ -212,11 +218,11 @@ Not all tournaments are created equal. The committee assigns a weight to each to
 
 Each tournament is also assigned a tier number, where lower numbers indicate more prestigious events:
 
-| Tier | Meaning |
-|------|---------|
-| **Tier 1** | National-level or premier tournaments |
-| **Tier 2-4** | Regionally significant events |
-| **Tier 5** (default) | Standard tournaments |
+| Tier                 | Meaning                               |
+| -------------------- | ------------------------------------- |
+| **Tier 1**           | National-level or premier tournaments |
+| **Tier 2-4**         | Regionally significant events         |
+| **Tier 5** (default) | Standard tournaments                  |
 
 Tier information is used for seeding reference data (see below) but does not directly change rankings. The weight value is what controls ranking influence.
 
@@ -248,6 +254,7 @@ Ties can occur at two levels: within a single algorithm, and in the aggregate ra
 > **Example:**
 >
 > After all algorithms are averaged:
+>
 > - "Central Valley VBC" has AggRating 72.45
 > - "Coastal Elite VBC" has AggRating 72.45
 >
@@ -273,6 +280,7 @@ In addition to the algorithmic rankings, the system computes supplementary data 
 > **Example:**
 >
 > Team Thunderbolts competed in two Tier-1 events:
+>
 > - AAU Nationals: finished 5th
 > - USAV Junior Championships: finished 3rd
 >
@@ -288,14 +296,14 @@ After rankings are algorithmically computed, the committee may adjust individual
 
 Each override must include:
 
-| Required Information | Minimum Length | Purpose |
-|---------------------|---------------|---------|
-| Ranking Run | -- | Identifies which ranking run to modify |
-| Team | -- | Identifies which team to move |
-| Original Rank | -- | The team's algorithmically computed rank (recorded automatically) |
-| New Rank | -- | The desired final rank position |
-| Justification | 10 characters | A written explanation of why the change was made |
-| Committee Member Name | 2 characters | The name of the person authorizing the change |
+| Required Information  | Minimum Length | Purpose                                                           |
+| --------------------- | -------------- | ----------------------------------------------------------------- |
+| Ranking Run           | --             | Identifies which ranking run to modify                            |
+| Team                  | --             | Identifies which team to move                                     |
+| Original Rank         | --             | The team's algorithmically computed rank (recorded automatically) |
+| New Rank              | --             | The desired final rank position                                   |
+| Justification         | 10 characters  | A written explanation of why the change was made                  |
+| Committee Member Name | 2 characters   | The name of the person authorizing the change                     |
 
 ### Rules
 
@@ -322,6 +330,7 @@ stateDiagram-v2
 > **Example:**
 >
 > After computation, Team Dynamo is ranked 12th by the algorithms. The committee determines that Team Dynamo should be ranked 8th due to a scheduling conflict that prevented them from attending a key tournament. A committee member enters:
+>
 > - Original Rank: 12
 > - New Rank: 8
 > - Justification: "Team missed Southeast Regional due to facility closure; head-to-head record against teams ranked 8-11 is 6-1"
@@ -362,24 +371,25 @@ Here is a complete walkthrough showing how rankings are produced for a small set
 
 **Tournaments and Weights:**
 
-| Tournament | Date | Weight | Tier |
-|-----------|------|--------|------|
-| Fall Classic | 2025-10-15 | 1.0 | 5 |
-| Winter Showcase | 2026-01-10 | 1.5 | 3 |
-| AAU Nationals | 2026-03-05 | 3.0 | 1 |
+| Tournament      | Date       | Weight | Tier |
+| --------------- | ---------- | ------ | ---- |
+| Fall Classic    | 2025-10-15 | 1.0    | 5    |
+| Winter Showcase | 2026-01-10 | 1.5    | 3    |
+| AAU Nationals   | 2026-03-05 | 3.0    | 1    |
 
 **Tournament Finishes (all Open Division):**
 
-| Team | Fall Classic | Winter Showcase | AAU Nationals |
-|------|-------------|-----------------|---------------|
-| Alpha VBC | 1st | 2nd | 1st |
-| Bravo VBC | 2nd | 1st | 3rd |
-| Charlie VBC | 3rd | 3rd | 2nd |
-| Delta VBC | 4th | 4th | 4th |
+| Team        | Fall Classic | Winter Showcase | AAU Nationals |
+| ----------- | ------------ | --------------- | ------------- |
+| Alpha VBC   | 1st          | 2nd             | 1st           |
+| Bravo VBC   | 2nd          | 1st             | 3rd           |
+| Charlie VBC | 3rd          | 3rd             | 2nd           |
+| Delta VBC   | 4th          | 4th             | 4th           |
 
 ### Step 1: Derive Win/Loss Records
 
 From these finishes, the system generates pairwise win/loss records. For example, at the Fall Classic:
+
 - Alpha beat Bravo, Charlie, Delta (3 wins)
 - Bravo beat Charlie, Delta (2 wins)
 - Charlie beat Delta (1 win)
@@ -391,12 +401,12 @@ This is repeated for each tournament, with the Winter Showcase records weighted 
 
 Each algorithm produces its own rating and rank. For illustration:
 
-| Team | Colley Rating | Colley Rank | Elo-A Rank | Elo-B Rank | Elo-C Rank | Elo-D Rank |
-|------|--------------|-------------|------------|------------|------------|------------|
-| Alpha VBC | 0.72 | 1 | 1 | 1 | 1 | 1 |
-| Bravo VBC | 0.55 | 2 | 2 | 3 | 2 | 2 |
-| Charlie VBC | 0.48 | 3 | 3 | 2 | 3 | 3 |
-| Delta VBC | 0.25 | 4 | 4 | 4 | 4 | 4 |
+| Team        | Colley Rating | Colley Rank | Elo-A Rank | Elo-B Rank | Elo-C Rank | Elo-D Rank |
+| ----------- | ------------- | ----------- | ---------- | ---------- | ---------- | ---------- |
+| Alpha VBC   | 0.72          | 1           | 1          | 1          | 1          | 1          |
+| Bravo VBC   | 0.55          | 2           | 2          | 3          | 2          | 2          |
+| Charlie VBC | 0.48          | 3           | 3          | 2          | 3          | 3          |
+| Delta VBC   | 0.25          | 4           | 4          | 4          | 4          | 4          |
 
 ### Step 3: Normalize to 0-100 Scale
 
@@ -404,21 +414,21 @@ Each algorithm's ratings are scaled so the best team gets 100 and the worst gets
 
 ### Step 4: Average the Five Normalized Scores
 
-| Team | Avg Score | AggRank |
-|------|-----------|---------|
-| Alpha VBC | 95.2 | 1 |
-| Bravo VBC | 62.8 | 2 |
-| Charlie VBC | 55.4 | 3 |
-| Delta VBC | 8.1 | 4 |
+| Team        | Avg Score | AggRank |
+| ----------- | --------- | ------- |
+| Alpha VBC   | 95.2      | 1       |
+| Bravo VBC   | 62.8      | 2       |
+| Charlie VBC | 55.4      | 3       |
+| Delta VBC   | 8.1       | 4       |
 
 ### Step 5: Seeding Factors (Reference Only)
 
-| Team | Win % | Best National Finish |
-|------|-------|---------------------|
-| Alpha VBC | 91.7% | 1st (AAU Nationals) |
-| Bravo VBC | 66.7% | 3rd (AAU Nationals) |
-| Charlie VBC | 41.7% | 2nd (AAU Nationals) |
-| Delta VBC | 0.0% | 4th (AAU Nationals) |
+| Team        | Win % | Best National Finish |
+| ----------- | ----- | -------------------- |
+| Alpha VBC   | 91.7% | 1st (AAU Nationals)  |
+| Bravo VBC   | 66.7% | 3rd (AAU Nationals)  |
+| Charlie VBC | 41.7% | 2nd (AAU Nationals)  |
+| Delta VBC   | 0.0%  | 4th (AAU Nationals)  |
 
 ### Step 6: Committee Review
 
@@ -426,9 +436,9 @@ The committee reviews the results. No overrides are needed. The run is finalized
 
 ### Final Published Rankings
 
-| Rank | Team | Agg Rating | Win % | Best National |
-|------|------|-----------|-------|---------------|
-| 1 | Alpha VBC | 95.20 | 91.7% | 1st |
-| 2 | Bravo VBC | 62.80 | 66.7% | 3rd |
-| 3 | Charlie VBC | 55.40 | 41.7% | 2nd |
-| 4 | Delta VBC | 8.10 | 0.0% | 4th |
+| Rank | Team        | Agg Rating | Win % | Best National |
+| ---- | ----------- | ---------- | ----- | ------------- |
+| 1    | Alpha VBC   | 95.20      | 91.7% | 1st           |
+| 2    | Bravo VBC   | 62.80      | 66.7% | 3rd           |
+| 3    | Charlie VBC | 55.40      | 41.7% | 2nd           |
+| 4    | Delta VBC   | 8.10       | 0.0%  | 4th           |

@@ -3,6 +3,7 @@
 Description: Bootstrap comprehensive documentation infrastructure for any existing project. Detects stack, generates CLAUDE.md, creates doc structure, and installs all documentation skills.
 
 Arguments:
+
 - target: (optional) Path to the project root. Defaults to current directory.
 
 ---
@@ -14,31 +15,37 @@ You are a Documentation Architect performing a full bootstrap of the Autonomous 
 Analyze the project at `$target` (or current directory if not specified).
 
 ### Step 0.1: Detect Project Type
+
 Run these commands and analyze the results:
+
 ```
 tree -L 2 -I 'node_modules|vendor|.git|dist|build|__pycache__|.venv|venv' $target
 ```
 
 Classify as one of:
+
 - **Monolith**: Single deployable unit
 - **Microservices**: Multiple service directories with independent configs
 - **Monorepo**: Multiple packages/apps with shared tooling (look for workspaces)
 - **Library**: Publishable package (look for main/module in package.json or setup.py)
 
 ### Step 0.2: Detect Tech Stack
+
 Check for these indicator files and extract versions where possible:
 
-| Category | Indicators | Extract |
-|----------|-----------|---------|
-| **Runtime** | `package.json`, `go.mod`, `Cargo.toml`, `requirements.txt`, `Gemfile`, `pom.xml`, `build.gradle` | Language + version |
-| **Framework** | `next.config.*`, `nuxt.config.*`, `angular.json`, `django`, `flask`, `fastapi`, `rails`, `spring` | Framework name |
-| **Database** | `prisma/`, `drizzle.config.*`, `schema.sql`, `migrations/`, `docker-compose.yml` (look for db images) | DB type |
-| **Infrastructure** | `terraform/`, `pulumi/`, `cdk/`, `cloudformation/`, `kubernetes/`, `helm/` | IaC tool |
-| **CI/CD** | `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/`, `bitbucket-pipelines.yml` | CI platform |
-| **Containerization** | `Dockerfile`, `docker-compose.yml`, `compose.yaml` | Container tech |
+| Category             | Indicators                                                                                            | Extract            |
+| -------------------- | ----------------------------------------------------------------------------------------------------- | ------------------ |
+| **Runtime**          | `package.json`, `go.mod`, `Cargo.toml`, `requirements.txt`, `Gemfile`, `pom.xml`, `build.gradle`      | Language + version |
+| **Framework**        | `next.config.*`, `nuxt.config.*`, `angular.json`, `django`, `flask`, `fastapi`, `rails`, `spring`     | Framework name     |
+| **Database**         | `prisma/`, `drizzle.config.*`, `schema.sql`, `migrations/`, `docker-compose.yml` (look for db images) | DB type            |
+| **Infrastructure**   | `terraform/`, `pulumi/`, `cdk/`, `cloudformation/`, `kubernetes/`, `helm/`                            | IaC tool           |
+| **CI/CD**            | `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/`, `bitbucket-pipelines.yml`        | CI platform        |
+| **Containerization** | `Dockerfile`, `docker-compose.yml`, `compose.yaml`                                                    | Container tech     |
 
 ### Step 0.3: Detect Existing Documentation
+
 Check for:
+
 - `README.md` (root level)
 - `docs/` directory
 - `CONTRIBUTING.md`
@@ -56,11 +63,13 @@ Create `$target/CLAUDE.md` with the detected information:
 # Project: [Detected project name from package.json/go.mod/etc or directory name]
 
 ## Identity
+
 [One sentence describing what this project does - infer from README or main entry points]
 
 **Type:** [Monolith | Microservices | Monorepo | Library]
 
 ## Tech Stack
+
 - **Language:** [Detected language + version]
 - **Framework:** [Detected framework]
 - **Database:** [Detected DB or "None detected"]
@@ -68,22 +77,26 @@ Create `$target/CLAUDE.md` with the detected information:
 - **CI/CD:** [Detected CI platform]
 
 ## Documentation Standards
+
 - Format: GitHub-Flavored Markdown
 - Diagrams: Mermaid.js (embedded in Markdown)
 - Structure: Diataxis framework for user docs
 - Location: `docs/` directory
 
 ## Key Directories
+
 [List the main directories and their purposes based on structure analysis]
 
 ## Exclusions
+
 Ignore these directories when analyzing code:
+
 - node_modules/
 - vendor/
 - .git/
 - dist/
 - build/
-- __pycache__/
+- **pycache**/
 - .venv/
 - venv/
 - coverage/
@@ -91,7 +104,9 @@ Ignore these directories when analyzing code:
 - .nuxt/
 
 ## Commands
+
 [Detect from package.json scripts, Makefile, or equivalent]
+
 - **Install:** [detected command]
 - **Dev:** [detected command]
 - **Build:** [detected command]
@@ -99,7 +114,9 @@ Ignore these directories when analyzing code:
 - **Lint:** [detected command]
 
 ## Documentation Skills
+
 Available commands after initialization:
+
 - `/doc-architecture` - Generate architecture documentation
 - `/doc-developer` - Generate developer onboarding guide
 - `/doc-ops` - Generate DevOps and infrastructure docs
@@ -158,6 +175,7 @@ docs/
 ```
 
 For each README.md, create a minimal placeholder with:
+
 ```markdown
 # [Section Name]
 
@@ -167,6 +185,7 @@ For each README.md, create a minimal placeholder with:
 ## Status: Pending Generation
 
 Run the appropriate documentation skill to generate this content:
+
 - `/doc-[skill-name]`
 
 ## Contents
@@ -181,6 +200,7 @@ Run the appropriate documentation skill to generate this content:
 Check if `$target/.claude/commands/` exists. If not, create it.
 
 Copy all documentation skills to `$target/.claude/commands/`:
+
 - `doc-architecture.md`
 - `doc-developer.md`
 - `doc-ops.md`
@@ -197,20 +217,24 @@ Copy all documentation skills to `$target/.claude/commands/`:
 After setup, run a quick discovery audit and output a summary:
 
 ### Component Inventory
+
 List the major components/modules discovered with line counts:
+
 ```
 find $target -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.py" -o -name "*.go" -o -name "*.rs" | head -50
 ```
 
 ### Documentation Priority Matrix
+
 Based on the discovery, output a prioritized list:
 
-| Priority | Component | Reason | Skill to Run |
-|----------|-----------|--------|--------------|
-| 1 | [highest complexity/most critical] | [reason] | `/doc-architecture` |
-| 2 | ... | ... | ... |
+| Priority | Component                          | Reason   | Skill to Run        |
+| -------- | ---------------------------------- | -------- | ------------------- |
+| 1        | [highest complexity/most critical] | [reason] | `/doc-architecture` |
+| 2        | ...                                | ...      | ...                 |
 
 ### Recommended Next Steps
+
 1. Review generated `CLAUDE.md` and adjust if needed
 2. Run `/doc-architecture` first to establish system overview
 3. Run `/doc-developer` to enable team onboarding

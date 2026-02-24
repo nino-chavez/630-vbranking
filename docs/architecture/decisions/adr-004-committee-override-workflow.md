@@ -1,6 +1,7 @@
 # ADR-004: Committee Override Workflow with Draft/Finalize Lifecycle
 
 ## Status
+
 Accepted
 
 ## Context
@@ -19,28 +20,29 @@ The system implements a two-state lifecycle for ranking runs:
 
 ### Run States
 
-| State | Overrides | Description |
-|-------|-----------|-------------|
-| `draft` | Create, update, delete | Default state after computation. Committee can review and adjust. |
-| `finalized` | Read-only | Set via `POST /api/ranking/runs/finalize`. Irreversible. Overrides locked. |
+| State       | Overrides              | Description                                                                |
+| ----------- | ---------------------- | -------------------------------------------------------------------------- |
+| `draft`     | Create, update, delete | Default state after computation. Committee can review and adjust.          |
+| `finalized` | Read-only              | Set via `POST /api/ranking/runs/finalize`. Irreversible. Overrides locked. |
 
 ### Override Structure
 
 Each override is stored in the `ranking_overrides` table with the following fields:
 
-| Field | Type | Constraint | Purpose |
-|-------|------|------------|---------|
-| `ranking_run_id` | UUID | FK to `ranking_runs` | Associates override with a specific run |
-| `team_id` | UUID | FK to `teams` | Identifies the affected team |
-| `original_rank` | INTEGER | NOT NULL | The algorithmic rank before override |
-| `final_rank` | INTEGER | NOT NULL | The committee-assigned rank |
-| `justification` | TEXT | CHECK >= 10 chars | Written rationale for the change |
-| `committee_member` | TEXT | CHECK >= 2 chars | Name of the person making the change |
-| Composite unique | | `(ranking_run_id, team_id)` | One override per team per run |
+| Field              | Type    | Constraint                  | Purpose                                 |
+| ------------------ | ------- | --------------------------- | --------------------------------------- |
+| `ranking_run_id`   | UUID    | FK to `ranking_runs`        | Associates override with a specific run |
+| `team_id`          | UUID    | FK to `teams`               | Identifies the affected team            |
+| `original_rank`    | INTEGER | NOT NULL                    | The algorithmic rank before override    |
+| `final_rank`       | INTEGER | NOT NULL                    | The committee-assigned rank             |
+| `justification`    | TEXT    | CHECK >= 10 chars           | Written rationale for the change        |
+| `committee_member` | TEXT    | CHECK >= 2 chars            | Name of the person making the change    |
+| Composite unique   |         | `(ranking_run_id, team_id)` | One override per team per run           |
 
 ### API Behavior
 
 The overrides API (`/api/ranking/overrides`) enforces state checks:
+
 - **POST (upsert):** Validates that the run is in `draft` status. Returns 403 if the run is finalized.
 - **DELETE:** Same draft-status check. Returns 403 if finalized.
 - **GET:** Returns overrides for any run regardless of status (read access is always allowed).
@@ -62,12 +64,14 @@ The `computeFinalRanks` function in `src/lib/ranking/table-utils.ts` merges algo
 ## Consequences
 
 **Easier:**
+
 - The committee can adjust rankings transparently with a written justification per change.
 - The finalization mechanism prevents accidental edits to published rankings.
 - The audit trail (justification + committee_member + timestamps) provides evidence for dispute resolution.
 - Exports include override details (original rank, final rank, justification, committee member) for complete transparency.
 
 **More difficult:**
+
 - Finalization is irreversible. To make further changes, the committee must create a new ranking run. This is intentional but requires the committee to understand the workflow.
 - The `final_rank` is computed at read time (not stored), so the export module and UI must call `computeFinalRanks` consistently. A mismatch between the dashboard and an export would be a bug.
 - The override table allows a team to be assigned any `final_rank`, including duplicates (two teams at rank 3). The system does not enforce unique final ranks -- this is by design, as the committee may intentionally co-rank teams.

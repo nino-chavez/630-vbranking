@@ -117,39 +117,40 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 
 ### Existing Code to Leverage
 
-| Component | Location | Usage |
-|---|---|---|
-| `rankingRunInsertSchema` | `src/lib/schemas/ranking-run.ts` | Validate ranking run records before insert |
-| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts` | Validate each ranking result row before batch insert |
-| `tournamentResultSchema` | `src/lib/schemas/tournament-result.ts` | Type reference for reading tournament results |
-| `matchSchema` | `src/lib/schemas/match.ts` | Type reference for reading match records |
-| `AgeGroup` enum | `src/lib/schemas/enums.ts` | Validate age group parameter, populate UI selector |
-| `Database` types | `src/lib/types/database.types.ts` | Type-safe Supabase queries for `ranking_runs`, `ranking_results`, `tournament_results`, `matches`, `tournaments`, `teams` |
-| `supabaseServer` | `src/lib/supabase-server.ts` | Server-side Supabase client for all DB reads and writes |
-| `ImportService` pattern | `src/lib/import/import-service.ts` | Reference pattern for service class with Supabase client constructor injection |
-| Import page pattern | `src/routes/import/+page.svelte` | Reference for multi-step Svelte 5 page with `$state`/`$derived` runes and step-based rendering |
-| Upload API pattern | `src/routes/api/import/upload/+server.ts` | Reference for `POST` request handler with validation and JSON response |
+| Component                   | Location                                  | Usage                                                                                                                     |
+| --------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `rankingRunInsertSchema`    | `src/lib/schemas/ranking-run.ts`          | Validate ranking run records before insert                                                                                |
+| `rankingResultInsertSchema` | `src/lib/schemas/ranking-result.ts`       | Validate each ranking result row before batch insert                                                                      |
+| `tournamentResultSchema`    | `src/lib/schemas/tournament-result.ts`    | Type reference for reading tournament results                                                                             |
+| `matchSchema`               | `src/lib/schemas/match.ts`                | Type reference for reading match records                                                                                  |
+| `AgeGroup` enum             | `src/lib/schemas/enums.ts`                | Validate age group parameter, populate UI selector                                                                        |
+| `Database` types            | `src/lib/types/database.types.ts`         | Type-safe Supabase queries for `ranking_runs`, `ranking_results`, `tournament_results`, `matches`, `tournaments`, `teams` |
+| `supabaseServer`            | `src/lib/supabase-server.ts`              | Server-side Supabase client for all DB reads and writes                                                                   |
+| `ImportService` pattern     | `src/lib/import/import-service.ts`        | Reference pattern for service class with Supabase client constructor injection                                            |
+| Import page pattern         | `src/routes/import/+page.svelte`          | Reference for multi-step Svelte 5 page with `$state`/`$derived` runes and step-based rendering                            |
+| Upload API pattern          | `src/routes/api/import/upload/+server.ts` | Reference for `POST` request handler with validation and JSON response                                                    |
 
 ## New Components Required
 
-| Component | Location | Purpose |
-|---|---|---|
-| **Types** | `src/lib/ranking/types.ts` | Type definitions: `PairwiseRecord` (team_a_id, team_b_id, winner_id, tournament_id), `AlgorithmResult` (team_id, rating, rank), `RankingRunConfig` (season_id, age_group, k_factor, elo_starting_ratings), `RankingRunOutput` (run_id, results array). |
-| **W/L Derivation** | `src/lib/ranking/derive-wins-losses.ts` | Pure function that takes tournament results (grouped by tournament+division) and returns an array of `PairwiseRecord` objects. Handles both finish-derived and match-based sources. |
-| **Colley Algorithm** | `src/lib/ranking/colley.ts` | Pure function: accepts `PairwiseRecord[]` and team ID list, constructs the Colley matrix and b vector, solves via `ml-matrix` LU decomposition, returns `AlgorithmResult[]`. |
-| **Elo Algorithm** | `src/lib/ranking/elo.ts` | Pure function: accepts `PairwiseRecord[]` grouped by tournament (chronologically ordered), a starting rating, and K-factor, returns `AlgorithmResult[]`. |
-| **Normalization** | `src/lib/ranking/normalize.ts` | Pure function: accepts a map of algorithm names to `AlgorithmResult[]`, applies min-max normalization per algorithm, computes AggRating (average) and AggRank, returns final results. |
-| **RankingService** | `src/lib/ranking/ranking-service.ts` | Orchestrator class with Supabase client. Methods: `runRanking(config)` which fetches data, calls algorithms, normalizes, and writes results. Handles error cleanup (delete partial run on failure). |
-| **API endpoint** | `src/routes/api/ranking/run/+server.ts` | `POST` handler: validates request, instantiates `RankingService`, calls `runRanking()`, returns JSON response. |
-| **Ranking page** | `src/routes/ranking/+page.svelte` | Minimal UI: season/age group selectors, "Run Rankings" button, results table. Uses Svelte 5 runes for state. |
-| **Ranking page server** | `src/routes/ranking/+page.server.ts` | Server-side load function to fetch seasons for the dropdown. |
-| **RankingResultsTable** | `src/lib/components/RankingResultsTable.svelte` | Table component displaying ranking results with all algorithm columns. Accepts an array of result rows as a prop. |
+| Component               | Location                                        | Purpose                                                                                                                                                                                                                                                |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Types**               | `src/lib/ranking/types.ts`                      | Type definitions: `PairwiseRecord` (team_a_id, team_b_id, winner_id, tournament_id), `AlgorithmResult` (team_id, rating, rank), `RankingRunConfig` (season_id, age_group, k_factor, elo_starting_ratings), `RankingRunOutput` (run_id, results array). |
+| **W/L Derivation**      | `src/lib/ranking/derive-wins-losses.ts`         | Pure function that takes tournament results (grouped by tournament+division) and returns an array of `PairwiseRecord` objects. Handles both finish-derived and match-based sources.                                                                    |
+| **Colley Algorithm**    | `src/lib/ranking/colley.ts`                     | Pure function: accepts `PairwiseRecord[]` and team ID list, constructs the Colley matrix and b vector, solves via `ml-matrix` LU decomposition, returns `AlgorithmResult[]`.                                                                           |
+| **Elo Algorithm**       | `src/lib/ranking/elo.ts`                        | Pure function: accepts `PairwiseRecord[]` grouped by tournament (chronologically ordered), a starting rating, and K-factor, returns `AlgorithmResult[]`.                                                                                               |
+| **Normalization**       | `src/lib/ranking/normalize.ts`                  | Pure function: accepts a map of algorithm names to `AlgorithmResult[]`, applies min-max normalization per algorithm, computes AggRating (average) and AggRank, returns final results.                                                                  |
+| **RankingService**      | `src/lib/ranking/ranking-service.ts`            | Orchestrator class with Supabase client. Methods: `runRanking(config)` which fetches data, calls algorithms, normalizes, and writes results. Handles error cleanup (delete partial run on failure).                                                    |
+| **API endpoint**        | `src/routes/api/ranking/run/+server.ts`         | `POST` handler: validates request, instantiates `RankingService`, calls `runRanking()`, returns JSON response.                                                                                                                                         |
+| **Ranking page**        | `src/routes/ranking/+page.svelte`               | Minimal UI: season/age group selectors, "Run Rankings" button, results table. Uses Svelte 5 runes for state.                                                                                                                                           |
+| **Ranking page server** | `src/routes/ranking/+page.server.ts`            | Server-side load function to fetch seasons for the dropdown.                                                                                                                                                                                           |
+| **RankingResultsTable** | `src/lib/components/RankingResultsTable.svelte` | Table component displaying ranking results with all algorithm columns. Accepts an array of result rows as a prop.                                                                                                                                      |
 
 ## Technical Approach
 
 ### Database
 
 **Tables read during a ranking run:**
+
 - `seasons` -- validate season_id exists
 - `teams` -- get team list for the selected age group (id, name, code)
 - `tournaments` -- get tournaments for the season, ordered by date ascending (for Elo chronological processing)
@@ -157,15 +158,18 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 - `matches` -- check for match records as alternative data source (future path)
 
 **Tables written during a ranking run:**
+
 - `ranking_runs` -- one new row per run
 - `ranking_results` -- one row per team per run (batch insert)
 
 **Cleanup on failure:**
+
 - If algorithm execution or result insertion fails after the `ranking_runs` row is created, delete the run row (cascade will handle any partial `ranking_results` if FK cascade is configured, otherwise delete `ranking_results` first).
 
 ### Algorithms
 
 **Data preparation flow:**
+
 1. Query `tournament_results` joined with `tournaments` (for date ordering) and `teams` (for age group filtering).
 2. Group results by `tournament_id + division`.
 3. Within each group, generate pairwise W/L: for every pair of teams (i, j) where `finish_position_i < finish_position_j`, emit one record: team i wins over team j.
@@ -173,6 +177,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 5. Pass the pairwise records grouped by tournament (ordered by tournament date) to each Elo variant.
 
 **Colley Matrix construction:**
+
 - Build team-index mapping (team_id -> matrix index 0..N-1).
 - Initialize C as N x N identity matrix scaled by 2 (C[i][i] = 2).
 - For each pairwise record, increment C[winner_idx][winner_idx] and C[loser_idx][loser_idx] by 1, and decrement C[winner_idx][loser_idx] and C[loser_idx][winner_idx] by 1.
@@ -180,6 +185,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 - Solve using `new Matrix(C).solve(Matrix.columnVector(b))`.
 
 **Elo processing:**
+
 - Initialize all teams to the starting rating.
 - For each tournament (by date ascending), for each pairwise result in that tournament, update both teams' ratings using the Elo formula.
 - After all tournaments are processed, the final rating map is the output.
@@ -187,6 +193,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 ### API
 
 **`POST /api/ranking/run`**
+
 - Content-Type: `application/json`
 - Body: `{ season_id: string, age_group: string }`
 - Validates season_id against `seasons` table (must exist).
@@ -200,6 +207,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 **Page route:** `/ranking`
 
 **Component hierarchy:**
+
 ```
 +page.svelte (ranking page)
   ContextSelectors (season, age group dropdowns)
@@ -209,6 +217,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 ```
 
 **State management (Svelte 5 runes):**
+
 - `step`: `'idle' | 'running' | 'results' | 'error'`
 - `selectedSeasonId`: string
 - `selectedAgeGroup`: string
@@ -218,6 +227,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 - `contextReady`: `$derived` -- true when both season and age group are selected
 
 **Interaction flow:**
+
 1. User selects season and age group from dropdowns.
 2. User clicks "Run Rankings". Button shows spinner; selectors disabled.
 3. Client sends `POST /api/ranking/run` with `{ season_id, age_group }`.
@@ -235,6 +245,7 @@ Implement the five mathematical rating models -- Colley Matrix and four Elo vari
 - `ranking-service.test.ts` -- Test the full orchestration with mocked Supabase client. Verify that a ranking run record is created, results are inserted, and the correct data flows through each step. Test error cleanup (partial run deletion on failure).
 
 **Test fixtures:**
+
 - Define small datasets (3-5 teams, 2-3 tournaments) with hand-computable expected results.
 - Store as typed constants in test files (no external fixture files needed for pure algorithm tests).
 

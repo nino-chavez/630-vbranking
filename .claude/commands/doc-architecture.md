@@ -3,6 +3,7 @@
 Description: Performs deep architectural analysis and generates comprehensive architecture documentation including patterns, decisions, and visualizations using a three-phase refinement pipeline.
 
 Arguments:
+
 - scope: (optional) Specific subsystem to document. Defaults to entire project.
 
 ---
@@ -13,16 +14,18 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 
 ## PHASE 1: GENERATOR (Draft)
 
-*Persona: Principal Software Architect performing initial analysis*
+_Persona: Principal Software Architect performing initial analysis_
 
 ### Pass 1: Structural Discovery
 
 Map the high-level structure:
+
 ```bash
 tree -L 3 -I 'node_modules|vendor|.git|dist|build|__pycache__|.venv' --dirsfirst
 ```
 
 Identify:
+
 - **Entry points**: `main.*`, `index.*`, `app.*`, `server.*`
 - **Core domains**: Business logic directories
 - **Infrastructure**: Database, cache, queue adapters
@@ -33,22 +36,23 @@ Identify:
 
 Analyze the codebase for architectural patterns:
 
-| Pattern | Indicators |
-|---------|-----------|
-| **MVC** | `controllers/`, `models/`, `views/` separation |
-| **Clean/Hexagonal** | `domain/`, `application/`, `infrastructure/`, `ports/`, `adapters/` |
-| **CQRS** | Separate read/write models, `commands/`, `queries/` |
-| **Event-Driven** | `events/`, `handlers/`, `subscribers/`, message queue integration |
-| **Microservices** | Independent service directories with own configs |
-| **Modular Monolith** | Feature folders with internal layering |
-| **Repository Pattern** | `repositories/` or `*Repository.*` files |
-| **Service Layer** | `services/` with business logic orchestration |
+| Pattern                | Indicators                                                          |
+| ---------------------- | ------------------------------------------------------------------- |
+| **MVC**                | `controllers/`, `models/`, `views/` separation                      |
+| **Clean/Hexagonal**    | `domain/`, `application/`, `infrastructure/`, `ports/`, `adapters/` |
+| **CQRS**               | Separate read/write models, `commands/`, `queries/`                 |
+| **Event-Driven**       | `events/`, `handlers/`, `subscribers/`, message queue integration   |
+| **Microservices**      | Independent service directories with own configs                    |
+| **Modular Monolith**   | Feature folders with internal layering                              |
+| **Repository Pattern** | `repositories/` or `*Repository.*` files                            |
+| **Service Layer**      | `services/` with business logic orchestration                       |
 
 Read 3-5 representative files to confirm patterns.
 
 ### Pass 3: Dependency Mapping
 
 Trace dependencies:
+
 1. Read main entry point
 2. Follow primary imports
 3. Identify external service integrations (HTTP clients, SDKs)
@@ -58,6 +62,7 @@ Trace dependencies:
 ### Pass 4: Data Flow Analysis
 
 Trace one critical write path (e.g., user creation, order placement):
+
 1. API endpoint → Controller
 2. Controller → Service/Use Case
 3. Service → Repository/Database
@@ -66,6 +71,7 @@ Trace one critical write path (e.g., user creation, order placement):
 ### Draft Output
 
 Generate initial `docs/architecture/README.md` with:
+
 - System metaphor (one paragraph)
 - Architectural style identification
 - High-level Mermaid diagram
@@ -81,7 +87,7 @@ Generate initial `docs/architecture/README.md` with:
 
 ## PHASE 2: REFINER (Polish)
 
-*Persona: Technical Editor improving clarity and completeness*
+_Persona: Technical Editor improving clarity and completeness_
 
 Review the draft against these criteria:
 
@@ -109,6 +115,7 @@ Review the draft against these criteria:
 ### Enhancement
 
 For each section, ask:
+
 - Is this implementable by someone who hasn't seen the code?
 - Would a new architect understand the "why" behind decisions?
 - Are there implicit assumptions that should be explicit?
@@ -119,11 +126,12 @@ Revise the draft to address any gaps.
 
 ## PHASE 3: VALIDATOR (QA)
 
-*Persona: Quality Assurance reviewing against voice standards*
+_Persona: Quality Assurance reviewing against voice standards_
 
 ### Voice Compliance (from docs/voice/architecture-voice.md)
 
 Verify:
+
 - [ ] No provisional language ("might", "probably", "I think")
 - [ ] No rhetorical questions
 - [ ] No narrative/storytelling elements ("When we started...")
@@ -135,13 +143,13 @@ Verify:
 
 Reject if any of these appear:
 
-| Anti-Pattern | Example | Fix |
-|--------------|---------|-----|
-| Narrative intrusion | "I've been thinking about..." | Remove, state facts directly |
-| Provisional statements | "We should probably use..." | "The system uses..." |
-| Missing diagrams | 500+ words without visualization | Add Mermaid diagram |
-| Vague components | "handles various operations" | List specific responsibilities |
-| Decisions without context | "We use Kubernetes" | Add why + alternatives considered |
+| Anti-Pattern              | Example                          | Fix                               |
+| ------------------------- | -------------------------------- | --------------------------------- |
+| Narrative intrusion       | "I've been thinking about..."    | Remove, state facts directly      |
+| Provisional statements    | "We should probably use..."      | "The system uses..."              |
+| Missing diagrams          | 500+ words without visualization | Add Mermaid diagram               |
+| Vague components          | "handles various operations"     | List specific responsibilities    |
+| Decisions without context | "We use Kubernetes"              | Add why + alternatives considered |
 
 ### Red Flag Check
 
@@ -168,7 +176,7 @@ If ANY of these are present, return to Phase 2:
 
 ## Output Template
 
-```markdown
+````markdown
 # Architecture Overview
 
 > Auto-generated by Autonomous Knowledge Synthesis
@@ -213,20 +221,22 @@ graph TB
     Services --> Queue
     ExtAPI --> Services
 ```
+````
 
 [Customize this diagram based on actual discovered components]
 
 ## Component Catalog
 
-| Directory | Responsibility | Key Files | Dependencies |
-|-----------|---------------|-----------|--------------|
-| `src/api/` | HTTP request handling | `routes.ts`, `middleware/` | Services |
-| `src/services/` | Business logic orchestration | `UserService.ts` | Domain, Repos |
-| ... | ... | ... | ... |
+| Directory       | Responsibility               | Key Files                  | Dependencies  |
+| --------------- | ---------------------------- | -------------------------- | ------------- |
+| `src/api/`      | HTTP request handling        | `routes.ts`, `middleware/` | Services      |
+| `src/services/` | Business logic orchestration | `UserService.ts`           | Domain, Repos |
+| ...             | ...                          | ...                        | ...           |
 
 ## Key Architectural Decisions
 
 ### Decision 1: [Technology/Pattern Choice]
+
 - **Context:** [What problem needed solving]
 - **Decision:** [What was chosen]
 - **Alternatives Considered:** [What else was evaluated]
@@ -260,22 +270,26 @@ sequenceDiagram
 
 ## External Integrations
 
-| Integration | Purpose | Location | Configuration |
-|-------------|---------|----------|---------------|
+| Integration    | Purpose        | Location            | Configuration  |
+| -------------- | -------------- | ------------------- | -------------- |
 | [Service name] | [What it does] | `src/integrations/` | `ENV_VAR_NAME` |
 
 ## Cross-Cutting Concerns
 
 ### Authentication/Authorization
+
 [How auth is implemented - middleware, decorators, guards]
 
 ### Error Handling
+
 [Error handling strategy - global handlers, error types]
 
 ### Logging & Observability
+
 [Logging approach, tracing, metrics]
 
 ### Configuration Management
+
 [How config is loaded - env vars, config files, secrets]
 
 ## Technical Constraints
@@ -285,8 +299,8 @@ sequenceDiagram
 
 ## Areas of Complexity
 
-| Area | Complexity Indicator | Risk Level |
-|------|---------------------|------------|
+| Area        | Complexity Indicator                                            | Risk Level      |
+| ----------- | --------------------------------------------------------------- | --------------- |
 | [Component] | [High cyclomatic complexity / deep nesting / many dependencies] | High/Medium/Low |
 
 ---
@@ -296,7 +310,8 @@ sequenceDiagram
 - [Developer Setup](../developer/README.md)
 - [Infrastructure](../ops/infrastructure.md)
 - [ADR Index](./decisions/README.md)
-```
+
+````
 
 ---
 
@@ -323,7 +338,7 @@ Create `docs/architecture/decisions/template.md`:
 
 ## Alternatives Considered
 [What other options were evaluated?]
-```
+````
 
 ### Diagram Index
 
@@ -333,15 +348,19 @@ Create `docs/architecture/diagrams/README.md`:
 # Architecture Diagrams
 
 ## System Context
+
 - [system-context.md](./system-context.md) - High-level system boundaries
 
 ## Component Diagrams
+
 - [component-overview.md](./component-overview.md) - Internal component structure
 
 ## Sequence Diagrams
+
 - [user-registration.md](./user-registration.md) - User registration flow
 - [Add more as generated]
 
 ## Data Models
+
 - [entity-relationship.md](./entity-relationship.md) - Core data entities
 ```

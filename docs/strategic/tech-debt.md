@@ -10,12 +10,12 @@
 
 The codebase is notably clean for a feature-complete project. No TODO, FIXME, HACK, XXX, TEMP, or WORKAROUND markers exist anywhere in the source code. The technical debt that does exist falls into two categories: **structural decisions** that traded future flexibility for delivery speed, and **missing infrastructure** that was deferred to prioritize feature work.
 
-| Severity | Count | Description |
-|----------|:-----:|-------------|
-| Critical | 2 | Security gaps that block production deployment |
-| High | 3 | Structural issues that increase maintenance cost |
-| Medium | 4 | Missing tooling and configuration |
-| Low | 2 | Cosmetic and hygiene items |
+| Severity | Count | Description                                      |
+| -------- | :---: | ------------------------------------------------ |
+| Critical |   2   | Security gaps that block production deployment   |
+| High     |   3   | Structural issues that increase maintenance cost |
+| Medium   |   4   | Missing tooling and configuration                |
+| Low      |   2   | Cosmetic and hygiene items                       |
 
 **Total estimated remediation effort:** 8-12 developer-days
 
@@ -63,17 +63,17 @@ The codebase is notably clean for a feature-complete project. No TODO, FIXME, HA
 - **Impact:** The naming convention `algo1_rating`, `algo1_rank` through `algo5_rating`, `algo5_rank` is hardcoded into database columns, TypeScript types, Zod schemas, API responses, UI components, import parsers, and export generators. Adding, removing, or reordering algorithms requires coordinated changes across all 30 files plus a database migration.
 - **Affected files (production code, 15 files):**
 
-  | Layer | Files |
-  |-------|-------|
-  | Database types | `src/lib/types/database.types.ts` |
-  | Domain types | `src/lib/ranking/types.ts`, `src/lib/import/types.ts`, `src/lib/export/types.ts` |
-  | Schemas | `src/lib/schemas/ranking-result.ts` |
-  | Ranking engine | `src/lib/ranking/ranking-service.ts`, `src/lib/ranking/normalize.ts` |
-  | Import pipeline | `src/lib/import/import-service.ts`, `src/lib/import/parsers/colley-parser.ts` |
-  | Export module | `src/lib/export/export-data.ts` |
-  | API endpoints | `src/routes/api/ranking/results/+server.ts` |
-  | UI components | `src/lib/components/RankingResultsTable.svelte`, `src/lib/components/DataPreviewTable.svelte` |
-  | Pages | `src/routes/ranking/team/[id]/+page.svelte`, `src/routes/ranking/team/[id]/+page.server.ts` |
+  | Layer           | Files                                                                                         |
+  | --------------- | --------------------------------------------------------------------------------------------- |
+  | Database types  | `src/lib/types/database.types.ts`                                                             |
+  | Domain types    | `src/lib/ranking/types.ts`, `src/lib/import/types.ts`, `src/lib/export/types.ts`              |
+  | Schemas         | `src/lib/schemas/ranking-result.ts`                                                           |
+  | Ranking engine  | `src/lib/ranking/ranking-service.ts`, `src/lib/ranking/normalize.ts`                          |
+  | Import pipeline | `src/lib/import/import-service.ts`, `src/lib/import/parsers/colley-parser.ts`                 |
+  | Export module   | `src/lib/export/export-data.ts`                                                               |
+  | API endpoints   | `src/routes/api/ranking/results/+server.ts`                                                   |
+  | UI components   | `src/lib/components/RankingResultsTable.svelte`, `src/lib/components/DataPreviewTable.svelte` |
+  | Pages           | `src/routes/ranking/team/[id]/+page.svelte`, `src/routes/ranking/team/[id]/+page.server.ts`   |
 
 - **Root cause:** The five algorithms were a known fixed requirement at design time. Hardcoding was a reasonable trade-off for delivery speed, but it has created a maintenance burden as the pattern propagated across layers.
 - **Remediation:**
@@ -90,14 +90,14 @@ The codebase is notably clean for a feature-complete project. No TODO, FIXME, HA
 - **Impact:** Large files are harder to review, test in isolation, and reason about. They increase the probability of merge conflicts in team settings.
 - **Files exceeding 300 lines:**
 
-  | File | Lines | Concern |
-  |------|------:|---------|
-  | `src/lib/import/import-service.ts` | 487 | Largest production file; handles upload, preview, confirm, and Colley import in one module |
-  | `src/lib/types/database.types.ts` | 476 | Auto-generated; not actionable |
-  | `src/routes/ranking/+page.svelte` | 451 | Main dashboard page; mixes state management, API calls, and complex UI |
-  | `src/lib/ranking/ranking-service.ts` | 393 | Core ranking orchestration; includes Colley, Elo, normalization, and persistence |
-  | `src/routes/import/+page.svelte` | 373 | Import page; manages multi-step workflow state in a single component |
-  | `src/lib/ranking/__tests__/ranking-service.test.ts` | 337 | Test file; acceptable for integration tests |
+  | File                                                | Lines | Concern                                                                                    |
+  | --------------------------------------------------- | ----: | ------------------------------------------------------------------------------------------ |
+  | `src/lib/import/import-service.ts`                  |   487 | Largest production file; handles upload, preview, confirm, and Colley import in one module |
+  | `src/lib/types/database.types.ts`                   |   476 | Auto-generated; not actionable                                                             |
+  | `src/routes/ranking/+page.svelte`                   |   451 | Main dashboard page; mixes state management, API calls, and complex UI                     |
+  | `src/lib/ranking/ranking-service.ts`                |   393 | Core ranking orchestration; includes Colley, Elo, normalization, and persistence           |
+  | `src/routes/import/+page.svelte`                    |   373 | Import page; manages multi-step workflow state in a single component                       |
+  | `src/lib/ranking/__tests__/ranking-service.test.ts` |   337 | Test file; acceptable for integration tests                                                |
 
 - **Remediation:**
   1. Extract `import-service.ts` into separate modules: `upload-handler.ts`, `confirm-handler.ts`, `colley-import-handler.ts`

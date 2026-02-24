@@ -34,31 +34,26 @@ Standards and practices for contributing to the Volleyball Ranking Engine.
 
 All components use the Svelte 5 runes API. Do not use the legacy `$:`, `export let`, or Svelte stores syntax.
 
-| Rune | Purpose | Example |
-|------|---------|---------|
-| `$state` | Declare reactive state | `let count = $state(0);` |
-| `$derived` | Compute derived values | `let doubled = $derived(count * 2);` |
-| `$props` | Declare component props | `let { title, variant = 'default' }: Props = $props();` |
+| Rune       | Purpose                 | Example                                                 |
+| ---------- | ----------------------- | ------------------------------------------------------- |
+| `$state`   | Declare reactive state  | `let count = $state(0);`                                |
+| `$derived` | Compute derived values  | `let doubled = $derived(count * 2);`                    |
+| `$props`   | Declare component props | `let { title, variant = 'default' }: Props = $props();` |
 
 **Props pattern**: Define an `interface Props` and destructure with `$props()`:
 
 ```svelte
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 
-  interface Props {
-    title: string;
-    variant?: 'primary' | 'secondary';
-    disabled?: boolean;
-    children: Snippet;
-  }
+	interface Props {
+		title: string;
+		variant?: 'primary' | 'secondary';
+		disabled?: boolean;
+		children: Snippet;
+	}
 
-  let {
-    title,
-    variant = 'primary',
-    disabled = false,
-    children,
-  }: Props = $props();
+	let { title, variant = 'primary', disabled = false, children }: Props = $props();
 </script>
 ```
 
@@ -66,7 +61,7 @@ All components use the Svelte 5 runes API. Do not use the legacy `$:`, `export l
 
 ```svelte
 <div>
-  {@render children()}
+	{@render children()}
 </div>
 ```
 
@@ -85,8 +80,8 @@ All components use the Svelte 5 runes API. Do not use the legacy `$:`, `export l
 
   ```typescript
   const variantClasses: Record<string, string> = {
-    primary: 'bg-accent text-white hover:bg-accent-hover',
-    secondary: 'bg-surface text-text-secondary border border-border',
+  	primary: 'bg-accent text-white hover:bg-accent-hover',
+  	secondary: 'bg-surface text-text-secondary border border-border',
   };
   ```
 
@@ -102,16 +97,16 @@ Every database entity follows this three-schema pattern:
 import { z } from 'zod';
 
 export const myEntitySchema = z.object({
-  id: z.uuid(),
-  name: z.string().min(1),
-  created_at: z.iso.datetime(),
-  updated_at: z.iso.datetime(),
+	id: z.uuid(),
+	name: z.string().min(1),
+	created_at: z.iso.datetime(),
+	updated_at: z.iso.datetime(),
 });
 
 export const myEntityInsertSchema = myEntitySchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+	id: true,
+	created_at: true,
+	updated_at: true,
 });
 
 export const myEntityUpdateSchema = myEntityInsertSchema.partial();
@@ -135,31 +130,31 @@ Keep ranking algorithm implementations as **pure functions** with no database ac
 
 ### Directory Conventions
 
-| Pattern | Convention |
-|---------|-----------|
-| Algorithm code | `src/lib/ranking/<algorithm>.ts` |
-| Algorithm tests | `src/lib/ranking/__tests__/<algorithm>.test.ts` |
-| Components | `src/lib/components/<ComponentName>.svelte` (PascalCase) |
-| Component tests | `src/lib/components/__tests__/<test-name>.test.ts` |
-| Schemas | `src/lib/schemas/<entity>.ts` (kebab-case) |
-| API routes | `src/routes/api/<resource>/+server.ts` |
-| Pages | `src/routes/<page>/+page.svelte` |
-| Server loaders | `src/routes/<page>/+page.server.ts` |
-| Barrel exports | `index.ts` in each module directory |
-| Test fixtures | `__fixtures__/` directories adjacent to tests |
+| Pattern         | Convention                                               |
+| --------------- | -------------------------------------------------------- |
+| Algorithm code  | `src/lib/ranking/<algorithm>.ts`                         |
+| Algorithm tests | `src/lib/ranking/__tests__/<algorithm>.test.ts`          |
+| Components      | `src/lib/components/<ComponentName>.svelte` (PascalCase) |
+| Component tests | `src/lib/components/__tests__/<test-name>.test.ts`       |
+| Schemas         | `src/lib/schemas/<entity>.ts` (kebab-case)               |
+| API routes      | `src/routes/api/<resource>/+server.ts`                   |
+| Pages           | `src/routes/<page>/+page.svelte`                         |
+| Server loaders  | `src/routes/<page>/+page.server.ts`                      |
+| Barrel exports  | `index.ts` in each module directory                      |
+| Test fixtures   | `__fixtures__/` directories adjacent to tests            |
 
 ### Naming Conventions
 
-| Element | Convention | Example |
-|---------|-----------|---------|
-| Files | kebab-case | `derive-wins-losses.ts`, `ranking-service.ts` |
-| Components | PascalCase | `RankBadge.svelte`, `DataPreviewTable.svelte` |
-| Types/Interfaces | PascalCase | `AlgorithmResult`, `TeamInfo` |
-| Functions | camelCase | `computeColleyRatings`, `normalizeAndAggregate` |
-| Constants | UPPER_SNAKE_CASE | `DEFAULT_K_FACTOR`, `ELO_STARTING_RATINGS` |
-| Database columns | snake_case | `team_id`, `agg_rating`, `ranking_run_id` |
-| CSS tokens | kebab-case | `text-primary`, `bg-accent-hover` |
-| Test descriptions | Sentence case | `'produces correct ratings for 3-team known example'` |
+| Element           | Convention       | Example                                               |
+| ----------------- | ---------------- | ----------------------------------------------------- |
+| Files             | kebab-case       | `derive-wins-losses.ts`, `ranking-service.ts`         |
+| Components        | PascalCase       | `RankBadge.svelte`, `DataPreviewTable.svelte`         |
+| Types/Interfaces  | PascalCase       | `AlgorithmResult`, `TeamInfo`                         |
+| Functions         | camelCase        | `computeColleyRatings`, `normalizeAndAggregate`       |
+| Constants         | UPPER_SNAKE_CASE | `DEFAULT_K_FACTOR`, `ELO_STARTING_RATINGS`            |
+| Database columns  | snake_case       | `team_id`, `agg_rating`, `ranking_run_id`             |
+| CSS tokens        | kebab-case       | `text-primary`, `bg-accent-hover`                     |
+| Test descriptions | Sentence case    | `'produces correct ratings for 3-team known example'` |
 
 ## Git Workflow
 
@@ -226,28 +221,28 @@ import { computeColleyRatings } from '../colley.js';
 import type { PairwiseRecord, TeamInfo } from '../types.js';
 
 describe('computeColleyRatings', () => {
-  it('produces correct ratings for 3-team known example', () => {
-    const teams: TeamInfo[] = [
-      { id: 'team-a', name: 'Alpha', code: 'ALP' },
-      { id: 'team-b', name: 'Bravo', code: 'BRV' },
-      { id: 'team-c', name: 'Charlie', code: 'CHL' },
-    ];
+	it('produces correct ratings for 3-team known example', () => {
+		const teams: TeamInfo[] = [
+			{ id: 'team-a', name: 'Alpha', code: 'ALP' },
+			{ id: 'team-b', name: 'Bravo', code: 'BRV' },
+			{ id: 'team-c', name: 'Charlie', code: 'CHL' },
+		];
 
-    const records: PairwiseRecord[] = [
-      { team_a_id: 'team-a', team_b_id: 'team-b', winner_id: 'team-a', tournament_id: 't1' },
-      // ...
-    ];
+		const records: PairwiseRecord[] = [
+			{ team_a_id: 'team-a', team_b_id: 'team-b', winner_id: 'team-a', tournament_id: 't1' },
+			// ...
+		];
 
-    const results = computeColleyRatings(records, teams);
+		const results = computeColleyRatings(records, teams);
 
-    expect(results).toHaveLength(3);
-    expect(results[0].rating).toBeCloseTo(0.7, 4);
-    expect(results[0].rank).toBe(1);
-  });
+		expect(results).toHaveLength(3);
+		expect(results[0].rating).toBeCloseTo(0.7, 4);
+		expect(results[0].rank).toBe(1);
+	});
 
-  it('returns empty array for zero teams', () => {
-    expect(computeColleyRatings([], [])).toEqual([]);
-  });
+	it('returns empty array for zero teams', () => {
+		expect(computeColleyRatings([], [])).toEqual([]);
+	});
 });
 ```
 
@@ -263,18 +258,18 @@ import Button from '../Button.svelte';
 afterEach(() => cleanup());
 
 function textSnippet(text: string) {
-  return createRawSnippet(() => ({
-    render: () => `<span>${text}</span>`,
-  }));
+	return createRawSnippet(() => ({
+		render: () => `<span>${text}</span>`,
+	}));
 }
 
 describe('Button', () => {
-  it('renders with correct role', () => {
-    render(Button, {
-      props: { variant: 'primary', children: textSnippet('Click') },
-    });
-    expect(screen.getByRole('button', { name: /Click/i })).toBeTruthy();
-  });
+	it('renders with correct role', () => {
+		render(Button, {
+			props: { variant: 'primary', children: textSnippet('Click') },
+		});
+		expect(screen.getByRole('button', { name: /Click/i })).toBeTruthy();
+	});
 });
 ```
 
@@ -285,15 +280,17 @@ import { describe, it, expect } from 'vitest';
 import { myEntitySchema, myEntityInsertSchema } from '../my-entity.js';
 
 describe('myEntitySchema', () => {
-  const valid = { /* all required fields */ };
+	const valid = {
+		/* all required fields */
+	};
 
-  it('accepts valid input', () => {
-    expect(myEntitySchema.safeParse(valid).success).toBe(true);
-  });
+	it('accepts valid input', () => {
+		expect(myEntitySchema.safeParse(valid).success).toBe(true);
+	});
 
-  it('rejects invalid field', () => {
-    expect(myEntitySchema.safeParse({ ...valid, name: '' }).success).toBe(false);
-  });
+	it('rejects invalid field', () => {
+		expect(myEntitySchema.safeParse({ ...valid, name: '' }).success).toBe(false);
+	});
 });
 ```
 
@@ -342,6 +339,7 @@ All 180 tests across 36 files must pass before submitting a pull request.
 ### PR Description
 
 Include:
+
 - **Summary**: What the change does and why.
 - **Testing**: How the change was tested (new tests, manual verification).
 - **Screenshots**: For UI changes, include before/after screenshots.
@@ -379,25 +377,29 @@ Follow the project's documentation conventions from `CLAUDE.md`:
 - **Headers**: Title Case.
 - **Voice**: Active voice, present tense, second person ("you") for instructions.
 - **No emoji** unless explicitly requested.
-- **Code blocks**: Always include language tags (````typescript`, ````sql`, ````svelte`, etc.).
+- **Code blocks**: Always include language tags (``typescript`, ``sql`, ````svelte`, etc.).
 
 ## API Response Convention
 
 All API endpoints return JSON with this structure:
 
 **Success:**
+
 ```json
 {
-  "success": true,
-  "data": { /* response payload */ }
+	"success": true,
+	"data": {
+		/* response payload */
+	}
 }
 ```
 
 **Error:**
+
 ```json
 {
-  "success": false,
-  "error": "Human-readable error message"
+	"success": false,
+	"error": "Human-readable error message"
 }
 ```
 

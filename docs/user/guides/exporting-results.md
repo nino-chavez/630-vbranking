@@ -13,6 +13,7 @@ The Export button is available on the Rankings page after a ranking computation 
 3. Click the **Export** button.
 
 **What you should see:** A dropdown menu with the following options:
+
 - A checkbox labeled "Include algorithm breakdowns"
 - Three download buttons: **Download CSV**, **Download Excel**, and **Download PDF**
 
@@ -20,10 +21,10 @@ The Export button is available on the Rankings page after a ranking computation 
 
 Before choosing a format, you can check the **Include algorithm breakdowns** checkbox. This controls how much detail is included in the exported file:
 
-| Setting | Columns Included |
-|---|---|
-| **Unchecked** (summary only) | Final Rank, Team, Region, Agg Rating, Agg Rank, Win %, Best National Finish |
-| **Checked** (full detail) | All summary columns plus individual ratings and ranks for all 5 algorithms (Colley, Elo-2200, Elo-2400, Elo-2500, Elo-2700) |
+| Setting                      | Columns Included                                                                                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Unchecked** (summary only) | Final Rank, Team, Region, Agg Rating, Agg Rank, Win %, Best National Finish                                                 |
+| **Checked** (full detail)    | All summary columns plus individual ratings and ranks for all 5 algorithms (Colley, Elo-2200, Elo-2400, Elo-2500, Elo-2700) |
 
 If overrides are active, both modes also include: Override Original Rank, Override Justification, and Override Committee Member.
 
@@ -34,6 +35,7 @@ If overrides are active, both modes also include: Override Original Rank, Overri
 **When to use:** When you need to import the data into another spreadsheet application, database, or analysis tool. CSV files are the most widely compatible format.
 
 **How to export:**
+
 1. Click **Export**.
 2. (Optional) Check "Include algorithm breakdowns."
 3. Click **Download CSV**.
@@ -57,6 +59,7 @@ The CSV file contains:
 4. **Override Summary section** (if overrides exist): A separate section listing each override with the team name, original rank, final rank, justification, and committee member.
 
 **File format details:**
+
 - Encoding: UTF-8
 - Delimiter: Comma (`,`)
 - Quoting: RFC 4180 compliant (fields containing commas, quotes, or newlines are enclosed in double quotes)
@@ -69,6 +72,7 @@ The CSV file contains:
 **When to use:** When you want a formatted spreadsheet that can be opened directly in Microsoft Excel, Google Sheets, or Numbers. This is the best choice for sharing with committee members who prefer working in spreadsheet applications.
 
 **How to export:**
+
 1. Click **Export**.
 2. (Optional) Check "Include algorithm breakdowns."
 3. Click **Download Excel**.
@@ -86,12 +90,12 @@ The Excel file contains one or two sheets:
 
 ### Sheet 2: "Overrides" (only present if overrides exist)
 
-| Column | Content |
-|---|---|
-| Team | Team name |
-| Original Rank | The algorithmic rank before the override |
-| Final Rank | The committee-assigned rank |
-| Justification | The reason for the override |
+| Column           | Content                                         |
+| ---------------- | ----------------------------------------------- |
+| Team             | Team name                                       |
+| Original Rank    | The algorithmic rank before the override        |
+| Final Rank       | The committee-assigned rank                     |
+| Justification    | The reason for the override                     |
 | Committee Member | The name of the person who applied the override |
 
 **Filename pattern:** `rankings_[AGE_GROUP]_[DATE].xlsx`
@@ -103,6 +107,7 @@ The Excel file contains one or two sheets:
 **When to use:** When you need a formatted, print-ready document for official distribution, meeting handouts, or archival purposes.
 
 **How to export:**
+
 1. Click **Export**.
 2. (Optional) Check "Include algorithm breakdowns."
 3. Click **Download PDF**.
@@ -126,6 +131,7 @@ The PDF report contains:
 5. **Page numbers:** Centered at the bottom of each page (e.g., "Page 1 of 3")
 
 **Formatting notes:**
+
 - Font size is 7pt for table content and 9pt for metadata to fit all columns
 - Cell padding is 3pt for compact but readable layout
 - Pages use Letter size (8.5" x 11")
@@ -136,14 +142,14 @@ The PDF report contains:
 
 ## Choosing the Right Format
 
-| Scenario | Recommended Format |
-|---|---|
-| Sharing with committee members for review | Excel (XLSX) |
-| Official publication or printing | PDF |
-| Importing into another system or database | CSV |
-| Archival (keeping a record) | PDF and CSV (both) |
-| Quick email attachment | PDF |
-| Further data analysis in a spreadsheet | CSV or Excel |
+| Scenario                                  | Recommended Format |
+| ----------------------------------------- | ------------------ |
+| Sharing with committee members for review | Excel (XLSX)       |
+| Official publication or printing          | PDF                |
+| Importing into another system or database | CSV                |
+| Archival (keeping a record)               | PDF and CSV (both) |
+| Quick email attachment                    | PDF                |
+| Further data analysis in a spreadsheet    | CSV or Excel       |
 
 ---
 
@@ -151,34 +157,34 @@ The PDF report contains:
 
 The following columns appear in all export formats:
 
-| Column | Description |
-|---|---|
-| Final Rank | The team's official rank position (reflects overrides if any) |
-| Team | Team name |
-| Region | Geographic region |
-| Agg Rating | Aggregate rating (0-100 scale, average of 5 normalized algorithm scores) |
-| Agg Rank | Rank derived from the aggregate rating (before overrides) |
-| Win % | Win percentage across all tournaments |
-| Best National Finish | Best placement at a Tier-1 national tournament |
+| Column               | Description                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+| Final Rank           | The team's official rank position (reflects overrides if any)            |
+| Team                 | Team name                                                                |
+| Region               | Geographic region                                                        |
+| Agg Rating           | Aggregate rating (0-100 scale, average of 5 normalized algorithm scores) |
+| Agg Rank             | Rank derived from the aggregate rating (before overrides)                |
+| Win %                | Win percentage across all tournaments                                    |
+| Best National Finish | Best placement at a Tier-1 national tournament                           |
 
 When "Include algorithm breakdowns" is checked, these additional columns appear:
 
-| Column | Description |
-|---|---|
+| Column               | Description                            |
+| -------------------- | -------------------------------------- |
 | Algo 1 Rating / Rank | Colley Matrix algorithm score and rank |
-| Algo 2 Rating / Rank | Elo-2200 score and rank |
-| Algo 3 Rating / Rank | Elo-2400 score and rank |
-| Algo 4 Rating / Rank | Elo-2500 score and rank |
-| Algo 5 Rating / Rank | Elo-2700 score and rank |
+| Algo 2 Rating / Rank | Elo-2200 score and rank                |
+| Algo 3 Rating / Rank | Elo-2400 score and rank                |
+| Algo 4 Rating / Rank | Elo-2500 score and rank                |
+| Algo 5 Rating / Rank | Elo-2700 score and rank                |
 
 When overrides are active, these additional columns appear:
 
-| Column | Description |
-|---|---|
-| Override Original Rank | The team's algorithmic rank before the committee override |
-| Override Justification | The reason provided for the override |
-| Override Committee Member | The name of the person who applied the override |
+| Column                    | Description                                               |
+| ------------------------- | --------------------------------------------------------- |
+| Override Original Rank    | The team's algorithmic rank before the committee override |
+| Override Justification    | The reason provided for the override                      |
+| Override Committee Member | The name of the person who applied the override           |
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

@@ -12,18 +12,18 @@ Implemented the core computational layer for the Ranking Algorithm Engine: ranki
 
 ## Files Created
 
-| File | Sub-task | Purpose |
-|------|----------|---------|
-| `src/lib/ranking/types.ts` | 1.1 | Type definitions: PairwiseRecord, TournamentPairwiseGroup, AlgorithmResult, AlgorithmResultMap, NormalizedTeamResult, RankingRunConfig, RankingRunOutput, TeamInfo |
-| `src/lib/ranking/derive-wins-losses.ts` | 1.2 | Pairwise W/L derivation: `deriveWinsLossesFromFinishes()`, `deriveWinsLossesFromMatches()`, `flattenPairwiseGroups()` |
-| `src/lib/ranking/colley.ts` | 1.3 | Colley Matrix algorithm: `computeColleyRatings()` using ml-matrix LuDecomposition |
-| `src/lib/ranking/elo.ts` | 1.4 | Parameterized Elo algorithm: `computeEloRatings()`, `DEFAULT_K_FACTOR`, `ELO_STARTING_RATINGS` |
-| `src/lib/ranking/normalize.ts` | 1.5 | Normalization and aggregation: `normalizeAndAggregate()` |
-| `src/lib/ranking/index.ts` | 1.6 | Barrel export re-exporting all types, functions, and constants |
-| `src/lib/ranking/__tests__/derive-wins-losses.test.ts` | 1.7 | 4 tests for W/L derivation |
-| `src/lib/ranking/__tests__/colley.test.ts` | 1.8 | 4 tests for Colley algorithm |
-| `src/lib/ranking/__tests__/elo.test.ts` | 1.9 | 4 tests for Elo algorithm |
-| `src/lib/ranking/__tests__/normalize.test.ts` | 1.10 | 4 tests for normalization |
+| File                                                   | Sub-task | Purpose                                                                                                                                                            |
+| ------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/lib/ranking/types.ts`                             | 1.1      | Type definitions: PairwiseRecord, TournamentPairwiseGroup, AlgorithmResult, AlgorithmResultMap, NormalizedTeamResult, RankingRunConfig, RankingRunOutput, TeamInfo |
+| `src/lib/ranking/derive-wins-losses.ts`                | 1.2      | Pairwise W/L derivation: `deriveWinsLossesFromFinishes()`, `deriveWinsLossesFromMatches()`, `flattenPairwiseGroups()`                                              |
+| `src/lib/ranking/colley.ts`                            | 1.3      | Colley Matrix algorithm: `computeColleyRatings()` using ml-matrix LuDecomposition                                                                                  |
+| `src/lib/ranking/elo.ts`                               | 1.4      | Parameterized Elo algorithm: `computeEloRatings()`, `DEFAULT_K_FACTOR`, `ELO_STARTING_RATINGS`                                                                     |
+| `src/lib/ranking/normalize.ts`                         | 1.5      | Normalization and aggregation: `normalizeAndAggregate()`                                                                                                           |
+| `src/lib/ranking/index.ts`                             | 1.6      | Barrel export re-exporting all types, functions, and constants                                                                                                     |
+| `src/lib/ranking/__tests__/derive-wins-losses.test.ts` | 1.7      | 4 tests for W/L derivation                                                                                                                                         |
+| `src/lib/ranking/__tests__/colley.test.ts`             | 1.8      | 4 tests for Colley algorithm                                                                                                                                       |
+| `src/lib/ranking/__tests__/elo.test.ts`                | 1.9      | 4 tests for Elo algorithm                                                                                                                                          |
+| `src/lib/ranking/__tests__/normalize.test.ts`          | 1.10     | 4 tests for normalization                                                                                                                                          |
 
 ## Dependencies Installed
 
@@ -83,12 +83,12 @@ All algorithms consistently break ties alphabetically by team name (ascending), 
 
 ### Test Coverage Summary
 
-| Test File | Tests | Coverage Focus |
-|-----------|-------|----------------|
-| derive-wins-losses.test.ts | 4 | 5-team pairwise count (C(5,2)=10), tied finishes (no record), single team (zero records), multi-tournament grouping/sorting |
-| colley.test.ts | 4 | 3-team hand-computed example (A=0.7, B=0.5, C=0.3), single team (0.5), zero games (alphabetical ranks), tie-breaking by name |
-| elo.test.ts | 4 | 2-team formula verification (2216/2184), chronological processing across tournaments, 4 starting ratings same relative order, no-games alphabetical ranking |
-| normalize.test.ts | 4 | Min-max (best=100, worst=0, middle=50), equal-rating (50.0), arithmetic mean verification, AggRank tie-breaking |
+| Test File                  | Tests | Coverage Focus                                                                                                                                              |
+| -------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| derive-wins-losses.test.ts | 4     | 5-team pairwise count (C(5,2)=10), tied finishes (no record), single team (zero records), multi-tournament grouping/sorting                                 |
+| colley.test.ts             | 4     | 3-team hand-computed example (A=0.7, B=0.5, C=0.3), single team (0.5), zero games (alphabetical ranks), tie-breaking by name                                |
+| elo.test.ts                | 4     | 2-team formula verification (2216/2184), chronological processing across tournaments, 4 starting ratings same relative order, no-games alphabetical ranking |
+| normalize.test.ts          | 4     | Min-max (best=100, worst=0, middle=50), equal-rating (50.0), arithmetic mean verification, AggRank tie-breaking                                             |
 
 ## Notes for Downstream Groups
 

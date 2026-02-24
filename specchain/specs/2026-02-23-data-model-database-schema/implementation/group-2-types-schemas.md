@@ -14,38 +14,39 @@ Created manually-authored Supabase database types, a typed Supabase client modul
 
 ### Database Types (2.1)
 
-| File | Description |
-|------|-------------|
+| File                              | Description                                                                                                                                                                                                                |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/lib/types/database.types.ts` | Hand-authored `Database` interface mirroring the PostgreSQL schema. Includes `public.Tables` with `Row`, `Insert`, and `Update` types for all 8 tables, plus `public.Enums` for `age_group_enum` and `ranking_scope_enum`. |
 
 **Note:** Because no local Supabase instance was available, this file was manually created based on the migration SQL files rather than auto-generated via `supabase gen types`. The structure matches the format that `supabase gen types typescript` would produce, including the `Json` helper type and nested `Database.public.Tables/Enums/Views/Functions/CompositeTypes` shape.
 
 ### Supabase Client (2.2)
 
-| File | Description |
-|------|-------------|
+| File                  | Description                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `src/lib/supabase.ts` | Typed Supabase client using `createClient<Database>()` with env vars `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY`. |
 
 ### Shared Enums (2.3)
 
-| File | Description |
-|------|-------------|
+| File                       | Description                                                                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/lib/schemas/enums.ts` | `AgeGroup` Zod enum (`15U`, `16U`, `17U`, `18U`) and `RankingScope` Zod enum (`single_season`, `cross_season`), each with inferred TypeScript types. |
 
 ### Zod Schemas (2.4-2.11)
 
-| File | Schema | Insert | Update | Refinements |
-|------|--------|--------|--------|-------------|
-| `src/lib/schemas/season.ts` | `seasonSchema` | `seasonInsertSchema` | `seasonUpdateSchema` | -- |
-| `src/lib/schemas/team.ts` | `teamSchema` | `teamInsertSchema` | `teamUpdateSchema` | -- |
-| `src/lib/schemas/tournament.ts` | `tournamentSchema` | `tournamentInsertSchema` | `tournamentUpdateSchema` | -- |
-| `src/lib/schemas/tournament-weight.ts` | `tournamentWeightSchema` | `tournamentWeightInsertSchema` | `tournamentWeightUpdateSchema` | -- |
-| `src/lib/schemas/tournament-result.ts` | `tournamentResultSchema` | `tournamentResultInsertSchema` | `tournamentResultUpdateSchema` | `finish_position <= field_size` |
-| `src/lib/schemas/match.ts` | `matchSchema` | `matchInsertSchema` | `matchUpdateSchema` | `team_a_id !== team_b_id`, `winner_id` must be participant |
-| `src/lib/schemas/ranking-run.ts` | `rankingRunSchema` | `rankingRunInsertSchema` | `rankingRunUpdateSchema` | -- |
-| `src/lib/schemas/ranking-result.ts` | `rankingResultSchema` | `rankingResultInsertSchema` | `rankingResultUpdateSchema` | -- |
+| File                                   | Schema                   | Insert                         | Update                         | Refinements                                                |
+| -------------------------------------- | ------------------------ | ------------------------------ | ------------------------------ | ---------------------------------------------------------- |
+| `src/lib/schemas/season.ts`            | `seasonSchema`           | `seasonInsertSchema`           | `seasonUpdateSchema`           | --                                                         |
+| `src/lib/schemas/team.ts`              | `teamSchema`             | `teamInsertSchema`             | `teamUpdateSchema`             | --                                                         |
+| `src/lib/schemas/tournament.ts`        | `tournamentSchema`       | `tournamentInsertSchema`       | `tournamentUpdateSchema`       | --                                                         |
+| `src/lib/schemas/tournament-weight.ts` | `tournamentWeightSchema` | `tournamentWeightInsertSchema` | `tournamentWeightUpdateSchema` | --                                                         |
+| `src/lib/schemas/tournament-result.ts` | `tournamentResultSchema` | `tournamentResultInsertSchema` | `tournamentResultUpdateSchema` | `finish_position <= field_size`                            |
+| `src/lib/schemas/match.ts`             | `matchSchema`            | `matchInsertSchema`            | `matchUpdateSchema`            | `team_a_id !== team_b_id`, `winner_id` must be participant |
+| `src/lib/schemas/ranking-run.ts`       | `rankingRunSchema`       | `rankingRunInsertSchema`       | `rankingRunUpdateSchema`       | --                                                         |
+| `src/lib/schemas/ranking-result.ts`    | `rankingResultSchema`    | `rankingResultInsertSchema`    | `rankingResultUpdateSchema`    | --                                                         |
 
 Each schema file exports:
+
 - Full row schema (all columns including `id`, `created_at`, `updated_at`)
 - Insert schema (omits server-generated fields)
 - Update schema (partial of insert schema)
@@ -53,14 +54,14 @@ Each schema file exports:
 
 ### Barrel Export (2.12)
 
-| File | Description |
-|------|-------------|
+| File                       | Description                                                                              |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
 | `src/lib/schemas/index.ts` | Re-exports all schemas, insert/update schemas, types, and enums from all 9 schema files. |
 
 ### Tests (2.13)
 
-| File | Description |
-|------|-------------|
+| File                            | Description                                                                                                                                                                                                                                                       |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/schemas/schemas.test.ts` | 8 Vitest tests covering validation of all 4 age groups, invalid enum rejection, missing required fields, match refinements (same team, invalid winner, nullable fields), tournament result refinement (finish > field_size), and season ranking scope validation. |
 
 ## Schema Design Decisions
@@ -85,6 +86,7 @@ Each schema file exports:
 ```
 
 All 8 tests pass:
+
 1. `teamSchema` accepts valid team data with each age group
 2. `teamSchema` rejects invalid age group (`19U`)
 3. `teamSchema` rejects missing required fields (name, code, region)

@@ -47,6 +47,7 @@ Tournament Weighting & Seeding Criteria -- Apply tiered importance weights to to
 ## Scope
 
 This feature must:
+
 1. Integrate tournament weights into the existing ranking algorithms (Colley and Elo)
 2. Compute supplementary seeding factors (H2H records, win % vs field, national event finishes)
 3. Provide a way to manage tournament weights (CRUD API + UI)
@@ -54,6 +55,7 @@ This feature must:
 5. Display seeding factors in the ranking results table
 
 This feature must NOT:
+
 - Build manual override functionality (Feature 7)
 - Build the full rankings dashboard with sorting/filtering (Feature 6)
 - Change the 5-algorithm structure (Colley + 4 Elo variants)

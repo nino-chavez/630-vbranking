@@ -16,6 +16,7 @@ Transform the existing ranking execution page into a full-featured rankings dash
 ## Functional Requirements
 
 ### F1: Enhanced Rankings Table
+
 The existing RankingResultsTable gains sorting, filtering, and clickable team rows.
 
 - **Sortable columns**: AggRank (default), AggRating, W%, Team Name. Click header to sort; click again to toggle direction. Visual indicator (arrow) on active sort column.
@@ -27,6 +28,7 @@ The existing RankingResultsTable gains sorting, filtering, and clickable team ro
 - **All client-side**: No API pagination. The full result set (~73 teams max) is loaded once and filtered/sorted in memory.
 
 ### F2: Ranking Run History
+
 Users can view results from previous ranking runs without re-executing algorithms.
 
 - **Runs list API**: New `GET /api/ranking/runs?season_id=...&age_group=...` returns recent ranking runs ordered by `ran_at` descending.
@@ -35,6 +37,7 @@ Users can view results from previous ranking runs without re-executing algorithm
 - **Run metadata**: Display the selected run's timestamp and team count in the results banner.
 
 ### F3: Team Detail Page
+
 A dedicated page showing comprehensive data for a single team.
 
 **Route:** `/ranking/team/[id]`
@@ -56,6 +59,7 @@ A dedicated page showing comprehensive data for a single team.
 - **GET /api/ranking/team/[id]/h2h?season_id=...**: Returns head-to-head records derived from the `matches` table. Filters to matches involving this team in the season's tournaments. Groups by opponent, counts wins/losses.
 
 ### F5: Enhanced Results API
+
 Augment the existing GET /api/ranking/results to include team regions.
 
 - Add `region` field to the teams query (currently only fetches `id, name`).
@@ -63,6 +67,7 @@ Augment the existing GET /api/ranking/results to include team regions.
 - Backward compatible: existing consumers that treat teams as strings will need updating (only the ranking page).
 
 ### F6: Runs List API
+
 New endpoint for listing past ranking runs.
 
 - **GET /api/ranking/runs?season_id=...&age_group=...**: Returns array of `{ id, ran_at, teams_ranked }` ordered by `ran_at` descending. The `teams_ranked` count is derived from counting ranking_results for each run.

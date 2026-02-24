@@ -3,6 +3,7 @@
 Description: Generates comprehensive operations documentation including infrastructure topology, CI/CD pipelines, deployment procedures, and runbooks using a three-phase refinement pipeline.
 
 Arguments:
+
 - focus: (optional) Specific area: "infrastructure", "cicd", "deployment", "runbooks". Defaults to all.
 
 ---
@@ -14,12 +15,16 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: GENERATOR
-*Persona: Site Reliability Engineer creating initial draft*
+
+_Persona: Site Reliability Engineer creating initial draft_
+
 - Execute the Analysis Protocol below
 - Generate draft documentation for all output files
 
 ### PHASE 2: REFINER
-*Persona: Technical Editor improving clarity*
+
+_Persona: Technical Editor improving clarity_
+
 - Every procedure uses checkboxes
 - Each step has expected outcome
 - Rollback procedures exist for all changes
@@ -27,7 +32,8 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 - Warnings precede destructive operations
 
 ### PHASE 3: VALIDATOR
-*Persona: QA reviewing against voice standards (see docs/voice/ops-voice.md)*
+
+_Persona: QA reviewing against voice standards (see docs/voice/ops-voice.md)_
 
 **Anti-Patterns to Reject:**
 | Anti-Pattern | Example | Fix |
@@ -38,6 +44,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 | No rollback plan | "Apply the migration" | Add rollback procedure |
 
 **Red Flags (Return to Phase 2):**
+
 - [ ] Steps without expected outcomes
 - [ ] Destructive commands without warnings
 - [ ] Procedures without rollback options
@@ -52,30 +59,31 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 
 Scan for Infrastructure as Code:
 
-| Tool | Location | Analyze |
-|------|----------|---------|
-| Terraform | `terraform/`, `infra/`, `*.tf` | Resources, modules, variables |
-| Pulumi | `pulumi/`, `Pulumi.yaml` | Stacks, resources |
-| CloudFormation | `*.yaml`, `*.json` with AWSTemplateFormatVersion | Resources, parameters |
-| CDK | `cdk/`, `cdk.json` | Constructs, stacks |
-| Kubernetes | `k8s/`, `kubernetes/`, `*.yaml` with apiVersion | Deployments, services, ingress |
-| Helm | `charts/`, `Chart.yaml` | Values, templates |
-| Docker Compose | `docker-compose*.yml`, `compose*.yaml` | Services, networks, volumes |
+| Tool           | Location                                         | Analyze                        |
+| -------------- | ------------------------------------------------ | ------------------------------ |
+| Terraform      | `terraform/`, `infra/`, `*.tf`                   | Resources, modules, variables  |
+| Pulumi         | `pulumi/`, `Pulumi.yaml`                         | Stacks, resources              |
+| CloudFormation | `*.yaml`, `*.json` with AWSTemplateFormatVersion | Resources, parameters          |
+| CDK            | `cdk/`, `cdk.json`                               | Constructs, stacks             |
+| Kubernetes     | `k8s/`, `kubernetes/`, `*.yaml` with apiVersion  | Deployments, services, ingress |
+| Helm           | `charts/`, `Chart.yaml`                          | Values, templates              |
+| Docker Compose | `docker-compose*.yml`, `compose*.yaml`           | Services, networks, volumes    |
 
 ### CI/CD Pipeline Discovery
 
-| Platform | Location | Analyze |
-|----------|----------|---------|
-| GitHub Actions | `.github/workflows/*.yml` | Jobs, steps, triggers |
-| GitLab CI | `.gitlab-ci.yml` | Stages, jobs, variables |
-| CircleCI | `.circleci/config.yml` | Workflows, jobs |
-| Jenkins | `Jenkinsfile` | Stages, steps |
-| Azure Pipelines | `azure-pipelines.yml` | Stages, jobs |
-| Bitbucket | `bitbucket-pipelines.yml` | Pipelines, steps |
+| Platform        | Location                  | Analyze                 |
+| --------------- | ------------------------- | ----------------------- |
+| GitHub Actions  | `.github/workflows/*.yml` | Jobs, steps, triggers   |
+| GitLab CI       | `.gitlab-ci.yml`          | Stages, jobs, variables |
+| CircleCI        | `.circleci/config.yml`    | Workflows, jobs         |
+| Jenkins         | `Jenkinsfile`             | Stages, steps           |
+| Azure Pipelines | `azure-pipelines.yml`     | Stages, jobs            |
+| Bitbucket       | `bitbucket-pipelines.yml` | Pipelines, steps        |
 
 ### Deployment Configuration
 
 Look for:
+
 - Deployment scripts in `scripts/`, `bin/`, `deploy/`
 - Environment-specific configs
 - Secret references
@@ -94,23 +102,23 @@ Look for:
 
 ## Infrastructure Summary
 
-| Component | Technology | Environment |
-|-----------|------------|-------------|
-| Compute | [EC2/ECS/K8s/Lambda] | [AWS/GCP/Azure] |
-| Database | [RDS/CloudSQL/etc] | [Region/Zone] |
-| Cache | [ElastiCache/Memorystore] | [Config] |
-| CDN | [CloudFront/Cloudflare] | [Global] |
-| DNS | [Route53/Cloud DNS] | [Domain] |
+| Component | Technology                | Environment     |
+| --------- | ------------------------- | --------------- |
+| Compute   | [EC2/ECS/K8s/Lambda]      | [AWS/GCP/Azure] |
+| Database  | [RDS/CloudSQL/etc]        | [Region/Zone]   |
+| Cache     | [ElastiCache/Memorystore] | [Config]        |
+| CDN       | [CloudFront/Cloudflare]   | [Global]        |
+| DNS       | [Route53/Cloud DNS]       | [Domain]        |
 
 ## Quick Reference
 
-| Action | Command/Procedure |
-|--------|-------------------|
-| Deploy to staging | `[command or link]` |
+| Action               | Command/Procedure   |
+| -------------------- | ------------------- |
+| Deploy to staging    | `[command or link]` |
 | Deploy to production | `[command or link]` |
-| View logs | `[command or link]` |
-| Rollback | `[command or link]` |
-| Scale up | `[command or link]` |
+| View logs            | `[command or link]` |
+| Rollback             | `[command or link]` |
+| Scale up             | `[command or link]` |
 
 ## Documentation Index
 
@@ -122,16 +130,19 @@ Look for:
 ## On-Call Essentials
 
 ### Critical Endpoints
+
 - **Health Check:** `GET /health`
 - **Readiness:** `GET /ready`
 - **Metrics:** `GET /metrics`
 
 ### Key Dashboards
+
 - [Monitoring Dashboard](link)
 - [Error Tracking](link)
 - [APM/Tracing](link)
 
 ### Escalation Path
+
 1. On-call engineer
 2. Team lead
 3. [Escalation procedure]
@@ -141,7 +152,7 @@ Look for:
 
 ## Output: docs/ops/infrastructure.md
 
-```markdown
+````markdown
 # Infrastructure Topology
 
 ## Architecture Diagram
@@ -173,6 +184,7 @@ graph TB
     ECS --> Redis
     ECS --> NAT
 ```
+````
 
 [Customize based on actual infrastructure discovered]
 
@@ -180,56 +192,57 @@ graph TB
 
 ### Compute
 
-| Resource | Type | Purpose | Scaling |
-|----------|------|---------|---------|
-| [Name] | [Instance type] | [Purpose] | [Auto-scaling config] |
+| Resource | Type            | Purpose   | Scaling               |
+| -------- | --------------- | --------- | --------------------- |
+| [Name]   | [Instance type] | [Purpose] | [Auto-scaling config] |
 
 ### Data Stores
 
-| Resource | Type | Size | Backups |
-|----------|------|------|---------|
+| Resource  | Type            | Size          | Backups                  |
+| --------- | --------------- | ------------- | ------------------------ |
 | [DB name] | [PostgreSQL 14] | [db.r5.large] | [Daily, 7-day retention] |
 
 ### Networking
 
-| Component | CIDR/Config | Purpose |
-|-----------|-------------|---------|
-| VPC | 10.0.0.0/16 | Main network |
-| Public Subnet A | 10.0.1.0/24 | Load balancers, NAT |
+| Component        | CIDR/Config  | Purpose             |
+| ---------------- | ------------ | ------------------- |
+| VPC              | 10.0.0.0/16  | Main network        |
+| Public Subnet A  | 10.0.1.0/24  | Load balancers, NAT |
 | Private Subnet A | 10.0.10.0/24 | Application servers |
 
 ## Security Configuration
 
 ### Security Groups
 
-| Group | Inbound | Outbound | Attached To |
-|-------|---------|----------|-------------|
-| `alb-sg` | 80, 443 from 0.0.0.0/0 | All | ALB |
-| `app-sg` | 8080 from alb-sg | All | ECS Tasks |
-| `db-sg` | 5432 from app-sg | None | RDS |
+| Group    | Inbound                | Outbound | Attached To |
+| -------- | ---------------------- | -------- | ----------- |
+| `alb-sg` | 80, 443 from 0.0.0.0/0 | All      | ALB         |
+| `app-sg` | 8080 from alb-sg       | All      | ECS Tasks   |
+| `db-sg`  | 5432 from app-sg       | None     | RDS         |
 
 ### IAM Roles
 
-| Role | Purpose | Key Permissions |
-|------|---------|-----------------|
-| `app-execution-role` | ECS task execution | ECR pull, logs |
-| `app-task-role` | Application runtime | S3, SQS, Secrets Manager |
+| Role                 | Purpose             | Key Permissions          |
+| -------------------- | ------------------- | ------------------------ |
+| `app-execution-role` | ECS task execution  | ECR pull, logs           |
+| `app-task-role`      | Application runtime | S3, SQS, Secrets Manager |
 
 ## Secrets Management
 
-| Secret | Location | Rotation |
-|--------|----------|----------|
-| Database credentials | AWS Secrets Manager | 30 days |
-| API keys | [Location] | [Policy] |
+| Secret               | Location            | Rotation |
+| -------------------- | ------------------- | -------- |
+| Database credentials | AWS Secrets Manager | 30 days  |
+| API keys             | [Location]          | [Policy] |
 
 ## Cost Allocation
 
-| Resource Type | Estimated Monthly | Tags |
-|---------------|-------------------|------|
-| Compute | $X | Environment, Team |
-| Database | $Y | Environment |
-| Data Transfer | $Z | - |
-```
+| Resource Type | Estimated Monthly | Tags              |
+| ------------- | ----------------- | ----------------- |
+| Compute       | $X                | Environment, Team |
+| Database      | $Y                | Environment       |
+| Data Transfer | $Z                | -                 |
+
+````
 
 ---
 
@@ -269,59 +282,62 @@ graph LR
     Tag --> DeployStaging
     DeployStaging --> E2E
     E2E --> DeployProd
-```
+````
 
 ## Workflow Details
 
 ### On Pull Request
 
-| Job | Purpose | Duration |
-|-----|---------|----------|
-| `lint` | Code style check | ~1m |
-| `test` | Unit & integration tests | ~5m |
-| `build` | Compile & type check | ~2m |
-| `security` | Dependency scanning | ~1m |
+| Job        | Purpose                  | Duration |
+| ---------- | ------------------------ | -------- |
+| `lint`     | Code style check         | ~1m      |
+| `test`     | Unit & integration tests | ~5m      |
+| `build`    | Compile & type check     | ~2m      |
+| `security` | Dependency scanning      | ~1m      |
 
 ### On Merge to Main
 
-| Job | Purpose | Triggers |
-|-----|---------|----------|
-| `build-image` | Build Docker image | Always |
-| `push-image` | Push to registry | Build success |
-| `deploy-staging` | Deploy to staging | Push success |
-| `smoke-test` | Verify deployment | Deploy success |
+| Job              | Purpose            | Triggers       |
+| ---------------- | ------------------ | -------------- |
+| `build-image`    | Build Docker image | Always         |
+| `push-image`     | Push to registry   | Build success  |
+| `deploy-staging` | Deploy to staging  | Push success   |
+| `smoke-test`     | Verify deployment  | Deploy success |
 
 ### On Tag (Release)
 
-| Job | Purpose | Approval |
-|-----|---------|----------|
-| `deploy-production` | Production deployment | Required |
-| `notify` | Slack/Email notification | Automatic |
+| Job                 | Purpose                  | Approval  |
+| ------------------- | ------------------------ | --------- |
+| `deploy-production` | Production deployment    | Required  |
+| `notify`            | Slack/Email notification | Automatic |
 
 ## Environment Variables & Secrets
 
-| Variable | Source | Used In |
-|----------|--------|---------|
-| `AWS_ACCESS_KEY_ID` | GitHub Secrets | Deploy jobs |
-| `DATABASE_URL` | Environment secret | Test, Deploy |
-| `NPM_TOKEN` | GitHub Secrets | Install |
+| Variable            | Source             | Used In      |
+| ------------------- | ------------------ | ------------ |
+| `AWS_ACCESS_KEY_ID` | GitHub Secrets     | Deploy jobs  |
+| `DATABASE_URL`      | Environment secret | Test, Deploy |
+| `NPM_TOKEN`         | GitHub Secrets     | Install      |
 
 ## Artifacts
 
-| Artifact | Retention | Purpose |
-|----------|-----------|---------|
-| Docker image | 90 days | Deployment |
-| Test coverage | 30 days | Reporting |
-| Build logs | 14 days | Debugging |
+| Artifact      | Retention | Purpose    |
+| ------------- | --------- | ---------- |
+| Docker image  | 90 days   | Deployment |
+| Test coverage | 30 days   | Reporting  |
+| Build logs    | 14 days   | Debugging  |
 
 ## Troubleshooting CI/CD
 
 ### Build Failures
+
 [Common causes and solutions]
 
 ### Deployment Failures
+
 [Rollback procedures, common issues]
-```
+
+````
 
 ---
 
@@ -362,9 +378,10 @@ graph LR
 # Create and push release tag
 git tag v1.2.3
 git push origin v1.2.3
-```
+````
 
 Pipeline will automatically:
+
 1. Build production image
 2. Run final checks
 3. Deploy to production
@@ -416,12 +433,13 @@ If health checks fail within 5 minutes, automatic rollback triggers.
 
 ## Feature Flags
 
-| Flag | Purpose | Default |
-|------|---------|---------|
+| Flag        | Purpose   | Default  |
+| ----------- | --------- | -------- |
 | [flag_name] | [Purpose] | [off/on] |
 
 Management: [Link to feature flag dashboard]
-```
+
+````
 
 ---
 
@@ -452,7 +470,7 @@ Each runbook should include:
 3. **Diagnosis** - How to investigate
 4. **Resolution** - Step-by-step fix
 5. **Prevention** - How to avoid recurrence
-```
+````
 
 ---
 

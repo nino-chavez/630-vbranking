@@ -104,19 +104,19 @@ graph TB
 
 ## Module Responsibility Matrix
 
-| Module | Files | Responsibilities | Pure Functions? |
-|--------|-------|-----------------|-----------------|
-| **Colley Matrix** | `colley.ts` | Build Colley matrix C and vector b from pairwise records, solve Cr=b via LU decomposition, return sorted ratings. | Yes |
-| **Elo Variants** | `elo.ts` | Process tournaments chronologically, update Elo ratings per match with K-factor scaled by tournament weight. | Yes |
-| **Normalizer** | `normalize.ts` | Min-max normalize each algorithm to 0--100, compute AggRating as arithmetic mean, assign AggRank. | Yes |
-| **W/L Derivation** | `derive-wins-losses.ts` | Convert tournament finishes or match records into `PairwiseRecord[]` grouped by tournament. | Yes |
-| **Seeding Factors** | `seeding-factors.ts` | Compute win percentage and best national (Tier-1) tournament finish per team. | Yes |
-| **RankingService** | `ranking-service.ts` | Orchestrate the full ranking pipeline: validate, fetch data, select data source, run algorithms, insert results, handle errors. | No (database I/O) |
-| **ImportService** | `import-service.ts` | Validate parsed rows against Zod schemas, execute replace (atomic RPC) or merge (row-by-row) imports. | No (database I/O) |
-| **IdentityResolver** | `identity-resolver.ts` | Match team codes and tournament names against database records with exact and fuzzy (Levenshtein) matching. | No (database I/O) |
-| **File Parsers** | `parsers/` | Parse XLSX binary buffers into typed row arrays. Detect column layouts adaptively. | Yes |
-| **Export Data Assembly** | `export-data.ts` | Transform ranking state into flat `ExportRow[]` with column headers and metadata. | Yes |
-| **CSV/XLSX/PDF Generators** | `csv.ts`, `xlsx.ts`, `pdf.ts` | Format-specific rendering. CSV is synchronous; XLSX and PDF use dynamic imports for code splitting. | Yes (no I/O) |
+| Module                      | Files                         | Responsibilities                                                                                                                | Pure Functions?   |
+| --------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| **Colley Matrix**           | `colley.ts`                   | Build Colley matrix C and vector b from pairwise records, solve Cr=b via LU decomposition, return sorted ratings.               | Yes               |
+| **Elo Variants**            | `elo.ts`                      | Process tournaments chronologically, update Elo ratings per match with K-factor scaled by tournament weight.                    | Yes               |
+| **Normalizer**              | `normalize.ts`                | Min-max normalize each algorithm to 0--100, compute AggRating as arithmetic mean, assign AggRank.                               | Yes               |
+| **W/L Derivation**          | `derive-wins-losses.ts`       | Convert tournament finishes or match records into `PairwiseRecord[]` grouped by tournament.                                     | Yes               |
+| **Seeding Factors**         | `seeding-factors.ts`          | Compute win percentage and best national (Tier-1) tournament finish per team.                                                   | Yes               |
+| **RankingService**          | `ranking-service.ts`          | Orchestrate the full ranking pipeline: validate, fetch data, select data source, run algorithms, insert results, handle errors. | No (database I/O) |
+| **ImportService**           | `import-service.ts`           | Validate parsed rows against Zod schemas, execute replace (atomic RPC) or merge (row-by-row) imports.                           | No (database I/O) |
+| **IdentityResolver**        | `identity-resolver.ts`        | Match team codes and tournament names against database records with exact and fuzzy (Levenshtein) matching.                     | No (database I/O) |
+| **File Parsers**            | `parsers/`                    | Parse XLSX binary buffers into typed row arrays. Detect column layouts adaptively.                                              | Yes               |
+| **Export Data Assembly**    | `export-data.ts`              | Transform ranking state into flat `ExportRow[]` with column headers and metadata.                                               | Yes               |
+| **CSV/XLSX/PDF Generators** | `csv.ts`, `xlsx.ts`, `pdf.ts` | Format-specific rendering. CSV is synchronous; XLSX and PDF use dynamic imports for code splitting.                             | Yes (no I/O)      |
 
 ## Dependency Rules
 

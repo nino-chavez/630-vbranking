@@ -13,10 +13,10 @@ import type { FileParserInterface } from '../types.js';
  * implementation is deferred to a future feature.
  */
 export interface ParsedMatchRow {
-  teamA: string;
-  teamB: string;
-  winner: string | null;
-  tournament: string;
+	teamA: string;
+	teamB: string;
+	winner: string | null;
+	tournament: string;
 }
 
 /**
@@ -26,4 +26,4 @@ export interface ParsedMatchRow {
  * No implementation is provided -- this is an architecture-only contract
  * for a future CSV match ingestion feature.
  */
-export interface MatchFileParser extends FileParserInterface<ParsedMatchRow> {}
+export type MatchFileParser = FileParserInterface<ParsedMatchRow>;

@@ -12,31 +12,32 @@ The finishes spreadsheet is the standard import format. It records each team's p
 
 **Spreadsheet layout:**
 
-| Row | Content |
-|---|---|
-| Row 1 | Tournament names in merged cells, each spanning 3 columns |
-| Row 2 | Sub-headers repeating the pattern: **Div**, **Fin**, **Tot** for each tournament |
-| Rows 3+ | Team data |
+| Row     | Content                                                                          |
+| ------- | -------------------------------------------------------------------------------- |
+| Row 1   | Tournament names in merged cells, each spanning 3 columns                        |
+| Row 2   | Sub-headers repeating the pattern: **Div**, **Fin**, **Tot** for each tournament |
+| Rows 3+ | Team data                                                                        |
 
 **Team columns (columns A through J):**
 
-| Column | Content | Required |
-|---|---|---|
-| A | Team Name | Yes |
-| B | Team Code | Yes |
-| C-J | Additional team-level fields (ignored by the parser) | No |
+| Column | Content                                              | Required |
+| ------ | ---------------------------------------------------- | -------- |
+| A      | Team Name                                            | Yes      |
+| B      | Team Code                                            | Yes      |
+| C-J    | Additional team-level fields (ignored by the parser) | No       |
 
 **Tournament columns (starting at column K):**
 
 Each tournament occupies three consecutive columns:
 
-| Sub-column | Header (Row 2) | Content | Data Type |
-|---|---|---|---|
-| 1 | Div | Division code (e.g., "Open", "Club") | Text |
-| 2 | Fin | Finish position (e.g., 1, 2, 3) | Integer |
-| 3 | Tot | Field size (total teams in the bracket) | Integer |
+| Sub-column | Header (Row 2) | Content                                 | Data Type |
+| ---------- | -------------- | --------------------------------------- | --------- |
+| 1          | Div            | Division code (e.g., "Open", "Club")    | Text      |
+| 2          | Fin            | Finish position (e.g., 1, 2, 3)         | Integer   |
+| 3          | Tot            | Field size (total teams in the bracket) | Integer   |
 
 **Important notes:**
+
 - The file must be in `.xlsx` format (not `.xls` or `.csv`).
 - The maximum file size is 10 MB.
 - The last 5 columns of the spreadsheet are treated as summary columns and are ignored.
@@ -49,26 +50,27 @@ The Colley spreadsheet is used to import pre-computed ranking data directly, byp
 
 **Column layout (fixed positions):**
 
-| Column | Header | Content | Required |
-|---|---|---|---|
-| A | Team | Team name | Yes |
-| B | teamcode | Team code | Yes |
-| C | Wins | Total wins | Yes |
-| D | Losses | Total losses | Yes |
-| E | Algo1Rating | Colley Matrix rating | No |
-| F | Algo1Rank | Colley Matrix rank | No |
-| G | Algo2Rating | Elo-2200 rating | No |
-| H | Algo2Rank | Elo-2200 rank | No |
-| I | Algo3Rating | Elo-2400 rating | No |
-| J | Algo3Rank | Elo-2400 rank | No |
-| K | Algo4Rating | Elo-2500 rating | No |
-| L | Algo4Rank | Elo-2500 rank | No |
-| M | Algo5Rating | Elo-2700 rating | No |
-| N | Algo5Rank | Elo-2700 rank | No |
-| O | AggRating | Aggregate rating | No |
-| P | AggRank | Aggregate rank | No |
+| Column | Header      | Content              | Required |
+| ------ | ----------- | -------------------- | -------- |
+| A      | Team        | Team name            | Yes      |
+| B      | teamcode    | Team code            | Yes      |
+| C      | Wins        | Total wins           | Yes      |
+| D      | Losses      | Total losses         | Yes      |
+| E      | Algo1Rating | Colley Matrix rating | No       |
+| F      | Algo1Rank   | Colley Matrix rank   | No       |
+| G      | Algo2Rating | Elo-2200 rating      | No       |
+| H      | Algo2Rank   | Elo-2200 rank        | No       |
+| I      | Algo3Rating | Elo-2400 rating      | No       |
+| J      | Algo3Rank   | Elo-2400 rank        | No       |
+| K      | Algo4Rating | Elo-2500 rating      | No       |
+| L      | Algo4Rank   | Elo-2500 rank        | No       |
+| M      | Algo5Rating | Elo-2700 rating      | No       |
+| N      | Algo5Rank   | Elo-2700 rank        | No       |
+| O      | AggRating   | Aggregate rating     | No       |
+| P      | AggRank     | Aggregate rank       | No       |
 
 **Notes:**
+
 - Row 1 is the header row and is skipped.
 - Rows 2+ are data rows.
 - The Wins and Losses columns are required. All algorithm columns are optional.
@@ -109,6 +111,7 @@ After uploading, the system displays a preview of the parsed data:
 - **Warning indicators** flag potential issues that do not block import.
 
 For each row, you can:
+
 - Click on a cell to edit its value directly in the preview table.
 - Click the **skip** button to exclude a row from import entirely.
 
@@ -127,6 +130,7 @@ For each unrecognized name, the system presents a list of possible matches ranke
 3. **Skip** -- Ignore all rows referencing this unrecognized name.
 
 Common causes of identity conflicts:
+
 - Slight variations in spelling (e.g., "St. Louis" vs. "Saint Louis")
 - Abbreviations (e.g., "VBC" vs. "Volleyball Club")
 - Extra spaces or punctuation differences
@@ -146,15 +150,15 @@ After resolving all identity conflicts and data errors:
 
 **What you should see:** A spinner and "Importing data..." message. When complete, a summary card appears showing:
 
-| Field | Description |
-|---|---|
-| Rows Inserted | Number of new records created |
-| Rows Updated | Number of existing records that were modified |
-| Rows Skipped | Number of identical records (no changes needed) |
-| Teams Created | Number of new team records created through identity resolution |
+| Field               | Description                                                          |
+| ------------------- | -------------------------------------------------------------------- |
+| Rows Inserted       | Number of new records created                                        |
+| Rows Updated        | Number of existing records that were modified                        |
+| Rows Skipped        | Number of identical records (no changes needed)                      |
+| Teams Created       | Number of new team records created through identity resolution       |
 | Tournaments Created | Number of new tournament records created through identity resolution |
-| Import Mode | Whether Merge or Replace was used |
-| Timestamp | When the import completed |
+| Import Mode         | Whether Merge or Replace was used                                    |
+| Timestamp           | When the import completed                                            |
 
 Click the button on the summary card to start a new import or navigate to Rankings to compute rankings from the imported data.
 
@@ -192,4 +196,4 @@ If the confirmation step reports validation errors (e.g., "X rows failed validat
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

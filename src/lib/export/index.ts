@@ -3,7 +3,13 @@
  */
 
 export type { ExportRow, ExportMetadata, ExportOptions } from './types.js';
-export { assembleExportRows, getColumnHeaders, rowToValues, buildMetadataLines, buildOverrideSummary } from './export-data.js';
+export {
+	assembleExportRows,
+	getColumnHeaders,
+	rowToValues,
+	buildMetadataLines,
+	buildOverrideSummary,
+} from './export-data.js';
 export { generateCsv } from './csv.js';
 export { triggerDownload, exportFilename } from './download.js';
 

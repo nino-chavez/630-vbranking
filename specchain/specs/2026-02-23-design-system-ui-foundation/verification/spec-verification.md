@@ -20,12 +20,15 @@
 The two Q&A answers from requirements gathering are:
 
 **Q1: CSS custom properties vs Tailwind theme → Both**
+
 - ✅ Accurately captured: requirements.md states "Both. Define semantic design tokens as CSS custom properties in `src/app.css`... and extend the Tailwind theme via `@theme` in Tailwind v4". This is fully reflected in spec.md's Technical Approach section and in Task Group 1.
 
 **Q2: Dark mode → No, light only**
+
 - ✅ Accurately captured: requirements.md states "Not in this iteration. Light mode only." The spec.md Out of Scope section explicitly lists "Dark mode — Light mode only in this iteration." Tasks contain no dark mode work.
 
 **Pre-established decisions:**
+
 - ✅ 60-30-10 color rule: captured and expanded in spec.md Color Palette section with exact token values.
 - ✅ SvelteKit + Tailwind CSS v4: reflected in all task group headers and tech stack line.
 - ✅ No Figma: spec.md confirms "No mockups. The visual approach is described here for implementation."
@@ -34,6 +37,7 @@ The two Q&A answers from requirements gathering are:
 - ✅ Information architecture: captured in requirements.md scope item 7.
 
 **Reusability opportunities:**
+
 - ✅ requirements.md does not list external reusability paths (no similar prior feature pointed to). The spec itself identifies the existing components to leverage in the "Reusable Components" section. This is correct for a greenfield design system.
 
 **Assessment**: All Q&A answers accurately and completely captured. No misrepresentations found.
@@ -68,6 +72,7 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 7. Information architecture (navigation structure, page hierarchy): ✅ Covered via NavHeader and PageShell components.
 
 **Constraints stated:**
+
 - ✅ No JavaScript libraries for styling (only CSS + Tailwind): reflected in spec.md Non-Functional Requirements.
 - ✅ WCAG 2.1 AA contrast (4.5:1): reflected in spec.md and task 4.3.
 - ✅ CSS under 10 KB gzipped: reflected in spec.md Non-Functional Requirements.
@@ -77,6 +82,7 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 - ✅ Mobile breakpoints per standards (< 640px, 640–1024px, > 1024px): matches responsive.md exactly.
 
 **Out-of-scope items (correctly excluded):**
+
 - ✅ Dark mode: excluded in spec.md Out of Scope.
 - ✅ Figma design files: excluded.
 - ✅ Complex data visualizations (sparklines, charts): excluded, deferred to Feature 6.
@@ -85,11 +91,13 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 - ✅ Theming/white-labeling: excluded (added in spec, reasonable extension of "no Figma" and "single iteration" scope).
 
 **Reusability opportunities:**
+
 - ✅ spec.md "Reusable Components" section explicitly lists 7 existing files to leverage with specific design system actions.
 - ✅ spec.md "Existing Patterns to Standardize" lists 6 ad-hoc patterns that become components.
 - ✅ tasks.md Summary table identifies all modified existing assets with specific actions.
 
 **Implicit needs addressed:**
+
 - ✅ `tabular-nums` for numeric columns (identified from existing `RankingResultsTable` code, preserved in spec).
 - ✅ `<th scope="col">` for accessibility in table headers (not stated in requirements but correct and included).
 - ✅ `aria-current="page"` on active nav link (not stated in requirements, correct addition).
@@ -97,13 +105,16 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 ### Check 5: Core Specification Issues
 
 **Goal**: "Establish a cohesive visual design system... so that the existing `/import` and `/ranking` pages and all future UI are built from a single, consistent, maintainable foundation."
+
 - ✅ Directly addresses the feature description. Aligns with Clarity → Trust → Action framework.
 
 **User Stories**: 6 stories covering committee member scanning, tier color coding, cohesive application feel, mobile usability, data freshness, and navigation.
+
 - ✅ All stories are directly traceable to requirements. The "data freshness indicator" story links to Trust (Principle 6). The mobile story links to Principle 9.
 - ✅ No fabricated user stories found.
 
 **Core Requirements sections 1–5**: Each maps cleanly to a requirements.md scope item.
+
 - ✅ Section 1 (Design Tokens) = scope item 1+2.
 - ✅ Section 2 (Layout Primitives) = scope item 3.
 - ✅ Section 3 (Component Patterns) = scope item 4.
@@ -114,15 +125,18 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 **Out of Scope section**: All 6 items match requirements.md and no in-scope items are incorrectly excluded.
 
 **Reusability notes**: spec.md includes a dedicated "Reusable Components" section.
+
 - ✅ All 5 existing components (`RankingResultsTable`, `FileDropZone`, `DataPreviewTable`, `ImportSummary`, `IdentityResolutionPanel`) and 2 layout files (`+layout.svelte`, `app.css`) are explicitly listed with specific actions.
 
 **Issue — `--text-body-strong` token missing from task 1.3**:
+
 - spec.md typography table defines `--text-body-strong: 0.875rem / 600 weight` as a distinct token.
 - Task 1.3 lists font-size tokens but does NOT include `--text-body-strong`.
 - The test in task 1.1 checks for `--text-h1` through `--text-stat` — this wording is ambiguous about whether `--text-body-strong` is included.
 - Minor issue: the `--text-body-strong` token should be explicitly included in task 1.3's implementation checklist and test 3's assertion.
 
 **Issue — Banner component uses hardcoded Tailwind color classes**:
+
 - Task 2.6 specifies `bg-green-50`, `bg-red-50`, `bg-amber-50` for Banner variants — these are hardcoded Tailwind color utilities, not design token references.
 - spec.md success criterion states "No hardcoded color hex values remain in any `.svelte` component template — all reference tokens or Tailwind theme classes."
 - While these are Tailwind classes (not hex values), `bg-green-50` and `bg-red-50` are not mapped design tokens. `bg-accent-light` and `bg-error` variants of these colors exist in the token system but the green/amber equivalents are not tokenized.
@@ -131,6 +145,7 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 ### Check 6: Task List Issues
 
 **Test Writing Limits:**
+
 - ✅ Task Group 1: Specifies exactly 3 focused tests (within 2-8 range). Task 1.6 runs ONLY the 3 tests written in 1.1.
 - ✅ Task Group 2: Specifies exactly 8 focused tests (at the 2-8 maximum). Task 2.14 runs ONLY the 8 tests written in 2.1.
 - ✅ Task Group 3: Specifies exactly 5 focused tests (within 2-8 range). Task 3.8 runs ONLY the 5 tests written in 3.1.
@@ -139,6 +154,7 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 - ✅ Total tests: 3 + 8 + 5 + 10 = 26. Within the expected range of 16-34.
 
 **Reusability References:**
+
 - ✅ Task 2.2 (Spinner): "Replaces the repeated inline SVG spinner pattern found in 3+ places."
 - ✅ Task 2.3 (Button): "Replaces all ad-hoc button styles."
 - ✅ Task 2.4 (Select): "Replace the repeated label+select markup found 5+ times."
@@ -149,17 +165,20 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 - ✅ All new component tasks reference their purpose and what they replace from the existing codebase.
 
 **Task Specificity:**
+
 - ✅ All tasks reference specific files (`src/app.css`, `src/lib/components/Button.svelte`, etc.) with exact prop names, class values, and hex codes.
 - ✅ Test tasks specify exact assertion language and test scenarios.
 - No vague tasks identified.
 
 **Traceability:**
+
 - ✅ Task Group 1 → spec.md section 1 (Design Tokens).
 - ✅ Task Group 2 → spec.md section 3 (Component Patterns) and "New Components Required" table.
 - ✅ Task Group 3 → spec.md section 5 (Retrofit Existing Pages) and "Responsive Behavior."
 - ✅ Task Group 4 → spec.md Testing section and Non-Functional Requirements (accessibility, WCAG).
 
 **Scope — no tasks for unrequested features:**
+
 - ✅ No dark mode tasks.
 - ✅ No sparkline or chart tasks.
 - ✅ No animation system tasks.
@@ -168,20 +187,22 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 
 **Task Count per Group:**
 
-| Group | Task Count | Status |
-|-------|-----------|--------|
-| Group 1: Design Tokens | 6 | ✅ Within 3-10 |
-| Group 2: Component Library | 14 | ⚠️ Exceeds limit of 10 |
-| Group 3: Page Retrofitting | 8 | ✅ Within 3-10 |
-| Group 4: Test Review | 5 | ✅ Within 3-10 |
+| Group                      | Task Count | Status                 |
+| -------------------------- | ---------- | ---------------------- |
+| Group 1: Design Tokens     | 6          | ✅ Within 3-10         |
+| Group 2: Component Library | 14         | ⚠️ Exceeds limit of 10 |
+| Group 3: Page Retrofitting | 8          | ✅ Within 3-10         |
+| Group 4: Test Review       | 5          | ✅ Within 3-10         |
 
 **Issue — Task Group 2 has 14 sub-tasks (exceeds the 3-10 guideline)**:
+
 - Group 2 contains one test-writing task (2.1), one verification task (2.14), and 12 component implementation tasks (2.2–2.13) — one per new component.
 - The 12-component count is directly driven by spec requirements; each component is distinct and justified.
 - This is a structural over-count in one group, not over-engineering. However, it does violate the 3-10 task guideline.
 - Recommendation: Group 2 could be split into "Group 2a: Core UI Components" (Button, Select, Card, Banner, PageHeader, Spinner) and "Group 2b: Layout & Ranking Components" (NavHeader, PageShell, DataTable, RankBadge, TierRow, FreshnessIndicator). Both would have 6-8 tasks each.
 
 **Squad Strategy Alignment:**
+
 - ⚠️ The execution-profile.yml defines domain specialists: `design_system_engineer`, `layout_engineer`, `component_engineer`, `data_viz_engineer`. However, tasks.md assigns all Groups 1-3 to a single `ui-designer` implementer. This collapses the squad structure into a single-agent workflow.
 - All Groups 1-3 could reasonably be assigned to `ui-designer` as a general frontend implementer, but the squad strategy's intent was to parallelize across domain specialists. The tasks as written imply sequential execution (Group 1 → 2 → 3) rather than parallel squad work.
 - Minor concern: the execution profile's domain split (design_system_engineer, layout_engineer, component_engineer, data_viz_engineer) is not reflected in the task group assignments.
@@ -189,45 +210,49 @@ Skipped — no visual assets exist. This is the correct and expected state for t
 ### Check 7: Reusability and Over-Engineering
 
 **Unnecessary new components:**
+
 - ✅ All 12 new components are justified: each replaces an identified repeated pattern or adds a new capability (tier coloring, freshness display, rank badge). No existing component covers these needs.
 - ✅ The spec explicitly explains what each component replaces and why.
 
 **Duplicated logic:**
+
 - ✅ FreshnessIndicator implements a simple relative-time function without an external library (Principle 5: Speed Over Aesthetics). This is correct and justified.
 - ✅ No business logic duplication — this is a purely presentational layer.
 
 **Missing reuse opportunities:**
+
 - ✅ All 5 existing Svelte components are identified for enhancement, not replacement.
 - ✅ The existing container pattern (`mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8`) is extracted to PageShell rather than duplicated.
 - ✅ The existing `tabular-nums` pattern in `RankingResultsTable` is preserved and extended.
 
 **Justification for new code:**
+
 - ✅ Every new component has a clear "replaces N instances of X" justification in both spec.md and tasks.md.
 
 **Standards compliance review:**
 
-| Standard | Spec/Tasks Alignment | Status |
-|----------|---------------------|--------|
-| `css.md`: utility-first, CSS variables | ✅ Tailwind utilities + CSS custom properties | ✅ |
-| `css.md`: avoid inline styles | ✅ All styles via Tailwind classes | ✅ |
-| `components.md`: one component per file | ✅ Each component in its own `.svelte` file | ✅ |
-| `components.md`: explicit prop types | ✅ TypeScript props required by spec and tasks | ✅ |
-| `components.md`: composition over inheritance | ✅ Snippets for composability | ✅ |
-| `responsive.md`: mobile-first | ✅ Mobile breakpoints < 640px with `sm:` prefixes | ✅ |
-| `responsive.md`: breakpoints match standard | ✅ Mobile < 640px, Tablet 640-1024px, Desktop > 1024px | ✅ |
-| `accessibility.md`: WCAG 2.1 AA | ✅ 4.5:1 contrast, keyboard nav, ARIA | ✅ |
-| `accessibility.md`: semantic HTML | ✅ `<nav>`, `<main>`, `<caption>`, `<thead>`, `<th scope>` | ✅ |
-| `coding-style.md`: TypeScript strict | ✅ Typed props required | ✅ |
-| `coding-style.md`: kebab-case for file names | ⚠️ CONFLICT — spec requires PascalCase for component files | ⚠️ |
-| `coding-style.md`: camelCase variables | ✅ Prop names use camelCase | ✅ |
-| `coding-style.md`: PascalCase for components | ✅ Component names are PascalCase | ✅ |
-| `conventions.md`: absolute imports preferred | ✅ `$lib/components/` path alias used | ✅ |
-| `commenting.md`: comment "why" not "what" | ✅ Tasks include contextual notes but no excessive commenting instructions | ✅ |
-| `error-handling.md`: friendly error messages | ✅ Banner component handles user-facing errors | ✅ |
-| `validation.md`: type safety, avoid `any` | ✅ TypeScript types required throughout | ✅ |
-| `tech-stack.md`: Vitest for unit tests | ✅ All tests use Vitest + @testing-library/svelte | ✅ |
-| `test-writing.md`: AAA pattern | ✅ Tests follow Arrange-Act-Assert | ✅ |
-| `test-writing.md`: independent tests | ✅ `cleanup()` after each test required | ✅ |
+| Standard                                      | Spec/Tasks Alignment                                                       | Status |
+| --------------------------------------------- | -------------------------------------------------------------------------- | ------ |
+| `css.md`: utility-first, CSS variables        | ✅ Tailwind utilities + CSS custom properties                              | ✅     |
+| `css.md`: avoid inline styles                 | ✅ All styles via Tailwind classes                                         | ✅     |
+| `components.md`: one component per file       | ✅ Each component in its own `.svelte` file                                | ✅     |
+| `components.md`: explicit prop types          | ✅ TypeScript props required by spec and tasks                             | ✅     |
+| `components.md`: composition over inheritance | ✅ Snippets for composability                                              | ✅     |
+| `responsive.md`: mobile-first                 | ✅ Mobile breakpoints < 640px with `sm:` prefixes                          | ✅     |
+| `responsive.md`: breakpoints match standard   | ✅ Mobile < 640px, Tablet 640-1024px, Desktop > 1024px                     | ✅     |
+| `accessibility.md`: WCAG 2.1 AA               | ✅ 4.5:1 contrast, keyboard nav, ARIA                                      | ✅     |
+| `accessibility.md`: semantic HTML             | ✅ `<nav>`, `<main>`, `<caption>`, `<thead>`, `<th scope>`                 | ✅     |
+| `coding-style.md`: TypeScript strict          | ✅ Typed props required                                                    | ✅     |
+| `coding-style.md`: kebab-case for file names  | ⚠️ CONFLICT — spec requires PascalCase for component files                 | ⚠️     |
+| `coding-style.md`: camelCase variables        | ✅ Prop names use camelCase                                                | ✅     |
+| `coding-style.md`: PascalCase for components  | ✅ Component names are PascalCase                                          | ✅     |
+| `conventions.md`: absolute imports preferred  | ✅ `$lib/components/` path alias used                                      | ✅     |
+| `commenting.md`: comment "why" not "what"     | ✅ Tasks include contextual notes but no excessive commenting instructions | ✅     |
+| `error-handling.md`: friendly error messages  | ✅ Banner component handles user-facing errors                             | ✅     |
+| `validation.md`: type safety, avoid `any`     | ✅ TypeScript types required throughout                                    | ✅     |
+| `tech-stack.md`: Vitest for unit tests        | ✅ All tests use Vitest + @testing-library/svelte                          | ✅     |
+| `test-writing.md`: AAA pattern                | ✅ Tests follow Arrange-Act-Assert                                         | ✅     |
+| `test-writing.md`: independent tests          | ✅ `cleanup()` after each test required                                    | ✅     |
 
 ---
 

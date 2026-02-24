@@ -16,16 +16,16 @@ Task 1.13 (migration integration tests) was also resolved by this group -- the o
 
 ### Already Covered by `tests/schemas/schemas.test.ts` (8 tests)
 
-| # | Test | Coverage Area |
-|---|------|---------------|
-| 1 | `teamSchema` accepts valid team data with each age group | Enum validation (happy path) |
-| 2 | `teamSchema` rejects invalid age group (`19U`) | Enum validation (rejection) |
-| 3 | `teamSchema` rejects missing required fields | Required field enforcement |
-| 4 | `matchSchema` rejects `team_a_id === team_b_id` | Zod refinement (same-team check) |
-| 5 | `matchSchema` rejects invalid `winner_id` | Zod refinement (winner participant check) |
-| 6 | `matchSchema` accepts null nullable fields | Nullable field acceptance |
-| 7 | `tournamentResultSchema` rejects `finish_position > field_size` | Zod refinement (cross-field check) |
-| 8 | `seasonSchema` ranking scope enum validation | Enum validation (happy + rejection) |
+| #   | Test                                                            | Coverage Area                             |
+| --- | --------------------------------------------------------------- | ----------------------------------------- |
+| 1   | `teamSchema` accepts valid team data with each age group        | Enum validation (happy path)              |
+| 2   | `teamSchema` rejects invalid age group (`19U`)                  | Enum validation (rejection)               |
+| 3   | `teamSchema` rejects missing required fields                    | Required field enforcement                |
+| 4   | `matchSchema` rejects `team_a_id === team_b_id`                 | Zod refinement (same-team check)          |
+| 5   | `matchSchema` rejects invalid `winner_id`                       | Zod refinement (winner participant check) |
+| 6   | `matchSchema` accepts null nullable fields                      | Nullable field acceptance                 |
+| 7   | `tournamentResultSchema` rejects `finish_position > field_size` | Zod refinement (cross-field check)        |
+| 8   | `seasonSchema` ranking scope enum validation                    | Enum validation (happy + rejection)       |
 
 ### Gaps Identified
 
@@ -39,35 +39,35 @@ Task 1.13 (migration integration tests) was also resolved by this group -- the o
 
 ### Referential Integrity Tests (3.2)
 
-| File | Description |
-|------|-------------|
+| File                                              | Description                                                                                                            |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `tests/integration/referential-integrity.test.ts` | 5 SQL structural tests that read migration SQL files and verify FK constraint declarations via regex pattern matching. |
 
 **Tests:**
 
-| # | Test Name | Migration File | Verified Pattern |
-|---|-----------|---------------|-----------------|
-| 1 | tournaments migration contains `REFERENCES seasons(id) ON DELETE CASCADE` | `20260223180006_create_tournaments_table.sql` | `season_id UUID NOT NULL REFERENCES seasons(id) ON DELETE CASCADE` |
-| 2 | tournament_results migration contains `REFERENCES teams(id) ON DELETE RESTRICT` | `20260223180008_create_tournament_results_table.sql` | `team_id UUID NOT NULL REFERENCES teams(id) ON DELETE RESTRICT` |
-| 3 | matches migration contains both team FK references with RESTRICT | `20260223180009_create_matches_table.sql` | `team_a_id ... REFERENCES teams(id) ON DELETE RESTRICT` and `team_b_id ... REFERENCES teams(id) ON DELETE RESTRICT` |
-| 4 | ranking_runs migration contains `REFERENCES seasons(id) ON DELETE CASCADE` | `20260223180010_create_ranking_runs_table.sql` | `season_id UUID NOT NULL REFERENCES seasons(id) ON DELETE CASCADE` |
-| 5 | ranking_results migration contains CASCADE on ranking_runs and RESTRICT on teams | `20260223180011_create_ranking_results_table.sql` | `REFERENCES ranking_runs(id) ON DELETE CASCADE` and `REFERENCES teams(id) ON DELETE RESTRICT` |
+| #   | Test Name                                                                        | Migration File                                       | Verified Pattern                                                                                                    |
+| --- | -------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 1   | tournaments migration contains `REFERENCES seasons(id) ON DELETE CASCADE`        | `20260223180006_create_tournaments_table.sql`        | `season_id UUID NOT NULL REFERENCES seasons(id) ON DELETE CASCADE`                                                  |
+| 2   | tournament_results migration contains `REFERENCES teams(id) ON DELETE RESTRICT`  | `20260223180008_create_tournament_results_table.sql` | `team_id UUID NOT NULL REFERENCES teams(id) ON DELETE RESTRICT`                                                     |
+| 3   | matches migration contains both team FK references with RESTRICT                 | `20260223180009_create_matches_table.sql`            | `team_a_id ... REFERENCES teams(id) ON DELETE RESTRICT` and `team_b_id ... REFERENCES teams(id) ON DELETE RESTRICT` |
+| 4   | ranking_runs migration contains `REFERENCES seasons(id) ON DELETE CASCADE`       | `20260223180010_create_ranking_runs_table.sql`       | `season_id UUID NOT NULL REFERENCES seasons(id) ON DELETE CASCADE`                                                  |
+| 5   | ranking_results migration contains CASCADE on ranking_runs and RESTRICT on teams | `20260223180011_create_ranking_results_table.sql`    | `REFERENCES ranking_runs(id) ON DELETE CASCADE` and `REFERENCES teams(id) ON DELETE RESTRICT`                       |
 
 ### Constraint & Edge Case Tests (3.3)
 
-| File | Description |
-|------|-------------|
+| File                                               | Description                                                                                 |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `tests/integration/constraints-edge-cases.test.ts` | 4 SQL structural tests (UNIQUE constraints) + 1 Zod validation test (nullable algo fields). |
 
 **Tests:**
 
-| # | Test Name | Type | Verified Pattern / Behavior |
-|---|-----------|------|---------------------------|
-| 6 | teams migration contains UNIQUE on `(code, age_group)` | SQL structural | `UNIQUE (code, age_group)` |
-| 7 | tournament_weights migration contains UNIQUE on `(tournament_id, season_id)` | SQL structural | `UNIQUE (tournament_id, season_id)` |
-| 8 | tournament_results migration contains UNIQUE on `(team_id, tournament_id)` | SQL structural | `UNIQUE (team_id, tournament_id)` |
-| 9 | ranking_results migration contains UNIQUE on `(ranking_run_id, team_id)` | SQL structural | `UNIQUE (ranking_run_id, team_id)` |
-| 10 | `rankingResultInsertSchema` accepts all algo fields as null | Zod validation | All 12 algo/agg rating/rank fields set to `null` pass validation |
+| #   | Test Name                                                                    | Type           | Verified Pattern / Behavior                                      |
+| --- | ---------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------- |
+| 6   | teams migration contains UNIQUE on `(code, age_group)`                       | SQL structural | `UNIQUE (code, age_group)`                                       |
+| 7   | tournament_weights migration contains UNIQUE on `(tournament_id, season_id)` | SQL structural | `UNIQUE (tournament_id, season_id)`                              |
+| 8   | tournament_results migration contains UNIQUE on `(team_id, tournament_id)`   | SQL structural | `UNIQUE (team_id, tournament_id)`                                |
+| 9   | ranking_results migration contains UNIQUE on `(ranking_run_id, team_id)`     | SQL structural | `UNIQUE (ranking_run_id, team_id)`                               |
+| 10  | `rankingResultInsertSchema` accepts all algo fields as null                  | Zod validation | All 12 algo/agg rating/rank fields set to `null` pass validation |
 
 ## Test Approach
 
@@ -93,6 +93,7 @@ Both strategies are deterministic, require no external services, and run in mill
 ```
 
 All 18 tests pass:
+
 - 8 original Zod schema tests (Group 2)
 - 5 referential integrity structural tests (Group 3)
 - 5 constraint and edge case tests (Group 3)

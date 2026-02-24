@@ -3,6 +3,7 @@
 Description: Creates end-user documentation following the Diátaxis framework using a three-phase refinement pipeline. Transforms technical implementation into user-friendly guides, tutorials, and references.
 
 Arguments:
+
 - type: Required. One of: "tutorial", "guide", "reference", "explanation"
 - feature: Required. The feature or capability to document.
 - source: (optional) Specific source file to analyze for this feature.
@@ -16,20 +17,25 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## THREE-PHASE PIPELINE
 
 ### PHASE 1: GENERATOR
-*Persona: Technical Writer creating initial draft*
+
+_Persona: Technical Writer creating initial draft_
+
 - Identify the Diátaxis quadrant (tutorial, guide, reference, explanation)
 - Execute the Analysis Process below
 - Generate draft in appropriate template
 
 ### PHASE 2: REFINER
-*Persona: User Experience Editor*
+
+_Persona: User Experience Editor_
+
 - Content matches single quadrant (no mixing)
 - Steps are numbered, not bulleted
 - Expected outcomes stated after each step
 - Error scenarios covered with solutions
 
 ### PHASE 3: VALIDATOR
-*Persona: QA reviewing against voice standards (see docs/voice/user-voice.md)*
+
+_Persona: QA reviewing against voice standards (see docs/voice/user-voice.md)_
 
 **Anti-Patterns to Reject:**
 | Anti-Pattern | Example | Fix |
@@ -41,6 +47,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 | "Simply" minimizing | "Simply configure the settings" | Remove minimizing language |
 
 **Red Flags (Return to Phase 2):**
+
 - [ ] Mixed Diátaxis quadrants in single document
 - [ ] Code or API references visible to end users
 - [ ] "Simply" or "just" before complex operations
@@ -60,6 +67,7 @@ You are executing a three-phase documentation pipeline. Read CLAUDE.md first for
 ## Persona
 
 Imagine you're writing for someone who:
+
 - Has never used this software before
 - Is not a software developer
 - Wants to accomplish a task, not learn technology
@@ -83,6 +91,7 @@ Imagine you're writing for someone who:
 ## What You'll Need
 
 Before you begin, make sure you have:
+
 - [ ] [Prerequisite 1]
 - [ ] [Prerequisite 2]
 
@@ -109,12 +118,14 @@ Before you begin, make sure you have:
 ## Congratulations!
 
 You've successfully [achievement]. Here's what you learned:
+
 - [Key concept 1]
 - [Key concept 2]
 
 ## What's Next?
 
 Now that you know the basics, you might want to:
+
 - [Link to related tutorial]
 - [Link to how-to guide for advanced usage]
 
@@ -127,6 +138,7 @@ Now that you know the basics, you might want to:
 **Why it happens:** [Simple explanation]
 
 **How to fix it:**
+
 1. [Fix step 1]
 2. [Fix step 2]
 ```
@@ -169,6 +181,7 @@ This guide shows you how to [specific outcome].
 ## Verification
 
 To confirm everything worked:
+
 1. [How to verify]
 2. [What to look for]
 
@@ -206,8 +219,8 @@ To confirm everything worked:
 
 ## [Category 1]
 
-| Item | Description | Values/Options |
-|------|-------------|----------------|
+| Item   | Description    | Values/Options   |
+| ------ | -------------- | ---------------- |
 | [Name] | [What it does] | [Allowed values] |
 | [Name] | [What it does] | [Allowed values] |
 
@@ -225,8 +238,8 @@ To confirm everything worked:
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
+| Term   | Definition                  |
+| ------ | --------------------------- |
 | [Term] | [Plain-language definition] |
 
 ## See Also
@@ -305,14 +318,14 @@ Think of it like [relatable analogy].
 
 ## Translation Guide
 
-| Code Concept | User Language |
-|--------------|---------------|
-| `onClick handler` | "Click the button" |
-| `validation error` | "If you see a red message..." |
-| `async operation` | "This may take a moment..." |
-| `API endpoint` | [Don't mention - describe the action] |
-| `state change` | "After you [action], you'll notice..." |
-| `null/undefined` | "If nothing appears..." |
+| Code Concept       | User Language                          |
+| ------------------ | -------------------------------------- |
+| `onClick handler`  | "Click the button"                     |
+| `validation error` | "If you see a red message..."          |
+| `async operation`  | "This may take a moment..."            |
+| `API endpoint`     | [Don't mention - describe the action]  |
+| `state change`     | "After you [action], you'll notice..." |
+| `null/undefined`   | "If nothing appears..."                |
 
 ---
 

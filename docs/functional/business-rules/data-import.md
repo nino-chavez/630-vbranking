@@ -24,10 +24,10 @@ This document describes how tournament results and pre-computed ranking data are
 
 The system accepts data through Excel spreadsheet uploads (.xlsx files). There are two distinct import formats, each serving a different purpose:
 
-| Format | Purpose | What It Contains |
-|--------|---------|-----------------|
-| **Finishes** | Import tournament placement data | Team names, tournament names, division, finish position, field size |
-| **Colley** | Import pre-computed ranking results | Team names, win/loss records, algorithm ratings and ranks |
+| Format       | Purpose                             | What It Contains                                                    |
+| ------------ | ----------------------------------- | ------------------------------------------------------------------- |
+| **Finishes** | Import tournament placement data    | Team names, tournament names, division, finish position, field size |
+| **Colley**   | Import pre-computed ranking results | Team names, win/loss records, algorithm ratings and ranks           |
 
 Every import follows a two-phase process: first the system previews what will happen, then the user confirms the import.
 
@@ -86,19 +86,19 @@ The Finishes format is used to import tournament placement data from a structure
 
 The Finishes spreadsheet has a specific structure:
 
-| Section | Location | Content |
-|---------|----------|---------|
-| **Tournament names** | Row 1 | Tournament names in merged cells spanning three columns each |
-| **Column sub-headers** | Row 2 | Repeating pattern of "Div", "Fin", "Tot" under each tournament |
-| **Team data** | Rows 3 and below | Team name in column A, team code in column B, then tournament data |
+| Section                | Location         | Content                                                            |
+| ---------------------- | ---------------- | ------------------------------------------------------------------ |
+| **Tournament names**   | Row 1            | Tournament names in merged cells spanning three columns each       |
+| **Column sub-headers** | Row 2            | Repeating pattern of "Div", "Fin", "Tot" under each tournament     |
+| **Team data**          | Rows 3 and below | Team name in column A, team code in column B, then tournament data |
 
 The first 10 columns contain team-level information. Tournament data begins at column 11 (the 11th column), with each tournament occupying three columns:
 
-| Column | Meaning | Example |
-|--------|---------|---------|
-| **Div** | The division the team competed in | "Open", "Gold", "Silver" |
-| **Fin** | The team's finish position (must be a whole number) | 1, 2, 3, 15 |
-| **Tot** | The total number of teams in that division (field size, must be a whole number) | 16, 24, 32 |
+| Column  | Meaning                                                                         | Example                  |
+| ------- | ------------------------------------------------------------------------------- | ------------------------ |
+| **Div** | The division the team competed in                                               | "Open", "Gold", "Silver" |
+| **Fin** | The team's finish position (must be a whole number)                             | 1, 2, 3, 15              |
+| **Tot** | The total number of teams in that division (field size, must be a whole number) | 16, 24, 32               |
 
 The last 5 columns of the spreadsheet are summary columns and are ignored by the system.
 
@@ -113,11 +113,11 @@ The last 5 columns of the spreadsheet are summary columns and are ignored by the
 
 > **Example of valid Finishes spreadsheet structure:**
 >
-> | (Row 1) | | | ... | Sunshine Invitational | | | Midtown Classic | | |
-> |---------|---|---|-----|----------------------|---|---|-----------------|---|---|
-> | (Row 2) | Team | Code | ... | Div | Fin | Tot | Div | Fin | Tot |
-> | (Row 3) | Thunder VBC | THU | ... | Open | 3 | 16 | Gold | 1 | 12 |
-> | (Row 4) | Lightning VBC | LGT | ... | Open | 7 | 16 | | | |
+> | (Row 1) |               |      | ... | Sunshine Invitational |     |     | Midtown Classic |     |     |
+> | ------- | ------------- | ---- | --- | --------------------- | --- | --- | --------------- | --- | --- |
+> | (Row 2) | Team          | Code | ... | Div                   | Fin | Tot | Div             | Fin | Tot |
+> | (Row 3) | Thunder VBC   | THU  | ... | Open                  | 3   | 16  | Gold            | 1   | 12  |
+> | (Row 4) | Lightning VBC | LGT  | ... | Open                  | 7   | 16  |                 |     |     |
 >
 > In this example, Lightning VBC did not attend the Midtown Classic (empty Fin/Tot), so no record is created for that combination.
 
@@ -131,24 +131,24 @@ The Colley format is used to import pre-computed ranking results directly. This 
 
 The Colley spreadsheet uses a fixed 16-column layout:
 
-| Column | Content | Required? |
-|--------|---------|-----------|
-| A | Team Name | Yes |
-| B | Team Code | Yes |
-| C | Wins | Yes (must be a number) |
-| D | Losses | Yes (must be a number) |
-| E | Algorithm 1 Rating | No |
-| F | Algorithm 1 Rank | No |
-| G | Algorithm 2 Rating | No |
-| H | Algorithm 2 Rank | No |
-| I | Algorithm 3 Rating | No |
-| J | Algorithm 3 Rank | No |
-| K | Algorithm 4 Rating | No |
-| L | Algorithm 4 Rank | No |
-| M | Algorithm 5 Rating | No |
-| N | Algorithm 5 Rank | No |
-| O | Aggregate Rating | No |
-| P | Aggregate Rank | No |
+| Column | Content            | Required?              |
+| ------ | ------------------ | ---------------------- |
+| A      | Team Name          | Yes                    |
+| B      | Team Code          | Yes                    |
+| C      | Wins               | Yes (must be a number) |
+| D      | Losses             | Yes (must be a number) |
+| E      | Algorithm 1 Rating | No                     |
+| F      | Algorithm 1 Rank   | No                     |
+| G      | Algorithm 2 Rating | No                     |
+| H      | Algorithm 2 Rank   | No                     |
+| I      | Algorithm 3 Rating | No                     |
+| J      | Algorithm 3 Rank   | No                     |
+| K      | Algorithm 4 Rating | No                     |
+| L      | Algorithm 4 Rank   | No                     |
+| M      | Algorithm 5 Rating | No                     |
+| N      | Algorithm 5 Rank   | No                     |
+| O      | Aggregate Rating   | No                     |
+| P      | Aggregate Rank     | No                     |
 
 Row 1 is the header row and is skipped. Data begins at Row 2.
 
@@ -178,11 +178,11 @@ Team names and tournament names in spreadsheets often do not exactly match what 
 
 3. **User resolution:** For each unmatched name, the user must choose one of three actions:
 
-| Action | What Happens |
-|--------|-------------|
-| **Map** | Link the imported name to an existing team or tournament the user selects from the suggestions |
-| **Create** | Create a new team or tournament record with the imported name |
-| **Skip** | Ignore all rows associated with this unmatched name |
+| Action     | What Happens                                                                                   |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| **Map**    | Link the imported name to an existing team or tournament the user selects from the suggestions |
+| **Create** | Create a new team or tournament record with the imported name                                  |
+| **Skip**   | Ignore all rows associated with this unmatched name                                            |
 
 ### Rules
 
@@ -200,6 +200,7 @@ Team names and tournament names in spreadsheets often do not exactly match what 
 > **Example:**
 >
 > A spreadsheet contains the team code "STHRN". The system finds no exact match in the 16U age group, but suggests:
+>
 > - "SOUTHERN" (Southern VBC) -- 72% similarity
 > - "STRM" (Storm VBC) -- 45% similarity
 >
@@ -251,44 +252,44 @@ When confirming an import, the user selects one of two modes that control how ex
 
 ### File-Level Validation
 
-| Rule | Condition | System Response |
-|------|-----------|----------------|
-| **RULE I-VAL-01** | File is not .xlsx format | Rejected with message: "Only .xlsx files are accepted" |
-| **RULE I-VAL-02** | File size exceeds 10 MB | Rejected with message: "File size exceeds the 10 MB limit" |
-| **RULE I-VAL-03** | Spreadsheet is empty (no data sheet or no data range) | Returns empty result with zero rows parsed |
-| **RULE I-VAL-04** | Age group is not one of 15U, 16U, 17U, 18U | Rejected with message listing valid age groups |
-| **RULE I-VAL-05** | Format is not "finishes" or "colley" | Rejected with message listing valid formats |
+| Rule              | Condition                                             | System Response                                            |
+| ----------------- | ----------------------------------------------------- | ---------------------------------------------------------- |
+| **RULE I-VAL-01** | File is not .xlsx format                              | Rejected with message: "Only .xlsx files are accepted"     |
+| **RULE I-VAL-02** | File size exceeds 10 MB                               | Rejected with message: "File size exceeds the 10 MB limit" |
+| **RULE I-VAL-03** | Spreadsheet is empty (no data sheet or no data range) | Returns empty result with zero rows parsed                 |
+| **RULE I-VAL-04** | Age group is not one of 15U, 16U, 17U, 18U            | Rejected with message listing valid age groups             |
+| **RULE I-VAL-05** | Format is not "finishes" or "colley"                  | Rejected with message listing valid formats                |
 
 ### Row-Level Validation
 
-| Rule | Condition | System Response |
-|------|-----------|----------------|
-| **RULE I-VAL-06** | Row is completely empty | Silently skipped (no error) |
-| **RULE I-VAL-07** | Team name is present but team code is missing | Error flagged for that row |
-| **RULE I-VAL-08** | Team code is present but team name is missing | Error flagged for that row |
-| **RULE I-VAL-09** | Required numeric field contains text | Error flagged for that cell |
+| Rule              | Condition                                          | System Response                      |
+| ----------------- | -------------------------------------------------- | ------------------------------------ |
+| **RULE I-VAL-06** | Row is completely empty                            | Silently skipped (no error)          |
+| **RULE I-VAL-07** | Team name is present but team code is missing      | Error flagged for that row           |
+| **RULE I-VAL-08** | Team code is present but team name is missing      | Error flagged for that row           |
+| **RULE I-VAL-09** | Required numeric field contains text               | Error flagged for that cell          |
 | **RULE I-VAL-10** | Rank field contains a non-whole-number (e.g., 3.5) | Warning flagged (Colley format only) |
 
 ### Confirmation-Phase Validation
 
-| Rule | Condition | System Response |
-|------|-----------|----------------|
-| **RULE I-VAL-11** | Identity mapping missing for a team (not mapped, created, or skipped) | Error: "No mapping found for team code: [code]" |
-| **RULE I-VAL-12** | Identity mapping missing for a tournament (Finishes only) | Error: "No mapping found for tournament: [name]" |
-| **RULE I-VAL-13** | Any row fails schema validation after identity resolution | Import is blocked; first 5 errors are shown |
+| Rule              | Condition                                                             | System Response                                  |
+| ----------------- | --------------------------------------------------------------------- | ------------------------------------------------ |
+| **RULE I-VAL-11** | Identity mapping missing for a team (not mapped, created, or skipped) | Error: "No mapping found for team code: [code]"  |
+| **RULE I-VAL-12** | Identity mapping missing for a tournament (Finishes only)             | Error: "No mapping found for tournament: [name]" |
+| **RULE I-VAL-13** | Any row fails schema validation after identity resolution             | Import is blocked; first 5 errors are shown      |
 
 ---
 
 ## Error Conditions and System Responses
 
-| Scenario | What the User Sees |
-|----------|-------------------|
-| Upload a .csv file instead of .xlsx | "Only .xlsx files are accepted" |
-| Upload a 15 MB file | "File size exceeds the 10 MB limit" |
-| Select age group "14U" | "Invalid age_group. Must be one of: 15U, 16U, 17U, 18U" |
-| Spreadsheet has "DNF" in a Finish column | Error on that cell: "Non-integer value in Fin column: DNF" |
-| Team code "XYZ" not found in the system | Identity conflict with up to 3 fuzzy match suggestions |
-| User confirms with unresolved identity conflicts | Error listing which teams or tournaments have no mapping |
-| Merge mode and existing data is identical | Row is skipped, reported in summary as "skipped" |
-| Replace mode and database write fails | All changes are rolled back; the original data is preserved |
-| Colley spreadsheet missing Wins column for a row | Error: "Missing required value for Wins" |
+| Scenario                                         | What the User Sees                                          |
+| ------------------------------------------------ | ----------------------------------------------------------- |
+| Upload a .csv file instead of .xlsx              | "Only .xlsx files are accepted"                             |
+| Upload a 15 MB file                              | "File size exceeds the 10 MB limit"                         |
+| Select age group "14U"                           | "Invalid age_group. Must be one of: 15U, 16U, 17U, 18U"     |
+| Spreadsheet has "DNF" in a Finish column         | Error on that cell: "Non-integer value in Fin column: DNF"  |
+| Team code "XYZ" not found in the system          | Identity conflict with up to 3 fuzzy match suggestions      |
+| User confirms with unresolved identity conflicts | Error listing which teams or tournaments have no mapping    |
+| Merge mode and existing data is identical        | Row is skipped, reported in summary as "skipped"            |
+| Replace mode and database write fails            | All changes are rolled back; the original data is preserved |
+| Colley spreadsheet missing Wins column for a row | Error: "Missing required value for Wins"                    |

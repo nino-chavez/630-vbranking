@@ -29,18 +29,18 @@ The dev server starts at `http://localhost:5173` by default.
 
 ## Prerequisites
 
-| Requirement | Version | Notes |
-|-------------|---------|-------|
-| Node.js | 18+ (LTS recommended) | Runtime for SvelteKit and Vite |
-| npm | 9+ | Bundled with Node.js |
-| Supabase | Hosted project **or** Supabase CLI | PostgreSQL database backend |
+| Requirement | Version                            | Notes                          |
+| ----------- | ---------------------------------- | ------------------------------ |
+| Node.js     | 18+ (LTS recommended)              | Runtime for SvelteKit and Vite |
+| npm         | 9+                                 | Bundled with Node.js           |
+| Supabase    | Hosted project **or** Supabase CLI | PostgreSQL database backend    |
 
 ### Optional
 
-| Tool | Purpose |
-|------|---------|
+| Tool         | Purpose                                                    |
+| ------------ | ---------------------------------------------------------- |
 | Supabase CLI | Local development with `supabase start`, schema migrations |
-| Git | Version control |
+| Git          | Version control                                            |
 
 ## Environment Setup
 
@@ -48,11 +48,11 @@ The application requires two environment variables to connect to Supabase. Serve
 
 ### Required Variables
 
-| Variable | Description | Used In |
-|----------|-------------|---------|
-| `PUBLIC_SUPABASE_URL` | Supabase project URL (e.g. `https://<project>.supabase.co`) | Client + Server |
-| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Supabase anon/publishable key | Client only |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (elevated permissions) | Server only (`+server.ts`, `+page.server.ts`) |
+| Variable                                  | Description                                                 | Used In                                       |
+| ----------------------------------------- | ----------------------------------------------------------- | --------------------------------------------- |
+| `PUBLIC_SUPABASE_URL`                     | Supabase project URL (e.g. `https://<project>.supabase.co`) | Client + Server                               |
+| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Supabase anon/publishable key                               | Client only                                   |
+| `SUPABASE_SERVICE_ROLE_KEY`               | Supabase service role key (elevated permissions)            | Server only (`+server.ts`, `+page.server.ts`) |
 
 ### Create Your `.env` File
 
@@ -88,16 +88,16 @@ The local project is configured in `supabase/config.toml` with project ID `volle
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | Production build |
-| `npm run preview` | Preview the production build locally |
-| `npm run check` | Run `svelte-check` and TypeScript type checking |
-| `npm run check:watch` | Type checking in watch mode |
-| `npx vitest run` | Run all tests (180 tests across 36 files) |
-| `npx vitest` | Run tests in watch mode |
-| `npx vitest run --coverage` | Run tests with coverage report |
+| Command                     | Description                                     |
+| --------------------------- | ----------------------------------------------- |
+| `npm run dev`               | Start Vite dev server with HMR                  |
+| `npm run build`             | Production build                                |
+| `npm run preview`           | Preview the production build locally            |
+| `npm run check`             | Run `svelte-check` and TypeScript type checking |
+| `npm run check:watch`       | Type checking in watch mode                     |
+| `npx vitest run`            | Run all tests (180 tests across 36 files)       |
+| `npx vitest`                | Run tests in watch mode                         |
+| `npx vitest run --coverage` | Run tests with coverage report                  |
 
 ### Type Checking
 
@@ -300,11 +300,11 @@ Each algorithm produces per-team ratings. These are min-max normalized to a 0-10
 import type { AlgorithmResult, TeamInfo } from './types.js';
 
 export function computeMyRatings(
-  /* typed inputs */
-  teams: TeamInfo[],
+	/* typed inputs */
+	teams: TeamInfo[],
 ): AlgorithmResult[] {
-  // Implement algorithm -- pure function, no database access
-  // Return sorted results with rank assigned
+	// Implement algorithm -- pure function, no database access
+	// Return sorted results with rank assigned
 }
 ```
 
@@ -315,13 +315,13 @@ import { describe, it, expect } from 'vitest';
 import { computeMyRatings } from '../my-algorithm.js';
 
 describe('computeMyRatings', () => {
-  it('produces correct ratings for known input', () => {
-    // Test with known hand-computed values
-  });
+	it('produces correct ratings for known input', () => {
+		// Test with known hand-computed values
+	});
 
-  it('handles edge cases (0 teams, 1 team, ties)', () => {
-    // Test edge cases
-  });
+	it('handles edge cases (0 teams, 1 team, ties)', () => {
+		// Test edge cases
+	});
 });
 ```
 
@@ -341,15 +341,20 @@ import type { RequestHandler } from './$types.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
 export const GET: RequestHandler = async ({ url }) => {
-  try {
-    // Parse query parameters
-    // Query Supabase using the server client
-    // Return JSON response
-    return json({ success: true, data: { /* ... */ } });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unexpected error';
-    return json({ success: false, error: message }, { status: 500 });
-  }
+	try {
+		// Parse query parameters
+		// Query Supabase using the server client
+		// Return JSON response
+		return json({
+			success: true,
+			data: {
+				/* ... */
+			},
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Unexpected error';
+		return json({ success: false, error: message }, { status: 500 });
+	}
 };
 ```
 
@@ -364,25 +369,25 @@ export const GET: RequestHandler = async ({ url }) => {
 ```svelte
 <!-- src/lib/components/MyComponent.svelte -->
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 
-  interface Props {
-    title: string;
-    variant?: 'default' | 'accent';
-    children: Snippet;
-  }
+	interface Props {
+		title: string;
+		variant?: 'default' | 'accent';
+		children: Snippet;
+	}
 
-  let { title, variant = 'default', children }: Props = $props();
+	let { title, variant = 'default', children }: Props = $props();
 
-  const variantClasses: Record<string, string> = {
-    default: 'bg-surface text-text-primary',
-    accent: 'bg-accent text-white',
-  };
+	const variantClasses: Record<string, string> = {
+		default: 'bg-surface text-text-primary',
+		accent: 'bg-accent text-white',
+	};
 </script>
 
 <div class={variantClasses[variant]}>
-  <h3>{title}</h3>
-  {@render children()}
+	<h3>{title}</h3>
+	{@render children()}
 </div>
 ```
 
@@ -400,19 +405,19 @@ import MyComponent from '../MyComponent.svelte';
 afterEach(() => cleanup());
 
 function textSnippet(text: string) {
-  return createRawSnippet(() => ({
-    render: () => `<span>${text}</span>`,
-  }));
+	return createRawSnippet(() => ({
+		render: () => `<span>${text}</span>`,
+	}));
 }
 
 describe('MyComponent', () => {
-  it('renders title and children', () => {
-    render(MyComponent, {
-      props: { title: 'Hello', children: textSnippet('Content') },
-    });
-    expect(screen.getByText('Hello')).toBeTruthy();
-    expect(screen.getByText('Content')).toBeTruthy();
-  });
+	it('renders title and children', () => {
+		render(MyComponent, {
+			props: { title: 'Hello', children: textSnippet('Content') },
+		});
+		expect(screen.getByText('Hello')).toBeTruthy();
+		expect(screen.getByText('Content')).toBeTruthy();
+	});
 });
 ```
 
@@ -431,16 +436,16 @@ const uuidSchema = z.uuid();
 const datetimeSchema = z.iso.datetime();
 
 export const myEntitySchema = z.object({
-  id: uuidSchema,
-  name: z.string().min(1),
-  created_at: datetimeSchema,
-  updated_at: datetimeSchema,
+	id: uuidSchema,
+	name: z.string().min(1),
+	created_at: datetimeSchema,
+	updated_at: datetimeSchema,
 });
 
 export const myEntityInsertSchema = myEntitySchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+	id: true,
+	created_at: true,
+	updated_at: true,
 });
 
 export const myEntityUpdateSchema = myEntityInsertSchema.partial();

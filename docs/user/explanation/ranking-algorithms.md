@@ -12,13 +12,13 @@ This approach is called an **ensemble** method. The idea is the same as asking f
 
 The five algorithms are:
 
-| Algorithm | Name | Type |
-|---|---|---|
+| Algorithm   | Name          | Type                             |
+| ----------- | ------------- | -------------------------------- |
 | Algorithm 1 | Colley Matrix | Simultaneous (all games at once) |
-| Algorithm 2 | Elo-2200 | Sequential (game by game) |
-| Algorithm 3 | Elo-2400 | Sequential (game by game) |
-| Algorithm 4 | Elo-2500 | Sequential (game by game) |
-| Algorithm 5 | Elo-2700 | Sequential (game by game) |
+| Algorithm 2 | Elo-2200      | Sequential (game by game)        |
+| Algorithm 3 | Elo-2400      | Sequential (game by game)        |
+| Algorithm 4 | Elo-2500      | Sequential (game by game)        |
+| Algorithm 5 | Elo-2700      | Sequential (game by game)        |
 
 ---
 
@@ -57,11 +57,11 @@ The Elo rating system processes games one by one in chronological order, updatin
 The system runs four Elo variants that differ only in their **starting rating** -- the rating every team begins the season with:
 
 | Algorithm | Starting Rating |
-|---|---|
-| Elo-2200 | 2200 |
-| Elo-2400 | 2400 |
-| Elo-2500 | 2500 |
-| Elo-2700 | 2700 |
+| --------- | --------------- |
+| Elo-2200  | 2200            |
+| Elo-2400  | 2400            |
+| Elo-2500  | 2500            |
+| Elo-2700  | 2700            |
 
 ### How It Works (Simple Version)
 
@@ -92,6 +92,7 @@ Tournament weights scale the K-factor for games at that tournament. At a Tier-1 
 ## Normalization: Scaling to 0-100
 
 Each algorithm produces ratings on a different scale:
+
 - Colley ratings typically range from about 0.3 to 0.7
 - Elo-2200 ratings might range from 1800 to 2600
 - Elo-2700 ratings might range from 2400 to 3100
@@ -155,17 +156,17 @@ When a team is ranked highly by all five algorithms, you can have strong confide
 
 ## Summary
 
-| Step | What Happens |
-|---|---|
-| 1. Data Collection | Tournament finishes or match records are imported |
-| 2. Win/Loss Derivation | Pairwise win/loss records are derived from the data |
-| 3. Colley Matrix | All games are analyzed simultaneously to produce ratings |
-| 4. Four Elo Variants | Games are processed chronologically with four different starting ratings |
-| 5. Normalization | All five sets of ratings are scaled to 0-100 |
-| 6. Aggregation | The five normalized scores are averaged into a single AggRating |
-| 7. Ranking | Teams are sorted by AggRating to produce the final AggRank |
+| Step                    | What Happens                                                              |
+| ----------------------- | ------------------------------------------------------------------------- |
+| 1. Data Collection      | Tournament finishes or match records are imported                         |
+| 2. Win/Loss Derivation  | Pairwise win/loss records are derived from the data                       |
+| 3. Colley Matrix        | All games are analyzed simultaneously to produce ratings                  |
+| 4. Four Elo Variants    | Games are processed chronologically with four different starting ratings  |
+| 5. Normalization        | All five sets of ratings are scaled to 0-100                              |
+| 6. Aggregation          | The five normalized scores are averaged into a single AggRating           |
+| 7. Ranking              | Teams are sorted by AggRating to produce the final AggRank                |
 | 8. Overrides (optional) | The committee may adjust specific positions with documented justification |
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

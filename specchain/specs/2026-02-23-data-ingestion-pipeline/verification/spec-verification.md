@@ -11,16 +11,16 @@
 
 Verify all 8 user answers from the Q&A session are accurately captured in `planning/requirements.md`.
 
-| Q# | User Answer (Raw) | Captured in requirements.md | Accurate? | Notes |
-|----|-------------------|----------------------------|-----------|-------|
-| Q1 | "All three" -- Finishes .xlsx, Colley .xlsx, and CSV match data. Full flexibility. | Yes. Q1 answer lists all three formats: Finishes .xlsx, Colley .xlsx, and plain CSV for match-level data. "Full flexibility for all data types." | PASS | Accurately captured with the exact scope of each format. |
-| Q2 | "Defer match ingestion" -- Focus on tournament results only. Match ingestion is a separate future concern. | Yes. Q2 states "Defer match ingestion. This feature focuses on tournament results from the Finishes spreadsheet. Match ingestion will be handled separately in a future feature. The CSV match format should be architecturally supported but not implemented in this spec." | PASS | Correctly captures the defer decision and adds the architectural note about interface-only support. |
-| Q3 | "Adaptive (Recommended)" -- Auto-detect tournament boundaries by scanning for Div/Fin/Tot patterns. Skip empty columns. Handle merged cells gracefully. | Yes. Q3 states "Adaptive parsing. Auto-detect tournament column boundaries by scanning for Div/Fin/Tot patterns in Row 2." Also documents observed irregularities from the reference spreadsheet (padding columns, header-only tournaments, merged cells). | PASS | Enriched with specific structural observations from the reference spreadsheet. This is additive and accurate. |
-| Q4 | "Preview & map" -- Show unmatched entities in a mapping UI where the user can create new records or map to existing ones before import. | Yes. Q4 states "Preview & map. Show unmatched entities in a mapping UI where the user can: Create a new team/tournament record, Map to an existing record, Skip the unmatched row. Import does not proceed until all identity conflicts are resolved." | PASS | Faithfully captures the three options (create, map, skip) and the blocking condition. |
-| Q5 | "User choice at upload" -- Let the uploader pick 'Replace all' vs 'Merge/update' at upload time. | Yes. Q5 states "User choice at upload time. Present two options: Replace all / Merge/update." Includes details on behavior of each mode. | PASS | Accurately captured. Merge mode detail ("Never auto-delete existing records") is a reasonable inference from the user's "merge/update" answer. |
-| Q6 | "Ignore and recompute (Recommended)" -- Don't import summary columns. Recompute all aggregates from raw tournament results. | Yes. Q6 states "Ignore and recompute. Do not import the summary columns...All aggregates will be recomputed from the raw tournament result data. Single source of truth." Lists specific columns to ignore. | PASS | Accurately captured with the explicit list of ignored columns. |
-| Q7 | "Preview with errors" -- Show parsed data in a table with flagged rows. Let user correct, skip, or resolve errors before confirming import. | Yes. Q7 states "Preview with errors. Show the full parsed data in a table with flagged/highlighted rows" and lists error types (unknown team codes, duplicate entries, invalid data, tournaments with no sub-headers). | PASS | Enriched with specific error types. Accurate to the user's intent. |
-| Q8 | "Both UI + API" -- Web UI page with drag-and-drop for committee members, plus API endpoint for automation. User selects season + age group. | Yes. Q8 states "Both UI + API: Web UI (drag-and-drop or file picker page for committee members), API endpoint (programmatic endpoint). User selects season and age group." Also adds "The system should NOT infer age group from file content." | PASS | Accurately captured. The no-inference constraint is a valuable clarification consistent with explicit selection. |
+| Q#  | User Answer (Raw)                                                                                                                                       | Captured in requirements.md                                                                                                                                                                                                                                                  | Accurate? | Notes                                                                                                                                          |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q1  | "All three" -- Finishes .xlsx, Colley .xlsx, and CSV match data. Full flexibility.                                                                      | Yes. Q1 answer lists all three formats: Finishes .xlsx, Colley .xlsx, and plain CSV for match-level data. "Full flexibility for all data types."                                                                                                                             | PASS      | Accurately captured with the exact scope of each format.                                                                                       |
+| Q2  | "Defer match ingestion" -- Focus on tournament results only. Match ingestion is a separate future concern.                                              | Yes. Q2 states "Defer match ingestion. This feature focuses on tournament results from the Finishes spreadsheet. Match ingestion will be handled separately in a future feature. The CSV match format should be architecturally supported but not implemented in this spec." | PASS      | Correctly captures the defer decision and adds the architectural note about interface-only support.                                            |
+| Q3  | "Adaptive (Recommended)" -- Auto-detect tournament boundaries by scanning for Div/Fin/Tot patterns. Skip empty columns. Handle merged cells gracefully. | Yes. Q3 states "Adaptive parsing. Auto-detect tournament column boundaries by scanning for Div/Fin/Tot patterns in Row 2." Also documents observed irregularities from the reference spreadsheet (padding columns, header-only tournaments, merged cells).                   | PASS      | Enriched with specific structural observations from the reference spreadsheet. This is additive and accurate.                                  |
+| Q4  | "Preview & map" -- Show unmatched entities in a mapping UI where the user can create new records or map to existing ones before import.                 | Yes. Q4 states "Preview & map. Show unmatched entities in a mapping UI where the user can: Create a new team/tournament record, Map to an existing record, Skip the unmatched row. Import does not proceed until all identity conflicts are resolved."                       | PASS      | Faithfully captures the three options (create, map, skip) and the blocking condition.                                                          |
+| Q5  | "User choice at upload" -- Let the uploader pick 'Replace all' vs 'Merge/update' at upload time.                                                        | Yes. Q5 states "User choice at upload time. Present two options: Replace all / Merge/update." Includes details on behavior of each mode.                                                                                                                                     | PASS      | Accurately captured. Merge mode detail ("Never auto-delete existing records") is a reasonable inference from the user's "merge/update" answer. |
+| Q6  | "Ignore and recompute (Recommended)" -- Don't import summary columns. Recompute all aggregates from raw tournament results.                             | Yes. Q6 states "Ignore and recompute. Do not import the summary columns...All aggregates will be recomputed from the raw tournament result data. Single source of truth." Lists specific columns to ignore.                                                                  | PASS      | Accurately captured with the explicit list of ignored columns.                                                                                 |
+| Q7  | "Preview with errors" -- Show parsed data in a table with flagged rows. Let user correct, skip, or resolve errors before confirming import.             | Yes. Q7 states "Preview with errors. Show the full parsed data in a table with flagged/highlighted rows" and lists error types (unknown team codes, duplicate entries, invalid data, tournaments with no sub-headers).                                                       | PASS      | Enriched with specific error types. Accurate to the user's intent.                                                                             |
+| Q8  | "Both UI + API" -- Web UI page with drag-and-drop for committee members, plus API endpoint for automation. User selects season + age group.             | Yes. Q8 states "Both UI + API: Web UI (drag-and-drop or file picker page for committee members), API endpoint (programmatic endpoint). User selects season and age group." Also adds "The system should NOT infer age group from file content."                              | PASS      | Accurately captured. The no-inference constraint is a valuable clarification consistent with explicit selection.                               |
 
 **Check 1 Result: PASS** -- All 8 user answers are accurately and faithfully captured in requirements.md. Enrichments (specific column lists, structural observations, error types) are additive clarifications that do not contradict the user's answers.
 
@@ -53,6 +53,7 @@ If visuals exist, verify they are referenced in the spec.
 ## Check 4: Requirements Deep Dive
 
 ### Explicit Features
+
 1. File upload endpoint (both Web UI and API)
 2. Adaptive Excel parser for Finishes format (Div/Fin/Tot detection)
 3. Colley format parser (fixed 16-column layout)
@@ -68,6 +69,7 @@ If visuals exist, verify they are referenced in the spec.
 13. Merge mode: insert new, update changed, skip identical
 
 ### Constraints
+
 - File format restricted to .xlsx (CSV deferred)
 - Age group must NOT be inferred from file content
 - Import blocked until all identity conflicts resolved
@@ -75,6 +77,7 @@ If visuals exist, verify they are referenced in the spec.
 - Summary/computed columns are never imported
 
 ### Out-of-Scope Items (from requirements.md)
+
 1. CSV match data ingestion implementation (architecture only)
 2. Actual match record creation
 3. Summary column import
@@ -84,6 +87,7 @@ If visuals exist, verify they are referenced in the spec.
 7. Age group inference from file content
 
 ### Reusability Opportunities (from requirements.md)
+
 1. Existing Zod schemas: `tournamentResultInsertSchema`, `teamInsertSchema`, `tournamentInsertSchema`
 2. Supabase client patterns from `src/lib/supabase.ts`
 3. `xlsx` library (SheetJS) for Excel parsing
@@ -96,12 +100,15 @@ If visuals exist, verify they are referenced in the spec.
 ## Check 5: Core Specification Validation
 
 ### Goal Alignment
+
 - **Requirements goal:** Build a file upload and parsing system for Excel/CSV files, map columns, validate data integrity, persist to database.
 - **Spec goal:** Build a file upload and parsing system that accepts Excel (.xlsx) files in two known formats (Finishes and Colley), auto-detects column structure, validates parsed data, provides preview-and-resolve UI for identity conflicts, and persists tournament results and ranking data to Supabase -- with extensible path toward CSV match ingestion.
 - **Verdict:** PASS. Spec goal faithfully extends the requirements goal with appropriate specificity.
 
 ### User Stories
+
 The spec defines 7 user stories covering:
+
 - Upload Finishes spreadsheet (committee member)
 - Upload Colley spreadsheet (committee member)
 - Preview with error highlighting (committee member)
@@ -113,50 +120,54 @@ The spec defines 7 user stories covering:
 All 7 stories trace directly to user answers (Q1, Q3, Q4, Q5, Q7, Q8). **PASS.**
 
 ### Core Requirements Traceability
-| Requirement (from requirements.md) | Spec Section | Covered? |
-|-------------------------------------|-------------|----------|
-| File upload (UI + API) | F1: File Upload | Yes |
-| Adaptive Excel parser | F3: Adaptive Finishes Parser | Yes |
-| Colley format parser | F4: Colley Format Parser | Yes |
-| CSV match parser (architecture only) | F5: CSV Match Parser | Yes |
-| Team identity resolution | F6: Identity Resolution | Yes |
-| Tournament identity resolution | F6: Identity Resolution | Yes |
-| Data validation | F7: Data Validation and Error Preview | Yes |
-| Error preview | F7: Data Validation and Error Preview | Yes |
-| Import mode selection | F8: Import Mode Selection | Yes |
-| Replace mode (atomic) | F8 + Technical Approach | Yes |
-| Merge mode | F8 + Technical Approach | Yes |
-| Context selection (season + age group) | F2: Context Selection | Yes |
-| Summary columns ignored | F3 (trailing summary columns), Out of Scope | Yes |
+
+| Requirement (from requirements.md)     | Spec Section                                | Covered? |
+| -------------------------------------- | ------------------------------------------- | -------- |
+| File upload (UI + API)                 | F1: File Upload                             | Yes      |
+| Adaptive Excel parser                  | F3: Adaptive Finishes Parser                | Yes      |
+| Colley format parser                   | F4: Colley Format Parser                    | Yes      |
+| CSV match parser (architecture only)   | F5: CSV Match Parser                        | Yes      |
+| Team identity resolution               | F6: Identity Resolution                     | Yes      |
+| Tournament identity resolution         | F6: Identity Resolution                     | Yes      |
+| Data validation                        | F7: Data Validation and Error Preview       | Yes      |
+| Error preview                          | F7: Data Validation and Error Preview       | Yes      |
+| Import mode selection                  | F8: Import Mode Selection                   | Yes      |
+| Replace mode (atomic)                  | F8 + Technical Approach                     | Yes      |
+| Merge mode                             | F8 + Technical Approach                     | Yes      |
+| Context selection (season + age group) | F2: Context Selection                       | Yes      |
+| Summary columns ignored                | F3 (trailing summary columns), Out of Scope | Yes      |
 
 **All functional requirements are covered in the spec.**
 
 ### Out-of-Scope Alignment
+
 | Out-of-Scope (requirements.md) | Spec Out-of-Scope | Covered? |
-|-------------------------------|-------------------|----------|
-| CSV match data implementation | Yes | Yes |
-| Match record creation | Yes | Yes |
-| Summary column import | Yes | Yes |
-| Automated/scheduled imports | Yes | Yes |
-| Auth/permissions | Yes | Yes |
-| Multi-sheet parsing | Yes | Yes |
-| Age group inference | Yes | Yes |
+| ------------------------------ | ----------------- | -------- |
+| CSV match data implementation  | Yes               | Yes      |
+| Match record creation          | Yes               | Yes      |
+| Summary column import          | Yes               | Yes      |
+| Automated/scheduled imports    | Yes               | Yes      |
+| Auth/permissions               | Yes               | Yes      |
+| Multi-sheet parsing            | Yes               | Yes      |
+| Age group inference            | Yes               | Yes      |
 
 The spec adds two additional out-of-scope items not in requirements.md:
+
 - "Tournament date extraction" -- Appropriate addition noting the Finishes spreadsheet lacks tournament dates.
 - "Bulk team/tournament management" -- Appropriate boundary clarification.
 
 **PASS** -- All out-of-scope items align, and additions are justified.
 
 ### Reusability Alignment
-| Reusability (requirements.md) | Spec Reusable Components Table | Referenced? |
-|-------------------------------|-------------------------------|-------------|
-| `tournamentResultInsertSchema` | Yes -- `$lib/schemas/tournament-result.ts` | Yes |
-| `teamInsertSchema` | Yes -- `$lib/schemas/team.ts` | Yes |
-| `tournamentInsertSchema` | Yes -- `$lib/schemas/tournament.ts` | Yes |
-| Supabase client (`src/lib/supabase.ts`) | Yes -- `$lib/supabase.ts` | Yes |
-| `xlsx` library | Yes -- mentioned in Technical Approach | Yes |
-| `csv-parse` library | Not mentioned in spec (CSV deferred) | Acceptable |
+
+| Reusability (requirements.md)           | Spec Reusable Components Table             | Referenced? |
+| --------------------------------------- | ------------------------------------------ | ----------- |
+| `tournamentResultInsertSchema`          | Yes -- `$lib/schemas/tournament-result.ts` | Yes         |
+| `teamInsertSchema`                      | Yes -- `$lib/schemas/team.ts`              | Yes         |
+| `tournamentInsertSchema`                | Yes -- `$lib/schemas/tournament.ts`        | Yes         |
+| Supabase client (`src/lib/supabase.ts`) | Yes -- `$lib/supabase.ts`                  | Yes         |
+| `xlsx` library                          | Yes -- mentioned in Technical Approach     | Yes         |
+| `csv-parse` library                     | Not mentioned in spec (CSV deferred)       | Acceptable  |
 
 The spec also correctly references `rankingResultInsertSchema` (`$lib/schemas/ranking-result.ts`), `AgeGroup` enum (`$lib/schemas/enums.ts`), and `Database` types (`$lib/types/database.types.ts`) -- all of which exist in the Feature 1 codebase. **Verified against actual files.**
 
@@ -168,30 +179,33 @@ The spec also correctly references `rankingResultInsertSchema` (`$lib/schemas/ra
 
 ### Test Count Limits (2-8 per group, 10 max for testing-engineer)
 
-| Group | Tests Written | Within 2-8 Limit? |
-|-------|--------------|-------------------|
-| Group 1 (Parsing & Types) | 8 (5 Finishes + 3 Colley) | PASS (exactly 8) |
-| Group 2 (Import Service & API) | 6 | PASS |
-| Group 3 (Frontend UI) | 4 | PASS |
-| Group 4 (Testing Engineer) | Up to 10 | PASS (at the limit) |
+| Group                          | Tests Written             | Within 2-8 Limit?   |
+| ------------------------------ | ------------------------- | ------------------- |
+| Group 1 (Parsing & Types)      | 8 (5 Finishes + 3 Colley) | PASS (exactly 8)    |
+| Group 2 (Import Service & API) | 6                         | PASS                |
+| Group 3 (Frontend UI)          | 4                         | PASS                |
+| Group 4 (Testing Engineer)     | Up to 10                  | PASS (at the limit) |
 
 **Total tests: 18 (Groups 1-3) + up to 10 (Group 4) = up to 28.** Within bounds.
 
 ### Reusability References in Tasks
-| Reusable Asset | Referenced In Tasks? | Where? |
-|---------------|---------------------|--------|
-| `tournamentResultInsertSchema` | Yes | Task 2.2 (validate Finishes rows), Task 4.2 (Zod integration tests), Summary table |
-| `rankingResultInsertSchema` | Yes | Task 2.2 (validate Colley rows), Task 4.2, Summary table |
-| `teamInsertSchema` | Yes | Task 2.6 (confirm endpoint identity resolution), Summary table |
-| `tournamentInsertSchema` | Yes | Task 2.6 (confirm endpoint), Summary table |
-| `AgeGroup` enum | Yes | Task 2.5 (validate age_group param), Task 3.5 (selector), Summary table |
-| Supabase client | Yes | Task 2.1, 2.2, 2.5, 2.6, 2.7, Summary table |
-| `Database` types | Yes | Summary table |
+
+| Reusable Asset                 | Referenced In Tasks? | Where?                                                                             |
+| ------------------------------ | -------------------- | ---------------------------------------------------------------------------------- |
+| `tournamentResultInsertSchema` | Yes                  | Task 2.2 (validate Finishes rows), Task 4.2 (Zod integration tests), Summary table |
+| `rankingResultInsertSchema`    | Yes                  | Task 2.2 (validate Colley rows), Task 4.2, Summary table                           |
+| `teamInsertSchema`             | Yes                  | Task 2.6 (confirm endpoint identity resolution), Summary table                     |
+| `tournamentInsertSchema`       | Yes                  | Task 2.6 (confirm endpoint), Summary table                                         |
+| `AgeGroup` enum                | Yes                  | Task 2.5 (validate age_group param), Task 3.5 (selector), Summary table            |
+| Supabase client                | Yes                  | Task 2.1, 2.2, 2.5, 2.6, 2.7, Summary table                                        |
+| `Database` types               | Yes                  | Summary table                                                                      |
 
 **PASS** -- All reusable assets from Feature 1 are referenced with specific file paths and usage context.
 
 ### Task Specificity
+
 Each sub-task includes:
+
 - A specific file to create or modify (exact path)
 - Detailed implementation instructions (what to implement, not just what to achieve)
 - Clear input/output contracts (types, method signatures)
@@ -201,28 +215,29 @@ Each sub-task includes:
 
 ### Traceability (Tasks -> Spec Requirements)
 
-| Spec Requirement | Task(s) |
-|-----------------|---------|
-| F1: File Upload | 3.1 (FileDropZone), 2.5 (upload endpoint), 3.5 (import page) |
-| F2: Context Selection | 2.7 (server load), 3.5 (selectors) |
-| F3: Adaptive Finishes Parser | 1.2, 1.7 |
-| F4: Colley Format Parser | 1.3, 1.8 |
-| F5: CSV Match Parser (interface) | 1.4 |
-| F6: Identity Resolution | 2.1 (service), 3.2 (UI panel) |
+| Spec Requirement                    | Task(s)                                                                                       |
+| ----------------------------------- | --------------------------------------------------------------------------------------------- |
+| F1: File Upload                     | 3.1 (FileDropZone), 2.5 (upload endpoint), 3.5 (import page)                                  |
+| F2: Context Selection               | 2.7 (server load), 3.5 (selectors)                                                            |
+| F3: Adaptive Finishes Parser        | 1.2, 1.7                                                                                      |
+| F4: Colley Format Parser            | 1.3, 1.8                                                                                      |
+| F5: CSV Match Parser (interface)    | 1.4                                                                                           |
+| F6: Identity Resolution             | 2.1 (service), 3.2 (UI panel)                                                                 |
 | F7: Data Validation & Error Preview | 2.2 (validation), 2.4 (duplicate detection), 3.3 (preview table), 4.2 (Zod integration tests) |
-| F8: Import Mode Selection | 2.2 (replace/merge logic), 2.3 (atomic RPC), 3.5 (mode selector) |
-| F9: Database Persistence | 2.2, 2.3, 2.5, 2.6 |
-| F10: Import Summary | 3.4 (ImportSummary component) |
-| NF1: Performance | Not explicitly tasked (implicit in parser implementation) |
-| NF2: File size limit | 3.1 (FileDropZone maxSizeMB), 2.5 (server-side rejection) |
-| NF3: Error resilience | 4.3 (malformed file tests) |
-| NF4: Type safety | 1.1 (types), 2.2 (Zod validation) |
-| NF5: Accessibility | 3.1 (keyboard-navigable, non-color-only errors) |
-| NF6: Responsiveness | 3.6 (layout styling >= 1024px) |
+| F8: Import Mode Selection           | 2.2 (replace/merge logic), 2.3 (atomic RPC), 3.5 (mode selector)                              |
+| F9: Database Persistence            | 2.2, 2.3, 2.5, 2.6                                                                            |
+| F10: Import Summary                 | 3.4 (ImportSummary component)                                                                 |
+| NF1: Performance                    | Not explicitly tasked (implicit in parser implementation)                                     |
+| NF2: File size limit                | 3.1 (FileDropZone maxSizeMB), 2.5 (server-side rejection)                                     |
+| NF3: Error resilience               | 4.3 (malformed file tests)                                                                    |
+| NF4: Type safety                    | 1.1 (types), 2.2 (Zod validation)                                                             |
+| NF5: Accessibility                  | 3.1 (keyboard-navigable, non-color-only errors)                                               |
+| NF6: Responsiveness                 | 3.6 (layout styling >= 1024px)                                                                |
 
 **PASS** -- All spec requirements have at least one corresponding task. No orphaned requirements.
 
 ### Scope Verification
+
 - No task introduces functionality outside the spec's scope.
 - CSV match parser (Task 1.4) is correctly scoped to interface-only, matching spec F5.
 - Auth/permissions are not implemented in any task, matching out-of-scope.
@@ -232,12 +247,12 @@ Each sub-task includes:
 
 ### Task Count Per Group
 
-| Group | Sub-tasks | Reasonable? |
-|-------|----------|-------------|
-| Group 1 | 8 (1.1-1.8) | Yes -- types, 2 parsers, 1 interface, barrel export, fixtures, 2 test files |
+| Group   | Sub-tasks   | Reasonable?                                                                                        |
+| ------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| Group 1 | 8 (1.1-1.8) | Yes -- types, 2 parsers, 1 interface, barrel export, fixtures, 2 test files                        |
 | Group 2 | 8 (2.1-2.8) | Yes -- identity resolver, import service, RPC, duplicate detector, 2 endpoints, page server, tests |
-| Group 3 | 7 (3.1-3.7) | Yes -- 4 components, page, styling, tests |
-| Group 4 | 6 (4.1-4.6) | Yes -- audit, 3 test files, E2E, verification |
+| Group 3 | 7 (3.1-3.7) | Yes -- 4 components, page, styling, tests                                                          |
+| Group 4 | 6 (4.1-4.6) | Yes -- audit, 3 test files, E2E, verification                                                      |
 
 **Total: 29 sub-tasks.** Reasonable for a standard-depth squad execution.
 
@@ -248,29 +263,31 @@ Each sub-task includes:
 ## Check 7: Reusability and Over-Engineering Check
 
 ### Unnecessary New Components
+
 Review of new components proposed in the spec and tasks:
 
-| New Component | Justified? | Rationale |
-|--------------|-----------|-----------|
-| FinishesParser | Yes | Core feature requirement. No existing parser. |
-| ColleyParser | Yes | Core feature requirement. No existing parser. |
-| MatchFileParser (interface) | Yes | Architecture-only per user Q2. Minimal cost (types only). |
-| ParseResult types | Yes | Shared across all parsers and the import service. |
-| IdentityResolver | Yes | Core feature (Q4). Fuzzy matching is domain-specific logic. |
-| ImportService | Yes | Orchestrates validation + replace/merge logic. Justified complexity. |
-| FileDropZone | Yes | Reusable UI component. No existing file upload component in the codebase. |
-| IdentityResolutionPanel | Yes | Feature-specific UI for Q4 requirement. |
-| DataPreviewTable | Yes | Feature-specific UI for Q7 requirement. |
-| ImportSummary | Yes | Simple display component for import results. |
-| Import page | Yes | Required page route for the feature. |
-| Upload API endpoint | Yes | Core feature (Q8). |
-| Confirm API endpoint | Yes | Separates parsing from persistence. Good architectural decision. |
-| Supabase RPC function | Yes | Required for atomic replace-mode transactions (Supabase JS client limitation). |
+| New Component                        | Justified? | Rationale                                                                      |
+| ------------------------------------ | ---------- | ------------------------------------------------------------------------------ |
+| FinishesParser                       | Yes        | Core feature requirement. No existing parser.                                  |
+| ColleyParser                         | Yes        | Core feature requirement. No existing parser.                                  |
+| MatchFileParser (interface)          | Yes        | Architecture-only per user Q2. Minimal cost (types only).                      |
+| ParseResult types                    | Yes        | Shared across all parsers and the import service.                              |
+| IdentityResolver                     | Yes        | Core feature (Q4). Fuzzy matching is domain-specific logic.                    |
+| ImportService                        | Yes        | Orchestrates validation + replace/merge logic. Justified complexity.           |
+| FileDropZone                         | Yes        | Reusable UI component. No existing file upload component in the codebase.      |
+| IdentityResolutionPanel              | Yes        | Feature-specific UI for Q4 requirement.                                        |
+| DataPreviewTable                     | Yes        | Feature-specific UI for Q7 requirement.                                        |
+| ImportSummary                        | Yes        | Simple display component for import results.                                   |
+| Import page                          | Yes        | Required page route for the feature.                                           |
+| Upload API endpoint                  | Yes        | Core feature (Q8).                                                             |
+| Confirm API endpoint                 | Yes        | Separates parsing from persistence. Good architectural decision.               |
+| Supabase RPC function                | Yes        | Required for atomic replace-mode transactions (Supabase JS client limitation). |
 | DuplicateDetector (separate utility) | Borderline | Could be a method on ImportService rather than a separate file. Minor concern. |
 
 **No unnecessary new components identified.** The DuplicateDetector as a separate file is a minor organizational preference, not over-engineering.
 
 ### Duplicated Logic
+
 - Parser validation (Zod) is used in both the upload flow (server-side) and the confirm flow. This is intentional double-validation (defense in depth), not duplication.
 - Identity resolution is centralized in a single service class. No duplication.
 - No logic is reimplemented that already exists in Feature 1.
@@ -278,6 +295,7 @@ Review of new components proposed in the spec and tasks:
 **PASS** -- No duplicated logic.
 
 ### Missing Reuse Opportunities
+
 - The existing `src/lib/supabase.ts` client is correctly referenced for all DB operations.
 - All Feature 1 Zod schemas are referenced by exact path and used in validation.
 - The existing `AgeGroup` enum is reused for both UI selectors and parameter validation.
@@ -288,6 +306,7 @@ Review of new components proposed in the spec and tasks:
 **PASS** -- No missing reuse opportunities.
 
 ### Over-Engineering Concerns
+
 - The spec does NOT introduce unnecessary abstractions (e.g., no plugin system for parsers, no event bus, no state management library beyond Svelte 5 runes).
 - The `FileParserInterface<T>` generic interface is lightweight and justified -- it ensures the deferred CSV parser will conform to the same contract.
 - The two-endpoint architecture (upload + confirm) is appropriate for the multi-step flow (parse -> preview -> resolve -> confirm). A single endpoint would require passing all state back and forth or maintaining server-side session state.
@@ -324,6 +343,7 @@ All 7 checks passed. The requirements, specification, and task list are internal
 ## Over-Engineering Concerns
 
 **None.** The architecture is appropriately scoped for the feature:
+
 - No unnecessary abstraction layers or frameworks
 - Parser interface is minimal (one generic interface, not a plugin system)
 - State management uses native Svelte 5 runes, not an external state library

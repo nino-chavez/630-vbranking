@@ -8,12 +8,12 @@ This document provides a high-level overview of the operational landscape for th
 
 The Volleyball Ranking Engine is a SvelteKit 2.50 monolith backed by Supabase (hosted PostgreSQL). The architecture intentionally avoids microservices in favor of a single managed database and a single application deployment.
 
-| Component | Technology | Hosting |
-|-----------|-----------|---------|
-| Application | SvelteKit 2.50 (Svelte 5, TypeScript 5.9) | Flexible (adapter-auto) |
-| Database | PostgreSQL 17 | Supabase managed service |
-| CSS | Tailwind CSS 4.2 (Vite plugin) | Bundled with application |
-| Math Libraries | ml-matrix, custom Elo | Bundled with application |
+| Component      | Technology                                | Hosting                  |
+| -------------- | ----------------------------------------- | ------------------------ |
+| Application    | SvelteKit 2.50 (Svelte 5, TypeScript 5.9) | Flexible (adapter-auto)  |
+| Database       | PostgreSQL 17                             | Supabase managed service |
+| CSS            | Tailwind CSS 4.2 (Vite plugin)            | Bundled with application |
+| Math Libraries | ml-matrix, custom Elo                     | Bundled with application |
 
 ### Key Characteristics
 
@@ -35,11 +35,11 @@ See [deployment.md](./deployment.md) for detailed deployment procedures.
 
 The application requires three environment variables for Supabase connectivity:
 
-| Variable | Scope | Purpose |
-|----------|-------|---------|
-| `PUBLIC_SUPABASE_URL` | Client + Server | Supabase project API URL |
-| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Client | Supabase anonymous/publishable key for browser requests |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only | Supabase service role key for elevated server-side operations |
+| Variable                                  | Scope           | Purpose                                                       |
+| ----------------------------------------- | --------------- | ------------------------------------------------------------- |
+| `PUBLIC_SUPABASE_URL`                     | Client + Server | Supabase project API URL                                      |
+| `PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Client          | Supabase anonymous/publishable key for browser requests       |
+| `SUPABASE_SERVICE_ROLE_KEY`               | Server only     | Supabase service role key for elevated server-side operations |
 
 **Environment separation**:
 
@@ -51,13 +51,13 @@ The application requires three environment variables for Supabase connectivity:
 
 No dedicated monitoring infrastructure is configured. Current observability relies on:
 
-| Layer | Current Approach | Recommended Enhancement |
-|-------|-----------------|------------------------|
-| Application errors | Browser console, SvelteKit error pages | Add structured logging (e.g., Pino) and an error tracker (e.g., Sentry) |
-| Database health | Supabase Dashboard metrics | Enable Supabase alerting for connection pool saturation and query latency |
-| API performance | Manual observation | Add request timing middleware and export metrics to a dashboard |
-| Ranking correctness | Manual review of ranking results | Automated smoke tests comparing expected vs. actual rankings for known datasets |
-| Import pipeline | Application-level error responses | Add import audit logging with success/failure counts per batch |
+| Layer               | Current Approach                       | Recommended Enhancement                                                         |
+| ------------------- | -------------------------------------- | ------------------------------------------------------------------------------- |
+| Application errors  | Browser console, SvelteKit error pages | Add structured logging (e.g., Pino) and an error tracker (e.g., Sentry)         |
+| Database health     | Supabase Dashboard metrics             | Enable Supabase alerting for connection pool saturation and query latency       |
+| API performance     | Manual observation                     | Add request timing middleware and export metrics to a dashboard                 |
+| Ranking correctness | Manual review of ranking results       | Automated smoke tests comparing expected vs. actual rankings for known datasets |
+| Import pipeline     | Application-level error responses      | Add import audit logging with success/failure counts per batch                  |
 
 ### Supabase Dashboard
 

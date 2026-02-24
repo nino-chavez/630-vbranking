@@ -13,6 +13,6 @@ import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
  * accessible in client-side code.
  */
 export const supabaseServer = createClient<Database>(
-  PUBLIC_SUPABASE_URL,
-  SUPABASE_SERVICE_ROLE_KEY,
+	PUBLIC_SUPABASE_URL,
+	SUPABASE_SERVICE_ROLE_KEY,
 );

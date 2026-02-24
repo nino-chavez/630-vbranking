@@ -24,6 +24,7 @@ Overrides are meant to be used sparingly and with documented justification. Ever
 3. Click the **Adjust** button in the rightmost column of that team's row.
 
 **What you should see:** A slide-out panel appears on the right side of the screen titled "Committee Override." The panel shows:
+
 - The team name
 - The team's current algorithmic rank
 
@@ -33,6 +34,7 @@ Overrides are meant to be used sparingly and with documented justification. Ever
 7. Click **Save Override**.
 
 **What you should see:** The panel closes. The results table now shows two rank columns:
+
 - **Final Seed** -- The rank after overrides are applied, with an "ADJ" badge next to teams that have been adjusted
 - **Algo Rank** -- The original algorithmic rank (for comparison)
 
@@ -41,15 +43,18 @@ Overrides are meant to be used sparingly and with documented justification. Ever
 ## Providing a Reason
 
 Every override requires a written justification. Good justifications:
+
 - Explain the specific circumstances that warrant the adjustment
 - Reference concrete evidence (tournament results, head-to-head records, etc.)
 - Are clear enough that someone reviewing the override later will understand the rationale
 
 **Examples of good justifications:**
+
 - "Team placed 2nd at AAU Nationals but ranked 6th algorithmically due to limited regular-season data. Committee adjusts based on national performance."
 - "Head-to-head record of 3-0 against the team currently ranked above them. Committee moves team up to reflect direct competition results."
 
 **Examples of poor justifications:**
+
 - "Committee decision" (too vague)
 - "Adjusted" (not informative)
 
@@ -122,4 +127,4 @@ There is no way to un-finalize a ranking run through the application. If you nee
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_

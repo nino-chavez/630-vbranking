@@ -15,13 +15,13 @@ Not all tournaments are equally important. A national championship should have m
 
 The system provides five predefined tiers, each with a default weight:
 
-| Tier | Default Weight | Typical Use |
-|---|---|---|
-| Tier 1 | 3.0x | National Championship |
-| Tier 2 | 2.5x | Major National tournament |
-| Tier 3 | 2.0x | Regional Championship |
-| Tier 4 | 1.5x | Regional Qualifier |
-| Tier 5 | 1.0x | Local Tournament |
+| Tier   | Default Weight | Typical Use               |
+| ------ | -------------- | ------------------------- |
+| Tier 1 | 3.0x           | National Championship     |
+| Tier 2 | 2.5x           | Major National tournament |
+| Tier 3 | 2.0x           | Regional Championship     |
+| Tier 4 | 1.5x           | Regional Qualifier        |
+| Tier 5 | 1.0x           | Local Tournament          |
 
 ---
 
@@ -32,13 +32,13 @@ The system provides five predefined tiers, each with a default weight:
 
 **What you should see:** A table listing all tournaments for the selected season, with the following columns:
 
-| Column | Description |
-|---|---|
-| Tournament | The tournament name |
-| Date | The tournament date |
-| Tier | The currently assigned tier (dropdown selector) |
-| Weight | The current weight multiplier (editable number field) |
-| Status | "Custom" if the weight has been changed from the default, or "Default" otherwise |
+| Column     | Description                                                                      |
+| ---------- | -------------------------------------------------------------------------------- |
+| Tournament | The tournament name                                                              |
+| Date       | The tournament date                                                              |
+| Tier       | The currently assigned tier (dropdown selector)                                  |
+| Weight     | The current weight multiplier (editable number field)                            |
+| Status     | "Custom" if the weight has been changed from the default, or "Default" otherwise |
 
 If no tournaments have been imported for the selected season, the page shows: "No tournaments found for this season."
 
@@ -104,4 +104,4 @@ When you change tournament weights, you must **re-run the ranking computation** 
 
 ---
 
-*Last updated: 2026-02-24*
+_Last updated: 2026-02-24_
