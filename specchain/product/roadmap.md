@@ -16,7 +16,7 @@
 
 8. [x] **Export & Reporting** -- Generate exportable ranking reports in CSV and PDF formats. Include the final seeding order, per-team breakdowns, and a summary of any manual adjustments applied. Designed for distribution to tournament organizers and for committee records. `S`
 
-9. [ ] **Multi-Age-Group Support** -- Extend the system to support 15U, 16U, and 17U divisions alongside 18U. Each age group operates as an independent data set using the same schema, algorithms, and UI, selectable via an age-group switcher in the dashboard. `M`
+9. [x] **Multi-Age-Group Support** -- Extend the system to support 15U, 16U, and 17U divisions alongside 18U. Each age group operates as an independent data set using the same schema, algorithms, and UI, selectable via an age-group switcher in the dashboard. `M`
 
 > Notes
 > - 9 items total, ordered by strict technical dependency chain

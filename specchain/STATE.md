@@ -4,10 +4,10 @@
 2026-02-24
 
 ## Active Spec
-None -- all 8 roadmap features complete.
+None -- all 9 roadmap features complete.
 
 ## Session Context
-8 of 9 roadmap features implemented and committed. 173 tests passing across 35 files, 0 new TypeScript errors, 0 regressions. Feature 9 remains (Multi-Age-Group Support).
+All 9 roadmap features implemented and committed. 180 tests passing across 36 files, 0 new TypeScript errors, 0 regressions.
 
 ## Active Blockers
 None.
@@ -44,6 +44,9 @@ None.
 | 2026-02-24 | Shared data assembly layer | Pure `assembleExportRows()` transforms ranking state into flat rows; all three generators consume same data; fully testable | Export data layer |
 | 2026-02-24 | Dynamic imports for XLSX/PDF | `import()` at click time for code splitting; CSV is synchronous and bundled; keeps initial page bundle small | Export bundle optimization |
 | 2026-02-24 | Algorithm breakdown toggle | Summary export (default) has Final Seed/Team/Region/AggRating; detailed adds all 5 algo ratings/ranks; override summary always included when overrides exist | Export content options |
+| 2026-02-24 | age_group column on ranking_runs | Each ranking run is now scoped to a single age group; backfill existing rows as 18U; composite index on (season_id, age_group) for efficient lookups | Multi-age-group schema |
+| 2026-02-24 | Validated enum for age_group API filter | Runs listing API validates age_group query param via `AgeGroup.safeParse()` before passing to Supabase `.eq()`; invalid values silently ignored (returns unfiltered) | Type safety at API boundary |
+| 2026-02-24 | Run history filtered by selected age group | `loadRunHistory()` guards on both `selectedSeasonId` and `selectedAgeGroup`; switching age group shows only runs for that group | UI isolation per age group |
 
 ## Execution Profiles
 | Spec | Strategy | Depth | Date |
@@ -56,6 +59,7 @@ None.
 | rankings-dashboard | squad | standard | 2026-02-24 |
 | manual-overrides-committee-adjustments | squad | standard | 2026-02-24 |
 | export-reporting | squad | standard | 2026-02-24 |
+| multi-age-group-support | squad | standard | 2026-02-24 |
 
 ## Patterns Established
 - Migration naming: `YYYYMMDDHHMMSS_description.sql` in `supabase/migrations/`
@@ -85,6 +89,7 @@ None.
 - Export data assembly: `assembleExportRows()` reuses `computeFinalRanks()` from table-utils; flat `ExportRow` consumed by all generators
 - Dynamic import pattern: XLSX and PDF generators loaded via `import()` on user click; CSV synchronous (no heavy deps)
 - ExportDropdown component: dropdown menu with format options + algorithm breakdowns checkbox; loading state during generation
+- Age-group scoping: ranking_runs tagged with age_group; API endpoints accept optional age_group filter; UI filters run history by selected age group
 
 ## Session Log
 | Date | Session | Summary | Profile | Next Steps |
@@ -97,3 +102,4 @@ None.
 | 2026-02-24 | 6 | Implemented Feature 6: Rankings Dashboard. Sortable/filterable ranking table (search, region filter, 4 sort keys), team detail page (ranking summary, algorithm breakdown, tournament history, H2H records), run history selector. 4 new API endpoints, shared format utils, table-utils with 6 tests. 20 files changed. 118/118 tests passing. | squad + standard | Feature 7: Manual Overrides & Committee Adjustments |
 | 2026-02-24 | 7 | Implemented Feature 7: Manual Overrides & Committee Adjustments. Ranking overrides table with audit trail, override panel drawer (form validation, read-only finalized mode), Final Seed column with ADJ badges, run finalization workflow, committee adjustment section on team detail. 2 migrations, 3 API endpoints (overrides CRUD + finalize), OverridePanel component, computeFinalRanks utility. 9 files created, 11 modified. 146/146 tests passing (28 new). | squad + standard | Feature 8: Export & Reporting |
 | 2026-02-24 | 8 | Implemented Feature 8: Export & Reporting. Client-side CSV/XLSX/PDF generation from in-memory ranking data. Shared assembleExportRows() data layer, RFC 4180 CSV with metadata comments, XLSX with Rankings+Overrides sheets (reuses existing xlsx lib), PDF with jsPDF+autoTable (new deps). ExportDropdown component with format picker and algorithm breakdowns toggle. Dynamic imports for XLSX/PDF code splitting. 11 files created, 1 modified. 173/173 tests passing (27 new). | squad + standard | Feature 9: Multi-Age-Group Support |
+| 2026-02-24 | 9 | Implemented Feature 9: Multi-Age-Group Support. Added age_group column to ranking_runs (migration with backfill + composite index), updated TypeScript types and Zod schema, threaded age_group through RankingService and Colley import inserts, added age_group filter to runs listing API with validated enum, updated rankings page to filter run history by selected age group and display age group in dropdown labels. 2 files created, 7 modified. 180/180 tests passing (7 new). All 9 roadmap features complete. | squad + standard | All features complete |
