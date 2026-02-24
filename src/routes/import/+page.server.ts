@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types.js';
 import { supabaseServer } from '$lib/supabase-server.js';
 
@@ -5,7 +6,10 @@ import { supabaseServer } from '$lib/supabase-server.js';
  * Server-side load function for the /import page.
  * Fetches all seasons from the database for the season dropdown.
  */
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.session) {
+		redirect(303, '/auth/login');
+	}
 	const { data: seasons, error } = await supabaseServer
 		.from('seasons')
 		.select('id, name, start_date, end_date, is_active')

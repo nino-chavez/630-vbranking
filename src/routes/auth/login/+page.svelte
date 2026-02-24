@@ -77,6 +77,14 @@
 				/>
 			</div>
 
+			<div class="flex justify-end">
+				<a
+					href="/auth/forgot-password"
+					class="text-sm font-medium text-accent hover:text-accent-hover"
+					>Forgot your password?</a
+				>
+			</div>
+
 			<Button variant="primary" type="submit" disabled={loading} {loading}>
 				{loading ? 'Signing in...' : 'Sign In'}
 			</Button>

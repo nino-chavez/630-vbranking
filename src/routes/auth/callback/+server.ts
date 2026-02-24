@@ -11,7 +11,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	if (action === 'signup') {
 		const { error } = await locals.supabase.auth.signUp({ email, password });
 		if (error) {
-			return json({ error: error.message }, { status: 400 });
+			console.error('Signup error:', error.message);
+			return json({ error: 'Signup failed. Please try again.' }, { status: 400 });
 		}
 		return json({ success: true, confirmEmail: true });
 	}
@@ -19,7 +20,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	// Default: login
 	const { error } = await locals.supabase.auth.signInWithPassword({ email, password });
 	if (error) {
-		return json({ error: error.message }, { status: 400 });
+		return json({ error: 'Invalid email or password.' }, { status: 400 });
 	}
 
 	return json({ success: true });
@@ -29,7 +30,11 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 	const code = url.searchParams.get('code');
 
 	if (code) {
-		await locals.supabase.auth.exchangeCodeForSession(code);
+		const { error } = await locals.supabase.auth.exchangeCodeForSession(code);
+		if (error) {
+			console.error('OAuth callback error:', error.message);
+			redirect(303, '/auth/login?error=callback_failed');
+		}
 	}
 
 	redirect(303, '/');

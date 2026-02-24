@@ -289,6 +289,7 @@
 				accept=".xlsx"
 				maxSizeMB={10}
 				disabled={step === 'parsing' || !contextReady}
+				processing={step === 'parsing'}
 				onFileDrop={handleFileDrop}
 			/>
 

@@ -5,11 +5,13 @@
 		accept = '.xlsx',
 		maxSizeMB = 10,
 		disabled = false,
+		processing = false,
 		onFileDrop,
 	} = $props<{
 		accept?: string;
 		maxSizeMB?: number;
 		disabled?: boolean;
+		processing?: boolean;
 		onFileDrop: (file: File) => void;
 	}>();
 
@@ -109,7 +111,7 @@
 	ondrop={handleDrop}
 	onkeydown={handleKeyDown}
 >
-	{#if disabled}
+	{#if processing}
 		<div class="absolute inset-0 flex items-center justify-center rounded-lg bg-surface/70">
 			<div class="flex items-center gap-2 text-text-secondary">
 				<Spinner size="sm" />
