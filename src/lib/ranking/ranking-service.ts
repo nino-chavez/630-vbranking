@@ -13,6 +13,7 @@ import type {
   NormalizedTeamResult,
   TeamInfo,
   AlgorithmResultMap,
+  SeedingFactors,
 } from './types.js';
 import { AgeGroup } from '../schemas/enums.js';
 import {
@@ -23,6 +24,7 @@ import {
 import { computeColleyRatings } from './colley.js';
 import { computeEloRatings } from './elo.js';
 import { normalizeAndAggregate } from './normalize.js';
+import { computeSeedingFactors } from './seeding-factors.js';
 
 export class RankingService {
   private supabase: SupabaseClient<Database>;
@@ -111,6 +113,37 @@ export class RankingService {
       const tournamentIds = tournaments.map((t) => t.id);
       const tournamentDates = new Map(tournaments.map((t) => [t.id, t.date]));
 
+      // 4b. Fetch tournament weights
+      const { data: weightRows, error: weightError } = await this.supabase
+        .from('tournament_weights')
+        .select('tournament_id, weight, tier')
+        .eq('season_id', config.season_id)
+        .in('tournament_id', tournamentIds.length > 0 ? tournamentIds : ['__none__']);
+
+      if (weightError) {
+        throw new Error(`Failed to fetch tournament weights: ${weightError.message}`);
+      }
+
+      const weightMap: Record<string, number> = {};
+      const tierMap: Record<string, number> = {};
+      for (const row of weightRows ?? []) {
+        weightMap[row.tournament_id] = Number(row.weight);
+        tierMap[row.tournament_id] = row.tier;
+      }
+
+      // Update run parameters with weights
+      await this.supabase
+        .from('ranking_runs')
+        .update({
+          parameters: {
+            k_factor: config.k_factor,
+            elo_starting_ratings: config.elo_starting_ratings,
+            data_source: 'tournament_finishes',
+            weights: weightMap,
+          },
+        })
+        .eq('id', rankingRunId);
+
       // 5. Check for match records (prefer over finishes when available)
       let dataSource: 'match_records' | 'tournament_finishes' = 'tournament_finishes';
 
@@ -145,20 +178,27 @@ export class RankingService {
         const tournamentGroups = deriveWinsLossesFromMatches(filteredMatches, tournamentDates);
         const flatRecords = flattenPairwiseGroups(tournamentGroups);
 
-        // 7-10. Run algorithms
+        // 7-10. Run algorithms with weights
         const algorithmResults = this.executeAlgorithms(
           flatRecords,
           tournamentGroups,
           teams,
-          config
+          config,
+          weightMap
         );
 
-        // 11. Insert results
+        // 11. Compute seeding factors
+        const seedingFactors = await this.computeSeedingFactorsForRun(
+          flatRecords, teams, tierMap, config.season_id, teamIdSet
+        );
+
+        // 12. Insert results
         await this.insertResults(rankingRunId, algorithmResults);
 
         return {
           ranking_run_id: rankingRunId,
           results: algorithmResults,
+          seeding_factors: seedingFactors,
           teams_ranked: algorithmResults.length,
           ran_at: ranAt,
         };
@@ -180,20 +220,27 @@ export class RankingService {
       const tournamentGroups = deriveWinsLossesFromFinishes(filteredResults, tournamentDates);
       const flatRecords = flattenPairwiseGroups(tournamentGroups);
 
-      // 7-10. Run algorithms
+      // 7-10. Run algorithms with weights
       const algorithmResults = this.executeAlgorithms(
         flatRecords,
         tournamentGroups,
         teams,
-        config
+        config,
+        weightMap
       );
 
-      // 11. Insert results
+      // 11. Compute seeding factors
+      const seedingFactors = await this.computeSeedingFactorsForRun(
+        flatRecords, teams, tierMap, config.season_id, teamIdSet
+      );
+
+      // 12. Insert results
       await this.insertResults(rankingRunId, algorithmResults);
 
       return {
         ranking_run_id: rankingRunId,
         results: algorithmResults,
+        seeding_factors: seedingFactors,
         teams_ranked: algorithmResults.length,
         ran_at: ranAt,
       };
@@ -212,14 +259,15 @@ export class RankingService {
     flatRecords: ReturnType<typeof flattenPairwiseGroups>,
     tournamentGroups: ReturnType<typeof deriveWinsLossesFromFinishes>,
     teams: TeamInfo[],
-    config: RankingRunConfig
+    config: RankingRunConfig,
+    weightMap: Record<string, number>
   ): NormalizedTeamResult[] {
-    // Algo1: Colley
-    const colleyResults = computeColleyRatings(flatRecords, teams);
+    // Algo1: Colley (with tournament weights)
+    const colleyResults = computeColleyRatings(flatRecords, teams, weightMap);
 
-    // Algo2-5: Elo variants
+    // Algo2-5: Elo variants (with tournament weights scaling K-factor)
     const eloResults = config.elo_starting_ratings.map((startRating) =>
-      computeEloRatings(tournamentGroups, teams, startRating, config.k_factor)
+      computeEloRatings(tournamentGroups, teams, startRating, config.k_factor, weightMap)
     );
 
     const algorithmResultMap: AlgorithmResultMap = {
@@ -231,6 +279,53 @@ export class RankingService {
     };
 
     return normalizeAndAggregate(algorithmResultMap, teams);
+  }
+
+  /**
+   * Compute seeding factors (win %, best national finish) for a ranking run.
+   */
+  private async computeSeedingFactorsForRun(
+    flatRecords: ReturnType<typeof flattenPairwiseGroups>,
+    teams: TeamInfo[],
+    tierMap: Record<string, number>,
+    _seasonId: string,
+    teamIdSet: Set<string>
+  ): Promise<SeedingFactors[]> {
+    // Find Tier-1 tournament IDs
+    const tier1TournamentIds = Object.entries(tierMap)
+      .filter(([, tier]) => tier === 1)
+      .map(([id]) => id);
+
+    if (tier1TournamentIds.length === 0) {
+      // No Tier-1 tournaments — compute with empty finishes
+      return computeSeedingFactors(flatRecords, teams, []);
+    }
+
+    // Fetch Tier-1 tournament finishes with tournament names
+    const { data: tier1Results } = await this.supabase
+      .from('tournament_results')
+      .select('team_id, tournament_id, finish_position')
+      .in('tournament_id', tier1TournamentIds);
+
+    const { data: tier1Tournaments } = await this.supabase
+      .from('tournaments')
+      .select('id, name')
+      .in('id', tier1TournamentIds);
+
+    const tournamentNameMap = new Map(
+      (tier1Tournaments ?? []).map((t) => [t.id, t.name])
+    );
+
+    const tier1Finishes = (tier1Results ?? [])
+      .filter((r) => teamIdSet.has(r.team_id))
+      .map((r) => ({
+        team_id: r.team_id,
+        tournament_id: r.tournament_id,
+        tournament_name: tournamentNameMap.get(r.tournament_id) ?? '',
+        finish_position: r.finish_position,
+      }));
+
+    return computeSeedingFactors(flatRecords, teams, tier1Finishes);
   }
 
   /**

@@ -27,6 +27,11 @@
   // --- Results State ---
   let rankingResults = $state<NormalizedTeamResult[]>([]);
   let teamNames = $state<Map<string, string>>(new Map());
+  let seedingFactors = $state<Record<string, {
+    win_pct: number;
+    best_national_finish: number | null;
+    best_national_tournament_name: string | null;
+  }>>({});
   let runSummary = $state<{
     ranking_run_id: string;
     teams_ranked: number;
@@ -76,6 +81,11 @@
 
       runSummary = result.data;
 
+      // Extract seeding factors from the run response
+      if (result.data.seeding_factors) {
+        seedingFactors = result.data.seeding_factors;
+      }
+
       // Fetch full results using the ranking_run_id
       const resultsResponse = await fetch(
         `/api/ranking/results?ranking_run_id=${result.data.ranking_run_id}`,
@@ -105,6 +115,7 @@
     step = 'idle';
     rankingResults = [];
     teamNames = new Map();
+    seedingFactors = {};
     runSummary = null;
     errorMessage = '';
   }
@@ -135,7 +146,7 @@
       </Banner>
     {/if}
 
-    <RankingResultsTable results={rankingResults} teams={teamNames} />
+    <RankingResultsTable results={rankingResults} teams={teamNames} {seedingFactors} />
 
     <div class="flex justify-end">
       <Button variant="primary" onclick={handleReset}>Run Again</Button>

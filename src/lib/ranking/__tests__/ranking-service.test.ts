@@ -10,6 +10,7 @@ function createMockSupabase(overrides: {
   tournaments?: { data: unknown; error: unknown };
   matches?: { count: number | null };
   tournament_results?: { data: unknown; error: unknown };
+  tournament_weights?: { data: unknown; error: unknown };
   ranking_runs_insert?: { data: unknown; error: unknown };
   ranking_results_insert?: { data: unknown; error: unknown };
   ranking_results_select?: { data: unknown; error: unknown };
@@ -109,6 +110,19 @@ function createMockSupabase(overrides: {
         };
       }
 
+      if (table === 'tournament_weights') {
+        return {
+          select: () => ({
+            eq: () => ({
+              in: () =>
+                Promise.resolve(
+                  overrides.tournament_weights ?? { data: [], error: null }
+                ),
+            }),
+          }),
+        };
+      }
+
       if (table === 'ranking_runs') {
         return {
           insert: () => ({
@@ -121,6 +135,9 @@ function createMockSupabase(overrides: {
                   }
                 ),
             }),
+          }),
+          update: () => ({
+            eq: () => Promise.resolve({ error: null }),
           }),
           delete: () => ({
             eq: () => {

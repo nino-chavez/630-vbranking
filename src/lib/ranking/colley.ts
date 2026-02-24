@@ -20,7 +20,8 @@ import type { PairwiseRecord, AlgorithmResult, TeamInfo } from './types.js';
  */
 export function computeColleyRatings(
   pairwiseRecords: PairwiseRecord[],
-  teams: TeamInfo[]
+  teams: TeamInfo[],
+  weightMap?: Record<string, number>
 ): AlgorithmResult[] {
   const n = teams.length;
 
@@ -62,17 +63,19 @@ export function computeColleyRatings(
       continue;
     }
 
-    // Update diagonal (total games)
-    C[winnerIdx][winnerIdx] += 1;
-    C[loserIdx][loserIdx] += 1;
+    const weight = weightMap?.[record.tournament_id] ?? 1.0;
 
-    // Update off-diagonal (games between)
-    C[winnerIdx][loserIdx] -= 1;
-    C[loserIdx][winnerIdx] -= 1;
+    // Update diagonal (total games, scaled by weight)
+    C[winnerIdx][winnerIdx] += weight;
+    C[loserIdx][loserIdx] += weight;
 
-    // Update b vector
-    b[winnerIdx] += 0.5;
-    b[loserIdx] -= 0.5;
+    // Update off-diagonal (games between, scaled by weight)
+    C[winnerIdx][loserIdx] -= weight;
+    C[loserIdx][winnerIdx] -= weight;
+
+    // Update b vector (scaled by weight)
+    b[winnerIdx] += weight * 0.5;
+    b[loserIdx] -= weight * 0.5;
   }
 
   // Solve Cr = b using ml-matrix LU decomposition

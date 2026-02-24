@@ -29,7 +29,8 @@ export function computeEloRatings(
   tournamentGroups: TournamentPairwiseGroup[],
   teams: TeamInfo[],
   startingRating: number,
-  kFactor: number
+  kFactor: number,
+  weightMap?: Record<string, number>
 ): AlgorithmResult[] {
   const n = teams.length;
 
@@ -46,6 +47,9 @@ export function computeEloRatings(
 
   // Process tournaments chronologically
   for (const group of tournamentGroups) {
+    const weight = weightMap?.[group.tournament_id] ?? 1.0;
+    const effectiveK = kFactor * weight;
+
     for (const record of group.records) {
       const loserId =
         record.winner_id === record.team_a_id ? record.team_b_id : record.team_a_id;
@@ -62,9 +66,9 @@ export function computeEloRatings(
       const eWinner = 1 / (1 + Math.pow(10, (rLoser - rWinner) / 400));
       const eLoser = 1 - eWinner;
 
-      // Update ratings: winner scored 1, loser scored 0
-      const newRWinner = rWinner + kFactor * (1 - eWinner);
-      const newRLoser = rLoser + kFactor * (0 - eLoser);
+      // Update ratings: winner scored 1, loser scored 0 (K-factor scaled by tournament weight)
+      const newRWinner = rWinner + effectiveK * (1 - eWinner);
+      const newRLoser = rLoser + effectiveK * (0 - eLoser);
 
       ratings.set(record.winner_id, newRWinner);
       ratings.set(loserId, newRLoser);

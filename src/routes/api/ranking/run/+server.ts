@@ -38,12 +38,27 @@ export const POST: RequestHandler = async ({ request }) => {
       elo_starting_ratings: [...ELO_STARTING_RATINGS],
     });
 
+    // Build seeding_factors as a Record keyed by team_id for frontend convenience
+    const seedingFactorsMap: Record<string, {
+      win_pct: number;
+      best_national_finish: number | null;
+      best_national_tournament_name: string | null;
+    }> = {};
+    for (const sf of output.seeding_factors ?? []) {
+      seedingFactorsMap[sf.team_id] = {
+        win_pct: sf.win_pct,
+        best_national_finish: sf.best_national_finish,
+        best_national_tournament_name: sf.best_national_tournament_name,
+      };
+    }
+
     return json({
       success: true,
       data: {
         ranking_run_id: output.ranking_run_id,
         teams_ranked: output.teams_ranked,
         ran_at: output.ran_at,
+        seeding_factors: seedingFactorsMap,
       },
     });
   } catch (err) {

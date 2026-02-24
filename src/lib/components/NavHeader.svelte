@@ -8,6 +8,7 @@
   const links = [
     { href: '/import', label: 'Import' },
     { href: '/ranking', label: 'Rankings' },
+    { href: '/ranking/weights', label: 'Weights' },
   ];
 
   function isActive(href: string): boolean {

@@ -59,8 +59,17 @@ export interface RankingRunConfig {
 export interface RankingRunOutput {
   ranking_run_id: string;
   results: NormalizedTeamResult[];
+  seeding_factors?: SeedingFactors[];
   teams_ranked: number;
   ran_at: string;
+}
+
+/** Supplementary seeding factors per team (not part of algorithmic ranking). */
+export interface SeedingFactors {
+  team_id: string;
+  win_pct: number;
+  best_national_finish: number | null;
+  best_national_tournament_name: string | null;
 }
 
 /** Minimal team reference for tie-breaking. */
