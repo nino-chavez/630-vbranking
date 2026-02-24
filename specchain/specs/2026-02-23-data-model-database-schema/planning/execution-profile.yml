@@ -1,0 +1,12 @@
+# Execution Profile for Data Model & Database Schema Specification
+# Generated from specchain/config.yml defaults
+
+execution:
+  strategy: squad
+  depth: standard
+  auto_suggest: true
+
+description: |
+  Multi-agent delegation with balanced rigor.
+  Strategy: squad (multi-agent delegation to domain specialists)
+  Depth: standard (full pipeline with balanced rigor - 6-9 questions, domain verifiers, focused tests)
