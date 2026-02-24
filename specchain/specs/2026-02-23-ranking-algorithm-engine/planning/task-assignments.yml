@@ -1,0 +1,12 @@
+task_assignments:
+  - task_group: "Task Group 1: Algorithm Implementations"
+    assigned_subagent: "database-engineer"
+
+  - task_group: "Task Group 2: Service Layer & API Endpoint"
+    assigned_subagent: "api-engineer"
+
+  - task_group: "Task Group 3: Frontend UI"
+    assigned_subagent: "ui-designer"
+
+  - task_group: "Task Group 4: Test Review & Gap Analysis"
+    assigned_subagent: "testing-engineer"
