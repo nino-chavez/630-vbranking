@@ -4,10 +4,10 @@
 2026-02-24
 
 ## Active Spec
-None -- all 6 roadmap features complete.
+None -- all 7 roadmap features complete.
 
 ## Session Context
-6 of 9 roadmap features implemented and committed. 118 tests passing across 29 files, 0 new TypeScript errors, 0 regressions. Features 7-9 remain (Manual Overrides, Export & Reporting, Multi-Age-Group Support).
+7 of 9 roadmap features implemented and committed. 146 tests passing across 32 files, 0 new TypeScript errors, 0 regressions. Features 8-9 remain (Export & Reporting, Multi-Age-Group Support).
 
 ## Active Blockers
 None.
@@ -35,6 +35,10 @@ None.
 | 2026-02-24 | Client-side sort/filter for rankings table | Max ~73 teams; no pagination needed. Pure utility functions in `table-utils.ts` for testability | Dashboard table design |
 | 2026-02-24 | Server-side team detail loading | `+page.server.ts` fetches team info, ranking, history, and H2H in a single load function; avoids client-side waterfall | Team detail page architecture |
 | 2026-02-24 | Select component onchange prop | Added optional `onchange` callback to Select component for run history switching | Component enhancement |
+| 2026-02-24 | Overrides stored separately from results | `ranking_overrides` table stores overrides alongside immutable `ranking_results`; merged at display time so algorithmic ranks remain a clean audit record | Override architecture |
+| 2026-02-24 | Override panel as slide-out drawer | Right-side drawer provides space for justification textarea without cluttering the table; weights page uses inline editing for simple values but overrides need more fields | Override UI pattern |
+| 2026-02-24 | Run finalization via status column | `status` column on `ranking_runs` (`draft`/`finalized`); finalized runs become read-only; lightweight single button click | Override workflow |
+| 2026-02-24 | Final rank sorting with override merge | `computeFinalRanks()` pure function merges overrides with agg_rank; teams without overrides keep algorithmic rank; `final_rank` sort key added | Table utilities design |
 
 ## Execution Profiles
 | Spec | Strategy | Depth | Date |
@@ -45,6 +49,7 @@ None.
 | tournament-weighting-seeding | squad | standard | 2026-02-23 |
 | design-system-ui-foundation | squad | standard | 2026-02-23 |
 | rankings-dashboard | squad | standard | 2026-02-24 |
+| manual-overrides-committee-adjustments | squad | standard | 2026-02-24 |
 
 ## Patterns Established
 - Migration naming: `YYYYMMDDHHMMSS_description.sql` in `supabase/migrations/`
@@ -66,6 +71,10 @@ None.
 - Pure sort/filter functions in `src/lib/ranking/table-utils.ts` with typed SortKey/SortDirection
 - Team detail page pattern: `+page.server.ts` loads all data server-side, `+page.svelte` is pure presentation
 - API endpoints: GET for reads with query params, POST for mutations with JSON body, consistent `{ success, data/error }` shape
+- Override pattern: separate table with FK to runs + teams, UNIQUE(run, team), upsert on conflict; merged at display time via `computeFinalRanks()`
+- Run status workflow: `draft` (default) allows edits, `finalized` makes read-only; checked server-side before mutations
+- Slide-out panel pattern: fixed right drawer with backdrop, form validation, read-only mode based on parent status
+- Results API returns related data (overrides map, run status) alongside primary data to minimize client roundtrips
 
 ## Session Log
 | Date | Session | Summary | Profile | Next Steps |
@@ -76,3 +85,4 @@ None.
 | 2026-02-23 | 4 | Implemented Feature 5: Design System & UI Foundation. Semantic design tokens, Tailwind v4 theme, 9 reusable components, retrofitted all pages, accessibility/contrast tests. 94/94 tests passing. | squad + standard | Feature 4: Tournament Weighting & Seeding |
 | 2026-02-23 | 5 | Implemented Feature 4: Tournament Weighting & Seeding. Weighted Colley/Elo algorithms, seeding factors (win %, best national finish), weights API (GET/PUT), weights management page, seeding columns in results table. 112/112 tests passing. | squad + standard | Feature 6: Rankings Dashboard |
 | 2026-02-24 | 6 | Implemented Feature 6: Rankings Dashboard. Sortable/filterable ranking table (search, region filter, 4 sort keys), team detail page (ranking summary, algorithm breakdown, tournament history, H2H records), run history selector. 4 new API endpoints, shared format utils, table-utils with 6 tests. 20 files changed. 118/118 tests passing. | squad + standard | Feature 7: Manual Overrides & Committee Adjustments |
+| 2026-02-24 | 7 | Implemented Feature 7: Manual Overrides & Committee Adjustments. Ranking overrides table with audit trail, override panel drawer (form validation, read-only finalized mode), Final Seed column with ADJ badges, run finalization workflow, committee adjustment section on team detail. 2 migrations, 3 API endpoints (overrides CRUD + finalize), OverridePanel component, computeFinalRanks utility. 9 files created, 11 modified. 146/146 tests passing (28 new). | squad + standard | Feature 8: Export & Reporting |

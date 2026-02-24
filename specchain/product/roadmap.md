@@ -12,7 +12,7 @@
 
 6. [x] **Rankings Dashboard** -- Build a sortable, filterable rankings table displaying each team's AggRank, AggRating, W/L record, and region. Include a team detail view that shows the full tournament history, per-algorithm rating breakdown (Colley + 4 Elo scores), and head-to-head record against other ranked teams. Apply the design system from Feature 5. `L`
 
-7. [ ] **Manual Overrides & Committee Adjustments** -- Enable committee members to apply manual ranking adjustments for subjective criteria (written appeals, individual data known about teams, club history). Each adjustment requires a text justification and is stored with an audit trail. The dashboard reflects both the algorithmic ranking and the committee-adjusted final seeding. `M`
+7. [x] **Manual Overrides & Committee Adjustments** -- Enable committee members to apply manual ranking adjustments for subjective criteria (written appeals, individual data known about teams, club history). Each adjustment requires a text justification and is stored with an audit trail. The dashboard reflects both the algorithmic ranking and the committee-adjusted final seeding. `M`
 
 8. [ ] **Export & Reporting** -- Generate exportable ranking reports in CSV and PDF formats. Include the final seeding order, per-team breakdowns, and a summary of any manual adjustments applied. Designed for distribution to tournament organizers and for committee records. `S`
 
@@ -23,5 +23,6 @@
 > - Items 1-4 form the algorithmic core (data in, rankings out)
 > - Item 5 establishes the visual design system before any UI work
 > - Item 6 makes rankings visible and reviewable
-> - Items 7-8 complete the committee workflow
+> - Item 7 completes the committee override workflow with audit trail
+> - Item 8 completes the committee workflow with exportable reports
 > - Item 9 scales the system to all age divisions
