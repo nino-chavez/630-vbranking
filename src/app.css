@@ -1,10 +1,19 @@
 @import '@fontsource-variable/inter';
 
 /* ============================================================
-   Design Tokens: CSS Custom Properties (source of truth)
+   Tailwind v4 Theme — Design Tokens (source of truth)
+   ============================================================
+
+   @theme values become both:
+   1. Tailwind utility classes (bg-accent, text-error, etc.)
+   2. CSS custom properties (var(--color-accent), etc.)
+
+   IMPORTANT: Never use var(--color-X) inside @theme for a
+   --color-X definition — it creates a circular CSS reference
+   that silently breaks background-color (renders transparent).
    ============================================================ */
 
-:root {
+@theme {
 	/* --- Colors: Dominant 60% (backgrounds, surfaces) --- */
 	--color-bg: #fafafa;
 	--color-surface: #ffffff;
@@ -31,15 +40,22 @@
 	--color-tier-3: #f0fdf4;
 	--color-tier-4: transparent;
 
-	/* --- Colors: Banner backgrounds (semantic, non-tokenized fallbacks) --- */
+	/* --- Colors: Banner backgrounds --- */
 	--color-success-light: #f0fdf4;
 	--color-error-light: #fef2f2;
 	--color-warning-light: #fffbeb;
 	--color-info-light: #eff6ff;
 
-	/* --- Typography: Font family --- */
+	/* --- Font family --- */
 	--font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
 
+/* ============================================================
+   Non-Tailwind Design Tokens (typography, spacing)
+   These are used in custom CSS but not as Tailwind utilities.
+   ============================================================ */
+
+:root {
 	/* --- Typography: Font sizes --- */
 	--text-h1: 1.875rem;
 	--text-h2: 1.25rem;
@@ -71,43 +87,6 @@
 	--space-6: 1.5rem;
 	--space-8: 2rem;
 	--space-12: 3rem;
-}
-
-/* ============================================================
-   Tailwind v4 Theme Mapping
-   ============================================================ */
-
-@theme {
-	/* --- Colors --- */
-	--color-bg: var(--color-bg);
-	--color-surface: var(--color-surface);
-	--color-surface-alt: var(--color-surface-alt);
-
-	--color-border: var(--color-border);
-	--color-border-strong: var(--color-border-strong);
-	--color-text-primary: var(--color-text-primary);
-	--color-text-secondary: var(--color-text-secondary);
-	--color-text-muted: var(--color-text-muted);
-
-	--color-accent: var(--color-accent);
-	--color-accent-hover: var(--color-accent-hover);
-	--color-accent-light: var(--color-accent-light);
-	--color-success: var(--color-success);
-	--color-error: var(--color-error);
-	--color-warning: var(--color-warning);
-
-	--color-tier-1: var(--color-tier-1);
-	--color-tier-2: var(--color-tier-2);
-	--color-tier-3: var(--color-tier-3);
-	--color-tier-4: var(--color-tier-4);
-
-	--color-success-light: var(--color-success-light);
-	--color-error-light: var(--color-error-light);
-	--color-warning-light: var(--color-warning-light);
-	--color-info-light: var(--color-info-light);
-
-	/* --- Font family --- */
-	--font-sans: var(--font-sans);
 }
 
 /* ============================================================
