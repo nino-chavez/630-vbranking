@@ -1,4 +1,4 @@
-@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
 
 /* ============================================================
    Tailwind v4 Theme — Design Tokens (source of truth)
@@ -15,27 +15,27 @@
 
 @theme {
 	/* --- Colors: Dominant 60% (backgrounds, surfaces) --- */
-	--color-bg: #fafafa;
+	--color-bg: #F8F7F4;
 	--color-surface: #ffffff;
-	--color-surface-alt: #f5f5f5;
+	--color-surface-alt: #F0EFEB;
 
 	/* --- Colors: Secondary 30% (structure, borders, text) --- */
-	--color-border: #e5e7eb;
-	--color-border-strong: #d1d5db;
-	--color-text-primary: #111827;
-	--color-text-secondary: #4b5563;
-	--color-text-muted: #6b7280;
+	--color-border: #DDD9D1;
+	--color-border-strong: #C4BFB5;
+	--color-text-primary: #0C0A09;
+	--color-text-secondary: #3D3A37;
+	--color-text-muted: #78716C;
 
 	/* --- Colors: Accent 10% (CTAs, emphasis, highlights) --- */
-	--color-accent: #2563eb;
-	--color-accent-hover: #1d4ed8;
-	--color-accent-light: #eff6ff;
+	--color-accent: #E05A2B;
+	--color-accent-hover: #C44E25;
+	--color-accent-light: #FFF5EF;
 	--color-success: #16a34a;
 	--color-error: #dc2626;
 	--color-warning: #d97706;
 
 	/* --- Colors: Ranking tier backgrounds --- */
-	--color-tier-1: #fef9c3;
+	--color-tier-1: #FEF3C7;
 	--color-tier-2: #e0f2fe;
 	--color-tier-3: #f0fdf4;
 	--color-tier-4: transparent;
@@ -44,10 +44,16 @@
 	--color-success-light: #f0fdf4;
 	--color-error-light: #fef2f2;
 	--color-warning-light: #fffbeb;
-	--color-info-light: #eff6ff;
+	--color-info-light: #FFF5EF;
+
+	/* --- Colors: Dark nav --- */
+	--color-nav-bg: #111111;
+	--color-nav-text: #D4D4D4;
+	--color-nav-text-active: #FFFFFF;
+	--color-nav-border: #262626;
 
 	/* --- Font family --- */
-	--font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--font-sans: 'Space Grotesk Variable', 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 /* ============================================================

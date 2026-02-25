@@ -125,7 +125,7 @@
 </script>
 
 {#if results.length === 0}
-	<div class="rounded-lg border border-border bg-surface p-12 text-center shadow-sm">
+	<div class="rounded-xl bg-surface p-12 text-center shadow-md">
 		<p class="text-text-muted">No results</p>
 	</div>
 {:else}
@@ -162,103 +162,103 @@
 	{/if}
 
 	<DataTable caption="Ranking results">
-		<thead class="bg-surface-alt">
+		<thead class="bg-[#1C1917] text-white">
 			<tr>
 				{#if hasOverrides}
 					<th
 						scope="col"
-						class="cursor-pointer select-none px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary"
+						class="cursor-pointer select-none px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 						aria-sort={ariaSortValue('final_rank')}
 						onclick={() => handleSort('final_rank')}>Final Seed{sortArrow('final_rank')}</th
 					>
 				{/if}
 				<th
 					scope="col"
-					class="cursor-pointer select-none px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary"
+					class="cursor-pointer select-none px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 					aria-sort={ariaSortValue('agg_rank')}
 					onclick={() => handleSort('agg_rank')}
 					>{hasOverrides ? 'Algo Rank' : 'Rank'}{sortArrow('agg_rank')}</th
 				>
 				<th
 					scope="col"
-					class="cursor-pointer select-none px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary"
+					class="cursor-pointer select-none px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 					aria-sort={ariaSortValue('team_name')}
 					onclick={() => handleSort('team_name')}>Team Name{sortArrow('team_name')}</th
 				>
 				{#if hasSeedingData}
 					<th
 						scope="col"
-						class="cursor-pointer select-none px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary"
+						class="cursor-pointer select-none px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 						title="Win percentage vs. all opponents across all tournaments"
 						aria-sort={ariaSortValue('win_pct')}
 						onclick={() => handleSort('win_pct')}>W%{sortArrow('win_pct')}</th
 					>
 					<th
 						scope="col"
-						class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted"
+						class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 						title="Best finish at a Tier-1 (National Championship) tournament">Natl. Finish</th
 					>
 				{/if}
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Colley Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Colley Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2200 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2200 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2400 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2400 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2500 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2500 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2700 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted sm:table-cell"
+					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
 					>Elo-2700 Rank</th
 				>
 				<th
 					scope="col"
-					class="cursor-pointer select-none px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary"
+					class="cursor-pointer select-none px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 					aria-sort={ariaSortValue('agg_rating')}
 					onclick={() => handleSort('agg_rating')}>AggRating{sortArrow('agg_rating')}</th
 				>
 				{#if onoverrideclick}
 					<th
 						scope="col"
-						class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-text-muted"
+						class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 						>Override</th
 					>
 				{/if}

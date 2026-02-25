@@ -10,7 +10,7 @@
 	let { header, children, padding = 'default' }: Props = $props();
 </script>
 
-<div class="rounded-lg border border-border bg-surface shadow-sm">
+<div class="rounded-xl bg-surface shadow-md">
 	{#if header}
 		<div class="border-b border-border px-6 py-5">
 			{@render header()}

@@ -44,7 +44,7 @@
 </script>
 
 {#if visible}
-	<div class="rounded-md border-l-4 p-4 {style.bg} {style.border} {style.text}" role="alert">
+	<div class="rounded-lg border-l-4 p-4 {style.bg} {style.border} {style.text}" role="alert">
 		<div class="flex">
 			<div class="shrink-0">
 				<svg

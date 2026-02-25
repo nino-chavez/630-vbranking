@@ -341,8 +341,8 @@
 	.help-content th {
 		text-align: left;
 		padding: 0.5rem 0.75rem;
-		background-color: var(--color-surface-alt);
-		color: var(--color-text-primary);
+		background-color: #1C1917;
+		color: #ffffff;
 		font-weight: 600;
 		border-bottom: 1px solid var(--color-border);
 	}
