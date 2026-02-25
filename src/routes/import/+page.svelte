@@ -357,19 +357,23 @@
 				</div>
 			</Card>
 
-			<div class="sticky bottom-0 -mx-4 mt-6 border-t border-border bg-surface px-4 py-4 shadow-[0_-2px_8px_rgba(0,0,0,0.08)] sm:-mx-6 sm:px-6">
-				<div class="flex items-center justify-between">
-					<Button variant="secondary" onclick={handleCancel}>Cancel</Button>
-					<div class="flex items-center gap-3">
-						{#if !canConfirm}
-							<span class="text-sm text-text-muted">Resolve all conflicts to continue</span>
+			<Card>
+				<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+					<div>
+						{#if canConfirm}
+							<p class="text-sm font-medium text-success">All conflicts resolved. Ready to import.</p>
+						{:else}
+							<p class="text-sm font-medium text-warning">Resolve all conflicts above before importing.</p>
 						{/if}
+					</div>
+					<div class="flex items-center gap-3">
+						<Button variant="secondary" onclick={handleCancel}>Cancel</Button>
 						<Button variant="primary" disabled={!canConfirm} onclick={handleConfirm}
 							>Confirm Import</Button
 						>
 					</div>
 				</div>
-			</div>
+			</Card>
 		{/if}
 
 		{#if step === 'importing'}
