@@ -33,7 +33,7 @@
 	};
 
 	const sizeClasses: Record<string, string> = {
-		sm: 'px-3 py-1.5 text-xs min-h-[36px]',
+		sm: 'px-3 py-1.5 text-xs min-h-[44px]',
 		md: 'px-5 py-2.5 text-sm min-h-[44px]',
 	};
 

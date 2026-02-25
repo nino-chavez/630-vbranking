@@ -45,11 +45,14 @@ describe('NavHeader auth states', () => {
 		expect(loginLinks.length).toBe(0);
 	});
 
-	it('always shows navigation links regardless of auth state', () => {
+	it('always shows navigation elements regardless of auth state', () => {
 		render(NavHeader, { props: { currentPath: '/', user: null } });
 
-		expect(screen.getByRole('link', { name: 'Import' })).toBeTruthy();
-		expect(screen.getByRole('link', { name: 'Rankings' })).toBeTruthy();
-		expect(screen.getByRole('link', { name: 'Weights' })).toBeTruthy();
+		// Dropdown triggers are buttons, not links
+		expect(screen.getByRole('button', { name: /Data/i })).toBeTruthy();
+		expect(screen.getByRole('button', { name: /Rankings/i })).toBeTruthy();
+		// Standalone items are links
+		expect(screen.getByRole('link', { name: 'Settings' })).toBeTruthy();
+		expect(screen.getByRole('link', { name: 'Help' })).toBeTruthy();
 	});
 });

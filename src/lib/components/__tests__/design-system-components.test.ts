@@ -68,18 +68,18 @@ describe('Card', () => {
 });
 
 describe('NavHeader', () => {
-	it('renders navigation links with active route highlighted', () => {
+	it('renders dropdown triggers and highlights active group', () => {
 		render(NavHeader, {
 			props: { currentPath: '/import' },
 		});
-		const importLink = screen.getByRole('link', { name: 'Import' });
-		const rankingsLink = screen.getByRole('link', { name: 'Rankings' });
-		expect(importLink).toBeTruthy();
-		expect(rankingsLink).toBeTruthy();
-		expect(importLink.getAttribute('href')).toBe('/import');
-		expect(rankingsLink.getAttribute('href')).toBe('/ranking');
-		expect(importLink.getAttribute('aria-current')).toBe('page');
-		expect(rankingsLink.getAttribute('aria-current')).toBeNull();
+		const dataButton = screen.getByRole('button', { name: /Data/i });
+		const rankingsButton = screen.getByRole('button', { name: /Rankings/i });
+		expect(dataButton).toBeTruthy();
+		expect(rankingsButton).toBeTruthy();
+		// Data group trigger should be highlighted (white text) when /import is active
+		expect(dataButton.className).toContain('text-white');
+		// Rankings group trigger should not be highlighted
+		expect(rankingsButton.className).not.toContain('text-white');
 	});
 });
 

@@ -52,6 +52,8 @@
 	const hasOverrides = $derived(Object.keys(overrides).length > 0);
 	let sortKey = $state<SortKey>('agg_rank');
 	let sortDirection = $state<SortDirection>('asc');
+	let showAlgoDetails = $state(false);
+	const algoColClass = $derived(showAlgoDetails ? 'hidden sm:table-cell' : 'hidden');
 
 	// Switch default sort to final_rank when overrides exist
 	$effect(() => {
@@ -187,6 +189,19 @@
 				placeholder="All Regions"
 			/>
 		</div>
+		<button
+			type="button"
+			class="hidden min-h-[44px] items-center gap-1.5 whitespace-nowrap rounded-lg px-3 text-xs font-medium text-text-secondary hover:bg-surface-alt focus:outline-none focus:ring-2 focus:ring-accent/20 sm:inline-flex"
+			onclick={() => (showAlgoDetails = !showAlgoDetails)}
+		>
+			{#if showAlgoDetails}
+				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" /></svg>
+				Hide Algorithm Details
+			{:else}
+				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+				Show Algorithm Details
+			{/if}
+		</button>
 	</div>
 
 	{#if isFiltered}
@@ -244,52 +259,52 @@
 				{/if}
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Colley Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Colley Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2200 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2200 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2400 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2400 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2500 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2500 Rank</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2700 Rating</th
 				>
 				<th
 					scope="col"
-					class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70 sm:table-cell"
+					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
 					>Elo-2700 Rank</th
 				>
 				<th
@@ -366,43 +381,43 @@
 						>
 					{/if}
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary"
 						>{fmt(row.algo1_rating)}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted"
 						>{row.algo1_rank}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary"
 						>{fmt(row.algo2_rating)}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted"
 						>{row.algo2_rank}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary"
 						>{fmt(row.algo3_rating)}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted"
 						>{row.algo3_rank}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary"
 						>{fmt(row.algo4_rating)}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted"
 						>{row.algo4_rank}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-right text-sm tabular-nums text-text-secondary"
 						>{fmt(row.algo5_rating)}</td
 					>
 					<td
-						class="hidden whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted sm:table-cell"
+						class="{algoColClass} whitespace-nowrap px-3 py-2 text-center text-sm text-text-muted"
 						>{row.algo5_rank}</td
 					>
 					<td
