@@ -166,7 +166,7 @@
 		{#snippet header()}
 			<h2 class="text-lg font-semibold text-text-primary">Tier Reference</h2>
 		{/snippet}
-		<div class="grid grid-cols-5 gap-2 text-center text-sm">
+		<div class="grid grid-cols-2 gap-2 text-center text-sm sm:grid-cols-3 lg:grid-cols-5">
 			{#each [{ tier: 1, label: 'Tier 1', weight: 3.0, desc: 'National Championship' }, { tier: 2, label: 'Tier 2', weight: 2.5, desc: 'Major National' }, { tier: 3, label: 'Tier 3', weight: 2.0, desc: 'Regional Championship' }, { tier: 4, label: 'Tier 4', weight: 1.5, desc: 'Regional Qualifier' }, { tier: 5, label: 'Tier 5', weight: 1.0, desc: 'Local Tournament' }] as ref (ref.tier)}
 				<div class="rounded-lg border border-border bg-surface-alt p-3">
 					<div class="font-semibold text-text-primary">{ref.label}</div>
