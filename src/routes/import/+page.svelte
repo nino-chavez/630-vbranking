@@ -249,7 +249,11 @@
 	{/if}
 
 	{#if step === 'complete' && importSummary}
-		<ImportSummary summary={importSummary} onReset={handleReset} />
+		<ImportSummary
+			summary={importSummary}
+			seasonName={data.seasons.find((s: { id: string; name: string }) => s.id === selectedSeasonId)?.name}
+			onReset={handleReset}
+		/>
 	{/if}
 
 	{#if step !== 'complete' && step !== 'error'}

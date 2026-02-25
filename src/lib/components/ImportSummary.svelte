@@ -2,12 +2,13 @@
 	import type { ImportSummaryData } from '$lib/import/types.js';
 	import Button from './Button.svelte';
 
-	let { summary, onReset } = $props<{
+	let { summary, seasonName, onReset } = $props<{
 		summary: ImportSummaryData;
+		seasonName?: string;
 		onReset: () => void;
 	}>();
 
-	let formattedTimestamp = $derived(() => {
+	let formattedTimestamp = $derived.by(() => {
 		try {
 			return new Date(summary.timestamp).toLocaleString();
 		} catch {
@@ -74,7 +75,7 @@
 			<dl class="grid grid-cols-1 gap-2 text-sm sm:grid-cols-3">
 				<div>
 					<dt class="font-medium text-text-muted">Season</dt>
-					<dd class="text-text-primary">{summary.seasonId}</dd>
+					<dd class="text-text-primary">{seasonName || summary.seasonId}</dd>
 				</div>
 				<div>
 					<dt class="font-medium text-text-muted">Age Group</dt>
@@ -82,13 +83,22 @@
 				</div>
 				<div>
 					<dt class="font-medium text-text-muted">Imported At</dt>
-					<dd class="text-text-primary">{formattedTimestamp()}</dd>
+					<dd class="text-text-primary">{formattedTimestamp}</dd>
 				</div>
 			</dl>
 		</div>
 
-		<div class="mt-6 border-t border-border pt-4">
-			<Button variant="primary" onclick={onReset}>Import Another File</Button>
+		<div class="mt-6 border-t border-border pt-6">
+			<h4 class="mb-3 text-sm font-semibold text-text-primary">What's next?</h4>
+			<div class="flex flex-wrap items-center gap-3">
+				<a
+					href="/ranking"
+					class="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 min-h-[44px]"
+				>
+					Go to Rankings
+				</a>
+				<Button variant="secondary" onclick={onReset}>Import Another File</Button>
+			</div>
 		</div>
 	</div>
 </div>
