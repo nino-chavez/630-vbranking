@@ -79,7 +79,7 @@
 	// --- Derived State ---
 	let contextReady = $derived(selectedSeasonId !== '' && selectedAgeGroup !== '');
 
-	let allConflictsResolved = $derived(() => {
+	let allConflictsResolved = $derived.by(() => {
 		if (!parseResult) return true;
 		const conflicts = parseResult.identityConflicts;
 		if (conflicts.length === 0) return true;
@@ -90,13 +90,13 @@
 		);
 	});
 
-	let unresolvedErrorCount = $derived(() => {
+	let unresolvedErrorCount = $derived.by(() => {
 		if (!parseResult) return 0;
 		return parseResult.errors.filter((e) => e.severity === 'error' && !skippedRowIndices.has(e.row))
 			.length;
 	});
 
-	let canConfirm = $derived(allConflictsResolved() && unresolvedErrorCount() === 0);
+	let canConfirm = $derived(allConflictsResolved && unresolvedErrorCount === 0);
 
 	// --- Actions ---
 	async function handleFileDrop(file: File) {
