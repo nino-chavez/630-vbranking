@@ -8,9 +8,9 @@
 	import Button from '$lib/components/Button.svelte';
 	import Banner from '$lib/components/Banner.svelte';
 	import FreshnessIndicator from '$lib/components/FreshnessIndicator.svelte';
-	import RankingSummaryStats from '$lib/components/RankingSummaryStats.svelte';
+	import RankingInsights from '$lib/components/RankingInsights.svelte';
 	import RatingDistribution from '$lib/components/charts/RatingDistribution.svelte';
-	import { computeMean, computeMedian, computeStdDev } from '$lib/ranking/stats.js';
+	import { computeInsights } from '$lib/ranking/stats.js';
 	import { AgeGroup } from '$lib/schemas/enums.js';
 	import { formatTimestamp } from '$lib/utils/format.js';
 	import { goto } from '$app/navigation';
@@ -123,11 +123,11 @@
 
 	const hasOverrides = $derived(Object.keys(overrides).length > 0);
 
-	// --- Summary Stats (computed client-side from results) ---
+	// --- Insights + Histogram data (computed client-side from results) ---
+	const insights = $derived(
+		computeInsights(rankingResults, previousRanks, overrides, seedingFactors),
+	);
 	const allRatings = $derived(rankingResults.map((r) => r.agg_rating));
-	const summaryMean = $derived(computeMean(allRatings));
-	const summaryMedian = $derived(computeMedian(allRatings));
-	const summaryStdDev = $derived(computeStdDev(allRatings));
 	const panelExistingOverride = $derived(
 		panelTeamId && overrides[panelTeamId] ? overrides[panelTeamId] : null,
 	);
@@ -375,50 +375,43 @@
 	{/if}
 
 	{#if step === 'results'}
+		<!-- Compact status + Run History on one row -->
+		<div class="flex flex-wrap items-center justify-between gap-4">
+			<div class="flex items-center gap-3">
+				{#if runSummary}
+					<Banner variant="success" compact>
+						<div class="flex items-center gap-3">
+							<span>Ranked {runSummary.teams_ranked} teams</span>
+							<FreshnessIndicator timestamp={runSummary.ran_at} />
+						</div>
+					</Banner>
+				{/if}
+			</div>
+			{#if previousRuns.length > 1}
+				<div class="flex items-center gap-3">
+					<div class="w-full min-w-64 max-w-md">
+						<Select
+							label="Previous Runs"
+							id="run-history-select"
+							options={runSelectOptions}
+							bind:value={selectedRunId}
+							onchange={handleRunSelect}
+						/>
+					</div>
+					{#if loadingRun}
+						<p class="text-sm text-text-muted">Loading...</p>
+					{/if}
+				</div>
+			{/if}
+		</div>
+
 		{#if runStatus === 'finalized'}
 			<Banner variant="info" title="Finalized">
 				This ranking run has been finalized. Overrides are locked and cannot be modified.
 			</Banner>
 		{/if}
 
-		{#if runSummary}
-			<Banner variant="success">
-				<div class="flex items-center gap-3">
-					<span>Ranked {runSummary.teams_ranked} teams</span>
-					<FreshnessIndicator timestamp={runSummary.ran_at} />
-				</div>
-			</Banner>
-		{/if}
-
-		<!-- Run History Selector -->
-		{#if previousRuns.length > 1}
-			<div class="flex items-end gap-4">
-				<div class="w-full max-w-md">
-					<Select
-						label="Previous Runs"
-						id="run-history-select"
-						options={runSelectOptions}
-						bind:value={selectedRunId}
-						onchange={handleRunSelect}
-					/>
-				</div>
-				{#if loadingRun}
-					<p class="pb-2 text-sm text-text-muted">Loading...</p>
-				{/if}
-			</div>
-		{/if}
-
-		<!-- Summary Stats + Distribution Chart -->
-		{#if rankingResults.length > 0}
-			<RankingSummaryStats
-				mean={summaryMean}
-				median={summaryMedian}
-				stdDev={summaryStdDev}
-				teamCount={rankingResults.length}
-			/>
-			<RatingDistribution ratings={allRatings} />
-		{/if}
-
+		<!-- Rankings Table (immediately visible) -->
 		<RankingResultsTable
 			results={rankingResults}
 			{teams}
@@ -432,6 +425,34 @@
 			{runStatus}
 			onoverrideclick={handleOverrideClick}
 		/>
+
+		<!-- Actionable Insights -->
+		{#if rankingResults.length > 0}
+			<RankingInsights {insights} />
+
+			<!-- Rating Distribution (collapsible) -->
+			<details class="rounded-lg border border-border bg-surface shadow-sm">
+				<summary
+					class="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-semibold text-text-primary select-none"
+				>
+					<svg
+						class="h-4 w-4 shrink-0 transition-transform [[open]>&]:rotate-90"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+					Rating Distribution
+				</summary>
+				<div class="px-4 pb-4">
+					<RatingDistribution ratings={allRatings} />
+				</div>
+			</details>
+		{/if}
 
 		<!-- Export / Finalize / Run Again controls -->
 		<div class="flex items-center justify-end gap-3">

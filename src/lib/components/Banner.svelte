@@ -6,9 +6,10 @@
 		title?: string;
 		children: Snippet;
 		dismissible?: boolean;
+		compact?: boolean;
 	}
 
-	let { variant, title, children, dismissible = false }: Props = $props();
+	let { variant, title, children, dismissible = false, compact = false }: Props = $props();
 
 	let visible = $state(true);
 
@@ -44,7 +45,7 @@
 </script>
 
 {#if visible}
-	<div class="rounded-lg border-l-4 p-4 {style.bg} {style.border} {style.text}" role="alert">
+	<div class="rounded-lg border-l-4 {compact ? 'px-3 py-2' : 'p-4'} {style.bg} {style.border} {style.text}" role="alert">
 		<div class="flex">
 			<div class="shrink-0">
 				<svg
