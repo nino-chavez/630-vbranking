@@ -14,6 +14,7 @@
 		{ href: '/ranking', label: 'Rankings' },
 		{ href: '/ranking/weights', label: 'Weights' },
 		{ href: '/settings', label: 'Settings' },
+		{ href: '/help', label: 'Help' },
 	];
 
 	function isActive(href: string): boolean {
