@@ -190,64 +190,66 @@
 		{#snippet header()}
 			<h2 class="text-lg font-semibold text-text-primary">Create Season</h2>
 		{/snippet}
-		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-			<div>
-				<label for="new-name" class="block text-sm font-medium text-text-primary mb-1">Name</label>
-				<input
-					id="new-name"
-					type="text"
-					bind:value={newName}
-					placeholder="e.g. 2025-2026"
-					class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
-				/>
+		<form onsubmit={(e) => { e.preventDefault(); handleCreate(); }}>
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div>
+					<label for="new-name" class="block text-sm font-medium text-text-primary mb-1">Name</label>
+					<input
+						id="new-name"
+						type="text"
+						bind:value={newName}
+						placeholder="e.g. 2025-2026"
+						class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
+					/>
+				</div>
+				<div>
+					<label for="new-start-date" class="block text-sm font-medium text-text-primary mb-1">Start Date</label>
+					<input
+						id="new-start-date"
+						type="date"
+						bind:value={newStartDate}
+						class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
+					/>
+				</div>
+				<div>
+					<label for="new-end-date" class="block text-sm font-medium text-text-primary mb-1">End Date</label>
+					<input
+						id="new-end-date"
+						type="date"
+						bind:value={newEndDate}
+						class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
+					/>
+				</div>
+				<div>
+					<label for="new-is-active" class="block text-sm font-medium text-text-primary mb-1">Active</label>
+					<select
+						id="new-is-active"
+						bind:value={newIsActive}
+						class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
+					>
+						<option value={true}>Yes</option>
+						<option value={false}>No</option>
+					</select>
+				</div>
+				<div>
+					<label for="new-ranking-scope" class="block text-sm font-medium text-text-primary mb-1">Ranking Scope</label>
+					<select
+						id="new-ranking-scope"
+						bind:value={newRankingScope}
+						class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
+					>
+						{#each rankingScopeOptions as opt (opt.value)}
+							<option value={opt.value}>{opt.label}</option>
+						{/each}
+					</select>
+				</div>
 			</div>
-			<div>
-				<label for="new-start-date" class="block text-sm font-medium text-text-primary mb-1">Start Date</label>
-				<input
-					id="new-start-date"
-					type="date"
-					bind:value={newStartDate}
-					class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
-				/>
-			</div>
-			<div>
-				<label for="new-end-date" class="block text-sm font-medium text-text-primary mb-1">End Date</label>
-				<input
-					id="new-end-date"
-					type="date"
-					bind:value={newEndDate}
-					class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
-				/>
-			</div>
-			<div>
-				<label for="new-is-active" class="block text-sm font-medium text-text-primary mb-1">Active</label>
-				<select
-					id="new-is-active"
-					bind:value={newIsActive}
-					class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
-				>
-					<option value={true}>Yes</option>
-					<option value={false}>No</option>
-				</select>
-			</div>
-			<div>
-				<label for="new-ranking-scope" class="block text-sm font-medium text-text-primary mb-1">Ranking Scope</label>
-				<select
-					id="new-ranking-scope"
-					bind:value={newRankingScope}
-					class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:border-accent focus:ring-1 focus:ring-accent"
-				>
-					{#each rankingScopeOptions as opt (opt.value)}
-						<option value={opt.value}>{opt.label}</option>
-					{/each}
-				</select>
-			</div>
-			<div class="flex items-end">
-				<Button variant="primary" loading={creating} disabled={creating} onclick={handleCreate}>
-					{creating ? 'Creating...' : 'Create'}
+			<div class="mt-4 flex justify-end">
+				<Button variant="primary" type="submit" loading={creating} disabled={creating}>
+					{creating ? 'Creating...' : 'Create Season'}
 				</Button>
 			</div>
-		</div>
+		</form>
 	</Card>
 
 	<!-- Seasons Table -->

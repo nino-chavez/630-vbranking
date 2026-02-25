@@ -2,31 +2,52 @@
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import type { IdentityConflict, IdentityMapping } from '$lib/import/types.js';
 
-	let { conflicts, onResolve } = $props<{
+	let { conflicts, onResolve, ageGroup, seasonId, defaultTournamentDate } = $props<{
 		conflicts: IdentityConflict[];
 		onResolve: (mapping: IdentityMapping) => void;
+		ageGroup: string;
+		seasonId: string;
+		defaultTournamentDate: string;
 	}>();
 
 	let resolvedMappings = new SvelteMap<string, IdentityMapping>();
 	let expandedDropdowns = new SvelteSet<string>();
 	let searchFilters = new SvelteMap<string, string>();
 
-	let unresolvedTeamCount = $derived(
+	let unresolvedTeamConflicts = $derived(
 		conflicts.filter(
 			(c: IdentityConflict) => c.type === 'team' && !resolvedMappings.has(conflictKey(c)),
-		).length,
+		),
 	);
 
-	let unresolvedTournamentCount = $derived(
+	let unresolvedTournamentConflicts = $derived(
 		conflicts.filter(
 			(c: IdentityConflict) => c.type === 'tournament' && !resolvedMappings.has(conflictKey(c)),
-		).length,
+		),
 	);
 
+	let unresolvedTeamCount = $derived(unresolvedTeamConflicts.length);
+	let unresolvedTournamentCount = $derived(unresolvedTournamentConflicts.length);
 	let totalUnresolved = $derived(unresolvedTeamCount + unresolvedTournamentCount);
 
 	function conflictKey(conflict: IdentityConflict): string {
 		return `${conflict.type}:${conflict.parsedValue}`;
+	}
+
+	function buildNewRecord(conflict: IdentityConflict): Record<string, unknown> {
+		if (conflict.type === 'team') {
+			return {
+				name: conflict.parsedValue,
+				code: conflict.parsedValue,
+				age_group: ageGroup,
+				region: 'Unknown',
+			};
+		}
+		return {
+			name: conflict.parsedValue,
+			season_id: seasonId,
+			date: defaultTournamentDate,
+		};
 	}
 
 	function handleSkip(conflict: IdentityConflict) {
@@ -44,13 +65,30 @@
 			type: conflict.type,
 			parsedValue: conflict.parsedValue,
 			action: 'create',
-			newRecord:
-				conflict.type === 'team'
-					? { name: conflict.parsedValue, code: conflict.parsedValue }
-					: { name: conflict.parsedValue },
+			newRecord: buildNewRecord(conflict),
 		};
 		resolvedMappings.set(conflictKey(conflict), mapping);
 		onResolve(mapping);
+	}
+
+	function handleCreateAllTeams() {
+		for (const conflict of unresolvedTeamConflicts) {
+			handleCreateNew(conflict);
+		}
+	}
+
+	function handleCreateAllTournaments() {
+		for (const conflict of unresolvedTournamentConflicts) {
+			handleCreateNew(conflict);
+		}
+	}
+
+	function handleSkipAllUnresolved() {
+		for (const conflict of conflicts) {
+			if (!resolvedMappings.has(conflictKey(conflict))) {
+				handleSkip(conflict);
+			}
+		}
 	}
 
 	function handleMapTo(
@@ -129,21 +167,46 @@
 		{/if}
 	</div>
 
-	{#if unresolvedTeamCount > 0 || unresolvedTournamentCount > 0}
-		<div class="border-b border-border bg-surface-alt px-6 py-2 text-sm text-text-secondary">
-			{#if unresolvedTeamCount > 0}
-				<span>{unresolvedTeamCount} unmatched team{unresolvedTeamCount !== 1 ? 's' : ''}</span>
-			{/if}
-			{#if unresolvedTeamCount > 0 && unresolvedTournamentCount > 0}
-				<span>, </span>
-			{/if}
-			{#if unresolvedTournamentCount > 0}
-				<span
-					>{unresolvedTournamentCount} unmatched tournament{unresolvedTournamentCount !== 1
-						? 's'
-						: ''}</span
+	{#if totalUnresolved > 0}
+		<div class="flex items-center justify-between border-b border-border bg-surface-alt px-6 py-3">
+			<div class="text-sm text-text-secondary">
+				{#if unresolvedTeamCount > 0}
+					<span>{unresolvedTeamCount} unmatched team{unresolvedTeamCount !== 1 ? 's' : ''}</span>
+				{/if}
+				{#if unresolvedTeamCount > 0 && unresolvedTournamentCount > 0}
+					<span>, </span>
+				{/if}
+				{#if unresolvedTournamentCount > 0}
+					<span>{unresolvedTournamentCount} unmatched tournament{unresolvedTournamentCount !== 1 ? 's' : ''}</span>
+				{/if}
+			</div>
+			<div class="flex items-center gap-2">
+				{#if unresolvedTeamCount > 0}
+					<button
+						type="button"
+						class="rounded-md border border-success bg-success-light px-3 py-1.5 text-xs font-medium text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-1"
+						onclick={handleCreateAllTeams}
+					>
+						Create All Teams ({unresolvedTeamCount})
+					</button>
+				{/if}
+				{#if unresolvedTournamentCount > 0}
+					<button
+						type="button"
+						class="rounded-md border border-success bg-success-light px-3 py-1.5 text-xs font-medium text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-1"
+						onclick={handleCreateAllTournaments}
+					>
+						Create All Tournaments ({unresolvedTournamentCount})
+					</button>
+				{/if}
+				<button
+					type="button"
+					class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-text-secondary hover:bg-surface-alt focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1"
+					onclick={handleSkipAllUnresolved}
 				>
-			{/if}
+					Skip All ({totalUnresolved})
+				</button>
+			</div>
 		</div>
 	{/if}
 

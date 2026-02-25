@@ -305,6 +305,9 @@
 				<IdentityResolutionPanel
 					conflicts={parseResult.identityConflicts}
 					onResolve={handleResolve}
+					ageGroup={selectedAgeGroup}
+					seasonId={selectedSeasonId}
+					defaultTournamentDate={data.seasons.find((s: { id: string; start_date: string }) => s.id === selectedSeasonId)?.start_date ?? new Date().toISOString().slice(0, 10)}
 				/>
 			{/if}
 
