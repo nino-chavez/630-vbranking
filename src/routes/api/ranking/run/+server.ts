@@ -6,6 +6,10 @@ import { AgeGroup } from '$lib/schemas/enums.js';
 import { RankingService } from '$lib/ranking/ranking-service.js';
 import { DEFAULT_K_FACTOR, ELO_STARTING_RATINGS } from '$lib/ranking/elo.js';
 
+export const config = {
+	maxDuration: 60,
+};
+
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const authError = requireAuth(locals);
 	if (authError) return authError;
