@@ -272,64 +272,111 @@
 			</p>
 		</Card>
 	{:else}
-		<DataTable caption="Configured import sources">
-			<thead class="bg-surface-alt">
-				<tr>
-					<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Name</th>
-					<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Type</th>
-					<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Season</th>
-					<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Age Group</th>
-					<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Format</th>
-					<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Enabled</th>
-					<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Last Run</th>
-					<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Actions</th>
-				</tr>
-			</thead>
-			<tbody class="divide-y divide-border">
-				{#each sources as source (source.id)}
-					<tr class="hover:bg-surface-alt/50">
-						<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">{source.name}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">
-							{source.source_type === 'xlsx_url' ? 'URL' : 'File'}
-						</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{getSeasonName(source.season_id)}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center text-sm text-text-secondary">{source.age_group}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center text-sm text-text-secondary capitalize">{source.format}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center">
-							<button
-								type="button"
-								class="inline-flex items-center rounded px-2 py-1 text-xs font-medium transition-colors
-									{source.enabled
-										? 'bg-success/20 text-success hover:bg-success/30'
-										: 'bg-border text-text-muted hover:bg-border/70'}"
-								onclick={() => toggleEnabled(source)}
-							>
-								{source.enabled ? 'Active' : 'Disabled'}
-							</button>
-						</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm text-text-muted">
-							{source.last_run_at ? formatTimestamp(source.last_run_at) : 'Never'}
-						</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center">
-							<div class="flex items-center justify-center gap-2">
-								<a
-									href="/import/jobs?source_id={source.id}"
-									class="text-xs font-medium text-accent hover:underline"
-								>
-									Jobs
-								</a>
+		<!-- Desktop table -->
+		<div class="hidden md:block">
+			<DataTable caption="Configured import sources">
+				<thead class="bg-surface-alt">
+					<tr>
+						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Name</th>
+						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Type</th>
+						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Season</th>
+						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Age Group</th>
+						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Format</th>
+						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Enabled</th>
+						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Last Run</th>
+						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Actions</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{#each sources as source (source.id)}
+						<tr class="hover:bg-surface-alt/50">
+							<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">{source.name}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">
+								{source.source_type === 'xlsx_url' ? 'URL' : 'File'}
+							</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{getSeasonName(source.season_id)}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center text-sm text-text-secondary">{source.age_group}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center text-sm text-text-secondary capitalize">{source.format}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center">
 								<button
 									type="button"
-									class="text-xs font-medium text-red-400 hover:underline"
-									onclick={() => deleteSource(source.id, source.name)}
+									class="inline-flex items-center rounded px-2 py-1 text-xs font-medium transition-colors
+										{source.enabled
+											? 'bg-success/20 text-success hover:bg-success/30'
+											: 'bg-border text-text-muted hover:bg-border/70'}"
+									onclick={() => toggleEnabled(source)}
 								>
-									Delete
+									{source.enabled ? 'Active' : 'Disabled'}
 								</button>
-							</div>
-						</td>
-					</tr>
-				{/each}
-			</tbody>
-		</DataTable>
+							</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-muted">
+								{source.last_run_at ? formatTimestamp(source.last_run_at) : 'Never'}
+							</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center">
+								<div class="flex items-center justify-center gap-2">
+									<a
+										href="/import/jobs?source_id={source.id}"
+										class="text-xs font-medium text-accent hover:underline"
+									>
+										Jobs
+									</a>
+									<button
+										type="button"
+										class="text-xs font-medium text-red-400 hover:underline"
+										onclick={() => deleteSource(source.id, source.name)}
+									>
+										Delete
+									</button>
+								</div>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</DataTable>
+		</div>
+
+		<!-- Mobile card list -->
+		<div class="md:hidden space-y-3">
+			{#each sources as source (source.id)}
+				<div class="rounded-xl bg-surface shadow-md ring-1 ring-black/[0.04] p-4">
+					<div class="flex items-start justify-between mb-2">
+						<div>
+							<p class="text-sm font-medium text-text-primary">{source.name}</p>
+							<p class="text-xs text-text-muted">{getSeasonName(source.season_id)} &middot; {source.age_group}</p>
+						</div>
+						<button
+							type="button"
+							class="inline-flex items-center rounded px-2 py-1 text-xs font-medium transition-colors
+								{source.enabled
+									? 'bg-success/20 text-success hover:bg-success/30'
+									: 'bg-border text-text-muted hover:bg-border/70'}"
+							onclick={() => toggleEnabled(source)}
+						>
+							{source.enabled ? 'Active' : 'Disabled'}
+						</button>
+					</div>
+					<div class="flex items-center gap-3 text-xs text-text-secondary mb-3">
+						<span>{source.source_type === 'xlsx_url' ? 'URL' : 'File'}</span>
+						<span class="capitalize">{source.format}</span>
+						<span>Last: {source.last_run_at ? formatTimestamp(source.last_run_at) : 'Never'}</span>
+					</div>
+					<div class="flex items-center gap-3 pt-2 border-t border-border">
+						<a
+							href="/import/jobs?source_id={source.id}"
+							class="text-xs font-medium text-accent hover:underline"
+						>
+							View Jobs
+						</a>
+						<button
+							type="button"
+							class="text-xs font-medium text-red-400 hover:underline"
+							onclick={() => deleteSource(source.id, source.name)}
+						>
+							Delete
+						</button>
+					</div>
+				</div>
+			{/each}
+		</div>
 	{/if}
 </div>

@@ -119,31 +119,56 @@
 	{/if}
 
 	{#if clubs.length > 0}
-		<DataTable caption="Club rankings by average team rating">
-			<thead class="bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#1C1917] text-white">
-				<tr>
-					<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">#</th>
-					<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Club</th>
-					<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Region</th>
-					<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">Teams</th>
-					<th scope="col" class="px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70">Avg Rating</th>
-					<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Best Team</th>
-					<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">Best Rank</th>
-				</tr>
-			</thead>
-			<tbody class="divide-y divide-border">
-				{#each clubs as club, i (club.id)}
-					<tr class="hover:bg-surface-alt/50">
-						<td class="whitespace-nowrap px-3 py-2 text-center text-sm font-semibold tabular-nums text-text-primary">{i + 1}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">{club.name}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{club.region ?? '--'}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">{club.team_count}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-right text-sm font-semibold tabular-nums text-accent">{club.avg_rating.toFixed(2)}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{club.best_team}</td>
-						<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">{toOrdinal(club.best_rank)}</td>
+		<!-- Desktop table -->
+		<div class="hidden md:block">
+			<DataTable caption="Club rankings by average team rating">
+				<thead class="bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#1C1917] text-white">
+					<tr>
+						<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">#</th>
+						<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Club</th>
+						<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Region</th>
+						<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">Teams</th>
+						<th scope="col" class="px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70">Avg Rating</th>
+						<th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white/70">Best Team</th>
+						<th scope="col" class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70">Best Rank</th>
 					</tr>
-				{/each}
-			</tbody>
-		</DataTable>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{#each clubs as club, i (club.id)}
+						<tr class="hover:bg-surface-alt/50">
+							<td class="whitespace-nowrap px-3 py-2 text-center text-sm font-semibold tabular-nums text-text-primary">{i + 1}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">{club.name}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{club.region ?? '--'}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">{club.team_count}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-right text-sm font-semibold tabular-nums text-accent">{club.avg_rating.toFixed(2)}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-secondary">{club.best_team}</td>
+							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">{toOrdinal(club.best_rank)}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</DataTable>
+		</div>
+
+		<!-- Mobile card list -->
+		<div class="md:hidden space-y-3">
+			{#each clubs as club, i (club.id)}
+				<div class="rounded-xl bg-surface shadow-md ring-1 ring-black/[0.04] p-4">
+					<div class="flex items-start justify-between mb-2">
+						<div class="flex items-center gap-2">
+							<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-accent/10 text-accent text-xs font-bold tabular-nums">{i + 1}</span>
+							<div>
+								<p class="text-sm font-medium text-text-primary">{club.name}</p>
+								<p class="text-xs text-text-muted">{club.region ?? 'No region'}</p>
+							</div>
+						</div>
+						<span class="text-sm font-bold tabular-nums text-accent">{club.avg_rating.toFixed(2)}</span>
+					</div>
+					<div class="flex items-center gap-4 text-xs text-text-secondary mt-2 pt-2 border-t border-border">
+						<span>{club.team_count} team{club.team_count !== 1 ? 's' : ''}</span>
+						<span>Best: {club.best_team} ({toOrdinal(club.best_rank)})</span>
+					</div>
+				</div>
+			{/each}
+		</div>
 	{/if}
 </div>

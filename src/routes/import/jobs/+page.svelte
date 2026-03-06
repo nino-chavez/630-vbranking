@@ -200,50 +200,86 @@
 				</p>
 			</Card>
 		{:else}
-			<DataTable caption="Import job history">
-				<thead class="bg-surface-alt">
-					<tr>
-						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Source</th>
-						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Status</th>
-						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Processed</th>
-						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Inserted</th>
-						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Updated</th>
-						<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Skipped</th>
-						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Started</th>
-						<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Error</th>
-					</tr>
-				</thead>
-				<tbody class="divide-y divide-border">
-					{#each jobs as job (job.id)}
-						<tr class="hover:bg-surface-alt/50">
-							<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">
-								{job.import_sources?.name ?? 'Unknown'}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-center text-sm font-semibold capitalize {statusColor(job.status)}">
-								{job.status}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
-								{job.rows_processed}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
-								{job.rows_inserted}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
-								{job.rows_updated}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
-								{job.rows_skipped}
-							</td>
-							<td class="whitespace-nowrap px-3 py-2 text-sm text-text-muted">
-								{job.started_at ? formatTimestamp(job.started_at) : '--'}
-							</td>
-							<td class="max-w-xs truncate px-3 py-2 text-sm text-red-400" title={job.error_message ?? ''}>
-								{job.error_message ?? ''}
-							</td>
+			<!-- Desktop table -->
+			<div class="hidden md:block">
+				<DataTable caption="Import job history">
+					<thead class="bg-surface-alt">
+						<tr>
+							<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Source</th>
+							<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Status</th>
+							<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Processed</th>
+							<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Inserted</th>
+							<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Updated</th>
+							<th scope="col" class="px-3 py-2 text-center text-xs font-semibold uppercase tracking-wider text-text-muted">Skipped</th>
+							<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Started</th>
+							<th scope="col" class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted">Error</th>
 						</tr>
-					{/each}
-				</tbody>
-			</DataTable>
+					</thead>
+					<tbody class="divide-y divide-border">
+						{#each jobs as job (job.id)}
+							<tr class="hover:bg-surface-alt/50">
+								<td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-text-primary">
+									{job.import_sources?.name ?? 'Unknown'}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-center text-sm font-semibold capitalize {statusColor(job.status)}">
+									{job.status}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
+									{job.rows_processed}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
+									{job.rows_inserted}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
+									{job.rows_updated}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-center text-sm tabular-nums text-text-secondary">
+									{job.rows_skipped}
+								</td>
+								<td class="whitespace-nowrap px-3 py-2 text-sm text-text-muted">
+									{job.started_at ? formatTimestamp(job.started_at) : '--'}
+								</td>
+								<td class="max-w-xs truncate px-3 py-2 text-sm text-red-400" title={job.error_message ?? ''}>
+									{job.error_message ?? ''}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</DataTable>
+			</div>
+
+			<!-- Mobile card list -->
+			<div class="md:hidden space-y-3">
+				{#each jobs as job (job.id)}
+					<div class="rounded-xl bg-surface shadow-md ring-1 ring-black/[0.04] p-4">
+						<div class="flex items-start justify-between mb-2">
+							<p class="text-sm font-medium text-text-primary">{job.import_sources?.name ?? 'Unknown'}</p>
+							<span class="text-xs font-semibold capitalize {statusColor(job.status)}">{job.status}</span>
+						</div>
+						<div class="grid grid-cols-3 gap-2 text-center mb-2">
+							<div>
+								<p class="text-xs text-text-muted">Inserted</p>
+								<p class="text-sm font-semibold tabular-nums text-text-primary">{job.rows_inserted}</p>
+							</div>
+							<div>
+								<p class="text-xs text-text-muted">Updated</p>
+								<p class="text-sm font-semibold tabular-nums text-text-primary">{job.rows_updated}</p>
+							</div>
+							<div>
+								<p class="text-xs text-text-muted">Skipped</p>
+								<p class="text-sm font-semibold tabular-nums text-text-primary">{job.rows_skipped}</p>
+							</div>
+						</div>
+						<div class="flex items-center justify-between text-xs text-text-muted pt-2 border-t border-border">
+							<span>{job.rows_processed} processed</span>
+							<span>{job.started_at ? formatTimestamp(job.started_at) : '--'}</span>
+						</div>
+						{#if job.error_message}
+							<p class="mt-2 text-xs text-red-400 truncate" title={job.error_message}>{job.error_message}</p>
+						{/if}
+					</div>
+				{/each}
+			</div>
 		{/if}
 	</div>
 </div>

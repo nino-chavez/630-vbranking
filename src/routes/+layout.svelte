@@ -12,7 +12,19 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<NavHeader currentPath={page.url.pathname} user={data.user} />
-<PageShell>
-	{@render children()}
-</PageShell>
+<div class="min-h-screen flex flex-col">
+	<NavHeader currentPath={page.url.pathname} user={data.user} />
+	<PageShell>
+		{@render children()}
+	</PageShell>
+
+	<footer class="footer-630">
+		<div class="footer-630-inner">
+			<div class="footer-630-divider"></div>
+			<div class="footer-630-bottom">
+				<p>&copy; 2026 630 Volleyball</p>
+				<p>VB Ranking</p>
+			</div>
+		</div>
+	</footer>
+</div>
