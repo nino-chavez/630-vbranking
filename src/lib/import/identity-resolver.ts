@@ -88,7 +88,7 @@ export class IdentityResolver {
 		const { data: teams, error } = await this.supabase
 			.from('teams')
 			.select('id, name, code')
-			.eq('age_group', ageGroup as Database['public']['Enums']['age_group_enum']);
+			.eq('age_group', ageGroup as Database['vbranking']['Enums']['age_group_enum']);
 
 		if (error) {
 			throw new Error(`Failed to query teams: ${error.message}`);

@@ -10,7 +10,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export interface Database {
-	public: {
+	vbranking: {
 		Tables: {
 			seasons: {
 				Row: {
@@ -19,7 +19,7 @@ export interface Database {
 					start_date: string;
 					end_date: string;
 					is_active: boolean;
-					ranking_scope: Database['public']['Enums']['ranking_scope_enum'];
+					ranking_scope: Database['vbranking']['Enums']['ranking_scope_enum'];
 					created_at: string;
 					updated_at: string;
 				};
@@ -29,7 +29,7 @@ export interface Database {
 					start_date: string;
 					end_date: string;
 					is_active?: boolean;
-					ranking_scope?: Database['public']['Enums']['ranking_scope_enum'];
+					ranking_scope?: Database['vbranking']['Enums']['ranking_scope_enum'];
 					created_at?: string;
 					updated_at?: string;
 				};
@@ -39,7 +39,7 @@ export interface Database {
 					start_date?: string;
 					end_date?: string;
 					is_active?: boolean;
-					ranking_scope?: Database['public']['Enums']['ranking_scope_enum'];
+					ranking_scope?: Database['vbranking']['Enums']['ranking_scope_enum'];
 					created_at?: string;
 					updated_at?: string;
 				};
@@ -51,7 +51,7 @@ export interface Database {
 					name: string;
 					code: string;
 					region: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					club_id: string | null;
 					created_at: string;
 					updated_at: string;
@@ -61,7 +61,7 @@ export interface Database {
 					name: string;
 					code: string;
 					region: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					club_id?: string | null;
 					created_at?: string;
 					updated_at?: string;
@@ -71,7 +71,7 @@ export interface Database {
 					name?: string;
 					code?: string;
 					region?: string;
-					age_group?: Database['public']['Enums']['age_group_enum'];
+					age_group?: Database['vbranking']['Enums']['age_group_enum'];
 					club_id?: string | null;
 					created_at?: string;
 					updated_at?: string;
@@ -316,7 +316,7 @@ export interface Database {
 				Row: {
 					id: string;
 					season_id: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					ran_at: string;
 					description: string | null;
 					parameters: Json | null;
@@ -327,7 +327,7 @@ export interface Database {
 				Insert: {
 					id?: string;
 					season_id: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					ran_at?: string;
 					description?: string | null;
 					parameters?: Json | null;
@@ -338,7 +338,7 @@ export interface Database {
 				Update: {
 					id?: string;
 					season_id?: string;
-					age_group?: Database['public']['Enums']['age_group_enum'];
+					age_group?: Database['vbranking']['Enums']['age_group_enum'];
 					ran_at?: string;
 					description?: string | null;
 					parameters?: Json | null;
@@ -489,7 +489,7 @@ export interface Database {
 					source_type: 'xlsx_file' | 'xlsx_url';
 					config: Json;
 					season_id: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					format: 'finishes' | 'colley';
 					enabled: boolean;
 					last_run_at: string | null;
@@ -502,7 +502,7 @@ export interface Database {
 					source_type: 'xlsx_file' | 'xlsx_url';
 					config?: Json;
 					season_id: string;
-					age_group: Database['public']['Enums']['age_group_enum'];
+					age_group: Database['vbranking']['Enums']['age_group_enum'];
 					format?: 'finishes' | 'colley';
 					enabled?: boolean;
 					last_run_at?: string | null;
@@ -515,7 +515,7 @@ export interface Database {
 					source_type?: 'xlsx_file' | 'xlsx_url';
 					config?: Json;
 					season_id?: string;
-					age_group?: Database['public']['Enums']['age_group_enum'];
+					age_group?: Database['vbranking']['Enums']['age_group_enum'];
 					format?: 'finishes' | 'colley';
 					enabled?: boolean;
 					last_run_at?: string | null;

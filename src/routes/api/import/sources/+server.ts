@@ -55,7 +55,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const { data, error } = await supabaseServer
 		.from('import_sources')
-		.insert(parsed.data as Database['public']['Tables']['import_sources']['Insert'])
+		.insert(parsed.data as Database['vbranking']['Tables']['import_sources']['Insert'])
 		.select()
 		.single();
 
@@ -90,7 +90,7 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 
 	const { data, error } = await supabaseServer
 		.from('import_sources')
-		.update(parsed.data as Database['public']['Tables']['import_sources']['Update'])
+		.update(parsed.data as Database['vbranking']['Tables']['import_sources']['Update'])
 		.eq('id', id)
 		.select()
 		.single();

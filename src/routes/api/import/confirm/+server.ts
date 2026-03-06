@@ -183,7 +183,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				.from('ranking_runs')
 				.insert({
 					season_id: seasonId,
-					age_group: ageGroup as Database['public']['Enums']['age_group_enum'],
+					age_group: ageGroup as Database['vbranking']['Enums']['age_group_enum'],
 					description: 'Imported from Colley file',
 				})
 				.select('id')

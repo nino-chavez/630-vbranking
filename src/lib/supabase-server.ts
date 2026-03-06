@@ -15,4 +15,5 @@ import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
 export const supabaseServer = createClient<Database>(
 	PUBLIC_SUPABASE_URL,
 	SUPABASE_SERVICE_ROLE_KEY,
+	{ db: { schema: 'vbranking' } }
 );
