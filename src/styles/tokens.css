@@ -1,0 +1,323 @@
+/* ============================================================================
+   630 Volleyball — Design System Tokens v2
+   Shared across: esign, cci, vbranking
+
+   Brand source: 630volleyball.com (exact match)
+   Architecture: Rally HQ + AI Analyst Academy patterns
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   FONTS
+   Display: Space Grotesk (athletic, modern — echoes Neue Haas Grotesk)
+   Body/UI: Inter (industry standard, excellent readability)
+   Mono: JetBrains Mono (data, stats, codes)
+   ---------------------------------------------------------------------------- */
+
+@font-face {
+	font-family: 'Space Grotesk';
+	font-style: normal;
+	font-weight: 300 700;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/spacegrotesk/v16/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2')
+		format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiA.woff2')
+		format('woff2');
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 100 800;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/jetbrainsmono/v21/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.woff2')
+		format('woff2');
+}
+
+/* ----------------------------------------------------------------------------
+   CSS CUSTOM PROPERTIES — PRIMITIVES
+   Raw color palette. Never use directly in components — use semantic tokens.
+   ---------------------------------------------------------------------------- */
+
+@theme {
+	/* ── Brand Red (from 630volleyball.com #B01C2E) ── */
+	--color-brand-50: #fef2f2;
+	--color-brand-100: #fee2e3;
+	--color-brand-200: #fecacc;
+	--color-brand-300: #fba6a9;
+	--color-brand-400: #f67278;
+	--color-brand-500: #ec444c;
+	--color-brand-600: #b01c2e;
+	--color-brand-700: #96152a;
+	--color-brand-800: #7d1526;
+	--color-brand-900: #6b1625;
+	--color-brand-950: #3b080f;
+
+	/* ── Neutral (cool gray with slight warmth) ── */
+	--color-neutral-50: #fafaf9;
+	--color-neutral-100: #f5f5f4;
+	--color-neutral-200: #e7e5e4;
+	--color-neutral-300: #d6d3d1;
+	--color-neutral-400: #a8a29e;
+	--color-neutral-500: #78716c;
+	--color-neutral-600: #57534e;
+	--color-neutral-700: #44403c;
+	--color-neutral-800: #292524;
+	--color-neutral-900: #1c1917;
+	--color-neutral-950: #0c0a09;
+
+	/* ── Blue (esign — trust, legal) ── */
+	--color-blue-50: #eff6ff;
+	--color-blue-100: #dbeafe;
+	--color-blue-200: #bfdbfe;
+	--color-blue-300: #93c5fd;
+	--color-blue-400: #60a5fa;
+	--color-blue-500: #3b82f6;
+	--color-blue-600: #2563eb;
+	--color-blue-700: #1d4ed8;
+	--color-blue-800: #1e40af;
+	--color-blue-900: #1e3a8a;
+	--color-blue-950: #172554;
+
+	/* ── Indigo (cci — analysis, intelligence) ── */
+	--color-indigo-50: #eef2ff;
+	--color-indigo-100: #e0e7ff;
+	--color-indigo-200: #c7d2fe;
+	--color-indigo-300: #a5b4fc;
+	--color-indigo-400: #818cf8;
+	--color-indigo-500: #6366f1;
+	--color-indigo-600: #4f46e5;
+	--color-indigo-700: #4338ca;
+	--color-indigo-800: #3730a3;
+	--color-indigo-900: #312e81;
+	--color-indigo-950: #1e1b4b;
+
+	/* ── Orange (vbranking — energy, competition) ── */
+	--color-orange-50: #fff7ed;
+	--color-orange-100: #ffedd5;
+	--color-orange-200: #fed7aa;
+	--color-orange-300: #fdba74;
+	--color-orange-400: #fb923c;
+	--color-orange-500: #f97316;
+	--color-orange-600: #ea580c;
+	--color-orange-700: #c2410c;
+	--color-orange-800: #9a3412;
+	--color-orange-900: #7c2d12;
+	--color-orange-950: #431407;
+
+	/* ── Cyan (secondary CTA — from 630volleyball.com) ── */
+	--color-cyan-400: #22d3ee;
+	--color-cyan-500: #0ea5e9;
+	--color-cyan-600: #0284c7;
+
+	/* ── Semantic: Success ── */
+	--color-success-50: #f0fdf4;
+	--color-success-100: #dcfce7;
+	--color-success-500: #22c55e;
+	--color-success-600: #16a34a;
+	--color-success-700: #15803d;
+
+	/* ── Semantic: Warning ── */
+	--color-warning-50: #fffbeb;
+	--color-warning-100: #fef3c7;
+	--color-warning-500: #f59e0b;
+	--color-warning-600: #d97706;
+	--color-warning-700: #b45309;
+
+	/* ── Semantic: Error ── */
+	--color-error-50: #fef2f2;
+	--color-error-100: #fee2e2;
+	--color-error-500: #ef4444;
+	--color-error-600: #dc2626;
+	--color-error-700: #b91c1c;
+
+	/* ── Semantic: Info ── */
+	--color-info-50: #eff6ff;
+	--color-info-100: #dbeafe;
+	--color-info-500: #3b82f6;
+	--color-info-600: #2563eb;
+	--color-info-700: #1d4ed8;
+
+	/* ── Font families ── */
+	--font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+	--font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+	/* ── Font weights ── */
+	--font-normal: 400;
+	--font-medium: 500;
+	--font-semibold: 600;
+	--font-bold: 700;
+
+	/* ── Fluid type scale (expanded for hero/display) ── */
+	--text-xs: clamp(0.75rem, 0.725rem + 0.125vw, 0.8125rem);
+	--text-sm: clamp(0.8125rem, 0.788rem + 0.125vw, 0.875rem);
+	--text-base: clamp(0.875rem, 0.85rem + 0.125vw, 1rem);
+	--text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+	--text-xl: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
+	--text-2xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+	--text-3xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+	--text-4xl: clamp(1.875rem, 1.65rem + 1.125vw, 2.25rem);
+	--text-5xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem);
+	--text-6xl: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+
+	/* ── Line heights ── */
+	--leading-none: 1;
+	--leading-tight: 1.2;
+	--leading-snug: 1.375;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.625;
+
+	/* ── Letter spacing ── */
+	--tracking-tighter: -0.03em;
+	--tracking-tight: -0.025em;
+	--tracking-normal: 0;
+	--tracking-wide: 0.025em;
+	--tracking-wider: 0.05em;
+	--tracking-widest: 0.08em;
+
+	/* ── Spacing (8pt grid) ── */
+	--space-0: 0;
+	--space-0-5: 0.125rem;
+	--space-1: 0.25rem;
+	--space-1-5: 0.375rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+	--space-10: 2.5rem;
+	--space-12: 3rem;
+	--space-16: 4rem;
+	--space-20: 5rem;
+	--space-24: 6rem;
+
+	/* ── Border radius ── */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
+	--radius-2xl: 1.5rem;
+	--radius-full: 9999px;
+
+	/* ── Shadows (navy-toned) ── */
+	--shadow-xs: 0 1px 2px 0 rgb(10 14 20 / 0.05);
+	--shadow-sm: 0 2px 6px rgb(10 14 20 / 0.06);
+	--shadow-md: 0 6px 16px rgb(10 14 20 / 0.08);
+	--shadow-lg: 0 12px 30px rgb(10 14 20 / 0.12);
+	--shadow-xl: 0 20px 25px -5px rgb(10 14 20 / 0.1), 0 8px 10px -6px rgb(10 14 20 / 0.1);
+	--shadow-2xl: 0 25px 50px -12px rgb(10 14 20 / 0.25);
+
+	/* ── Transitions ── */
+	--duration-fast: 150ms;
+	--duration-base: 200ms;
+	--duration-slow: 300ms;
+	--duration-slower: 500ms;
+	--ease-out: cubic-bezier(0, 0, 0.2, 1);
+	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+	/* ── Z-index stack ── */
+	--z-dropdown: 10;
+	--z-sticky: 20;
+	--z-overlay: 30;
+	--z-modal: 40;
+	--z-toast: 50;
+
+	/* ── Layout ── */
+	--header-height: 3.5rem;
+	--container-max: 80rem;
+	--content-max: 42rem;
+	--touch-target-min: 2.75rem;
+}
+
+/* ----------------------------------------------------------------------------
+   SEMANTIC TOKENS
+   These map primitives to purpose. Apps override --color-accent-* to their
+   own identity color. Everything else stays consistent.
+   ---------------------------------------------------------------------------- */
+
+:root {
+	/* ── Accent (override per-app) ── */
+	--color-accent-50: var(--color-blue-50);
+	--color-accent-100: var(--color-blue-100);
+	--color-accent-200: var(--color-blue-200);
+	--color-accent-400: var(--color-blue-400);
+	--color-accent-500: var(--color-blue-500);
+	--color-accent-600: var(--color-blue-600);
+	--color-accent-700: var(--color-blue-700);
+
+	/* ── Surfaces ── */
+	--color-bg: var(--color-neutral-50);
+	--color-bg-surface: #ffffff;
+	--color-bg-muted: var(--color-neutral-100);
+	--color-bg-elevated: #ffffff;
+	--color-bg-overlay: rgb(0 0 0 / 0.6);
+
+	/* ── Dark surfaces (from 630volleyball.com) ── */
+	--color-bg-dark: #020617;
+	--color-bg-dark-surface: #0f172a;
+	--color-bg-dark-card: rgba(15, 23, 42, 0.96);
+	--color-bg-dark-border: #222636;
+	--color-text-dark-primary: #f9fafb;
+	--color-text-dark-secondary: #cbd5f5;
+
+	/* ── Text ── */
+	--color-text-primary: var(--color-neutral-900);
+	--color-text-secondary: var(--color-neutral-600);
+	--color-text-muted: var(--color-neutral-500);
+	--color-text-inverse: #ffffff;
+
+	/* ── Borders ── */
+	--color-border: var(--color-neutral-200);
+	--color-border-strong: var(--color-neutral-300);
+	--color-border-input: var(--color-neutral-300);
+
+	/* ── Interactive ── */
+	--color-focus-ring: var(--color-accent-400);
+	--shadow-focus: 0 0 0 3px rgb(59 130 246 / 0.25);
+
+	/* ── Colored shadows (from rally-hq) ── */
+	--shadow-brand: 0 8px 20px -4px rgb(176 28 46 / 0.35);
+	--shadow-accent: 0 8px 20px -4px rgb(59 130 246 / 0.35);
+	--shadow-success: 0 8px 20px -4px rgb(34 197 94 / 0.3);
+	--shadow-error: 0 8px 20px -4px rgb(239 68 68 / 0.3);
+
+	/* ── Gradients (from 630volleyball.com) ── */
+	--gradient-primary: linear-gradient(135deg, #cc0033, #f97316);
+	--gradient-secondary: linear-gradient(135deg, #0ea5e9, #22c55e);
+	--gradient-dark: radial-gradient(circle at top, #1e293b, #020617);
+	--gradient-card-dark: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
+	--gradient-brand-divider: linear-gradient(to right, transparent, var(--color-brand-600), transparent);
+
+	/* ── Glassmorphism (from rally-hq) ── */
+	--glass-bg: rgba(255, 255, 255, 0.8);
+	--glass-border: rgba(255, 255, 255, 0.5);
+	--glass-backdrop: blur(12px);
+	--glass-bg-dark: rgba(0, 0, 0, 0.6);
+	--glass-border-dark: rgba(255, 255, 255, 0.1);
+
+	/* ── Navigation (shared 630 dark chrome) ── */
+	--color-nav-bg: #111111;
+	--color-nav-text: #d4d4d4;
+	--color-nav-text-active: #ffffff;
+	--color-nav-accent: var(--color-brand-600);
+	--color-nav-border: #262626;
+
+	/* ── Footer ── */
+	--color-footer-bg: #0a0a0a;
+	--color-footer-text: #a8a29e;
+	--color-footer-text-hover: #ffffff;
+
+	/* ── Gutter system ── */
+	--gutter: var(--space-4);
+	--gutter-md: var(--space-6);
+	--gutter-lg: var(--space-8);
+}
