@@ -260,57 +260,68 @@
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Colley Matrix: least-squares ranking method that is margin-independent and resistant to schedule manipulation"
 					>Colley Rating</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Colley Matrix: least-squares ranking method that is margin-independent and resistant to schedule manipulation"
 					>Colley Rank</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2200 starting rating — higher sensitivity to upsets"
 					>Elo-2200 Rating</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2200 starting rating"
 					>Elo-2200 Rank</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2400 starting rating — balanced sensitivity"
 					>Elo-2400 Rating</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2400 starting rating"
 					>Elo-2400 Rank</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2500 starting rating — moderate sensitivity"
 					>Elo-2500 Rating</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2500 starting rating"
 					>Elo-2500 Rank</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2700 starting rating — lower sensitivity, rewards consistency"
 					>Elo-2700 Rating</th
 				>
 				<th
 					scope="col"
 					class="{algoColClass} px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white/70"
+					title="Elo rating variant with K=2700 starting rating"
 					>Elo-2700 Rank</th
 				>
 				<th
 					scope="col"
 					class="cursor-pointer select-none px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white"
 					aria-sort={ariaSortValue('agg_rating')}
+					title="Aggregate Rating: weighted average across all algorithm ratings, producing the final ensemble score"
 					onclick={() => handleSort('agg_rating')}>AggRating{sortArrow('agg_rating')}</th
 				>
 				{#if onoverrideclick}
