@@ -255,7 +255,7 @@
 	--color-accent-700: var(--color-blue-700);
 
 	/* ── Surfaces ── */
-	--color-bg: var(--color-neutral-50);
+	--color-bg: #f2f2f2;
 	--color-bg-surface: #ffffff;
 	--color-bg-muted: var(--color-neutral-100);
 	--color-bg-elevated: #ffffff;
@@ -305,7 +305,7 @@
 	--glass-border-dark: rgba(255, 255, 255, 0.1);
 
 	/* ── Navigation (shared 630 dark chrome) ── */
-	--color-nav-bg: #111111;
+	--color-nav-bg: #1a1a1a;
 	--color-nav-text: #d4d4d4;
 	--color-nav-text-active: #ffffff;
 	--color-nav-accent: var(--color-brand-600);

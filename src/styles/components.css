@@ -88,6 +88,8 @@ body {
 
 /* ----------------------------------------------------------------------------
    TYPOGRAPHY CLASSES
+   Matched to 630volleyball.com — Neue Haas Grotesk treatment.
+   All headings: uppercase, tight line-height, normal letter-spacing.
    ---------------------------------------------------------------------------- */
 
 .display-1 {
@@ -95,7 +97,8 @@ body {
 	font-size: var(--text-6xl);
 	font-weight: var(--font-bold);
 	line-height: var(--leading-none);
-	letter-spacing: var(--tracking-tighter);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	color: var(--color-text-primary);
 }
 
@@ -103,26 +106,29 @@ body {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
 	font-weight: var(--font-bold);
-	line-height: var(--leading-tight);
-	letter-spacing: var(--tracking-tighter);
+	line-height: var(--leading-none);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	color: var(--color-text-primary);
 }
 
 .heading-2 {
 	font-family: var(--font-display);
 	font-size: var(--text-3xl);
-	font-weight: var(--font-bold);
-	line-height: var(--leading-tight);
-	letter-spacing: var(--tracking-tight);
+	font-weight: var(--font-normal);
+	line-height: var(--leading-none);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	color: var(--color-text-primary);
 }
 
 .heading-3 {
 	font-family: var(--font-display);
 	font-size: var(--text-2xl);
-	font-weight: var(--font-semibold);
-	line-height: var(--leading-snug);
-	letter-spacing: var(--tracking-tight);
+	font-weight: var(--font-bold);
+	line-height: var(--leading-none);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	color: var(--color-text-primary);
 }
 
@@ -130,8 +136,15 @@ body {
 	font-family: var(--font-display);
 	font-size: var(--text-xl);
 	font-weight: var(--font-semibold);
-	line-height: var(--leading-snug);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	color: var(--color-text-primary);
+}
+
+/* Accent text within headings — bold emphasis (630volleyball.com pattern) */
+.text-accent {
+	font-weight: var(--font-bold);
 }
 
 .body-lg {
@@ -150,12 +163,13 @@ body {
 	color: var(--color-text-muted);
 }
 
-/* Uppercase caption — matches 630volleyball.com tag/label style */
+/* Overline/kicker — matches 630volleyball.com h5 subtitle treatment */
 .overline {
-	font-size: var(--text-xs);
-	font-weight: var(--font-semibold);
+	font-family: var(--font-display);
+	font-size: var(--text-base);
+	font-weight: var(--font-normal);
 	text-transform: uppercase;
-	letter-spacing: var(--tracking-widest);
+	letter-spacing: var(--tracking-normal);
 	color: var(--color-text-muted);
 }
 
@@ -191,17 +205,16 @@ body {
 	align-items: center;
 	justify-content: center;
 	gap: var(--space-2);
-	font-family: var(--font-body);
+	font-family: var(--font-display);
 	font-size: var(--text-sm);
-	font-weight: var(--font-semibold);
+	font-weight: var(--font-bold);
 	line-height: 1;
-	padding: 0.625rem 1.25rem;
-	border: 1px solid transparent;
-	border-radius: var(--radius-full);
+	padding: 0.75rem 1.5rem;
+	border: 0;
+	border-radius: 0;
 	cursor: pointer;
 	transition:
 		background-color var(--duration-fast) var(--ease-out),
-		border-color var(--duration-fast) var(--ease-out),
 		box-shadow var(--duration-fast) var(--ease-out),
 		transform var(--duration-fast) var(--ease-out),
 		filter var(--duration-fast) var(--ease-out);
@@ -210,7 +223,7 @@ body {
 	min-height: var(--touch-target-min);
 	text-decoration: none;
 	text-transform: uppercase;
-	letter-spacing: var(--tracking-wider);
+	letter-spacing: var(--tracking-wide);
 }
 
 .btn:hover:not(:disabled) {
@@ -228,17 +241,14 @@ body {
 	cursor: not-allowed;
 }
 
-/* Primary — 630volleyball.com gradient (red→orange) for main CTAs */
+/* Primary — 630volleyball.com solid brand red for main CTAs */
 .btn-primary {
-	background: var(--gradient-primary);
+	background-color: var(--color-brand-600);
 	color: var(--color-text-inverse);
-	border-color: rgba(248, 250, 252, 0.2);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:hover:not(:disabled) {
-	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-	border-color: rgba(248, 250, 252, 0.35);
+	background-color: var(--color-brand-700);
 }
 
 /* Secondary — Accent color (per-app identity, solid) */
@@ -249,16 +259,13 @@ body {
 
 .btn-secondary:hover:not(:disabled) {
 	background-color: var(--color-accent-700);
-	box-shadow: var(--shadow-accent);
 }
 
-/* Outline — Light, clear boundary */
+/* Outline — Light, clear boundary (Girls CTA pattern on .com) */
 .btn-outline {
 	background-color: var(--color-bg-surface);
-	color: var(--color-text-primary);
-	border-color: var(--color-border-strong);
-	text-transform: none;
-	letter-spacing: var(--tracking-normal);
+	color: var(--color-brand-700);
+	border: 1px solid var(--color-border);
 }
 
 .btn-outline:hover:not(:disabled) {
@@ -288,20 +295,6 @@ body {
 
 .btn-danger:hover:not(:disabled) {
 	background-color: var(--color-error-700);
-	box-shadow: var(--shadow-error);
-}
-
-/* CTA Secondary — 630volleyball.com cyan→green gradient */
-.btn-cta-alt {
-	background: var(--gradient-secondary);
-	color: var(--color-text-inverse);
-	border-color: rgba(248, 250, 252, 0.2);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn-cta-alt:hover:not(:disabled) {
-	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-	border-color: rgba(248, 250, 252, 0.35);
 }
 
 /* Sizes */
@@ -324,7 +317,6 @@ body {
 	width: var(--touch-target-min);
 	height: var(--touch-target-min);
 	min-height: unset;
-	border-radius: var(--radius-full);
 	text-transform: none;
 	letter-spacing: var(--tracking-normal);
 }
@@ -332,13 +324,6 @@ body {
 .btn-icon.btn-sm {
 	width: 2rem;
 	height: 2rem;
-}
-
-/* Rectangular buttons (for app UI, not marketing) */
-.btn-rect {
-	border-radius: var(--radius-md);
-	text-transform: none;
-	letter-spacing: var(--tracking-normal);
 }
 
 /* ----------------------------------------------------------------------------
@@ -923,8 +908,9 @@ select.form-input {
 	font-family: var(--font-display);
 	font-size: var(--text-5xl);
 	font-weight: var(--font-bold);
-	line-height: var(--leading-tight);
-	letter-spacing: var(--tracking-tight);
+	line-height: var(--leading-none);
+	letter-spacing: var(--tracking-normal);
+	text-transform: uppercase;
 	margin-bottom: var(--space-6);
 	max-width: 50rem;
 }
@@ -1006,9 +992,10 @@ select.form-input {
 	padding: var(--space-1-5) var(--space-3);
 	border-radius: var(--radius-md);
 	font-size: var(--text-sm);
-	font-weight: var(--font-medium);
+	font-weight: var(--font-normal);
 	color: var(--color-nav-text);
 	text-decoration: none;
+	text-transform: uppercase;
 	transition:
 		color var(--duration-fast) var(--ease-out),
 		background-color var(--duration-fast) var(--ease-out);
@@ -1059,16 +1046,16 @@ select.form-input {
 .footer-630-heading {
 	font-family: var(--font-display);
 	font-size: var(--text-sm);
-	font-weight: var(--font-bold);
+	font-weight: var(--font-normal);
 	color: var(--color-footer-text-hover);
 	text-transform: uppercase;
-	letter-spacing: var(--tracking-wider);
+	letter-spacing: var(--tracking-normal);
 	margin-bottom: var(--space-4);
 }
 
 .footer-630-link {
 	display: block;
-	font-size: var(--text-sm);
+	font-size: var(--text-base);
 	color: var(--color-footer-text);
 	text-decoration: none;
 	padding: var(--space-1) 0;
